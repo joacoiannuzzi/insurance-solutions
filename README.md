@@ -1,7 +1,9 @@
 # Insurance Solutions App
 
 ## Get Started
-You need Docker and Java 14 installed.
+You need Docker, Java 14 and NodeJS installed.
  
 Run the next commands:
  * `docker-compose up`
+ * `./mvnw`
+ * `cd web && ng serve`
