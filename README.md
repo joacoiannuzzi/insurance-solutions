@@ -5,5 +5,5 @@ You need Docker, Java 14 and NodeJS installed.
  
 Run the next commands:
  * `docker-compose up`
- * `./mvnw`
+ * MacOS: `./mvnw spring-boot:run` - Windows: `mvnw spring-boot:run`
  * `cd web && ng serve`
