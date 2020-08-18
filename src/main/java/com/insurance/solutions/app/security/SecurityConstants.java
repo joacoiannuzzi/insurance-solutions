@@ -7,7 +7,7 @@ public class SecurityConstants {
     public static final String HEADER_STRING = "Authorization";
     public static final String SIGN_UP_URL = "/users/sign-up";
     public static final String ALL_USERS = "/users/all";
-    public static final String HEALTHCHECK = "/_healthcheck";
+    public static final String HEALTHCHECK = "/server/_healthcheck";
 
     // Swagger configuration
     public static final String SWAGGER = "/swagger-ui.html";
