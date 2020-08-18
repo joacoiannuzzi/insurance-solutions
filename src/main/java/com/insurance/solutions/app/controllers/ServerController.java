@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/server")
 @CrossOrigin
-public class Server {
+public class ServerController {
 
     @GetMapping("/_healthcheck")
     public ResponseEntity<String> getAllProducts() {
