@@ -11,12 +11,15 @@ export class UserListComponent implements OnInit {
 
   users: User[];
 
-  constructor(private userService: UserService) {
-  }
+  constructor(private userService: UserService) {}
 
-  ngOnInit() {
-    this.userService.findAll().subscribe(data => {
+  ngOnInit(): void {
+    this.userService.findAll().subscribe((data) => {
       this.users = data;
     });
+  }
+
+  userCreated(e) {
+    console.log("Usuario creado!", e)
   }
 }

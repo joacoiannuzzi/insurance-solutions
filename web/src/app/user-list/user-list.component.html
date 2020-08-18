@@ -16,5 +16,7 @@
       </tr>
       </tbody>
     </table>
+
+    <app-user-form [users]="users" (userCreated)="userCreated($event)"></app-user-form>
   </div>
 </div>
