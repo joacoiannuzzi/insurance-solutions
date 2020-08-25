@@ -7,11 +7,34 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 @Service
 public class ClientService {
 
     @Autowired
     private ClientRepository clientRepository;
+
+
+    public Optional<Client> findById(long id) {
+        return clientRepository.findById(id);
+    }
+
+    public Iterable<Client> findAll() {
+        return clientRepository.findAll();
+    }
+
+    public void deleteAll() {
+        clientRepository.deleteAll();
+    }
+
+    public Iterable<Client> saveAll(Iterable<Client> clients) {
+        return clientRepository.saveAll(clients);
+    }
+
+    public Client save(Client client) {
+        return clientRepository.save(client);
+    }
 
     public ResponseEntity<Client> createClient(Client client) {
         if (clientRepository.existsByDniAndInsuranceCompany(client.getDni(), client.getInsuranceCompany()))
@@ -22,7 +45,7 @@ public class ClientService {
         return ResponseEntity.ok(savedClient);
     }
 
-    public ResponseEntity<?> deleteClientById(Long id) {
+    public ResponseEntity<?> deleteClientById(long id) {
         return clientRepository.findById(id)
                 .map(__ -> {
                     clientRepository.deleteById(id);
