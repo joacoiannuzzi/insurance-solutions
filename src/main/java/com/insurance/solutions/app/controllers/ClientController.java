@@ -17,7 +17,7 @@ public class ClientController {
     private ClientService clientService;
 
     @PostMapping("/create")
-    public ResponseEntity<Client> createBook(@Valid @RequestBody Client client) {
+    public ResponseEntity<Client> createClient(@Valid @RequestBody Client client) {
         return clientService.createClient(client);
     }
 
