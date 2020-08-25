@@ -7,6 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class ClientService {
 
@@ -22,7 +24,7 @@ public class ClientService {
         return ResponseEntity.ok(savedClient);
     }
 
-    public ResponseEntity<?> deleteClientById(Long id) {
+    public ResponseEntity<?> deleteClientById(long id) {
         return clientRepository.findById(id)
                 .map(__ -> {
                     clientRepository.deleteById(id);
@@ -31,5 +33,9 @@ public class ClientService {
                 .orElseThrow(() -> new BadRequestException("El cliente con id: " + id + " no existe."));
 
 
+    }
+
+    public List<Client> findAll() {
+        return (List<Client>) clientRepository.findAll();
     }
 }

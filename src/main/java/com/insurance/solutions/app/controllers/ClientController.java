@@ -7,6 +7,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.List;
 
 @RestController
 @RequestMapping("/clients")
@@ -24,6 +25,12 @@ public class ClientController {
     @DeleteMapping("{id}")
     public ResponseEntity<?> deleteClientById(@PathVariable Long id) {
         return clientService.deleteClientById(id);
+    }
+
+    @GetMapping
+    public ResponseEntity<List<Client>> findAll() {
+        List<Client> all = clientService.findAll();
+        return ResponseEntity.ok(all);
     }
 
 }
