@@ -67,8 +67,6 @@ class ClientControllerTest {
                 .andExpect(status().isOk());
 
        assertTrue(clientService.findById(idToDelete).isEmpty());
-
-
     }
 
     @Test
