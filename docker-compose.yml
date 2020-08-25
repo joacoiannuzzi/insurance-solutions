@@ -5,7 +5,7 @@ services:
     image: postgres
     container_name: "is_db"
     ports:
-    - "5432:5432"
+    - "5430:5432"
     environment:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: password

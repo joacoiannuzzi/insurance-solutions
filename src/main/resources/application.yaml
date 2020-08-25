@@ -14,7 +14,7 @@ spring:
 
   datasource:
     platform: postgres
-    url: jdbc:postgresql://localhost:5432/is
+    url: jdbc:postgresql://localhost:5430/is
     username: postgres
     password: password
   jackson:
