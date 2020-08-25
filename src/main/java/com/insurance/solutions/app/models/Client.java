@@ -2,7 +2,6 @@ package com.insurance.solutions.app.models;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
-import java.util.List;
 
 @Entity
 @Table
@@ -31,6 +30,19 @@ public class Client {
 
     @NotBlank(message = "Vehicle can not be blank")
     private String vehicle;
+
+    public Client() {
+    }
+
+    public Client(String dni, String firstName, String lastName, String phoneNumber, String mail, String insuranceCompany, String vehicle) {
+        this.dni = dni;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.phoneNumber = phoneNumber;
+        this.mail = mail;
+        this.insuranceCompany = insuranceCompany;
+        this.vehicle = vehicle;
+    }
 
     public long getId() {
         return id;
