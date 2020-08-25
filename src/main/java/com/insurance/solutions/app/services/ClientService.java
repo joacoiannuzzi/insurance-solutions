@@ -52,7 +52,5 @@ public class ClientService {
                     return ResponseEntity.ok().build();
                 })
                 .orElseThrow(() -> new BadRequestException("El cliente con id: " + id + " no existe."));
-
-
     }
 }

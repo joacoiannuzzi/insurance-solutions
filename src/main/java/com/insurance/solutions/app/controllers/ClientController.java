@@ -6,6 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
+
 @RestController
 @RequestMapping("/clients")
 @CrossOrigin
@@ -15,7 +17,7 @@ public class ClientController {
     private ClientService clientService;
 
     @PostMapping("/create")
-    public ResponseEntity<Client> createBook(@RequestBody Client client) {
+    public ResponseEntity<Client> createClient(@Valid @RequestBody Client client) {
         return clientService.createClient(client);
     }
 
