@@ -21,4 +21,13 @@ public class ClientService {
         Client savedClient = clientRepository.save(client);
         return ResponseEntity.ok(savedClient);
     }
+
+    public ResponseEntity<?> deleteClientById(Long id) {
+        return clientRepository.findById(id)
+                .map(__ -> {
+                    clientRepository.deleteById(id);
+                    return ResponseEntity.ok().build();
+                })
+                .orElseThrow(() -> new BadRequestException("El cliente con id: " + id + " no existe."));
+    }
 }
