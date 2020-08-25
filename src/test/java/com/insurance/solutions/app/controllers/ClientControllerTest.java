@@ -14,12 +14,14 @@ import org.springframework.test.web.servlet.MockMvc;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.springframework.http.MediaType.APPLICATION_JSON;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @SpringBootTest
 @AutoConfigureMockMvc
-class ClientControllerTest {
+public class ClientControllerTest {
 
     @Autowired
     private MockMvc mockMvc;
@@ -56,6 +58,62 @@ class ClientControllerTest {
     }
 
     @Test
+    void createValidClient() throws Exception {
+        Client client = new Client("1", "Juan", "Perez", "123", "juanperez@mail.com", "Seguro", "Auto");
+
+        mockMvc
+                .perform(
+                        post("/clients/create")
+                                .contentType(APPLICATION_JSON)
+                                .accept(APPLICATION_JSON)
+                                .content(toJson(client))
+                )
+                .andExpect(status().isOk())
+                .andExpect(content().contentType(APPLICATION_JSON))
+                .andExpect(jsonPath("$.id").isNumber());
+
+    }
+
+    @Test
+    void createInvalidClient() throws Exception {
+        Client client = new Client();
+        client.setDni("1");
+
+        mockMvc
+                .perform(
+                        post("/clients/create")
+                                .contentType(APPLICATION_JSON)
+                                .accept(APPLICATION_JSON)
+                                .content(toJson(client))
+                )
+                .andExpect(status().isBadRequest());
+
+    }
+
+    @Test
+    void createExistingClient() throws Exception {
+        Client client = new Client("2", "Juan", "Perez", "123", "juanperez@mail.com", "Seguro 2", "Auto");
+
+        mockMvc
+                .perform(
+                        post("/clients/create")
+                                .contentType(APPLICATION_JSON)
+                                .accept(APPLICATION_JSON)
+                                .content(toJson(client))
+                );
+
+        mockMvc
+                .perform(
+                        post("/clients/create")
+                                .contentType(APPLICATION_JSON)
+                                .accept(APPLICATION_JSON)
+                                .content(toJson(client))
+                )
+                .andExpect(status().isBadRequest());
+
+    }
+
+    @Test
     void deleteValidClient() throws Exception {
 
         long idToDelete = clientService.findAll().iterator().next().getId();
@@ -66,7 +124,7 @@ class ClientControllerTest {
                 )
                 .andExpect(status().isOk());
 
-       assertTrue(clientService.findById(idToDelete).isEmpty());
+        assertTrue(clientService.findById(idToDelete).isEmpty());
     }
 
     @Test
