@@ -33,7 +33,8 @@ public class ClientService {
                 .orElseThrow(() -> new BadRequestException("El cliente con id: " + id + " no existe."));
     }
 
-    public List<Client> findAll() {
-        return (List<Client>) clientRepository.findAll();
+    public ResponseEntity<List<Client>> findAll() {
+        List<Client> all = (List<Client>) clientRepository.findAll();
+        return ResponseEntity.ok(all);
     }
 }
