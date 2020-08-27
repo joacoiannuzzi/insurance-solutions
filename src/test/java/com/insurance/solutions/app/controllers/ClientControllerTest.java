@@ -3,7 +3,7 @@ package com.insurance.solutions.app.controllers;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.insurance.solutions.app.models.Client;
-import com.insurance.solutions.app.services.ClientService;
+import com.insurance.solutions.app.repositories.ClientRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,7 +30,7 @@ public class ClientControllerTest {
     private ObjectMapper objectMapper;
 
     @Autowired
-    private ClientService clientService;
+    private ClientRepository clientRepository;
 
     private String toJson(Object o) throws JsonProcessingException {
         return objectMapper.writeValueAsString(o);
@@ -38,8 +38,8 @@ public class ClientControllerTest {
 
     @BeforeEach
     public void resetClients() {
-        clientService.deleteAll();
-        clientService.saveAll(
+        clientRepository.deleteAll();
+        clientRepository.saveAll(
                 List.of(
                         new Client("4564564", "Annie", "Sims", "(006)-902-3913",
                                 "annie.sims@example.com", "segur car", "ford falcon"),
@@ -116,7 +116,7 @@ public class ClientControllerTest {
     @Test
     void deleteValidClient() throws Exception {
 
-        long idToDelete = clientService.findAll().iterator().next().getId();
+        long idToDelete = clientRepository.findAll().iterator().next().getId();
 
         mockMvc
                 .perform(
@@ -124,7 +124,7 @@ public class ClientControllerTest {
                 )
                 .andExpect(status().isOk());
 
-        assertTrue(clientService.findById(idToDelete).isEmpty());
+        assertTrue(clientRepository.findById(idToDelete).isEmpty());
     }
 
     @Test
