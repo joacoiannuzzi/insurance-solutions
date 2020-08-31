@@ -12,17 +12,19 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.web.servlet.MockMvc;
 
+import java.util.Collections;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.springframework.http.MediaType.APPLICATION_JSON;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @SpringBootTest
 @AutoConfigureMockMvc
 public class ClientControllerTest {
+
+    String urlBase = "/clients";
 
     @Autowired
     private MockMvc mockMvc;
@@ -69,7 +71,7 @@ public class ClientControllerTest {
 
         mockMvc
                 .perform(
-                        post("/clients/create")
+                        post(urlBase + "/create")
                                 .contentType(APPLICATION_JSON)
                                 .accept(APPLICATION_JSON)
                                 .content(toJson(client))
@@ -87,7 +89,7 @@ public class ClientControllerTest {
 
         mockMvc
                 .perform(
-                        post("/clients/create")
+                        post(urlBase + "/create")
                                 .contentType(APPLICATION_JSON)
                                 .accept(APPLICATION_JSON)
                                 .content(toJson(client))
@@ -103,7 +105,7 @@ public class ClientControllerTest {
 
         mockMvc
                 .perform(
-                        post("/clients/create")
+                        post(urlBase + "/create")
                                 .contentType(APPLICATION_JSON)
                                 .accept(APPLICATION_JSON)
                                 .content(toJson(client))
@@ -111,7 +113,7 @@ public class ClientControllerTest {
 
         mockMvc
                 .perform(
-                        post("/clients/create")
+                        post(urlBase + "/create")
                                 .contentType(APPLICATION_JSON)
                                 .accept(APPLICATION_JSON)
                                 .content(toJson(client))
@@ -149,7 +151,7 @@ public class ClientControllerTest {
 
         mockMvc
                 .perform(
-                        delete("/clients/" + idToDelete)
+                        delete(urlBase + "/" + idToDelete)
                 )
                 .andExpect(status().isOk());
 
@@ -163,9 +165,41 @@ public class ClientControllerTest {
 
         mockMvc
                 .perform(
-                        delete("/clients/" + idToDelete)
+                        delete(urlBase + "/" + idToDelete)
                 )
                 .andExpect(status().isBadRequest());
+    }
+
+
+    @Test
+    void getAllClients() throws Exception {
+
+        Iterable<Client> all = clientRepository.findAll();
+
+        mockMvc
+                .perform(
+                        get(urlBase)
+                )
+                .andExpect(status().isOk())
+                .andExpect(content().contentType(APPLICATION_JSON))
+                .andExpect(content().json(toJson(all)));
+
+    }
+
+    @Test
+    void getEmptyAllClients() throws Exception {
+
+        clientRepository.deleteAll();
+
+        List<Object> emptyList = Collections.emptyList();
+
+        mockMvc
+                .perform(
+                        get(urlBase)
+                )
+                .andExpect(status().isOk())
+                .andExpect(content().contentType(APPLICATION_JSON))
+                .andExpect(content().json(toJson(emptyList)));
 
     }
 
