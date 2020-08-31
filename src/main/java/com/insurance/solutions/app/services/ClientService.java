@@ -28,4 +28,13 @@ public class ClientService {
         return ResponseEntity.ok(client);
     }
 
+
+    public ResponseEntity<?> deleteClientById(Long id) {
+        return clientRepository.findById(id)
+                .map(__ -> {
+                    clientRepository.deleteById(id);
+                    return ResponseEntity.ok().build();
+                })
+                .orElseThrow(() -> new BadRequestException("El cliente con id: " + id + " no existe."));
+    }
 }

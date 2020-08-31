@@ -37,6 +37,9 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
                         SIGN_UP_URL,
                         ALL_USERS,
                         HEALTHCHECK,
+
+                        CLIENT,
+
                         //  Swagger configs
                         SWAGGER,
                         WEBJARS,

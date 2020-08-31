@@ -6,6 +6,7 @@ import javax.validation.constraints.NotBlank;
 @Entity
 @Table
 public class Client {
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
