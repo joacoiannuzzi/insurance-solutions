@@ -20,9 +20,9 @@ public class BookService {
         return bookRepository.save(book);
     }
 
-    public ResponseEntity<?> deleteBook(Long bookId) {
+    public void deleteBook(Long bookId) {
+        getBookById(bookId); // verifica que exista el libro
         bookRepository.deleteById(bookId);
-        return ResponseEntity.ok().build();
     }
 
     public Book updateBook(Long bookId, Book book) {
@@ -37,9 +37,7 @@ public class BookService {
     }
 
     public List<Book> getBooks() {
-        List<Book> books = new ArrayList<>();
-        bookRepository.findAll().forEach(books::add);
-        return books;
+        return (List<Book>) bookRepository.findAll();
     }
 
 }
