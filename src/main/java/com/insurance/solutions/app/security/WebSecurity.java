@@ -40,6 +40,9 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
 
                         CLIENT,
 
+                        // Example
+                        CRUD_BOOKS,
+
                         //  Swagger configs
                         SWAGGER,
                         WEBJARS,

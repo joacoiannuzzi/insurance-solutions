@@ -3,6 +3,7 @@ package com.insurance.solutions.app.controllers;
 import com.insurance.solutions.app.models.Client;
 import com.insurance.solutions.app.services.ClientService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -19,23 +20,22 @@ public class ClientController {
 
     @PostMapping("/create")
     public ResponseEntity<Client> createClient(@Valid @RequestBody Client client) {
-        return clientService.createClient(client);
+        return new ResponseEntity<>(clientService.createClient(client), HttpStatus.CREATED);
     }
 
     @GetMapping("get/{clientId}")
     public ResponseEntity<Client> getClientById(@PathVariable Long clientId) {
-        return clientService.getClientById(clientId);
-
-    }
-
-    @DeleteMapping("{id}")
-    public ResponseEntity<?> deleteClientById(@PathVariable long id) {
-        return clientService.deleteClientById(id);
+        return new ResponseEntity<>(clientService.getClientById(clientId), HttpStatus.OK);
     }
 
     @GetMapping
     public ResponseEntity<List<Client>> findAll() {
-        return clientService.findAll();
+        return new ResponseEntity<>(clientService.findAll(), HttpStatus.OK);
     }
 
+    @DeleteMapping("{id}")
+    public ResponseEntity<?> deleteClientById(@PathVariable long id) {
+        clientService.deleteClientById(id);
+        return new ResponseEntity<>("Client was deleted", HttpStatus.OK);
+    }
 }

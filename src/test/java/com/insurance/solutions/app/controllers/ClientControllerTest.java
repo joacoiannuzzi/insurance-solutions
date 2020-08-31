@@ -4,7 +4,6 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.insurance.solutions.app.models.Client;
 import com.insurance.solutions.app.repositories.ClientRepository;
-import com.insurance.solutions.app.services.ClientService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,16 +34,12 @@ public class ClientControllerTest {
     @Autowired
     private ClientRepository clientRepository;
 
-    @Autowired
-    private ClientService clientService;
-
     private String toJson(Object o) throws JsonProcessingException {
         return objectMapper.writeValueAsString(o);
     }
 
     @BeforeEach
     public void resetClients() {
-        clientRepository.deleteAll();
         clientRepository.saveAll(
                 List.of(
                         new Client("4564564", "Annie", "Sims", "(006)-902-3913",
@@ -76,7 +71,7 @@ public class ClientControllerTest {
                                 .accept(APPLICATION_JSON)
                                 .content(toJson(client))
                 )
-                .andExpect(status().isOk())
+                .andExpect(status().isCreated())
                 .andExpect(content().contentType(APPLICATION_JSON))
                 .andExpect(jsonPath("$.id").isNumber());
 
@@ -142,8 +137,6 @@ public class ClientControllerTest {
                 .andExpect(status().isNotFound());
     }
 
-}
-
     @Test
     void deleteValidClient() throws Exception {
 
@@ -167,9 +160,8 @@ public class ClientControllerTest {
                 .perform(
                         delete(urlBase + "/" + idToDelete)
                 )
-                .andExpect(status().isBadRequest());
+                .andExpect(status().isNotFound());
     }
-
 
     @Test
     void getAllClients() throws Exception {
