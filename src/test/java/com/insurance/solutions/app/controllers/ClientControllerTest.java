@@ -30,6 +30,9 @@ public class ClientControllerTest {
     private ObjectMapper objectMapper;
 
     @Autowired
+    private ClientRepository clientRepository;
+
+    @Autowired
     private ClientService clientService;
 
     private String toJson(Object o) throws JsonProcessingException {
@@ -59,7 +62,9 @@ public class ClientControllerTest {
 
     @Test
     void createValidClient() throws Exception {
-        Client client = new Client("1", "Juan", "Perez", "123", "juanperez@mail.com", "Seguro", "Auto");
+        Client client = new Client("1", "Juan", "Perez", "123",
+                "juanperez@mail.com", "Seguro", "Auto");
+        client.setId(100);
 
         mockMvc
                 .perform(
@@ -92,7 +97,8 @@ public class ClientControllerTest {
 
     @Test
     void createExistingClient() throws Exception {
-        Client client = new Client("2", "Juan", "Perez", "123", "juanperez@mail.com", "Seguro 2", "Auto");
+        Client client = new Client("2", "Juan", "Perez", "123",
+                "juanperez@mail.com", "Seguro 2", "Auto");
 
         mockMvc
                 .perform(
@@ -112,6 +118,28 @@ public class ClientControllerTest {
                 .andExpect(status().isBadRequest());
 
     }
+
+    @Test
+    void getClientById() throws Exception {
+        List<Client> clients = (List<Client>) clientRepository.findAll();
+        Client client = clients.get(0);
+
+        mockMvc
+                .perform(
+                        get("/clients/get/" + client.getId())
+                )
+                .andExpect(status().isOk())
+                .andExpect(content().contentType(APPLICATION_JSON))
+                .andExpect(content().string(toJson(client)));
+
+        mockMvc
+                .perform(
+                        get("/clients/get/10000")
+                )
+                .andExpect(status().isNotFound());
+    }
+
+}
 
     @Test
     void deleteValidClient() throws Exception {
