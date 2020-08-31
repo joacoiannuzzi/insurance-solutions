@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
+import java.util.List;
 
 @Service
 public class ClientService {
@@ -49,6 +50,11 @@ public class ClientService {
     public ResponseEntity<Client> getClientById(Long clientId) {
         Client client = clientRepository.findById(clientId).orElseThrow(() -> new ResourceNotFoundException("Client not found."));
         return ResponseEntity.ok(client);
+    }
+
+    public ResponseEntity<List<Client>> findAll() {
+        List<Client> all = (List<Client>) clientRepository.findAll();
+        return ResponseEntity.ok(all);
     }
 
     public ResponseEntity<?> deleteClientById(Long id) {
