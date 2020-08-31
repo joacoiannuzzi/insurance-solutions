@@ -21,6 +21,12 @@ public class ClientController {
         return clientService.createClient(client);
     }
 
+    @GetMapping("get/{clientId}")
+    public ResponseEntity<Client> getClientById(@PathVariable Long clientId) {
+        return clientService.getClientById(clientId);
+
+    }
+
     @DeleteMapping("{id}")
     public ResponseEntity<?> deleteClientById(@PathVariable long id) {
         return clientService.deleteClientById(id);

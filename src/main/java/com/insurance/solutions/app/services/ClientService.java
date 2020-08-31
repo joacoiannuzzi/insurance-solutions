@@ -1,6 +1,7 @@
 package com.insurance.solutions.app.services;
 
 import com.insurance.solutions.app.exceptions.BadRequestException;
+import com.insurance.solutions.app.exceptions.ResourceNotFoundException;
 import com.insurance.solutions.app.models.Client;
 import com.insurance.solutions.app.repositories.ClientRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -45,7 +46,12 @@ public class ClientService {
         return ResponseEntity.ok(savedClient);
     }
 
-    public ResponseEntity<?> deleteClientById(long id) {
+    public ResponseEntity<Client> getClientById(Long clientId) {
+        Client client = clientRepository.findById(clientId).orElseThrow(() -> new ResourceNotFoundException("Client not found."));
+        return ResponseEntity.ok(client);
+    }
+
+    public ResponseEntity<?> deleteClientById(Long id) {
         return clientRepository.findById(id)
                 .map(__ -> {
                     clientRepository.deleteById(id);
