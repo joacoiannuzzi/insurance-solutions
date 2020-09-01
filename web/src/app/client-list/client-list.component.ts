@@ -8,15 +8,16 @@ import {Client} from "../../shared/models/client";
   styleUrls: ['./client-list.component.scss']
 })
 export class ClientListComponent implements OnInit {
-  displayedColumns: string[] = ['Nombre', 'Apellido', 'DNI', 'Telefono', 'Mail', 'Opciones'];
-  columnsToDisplay: string[] = this.displayedColumns.slice();
+  displayedColumns: string[] = ['firstName', 'lastName', 'dni', 'phoneNumber', 'mail'];
   clients: Client[];
+  loading: boolean = true;
 
   constructor(private userService: ClientService) {}
 
   ngOnInit(): void {
-    this.userService.findAll().subscribe((data) => {
+    this.userService.clients.subscribe((data) => {
       this.clients = data;
+      this.loading = false;
     });
   }
 }

@@ -8,17 +8,16 @@ import {ClientService} from "../shared/services/client.service";
 import { ClientListComponent } from './client-list/client-list.component';
 import {HttpClientModule} from "@angular/common/http";
 import {FormsModule} from "@angular/forms";
-import { UserFormComponent } from './user-form/user-form.component';
 import {MatTableModule} from '@angular/material/table';
 import { NavbarComponent } from './navbar/navbar.component';
 import {MatToolbarModule} from '@angular/material/toolbar';
 import {MatButtonModule} from '@angular/material/button';
+import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 
 @NgModule({
   declarations: [
     AppComponent,
     ClientListComponent,
-    UserFormComponent,
     NavbarComponent
   ],
     imports: [
@@ -29,7 +28,8 @@ import {MatButtonModule} from '@angular/material/button';
         FormsModule,
         MatTableModule,
         MatToolbarModule,
-        MatButtonModule
+        MatButtonModule,
+        MatProgressSpinnerModule
     ],
   providers: [ClientService],
   bootstrap: [AppComponent]

@@ -1,21 +1,21 @@
 export class Client {
   id: string;
-  firstname: string;
-  lastname: string;
+  firstName: string;
+  lastName: string;
   dni: number;
-  phone: number;
-  email: string;
+  phoneNumber: number;
+  mail: string;
 
-  constructor(id: string, firstname: string, email: string, lastname: string, dni: number, phone: number) {
+  constructor(id: string, firstName: string, mail: string, lastName: string, dni: number, phoneNumber: number) {
     this.id = id;
-    this.firstname = firstname;
-    this.email = email;
-    this.lastname = lastname;
+    this.firstName = firstName;
+    this.mail = mail;
+    this.lastName = lastName;
     this.dni = dni;
-    this.phone = phone;
+    this.phoneNumber = phoneNumber;
   }
 
   static fromJsonObject(jsonObject: any): Client {
-    return new Client(jsonObject.id, jsonObject.firstname, jsonObject.email, jsonObject.lastname, jsonObject.dni, jsonObject.phone);
+    return new Client(jsonObject.id, jsonObject.firstName, jsonObject.mail, jsonObject.lastName, jsonObject.dni, jsonObject.phoneNumber);
   }
 }
