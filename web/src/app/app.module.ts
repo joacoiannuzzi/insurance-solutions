@@ -13,6 +13,7 @@ import { NavbarComponent } from './navbar/navbar.component';
 import {MatToolbarModule} from '@angular/material/toolbar';
 import {MatButtonModule} from '@angular/material/button';
 import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
+import {MatCardModule} from "@angular/material/card";
 
 @NgModule({
   declarations: [
@@ -20,17 +21,18 @@ import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
     ClientListComponent,
     NavbarComponent
   ],
-    imports: [
-        BrowserModule,
-        AppRoutingModule,
-        HttpClientModule,
-        BrowserAnimationsModule,
-        FormsModule,
-        MatTableModule,
-        MatToolbarModule,
-        MatButtonModule,
-        MatProgressSpinnerModule
-    ],
+  imports: [
+    BrowserModule,
+    AppRoutingModule,
+    HttpClientModule,
+    BrowserAnimationsModule,
+    FormsModule,
+    MatTableModule,
+    MatToolbarModule,
+    MatButtonModule,
+    MatProgressSpinnerModule,
+    MatCardModule
+  ],
   providers: [ClientService],
   bootstrap: [AppComponent]
 })
