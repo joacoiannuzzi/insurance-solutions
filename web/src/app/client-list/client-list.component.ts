@@ -8,7 +8,7 @@ import {Client} from "../../shared/models/client";
   styleUrls: ['./client-list.component.scss']
 })
 export class ClientListComponent implements OnInit {
-  displayedColumns: string[] = ['firstName', 'lastName', 'dni', 'phoneNumber', 'mail'];
+  displayedColumns: string[] = ['firstName', 'lastName', 'dni', 'phoneNumber', 'mail', 'options'];
   clients: Client[];
   loading: boolean = true;
 
