@@ -4,6 +4,8 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.insurance.solutions.app.models.Client;
 import com.insurance.solutions.app.repositories.ClientRepository;
+import com.insurance.solutions.app.services.ClientService;
+import org.junit.Assert;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +13,7 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.MvcResult;
 
 import java.util.Collections;
 import java.util.List;
@@ -35,6 +38,9 @@ public class ClientControllerTest {
 
     @Autowired
     private ClientRepository clientRepository;
+
+    @Autowired
+    private ClientService clientService;
 
     private String toJson(Object o) throws JsonProcessingException {
         return objectMapper.writeValueAsString(o);
@@ -64,9 +70,8 @@ public class ClientControllerTest {
     void createValidClient() throws Exception {
         Client client = new Client("1", "Juan", "Perez", "123",
                 "juanperez@mail.com", "Seguro", "Auto");
-        client.setId(100);
 
-        mockMvc
+        MvcResult response = mockMvc
                 .perform(
                         post(urlBase + "/create")
                                 .contentType(APPLICATION_JSON)
@@ -75,7 +80,13 @@ public class ClientControllerTest {
                 )
                 .andExpect(status().isCreated())
                 .andExpect(content().contentType(APPLICATION_JSON))
-                .andExpect(jsonPath("$.id").isNumber());
+                .andExpect(jsonPath("$.id").isNumber())
+                .andReturn();
+
+        long id = objectMapper.readValue(response.getResponse().getContentAsString(), Client.class).getId();
+        client.setId(id);
+
+        Assert.assertEquals(toJson(client), toJson(clientService.getClientById(id)));
 
     }
 
@@ -83,6 +94,8 @@ public class ClientControllerTest {
     void createInvalidClient() throws Exception {
         Client client = new Client();
         client.setDni("1");
+
+        int clientQuantity = clientService.findAll().size();
 
         mockMvc
                 .perform(
@@ -92,6 +105,8 @@ public class ClientControllerTest {
                                 .content(toJson(client))
                 )
                 .andExpect(status().isBadRequest());
+
+        Assert.assertEquals(clientQuantity, clientService.findAll().size());
 
     }
 
@@ -108,6 +123,8 @@ public class ClientControllerTest {
                                 .content(toJson(client))
                 );
 
+        int clientQuantity = clientService.findAll().size();
+
         mockMvc
                 .perform(
                         post(urlBase + "/create")
@@ -116,6 +133,8 @@ public class ClientControllerTest {
                                 .content(toJson(client))
                 )
                 .andExpect(status().isBadRequest());
+
+        Assert.assertEquals(clientQuantity, clientService.findAll().size());
 
     }
 
