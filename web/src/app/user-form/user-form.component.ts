@@ -1,6 +1,6 @@
 import {Component, Input, OnInit, Output, EventEmitter} from '@angular/core';
-import {User} from "../../shared/models/user";
-import {UserService} from "../../shared/services/user.service";
+import {Client} from "../../shared/models/client";
+import {ClientService} from "../../shared/services/client.service";
 
 @Component({
   selector: 'app-user-form',
@@ -9,15 +9,15 @@ import {UserService} from "../../shared/services/user.service";
 })
 export class UserFormComponent implements OnInit {
 
-  newUser: User = new User('', '', '');
+  newUser: Client = new Client('', '', '');
 
   @Input()
-  users: User[];
+  users: Client[];
 
   @Output()
   userCreated = new EventEmitter();
 
-  constructor(private userService: UserService) { }
+  constructor(private userService: ClientService) { }
 
   ngOnInit(): void {
   }
@@ -26,10 +26,10 @@ export class UserFormComponent implements OnInit {
     this.saveUser(this.newUser)
   }
 
-  saveUser(user: User): void {
+  saveUser(user: Client): void {
     this.userService.save(user).subscribe(data => {
       this.users.push(data);
-      this.newUser = new User('', '', '');
+      this.newUser = new Client('', '', '');
       this.userCreated.emit({id: data.id});
     })
   }

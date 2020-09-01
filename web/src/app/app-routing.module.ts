@@ -1,12 +1,10 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import {UserListComponent} from "./user-list/user-list.component";
-import {UserFormComponent} from "./user-form/user-form.component";
-
+import {ClientListComponent} from "./client-list/client-list.component";
 
 const routes: Routes = [
-  { path: 'users', children: [
-      { path: '', component: UserListComponent }, // users/
+  { path: 'clients', children: [
+      { path: '', component: ClientListComponent }, // users/
     ]
   },
 ];
