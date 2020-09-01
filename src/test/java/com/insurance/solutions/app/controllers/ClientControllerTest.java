@@ -2,6 +2,7 @@ package com.insurance.solutions.app.controllers;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.insurance.solutions.app.exceptions.ResourceNotFoundException;
 import com.insurance.solutions.app.models.Client;
 import com.insurance.solutions.app.repositories.ClientRepository;
 import com.insurance.solutions.app.services.ClientService;
@@ -140,21 +141,27 @@ public class ClientControllerTest {
 
     @Test
     void getClientById() throws Exception {
-        List<Client> clients = (List<Client>) clientRepository.findAll();
-        Client client = clients.get(0);
+        Client client = new Client("3", "Juan", "Perez", "123",
+                "juanperez@mail.com", "Seguro 3", "Auto");
 
-        mockMvc
-                .perform(
-                        get("/clients/get/" + client.getId())
-                )
+        Client newClient = clientService.createClient(client);
+
+        MvcResult response = mockMvc
+                .perform(get("/clients/get/" + newClient.getId()))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(APPLICATION_JSON))
-                .andExpect(content().string(toJson(client)));
+                .andExpect(content().string(toJson(client)))
+                .andReturn();
+
+        Assert.assertEquals(toJson(newClient), response.getResponse().getContentAsString());
+
+        long mockID = 100L;
+
+        Exception exception = Assert.assertThrows(ResourceNotFoundException.class, () -> clientService.getClientById(mockID));
+        Assert.assertEquals("Client not found.", exception.getMessage());
 
         mockMvc
-                .perform(
-                        get("/clients/get/10000")
-                )
+                .perform(get("/clients/get/" + mockID))
                 .andExpect(status().isNotFound());
     }
 
