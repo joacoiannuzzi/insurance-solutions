@@ -10,11 +10,11 @@ spring:
           lob:
             non_contextual_creation: true
     hibernate:
-      ddl-auto: update
+      ddl-auto: create-drop
 
   datasource:
     platform: postgres
-    url: jdbc:postgresql://localhost:5432/is
+    url: jdbc:postgresql://localhost:5433/is
     username: postgres
     password: password
     driver-class-name: org.postgresql.Driver
