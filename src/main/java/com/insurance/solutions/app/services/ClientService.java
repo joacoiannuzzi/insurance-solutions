@@ -6,8 +6,6 @@ import com.insurance.solutions.app.models.Client;
 import com.insurance.solutions.app.repositories.ClientRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import java.util.Optional;
 import java.util.List;
 
 @Service
@@ -35,5 +33,14 @@ public class ClientService {
     public void deleteClientById(Long id) {
         getClientById(id);
         clientRepository.deleteById(id);
+    }
+
+    public Client updateClient(Long clientId, Client client) {
+        Client oldClient = clientRepository.findById(clientId).orElseThrow(() -> new ResourceNotFoundException("Client not found."));
+        Client newClient = new Client(client.getDni(), client.getFirstName(), client.getLastName(), client.getPhoneNumber(),
+                client.getMail(), client.getInsuranceCompany(), client.getVehicle());
+
+        newClient.setId(oldClient.getId());
+        return clientRepository.save(newClient);
     }
 }

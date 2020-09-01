@@ -38,4 +38,9 @@ public class ClientController {
         clientService.deleteClientById(id);
         return new ResponseEntity<>("Client was deleted", HttpStatus.OK);
     }
+
+    @PutMapping("/update/{clientId}")
+    public ResponseEntity<Client> updateClient(@PathVariable Long clientId, @RequestBody Client client) {
+        return new ResponseEntity<>(clientService.updateClient(clientId, client), HttpStatus.OK);
+    }
 }
