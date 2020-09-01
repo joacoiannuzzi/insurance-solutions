@@ -8,6 +8,11 @@ public class SecurityConstants {
     public static final String SIGN_UP_URL = "/users/sign-up";
     public static final String ALL_USERS = "/users/all";
     public static final String HEALTHCHECK = "/server/_healthcheck";
+    public static final String CRUD_BOOKS = "/books/**";
+
+
+    public static final String CLIENT = "/clients/**";
+
 
     // Swagger configuration
     public static final String SWAGGER = "/swagger-ui.html";
