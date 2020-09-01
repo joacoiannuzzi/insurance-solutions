@@ -1,6 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit, ViewChild} from '@angular/core';
 import {ClientService} from "../../shared/services/client.service";
 import {Client} from "../../shared/models/client";
+import {MatSort} from "@angular/material/sort";
+import {MatTableDataSource} from "@angular/material/table";
 
 @Component({
   selector: 'app-user-list',
@@ -10,14 +12,19 @@ import {Client} from "../../shared/models/client";
 export class ClientListComponent implements OnInit {
   displayedColumns: string[] = ['firstName', 'lastName', 'dni', 'phoneNumber', 'mail', 'options'];
   clients: Client[];
+  dataSource : MatTableDataSource<Client>
   loading: boolean = true;
 
-  constructor(private userService: ClientService) {}
+  @ViewChild(MatSort, {static: true}) sort: MatSort;
+
+  constructor(private clientService: ClientService) {}
 
   ngOnInit(): void {
-    this.userService.clients.subscribe((data) => {
+    this.clientService.clients.subscribe((data) => {
       this.clients = data;
       this.loading = false;
+      this.dataSource = new MatTableDataSource<Client>(this.clients);
+      this.dataSource.sort = this.sort;
     });
   }
 }
