@@ -5,6 +5,9 @@
 </div>
 <mat-card *ngIf="!loading" class="mat-card my-5">
   <mat-card-header>
+    <button mat-button class="add"
+    (click) = "openDialog()"
+    >Agregar</button>
     <mat-card-title>Clientes</mat-card-title>
   </mat-card-header>
   <mat-card-content>

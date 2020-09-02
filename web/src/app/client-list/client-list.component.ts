@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import {ClientService} from "../../shared/services/client.service";
 import {Client} from "../../shared/models/client";
+import {MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material/dialog';
+import { FormInfo } from '../user-form/form-info';
 
 @Component({
   selector: 'app-user-list',
@@ -12,7 +14,7 @@ export class ClientListComponent implements OnInit {
   clients: Client[];
   loading: boolean = true;
 
-  constructor(private userService: ClientService) {}
+  constructor(private userService: ClientService, public dialog: MatDialog) {}
 
   ngOnInit(): void {
     this.userService.clients.subscribe((data) => {
@@ -20,4 +22,18 @@ export class ClientListComponent implements OnInit {
       this.loading = false;
     });
   }
+
+  openDialog(): void {
+    const dialogRef = this.dialog.open(FormInfo, {
+      width: '3290px',
+      data: new Client(null,"","","","","") 
+
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      this.clients.push(result)
+    });
+  }
+
 }
+

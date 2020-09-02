@@ -24,7 +24,12 @@ export class ClientService {
   }
 
   public save(user: Client) {
-    return this.http.post<Client>(this.usersUrl, user);
+    return this.http.post<Client>(this.usersUrl+ "/create", user).pipe(
+    
+      map((res: any) => {
+        this.clientsList.push(Client.fromJsonObject(res))
+      })
+    );
   }
 
   get clients(): Observable<Client[]> {
