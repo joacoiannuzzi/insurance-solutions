@@ -16,12 +16,14 @@ import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 import {MatCardModule} from "@angular/material/card";
 import {MatIconModule} from '@angular/material/icon';
 import {MatSortModule} from "@angular/material/sort";
+import { ClientDetailsComponent } from './client-details/client-details.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     ClientListComponent,
-    NavbarComponent
+    NavbarComponent,
+    ClientDetailsComponent
   ],
   imports: [
     BrowserModule,

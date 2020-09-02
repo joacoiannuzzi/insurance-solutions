@@ -35,22 +35,3 @@ export class ClientService {
       : this.findAll();
   }
 }
-/*
-
-get clients(): Observable<Client[]> {
-  return this.clientsList
-    ? new Observable<Client[]>((subscriber) =>
-      subscriber.next(this.clientsList)
-    )
-    : this.getAllClients();
-}
-getAllClients(): Observable<Client[]> {
-  return this.http.get(this.url + 'GetAll').pipe(
-    map((res: any) => {
-      this.clientsList = res.data.map((url, index) => {
-        return new Client(index, url);
-      });
-      return this.clientsList;
-    })
-  );
-}*/
