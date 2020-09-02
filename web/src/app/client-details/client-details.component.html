@@ -1,0 +1,8 @@
+<h1 mat-dialog-title>Ver cliente: {{client.firstName}} {{client.lastName}}</h1>
+<div mat-dialog-content>
+  <p>Nombre: {{}}</p>
+</div>
+<div mat-dialog-actions>
+  <button mat-button (click)="onNoClick()">No Thanks</button>
+  <button mat-button [mat-dialog-close]="client.animal" cdkFocusInitial>Ok</button>
+</div>

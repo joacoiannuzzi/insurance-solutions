@@ -1,8 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit, ViewChild} from '@angular/core';
 import {ClientService} from "../../shared/services/client.service";
 import {Client} from "../../shared/models/client";
 import {MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material/dialog';
 import { FormInfo } from '../user-form/form-info';
+import {MatSort} from "@angular/material/sort";
+import {MatTableDataSource} from "@angular/material/table";
+import {ClientDetailsComponent} from "../client-details/client-details.component";
 
 @Component({
   selector: 'app-user-list',
@@ -10,16 +13,21 @@ import { FormInfo } from '../user-form/form-info';
   styleUrls: ['./client-list.component.scss']
 })
 export class ClientListComponent implements OnInit {
-  displayedColumns: string[] = ['firstName', 'lastName', 'dni', 'phoneNumber', 'mail'];
+  displayedColumns: string[] = ['firstName', 'lastName', 'dni', 'phoneNumber', 'mail', 'options'];
   clients: Client[];
+  dataSource : MatTableDataSource<Client>
   loading: boolean = true;
 
-  constructor(private userService: ClientService, public dialog: MatDialog) {}
+  @ViewChild(MatSort, {static: true}) sort: MatSort;
+
+  constructor(private clientService: ClientService, public dialog: MatDialog) {}
 
   ngOnInit(): void {
-    this.userService.clients.subscribe((data) => {
+    this.clientService.clients.subscribe((data) => {
       this.clients = data;
       this.loading = false;
+      this.dataSource = new MatTableDataSource<Client>(this.clients);
+      this.dataSource.sort = this.sort;
     });
   }
 
