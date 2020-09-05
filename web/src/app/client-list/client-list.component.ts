@@ -34,7 +34,7 @@ export class ClientListComponent implements OnInit {
   openDialog(): void {
     const dialogRef = this.dialog.open(FormInfo, {
       width: '3290px',
-      data: new Client(null,"","","","","") 
+      data: new Client(null,"","","","","")
 
     });
 
@@ -43,5 +43,11 @@ export class ClientListComponent implements OnInit {
     });
   }
 
+  openClientDetails(element: Client): void {
+    this.dialog.open(ClientDetailsComponent, {
+      width: '3290px',
+      data: element
+    });
+  }
 }
 

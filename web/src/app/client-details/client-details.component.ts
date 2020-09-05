@@ -1,5 +1,5 @@
 import {Component, Inject, OnInit} from '@angular/core';
-import {MatDialogRef} from "@angular/material/dialog";
+import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
 import {Client} from "../../shared/models/client";
 
 @Component({
@@ -10,12 +10,27 @@ import {Client} from "../../shared/models/client";
 export class ClientDetailsComponent implements OnInit {
 
   constructor(public dialogRef: MatDialogRef<ClientDetailsComponent>,
-              @Inject(this.data) public client: Client) { }
+              @Inject(MAT_DIALOG_DATA) public client: Client) { }
 
   ngOnInit(): void {
   }
 
-  onNoClick(): void {
+  seeVehicles() {
+    this.dialogRef.close();
+    //Open the other one
+  }
+
+  editClientDetails() {
+    this.dialogRef.close();
+    //Edit client details
+  }
+
+  deleteClientDetails() {
+    this.dialogRef.close();
+    //Detele client details
+  }
+
+  closeDetails() {
     this.dialogRef.close();
   }
 }

@@ -1,0 +1,23 @@
+.client-details-header {
+  display: flex;
+  flex-direction: row;
+
+  button {
+    margin-left: auto;
+  }
+}
+
+.client-details-content {
+  display: flex;
+  flex-direction: column;
+  column-count: 2;
+}
+
+.client-details-actions {
+  display: flex;
+  align-content: center;
+
+  button {
+    flex: 1;
+  }
+}
