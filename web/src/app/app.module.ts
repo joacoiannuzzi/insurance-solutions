@@ -20,6 +20,7 @@ import {MatIconModule} from '@angular/material/icon';
 import {MatSortModule} from "@angular/material/sort";
 import { ClientDetailsComponent } from './client-details/client-details.component';
 import {MatDialogModule } from '@angular/material/dialog';
+import { ClientVehiclesComponent } from './client-vehicles/client-vehicles.component';
 
 @NgModule({
   declarations: [
@@ -27,7 +28,8 @@ import {MatDialogModule } from '@angular/material/dialog';
     ClientListComponent,
     NavbarComponent,
     FormInfo,
-    ClientDetailsComponent
+    ClientDetailsComponent,
+    ClientVehiclesComponent
   ],
   imports: [
     BrowserModule,

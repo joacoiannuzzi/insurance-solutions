@@ -1,0 +1,17 @@
+.client-vehicles-header {
+  display: flex;
+  flex-direction: row;
+
+  button {
+    margin-left: auto;
+  }
+}
+
+.client-vehicles-actions {
+  display: flex;
+  align-content: center;
+
+  button {
+    flex: 1;
+  }
+}
