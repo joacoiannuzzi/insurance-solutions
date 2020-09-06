@@ -1,8 +1,19 @@
-<h1 mat-dialog-title>Ver cliente: {{client.firstName}} {{client.lastName}}</h1>
-<div mat-dialog-content>
-  <p>Nombre: {{}}</p>
+<div class="client-details-header">
+  <h1 mat-dialog-title>Ver cliente</h1>
+  <button mat-icon-button aria-label="close details button" (click)="closeDetails()">
+    <mat-icon>close</mat-icon>
+  </button>
 </div>
-<div mat-dialog-actions>
-  <button mat-button (click)="onNoClick()">No Thanks</button>
-  <button mat-button [mat-dialog-close]="client.animal" cdkFocusInitial>Ok</button>
+<div mat-dialog-content class="client-details-content">
+  <p>Nombre: {{client.firstName}}</p>
+  <p>Apellido: {{client.lastName}}</p>
+  <p>DNI: {{client.dni}}</p>
+  <p>Telefono: {{client.phoneNumber}}</p>
+  <p>Mail: {{client.mail}}</p>
+  <p></p>
+</div>
+<div mat-dialog-actions class="client-details-actions">
+  <button mat-button (click)="seeVehicles()">Ver Vehiculos</button>
+  <button mat-button (click)="editClientDetails()">Editar</button>
+  <button mat-button (click)="deleteClientDetails()">Eliminar</button>
 </div>

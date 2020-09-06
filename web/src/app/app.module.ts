@@ -14,20 +14,22 @@ import {MatToolbarModule} from '@angular/material/toolbar';
 import {MatButtonModule} from '@angular/material/button';
 import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 import {MatCardModule} from "@angular/material/card";
-import { FormInfo } from "../app/user-form/form-info"
+import { FormInfo } from "./user-form/form-info";
 import {MatInputModule} from '@angular/material/input';
 import {MatIconModule} from '@angular/material/icon';
 import {MatSortModule} from "@angular/material/sort";
 import { ClientDetailsComponent } from './client-details/client-details.component';
-
 import {MatDialogModule } from '@angular/material/dialog';
+import { ClientVehiclesComponent } from './client-vehicles/client-vehicles.component';
+
 @NgModule({
   declarations: [
     AppComponent,
     ClientListComponent,
     NavbarComponent,
     FormInfo,
-    ClientDetailsComponent
+    ClientDetailsComponent,
+    ClientVehiclesComponent
   ],
   imports: [
     BrowserModule,
