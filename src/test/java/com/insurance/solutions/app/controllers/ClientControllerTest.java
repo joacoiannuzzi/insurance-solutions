@@ -224,4 +224,40 @@ public class ClientControllerTest {
 
     }
 
+    @Test
+    public void updateClients() throws Exception {
+        Client client = new Client("4", "Juan", "Perez", "123",
+                "juanperez@mail.com", "Seguro 4");
+        Client updatedClient = new Client("5", "Juan", "Perez", "123",
+                "juanperez@mail.com", "Seguro 5");
+
+        Long id = clientService.createClient(client).getId();
+
+        Assert.assertEquals(toJson(client), toJson(clientService.getClientById(id)));
+
+        mockMvc
+                .perform(
+                        put("/clients/update/" + id)
+                                .contentType(APPLICATION_JSON)
+                                .content(toJson(updatedClient))
+                )
+                .andExpect(status().isOk());
+
+        updatedClient.setId(id);
+        Assert.assertEquals(toJson(updatedClient), toJson(clientService.getClientById(id)));
+
+        long mockID = 100L;
+
+        Exception exception = Assert.assertThrows(ResourceNotFoundException.class, () -> clientService.updateClient(mockID, updatedClient));
+        Assert.assertEquals("Client not found.", exception.getMessage());
+
+        mockMvc
+                .perform(
+                        put("/clients/update/" + mockID)
+                                .contentType(APPLICATION_JSON)
+                                .content(toJson(updatedClient))
+                )
+                .andExpect(status().isNotFound());
+    }
+
 }
