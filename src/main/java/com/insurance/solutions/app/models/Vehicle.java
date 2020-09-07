@@ -1,6 +1,8 @@
 package com.insurance.solutions.app.models;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 
@@ -30,6 +32,7 @@ public class Vehicle {
     private String monitoringSystems;
 
 
+    @JsonIgnore
     @ManyToOne(fetch = FetchType.EAGER, optional = false)
     @JoinColumn(name = "client_id", nullable = true)
     private Client client;

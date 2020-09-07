@@ -10,6 +10,8 @@ import com.insurance.solutions.app.repositories.VehicleRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class VehicleService {
 
@@ -31,6 +33,9 @@ public class VehicleService {
         client.addVehicle(savedVehicle);
         clientRepository.save(client);
         return savedVehicle;
+    }
 
+    public List<Vehicle> findAll() {
+        return (List<Vehicle>) vehicleRepository.findAll();
     }
 }
