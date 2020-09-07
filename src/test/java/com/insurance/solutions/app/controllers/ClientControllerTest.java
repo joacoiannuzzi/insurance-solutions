@@ -6,7 +6,6 @@ import com.insurance.solutions.app.exceptions.ResourceNotFoundException;
 import com.insurance.solutions.app.models.Client;
 import com.insurance.solutions.app.repositories.ClientRepository;
 import com.insurance.solutions.app.services.ClientService;
-import org.junit.Assert;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,7 +18,8 @@ import org.springframework.test.web.servlet.MvcResult;
 import java.util.Collections;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertThrows;
 import static org.springframework.http.MediaType.APPLICATION_JSON;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
@@ -88,7 +88,7 @@ public class ClientControllerTest {
         long id = objectMapper.readValue(response.getResponse().getContentAsString(), Client.class).getId();
         client.setId(id);
 
-        Assert.assertEquals(toJson(client), toJson(clientService.getClientById(id)));
+        assertEquals(toJson(client), toJson(clientService.getClientById(id)));
 
     }
 
@@ -108,7 +108,7 @@ public class ClientControllerTest {
                 )
                 .andExpect(status().isBadRequest());
 
-        Assert.assertEquals(clientQuantity, clientService.findAll().size());
+        assertEquals(clientQuantity, clientService.findAll().size());
 
     }
 
@@ -136,7 +136,7 @@ public class ClientControllerTest {
                 )
                 .andExpect(status().isBadRequest());
 
-        Assert.assertEquals(clientQuantity, clientService.findAll().size());
+        assertEquals(clientQuantity, clientService.findAll().size());
 
     }
 
@@ -154,12 +154,12 @@ public class ClientControllerTest {
                 .andExpect(content().string(toJson(client)))
                 .andReturn();
 
-        Assert.assertEquals(toJson(newClient), response.getResponse().getContentAsString());
+        assertEquals(toJson(newClient), response.getResponse().getContentAsString());
 
         long mockID = 100L;
 
-        Exception exception = Assert.assertThrows(ResourceNotFoundException.class, () -> clientService.getClientById(mockID));
-        Assert.assertEquals("Client not found.", exception.getMessage());
+        Exception exception = assertThrows(ResourceNotFoundException.class, () -> clientService.getClientById(mockID));
+        assertEquals("Client not found.", exception.getMessage());
 
         mockMvc
                 .perform(get("/clients/get/" + mockID))
@@ -169,7 +169,7 @@ public class ClientControllerTest {
     @Test
     void deleteValidClient() throws Exception {
 
-        long idToDelete = clientRepository.findAll().iterator().next().getId();
+        long idToDelete = clientService.findAll().get(0).getId();
 
         mockMvc
                 .perform(
@@ -177,11 +177,14 @@ public class ClientControllerTest {
                 )
                 .andExpect(status().isOk());
 
-        assertTrue(clientRepository.findById(idToDelete).isEmpty());
+        Exception exception = assertThrows(ResourceNotFoundException.class, () -> clientService.getClientById(idToDelete));
+        assertEquals("Client not found.", exception.getMessage());
     }
 
     @Test
     void deleteInvalidClient() throws Exception {
+
+        List<Client> before = clientService.findAll();
 
         long idToDelete = 57775786867867878L;
 
@@ -190,6 +193,10 @@ public class ClientControllerTest {
                         delete(urlBase + "/" + idToDelete)
                 )
                 .andExpect(status().isNotFound());
+
+        List<Client> after = clientService.findAll();
+
+        assertEquals("Size should be the same", before.size(), after.size());
     }
 
     @Test
