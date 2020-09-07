@@ -52,16 +52,16 @@ public class ClientControllerTest {
         clientRepository.saveAll(
                 List.of(
                         new Client("4564564", "Annie", "Sims", "(006)-902-3913",
-                                "annie.sims@example.com", "segur car", "ford falcon"),
+                                "annie.sims@example.com", "segur car"),
 
                         new Client("342342", "Leo", "Lucas", "(304)-520-6733",
-                                "leo.lucas@example.com", "osde", "tesla"),
+                                "leo.lucas@example.com", "osde"),
 
                         new Client("5252342", "Olivia", "Pena", "(097)-119-2103",
-                                "olivia.pena@example.com", "LA CUEVA MOTOS", "ferrari"),
+                                "olivia.pena@example.com", "LA CUEVA MOTOS"),
 
                         new Client("345345343", "Clayton", "Murphy", "(237)-281-4159",
-                                "clayton.murphy@example.com", "Seguros Russo / Taller Felix", "moto")
+                                "clayton.murphy@example.com", "Seguros Russo / Taller Felix")
 
                 )
         );
@@ -70,7 +70,8 @@ public class ClientControllerTest {
     @Test
     void createValidClient() throws Exception {
         Client client = new Client("1", "Juan", "Perez", "123",
-                "juanperez@mail.com", "Seguro", "Auto");
+                "juanperez@mail.com", "Seguro");
+        client.setId(100L);
 
         MvcResult response = mockMvc
                 .perform(
@@ -114,7 +115,7 @@ public class ClientControllerTest {
     @Test
     void createExistingClient() throws Exception {
         Client client = new Client("2", "Juan", "Perez", "123",
-                "juanperez@mail.com", "Seguro 2", "Auto");
+                "juanperez@mail.com", "Seguro 2");
 
         mockMvc
                 .perform(
@@ -142,7 +143,7 @@ public class ClientControllerTest {
     @Test
     void getClientById() throws Exception {
         Client client = new Client("3", "Juan", "Perez", "123",
-                "juanperez@mail.com", "Seguro 3", "Auto");
+                "juanperez@mail.com", "Seguro 3");
 
         Client newClient = clientService.createClient(client);
 

@@ -38,7 +38,7 @@ public class ClientService {
     public Client updateClient(Long clientId, Client client) {
         Client oldClient = clientRepository.findById(clientId).orElseThrow(() -> new ResourceNotFoundException("Client not found."));
         Client newClient = new Client(client.getDni(), client.getFirstName(), client.getLastName(), client.getPhoneNumber(),
-                client.getMail(), client.getInsuranceCompany(), client.getVehicle());
+                client.getMail(), client.getInsuranceCompany());
 
         newClient.setId(oldClient.getId());
         return clientRepository.save(newClient);

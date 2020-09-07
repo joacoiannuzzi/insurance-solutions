@@ -39,6 +39,7 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
                         HEALTHCHECK,
 
                         CLIENT,
+                        VEHICLE,
 
                         // Example
                         CRUD_BOOKS,
