@@ -15,6 +15,7 @@ import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 
+import java.io.UnsupportedEncodingException;
 import java.util.Collections;
 import java.util.List;
 
@@ -45,6 +46,10 @@ public class ClientControllerTest {
 
     private String toJson(Object o) throws JsonProcessingException {
         return objectMapper.writeValueAsString(o);
+    }
+
+    private <T> T toClass(MvcResult response, Class<T> type) throws JsonProcessingException, UnsupportedEncodingException {
+        return objectMapper.readValue(response.getResponse().getContentAsString(), type);
     }
 
     @BeforeEach
@@ -85,7 +90,7 @@ public class ClientControllerTest {
                 .andExpect(jsonPath("$.id").isNumber())
                 .andReturn();
 
-        long id = objectMapper.readValue(response.getResponse().getContentAsString(), Client.class).getId();
+        long id = toClass(response, Client.class).getId();
         client.setId(id);
 
         assertEquals(toJson(client), toJson(clientService.getClientById(id)));
@@ -202,15 +207,20 @@ public class ClientControllerTest {
     @Test
     void getAllClients() throws Exception {
 
-        Iterable<Client> all = clientRepository.findAll();
+        List<Client> all = clientService.findAll();
 
-        mockMvc
+        MvcResult mvcResult = mockMvc
                 .perform(
                         get(urlBase)
                 )
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(APPLICATION_JSON))
-                .andExpect(content().json(toJson(all)));
+                .andExpect(content().json(toJson(all)))
+                .andReturn();
+
+        List list = toClass(mvcResult, List.class);
+
+        Assert.assertEquals("Size should be the same", all.size(), list.size());
 
     }
 
@@ -219,15 +229,22 @@ public class ClientControllerTest {
 
         clientRepository.deleteAll();
 
+        List<Client> all = clientService.findAll();
+
         List<Object> emptyList = Collections.emptyList();
 
-        mockMvc
+        MvcResult mvcResult = mockMvc
                 .perform(
                         get(urlBase)
                 )
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(APPLICATION_JSON))
-                .andExpect(content().json(toJson(emptyList)));
+                .andExpect(content().json(toJson(emptyList)))
+                .andReturn();
+
+        List list = toClass(mvcResult, List.class);
+
+        Assert.assertEquals("Size should be the same", all.size(), list.size());
 
     }
 
