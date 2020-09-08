@@ -22,6 +22,7 @@ import { ClientDetailsComponent } from './client-details/client-details.componen
 import {MatDialogModule } from '@angular/material/dialog';
 import { ClientVehiclesComponent } from './client-vehicles/client-vehicles.component';
 import { VehicleAssignationComponent } from './vehicle-assignation/vehicle-assignation.component';
+import { ConfirmDialogComponent } from './confirm-dialog/confirm-dialog.component';
 
 @NgModule({
   declarations: [
@@ -31,7 +32,8 @@ import { VehicleAssignationComponent } from './vehicle-assignation/vehicle-assig
     FormInfo,
     ClientDetailsComponent,
     ClientVehiclesComponent,
-    VehicleAssignationComponent
+    VehicleAssignationComponent,
+    ConfirmDialogComponent
   ],
   imports: [
     BrowserModule,
