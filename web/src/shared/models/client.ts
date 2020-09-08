@@ -1,3 +1,5 @@
+import {Vehicle} from "./vehicle";
+
 export class Client {
   id: number;
   firstName: string;
@@ -6,9 +8,9 @@ export class Client {
   phoneNumber: string;
   mail: string;
   insuranceCompany?: string;
-  vehicle?: string;
+  vehicles?: Vehicle[];
 
-  constructor(id: number, firstName: string, mail: string, lastName: string, dni: string, phoneNumber: string) {
+  constructor(id: number, firstName: string, mail: string, lastName: string, dni: string, phoneNumber: string, vehicle?: Vehicle[]) {
     this.id = id;
     this.firstName = firstName;
     this.mail = mail;
@@ -17,10 +19,10 @@ export class Client {
     this.phoneNumber = phoneNumber;
     // TODO: Eliminar
     this.insuranceCompany = "dsad";
-    this.vehicle = "dsad";
+    this.vehicles = vehicle;
   }
 
   static fromJsonObject(jsonObject: any): Client {
-    return new Client(jsonObject.id, jsonObject.firstName, jsonObject.mail, jsonObject.lastName, jsonObject.dni, jsonObject.phoneNumber);
+    return new Client(jsonObject.id, jsonObject.firstName, jsonObject.mail, jsonObject.lastName, jsonObject.dni, jsonObject.phoneNumber, jsonObject.vehicleList);
   }
 }
