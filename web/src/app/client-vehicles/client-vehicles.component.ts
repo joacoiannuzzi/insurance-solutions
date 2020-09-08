@@ -2,6 +2,7 @@ import {Component, Inject, OnInit} from '@angular/core';
 import {MAT_DIALOG_DATA, MatDialog, MatDialogRef} from "@angular/material/dialog";
 import {Client} from "../../shared/models/client";
 import {Vehicle} from "../../shared/models/vehicle";
+import {ConfirmDialogComponent} from "../confirm-dialog/confirm-dialog.component";
 
 @Component({
   selector: 'app-client-vehicles',
@@ -27,7 +28,7 @@ export class ClientVehiclesComponent implements OnInit {
   }
 
   deleteVehicle(element: Vehicle) {
-    this.dialog.open(ClientVehiclesComponent, {
+    this.dialog.open(ConfirmDialogComponent, {
       width: '3290px',
       data: "¿Esta seguro de que desea eliminar el vehiculo dominio " + element.licensePlate + " del cliente " + this.client.firstName + " " + this.client.lastName + "?"
     })

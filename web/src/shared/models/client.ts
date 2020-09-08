@@ -8,9 +8,9 @@ export class Client {
   phoneNumber: string;
   mail: string;
   insuranceCompany?: string;
-  vehicles: Vehicle[];
+  vehicles?: Vehicle[];
 
-  constructor(id: number, firstName: string, mail: string, lastName: string, dni: string, phoneNumber: string, vehicles: Vehicle[]) {
+  constructor(id: number, firstName: string, mail: string, lastName: string, dni: string, phoneNumber: string, vehicles?: Vehicle[]) {
     this.id = id;
     this.firstName = firstName;
     this.mail = mail;
@@ -19,7 +19,7 @@ export class Client {
     this.phoneNumber = phoneNumber;
     // TODO: Eliminar
     this.insuranceCompany = "dsad";
-    this.vehicles = vehicles;
+    this.vehicles = vehicles ? vehicles : [];
   }
 
   static fromJsonObject(jsonObject: any): Client {
