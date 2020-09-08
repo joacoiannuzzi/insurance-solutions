@@ -1,0 +1,13 @@
+<div class="vehicle-assignation-header">
+  <h1 mat-dialog-title>Asignacion de vehiculo a {{client.firstName}}</h1>
+  <button mat-icon-button aria-label="close details button" (click)="closeDetails()">
+    <mat-icon>close</mat-icon>
+  </button>
+</div>
+<div mat-dialog-content class="vehicle-assignation-content">
+
+</div>
+<div mat-dialog-actions class="vehicle-assignation-actions">
+  <button mat-button (click)="cancel()">Cancelar</button>
+  <button mat-button (click)="assignVehicle()">Aceptar</button>
+</div>

@@ -21,6 +21,7 @@ import {MatSortModule} from "@angular/material/sort";
 import { ClientDetailsComponent } from './client-details/client-details.component';
 import {MatDialogModule } from '@angular/material/dialog';
 import { ClientVehiclesComponent } from './client-vehicles/client-vehicles.component';
+import { VehicleAssignationComponent } from './vehicle-assignation/vehicle-assignation.component';
 
 @NgModule({
   declarations: [
@@ -29,7 +30,8 @@ import { ClientVehiclesComponent } from './client-vehicles/client-vehicles.compo
     NavbarComponent,
     FormInfo,
     ClientDetailsComponent,
-    ClientVehiclesComponent
+    ClientVehiclesComponent,
+    VehicleAssignationComponent
   ],
   imports: [
     BrowserModule,
