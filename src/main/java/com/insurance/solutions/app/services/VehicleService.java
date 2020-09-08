@@ -28,4 +28,8 @@ public class VehicleService {
     public List<Vehicle> findAll() {
         return (List<Vehicle>) vehicleRepository.findAll();
     }
+
+    public List<Vehicle> getAllVehiclesWithoutClient() {
+        return vehicleRepository.findAllByClientNull();
+    }
 }
