@@ -7,7 +7,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import {ClientService} from "../shared/services/client.service";
 import { ClientListComponent } from './client-list/client-list.component';
 import {HttpClientModule} from "@angular/common/http";
-import {FormsModule} from "@angular/forms";
+import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {MatTableModule} from '@angular/material/table';
 import { NavbarComponent } from './navbar/navbar.component';
 import {MatToolbarModule} from '@angular/material/toolbar';
@@ -23,6 +23,7 @@ import {MatDialogModule } from '@angular/material/dialog';
 import { ClientVehiclesComponent } from './client-vehicles/client-vehicles.component';
 import { VehicleAssignationComponent } from './vehicle-assignation/vehicle-assignation.component';
 import { ConfirmDialogComponent } from './confirm-dialog/confirm-dialog.component';
+import {MatAutocompleteModule} from "@angular/material/autocomplete";
 
 @NgModule({
   declarations: [
@@ -49,7 +50,9 @@ import { ConfirmDialogComponent } from './confirm-dialog/confirm-dialog.componen
     MatInputModule,
     MatDialogModule,
     MatIconModule,
-    MatSortModule
+    MatSortModule,
+    MatAutocompleteModule,
+    ReactiveFormsModule
   ],
   providers: [ClientService],
   bootstrap: [AppComponent]

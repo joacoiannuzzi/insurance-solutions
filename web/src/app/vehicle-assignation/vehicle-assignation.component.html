@@ -1,11 +1,25 @@
 <div class="vehicle-assignation-header">
-  <h1 mat-dialog-title>Asignacion de vehiculo a {{client.firstName}}</h1>
+  <h1 mat-dialog-title>Asignacion de vehiculo a {{client.firstName}} {{client.lastName}}</h1>
   <button mat-icon-button aria-label="close details button" (click)="closeDetails()">
     <mat-icon>close</mat-icon>
   </button>
 </div>
 <div mat-dialog-content class="vehicle-assignation-content">
-
+  <form class="example-form">
+    <mat-form-field class="example-full-width">
+      <input type="text"
+             placeholder="Ingrese Dominio"
+             aria-label="Ingrese Dominio"
+             matInput
+             [formControl]="myControl"
+             [matAutocomplete]="auto">
+      <mat-autocomplete #auto="matAutocomplete">
+        <mat-option *ngFor="let option of filteredOptions | async" [value]="option">
+          {{option}}
+        </mat-option>
+      </mat-autocomplete>
+    </mat-form-field>
+  </form>
 </div>
 <div mat-dialog-actions class="vehicle-assignation-actions">
   <button mat-button (click)="cancel()">Cancelar</button>

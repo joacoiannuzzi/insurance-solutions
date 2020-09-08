@@ -1,6 +1,7 @@
 import {Component, Inject, OnInit} from '@angular/core';
-import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
+import {MAT_DIALOG_DATA, MatDialog, MatDialogRef} from "@angular/material/dialog";
 import {Client} from "../../shared/models/client";
+import {Vehicle} from "../../shared/models/vehicle";
 
 @Component({
   selector: 'app-client-vehicles',
@@ -11,7 +12,8 @@ export class ClientVehiclesComponent implements OnInit {
   displayedColumns: string[] = ['vehicle','firstName','options'];
 
   constructor(public dialogRef: MatDialogRef<ClientVehiclesComponent>,
-              @Inject(MAT_DIALOG_DATA) public client: Client) { }
+              @Inject(MAT_DIALOG_DATA) public client: Client,
+              public dialog: MatDialog) { }
 
   ngOnInit(): void {
   }
@@ -24,7 +26,16 @@ export class ClientVehiclesComponent implements OnInit {
     //Add vehicle
   }
 
-  deleteVehicle(element: any) {
-    //Delete vehicle
+  deleteVehicle(element: Vehicle) {
+    this.dialog.open(ClientVehiclesComponent, {
+      width: '3290px',
+      data: "¿Esta seguro de que desea eliminar el vehiculo dominio " + element.licensePlate + " del cliente " + this.client.firstName + " " + this.client.lastName + "?"
+    })
+      .afterClosed()
+      .subscribe((confirmed: Boolean) => {
+        if (confirmed) {
+          //DELETE VEHICLE
+        }
+      });
   }
 }
