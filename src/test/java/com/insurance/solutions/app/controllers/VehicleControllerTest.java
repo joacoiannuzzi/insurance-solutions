@@ -101,7 +101,7 @@ class VehicleControllerTest {
         Vehicle vehicle = new Vehicle("86899789", ENUM_CATEGORY.CAR,
                 "ford", "model", "drivingProfile", "monitor");
 
-        vehicleService.createVehicle(savedClient.getId(), vehicle);
+        vehicleService.createVehicle(vehicle);
 
         int size = vehicleService.findAll().size();
 

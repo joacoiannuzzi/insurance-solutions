@@ -18,8 +18,8 @@ public class VehicleController {
     @Autowired
     private VehicleService vehicleService;
 
-    @PostMapping("{clientId}")
-    public ResponseEntity<Vehicle> createVehicle(@PathVariable Long clientId, @Valid @RequestBody Vehicle vehicle) {
-        return new ResponseEntity<>(vehicleService.createVehicle(clientId, vehicle), HttpStatus.CREATED);
+    @PostMapping("/create")
+    public ResponseEntity<Vehicle> createVehicle(@Valid @RequestBody Vehicle vehicle) {
+        return new ResponseEntity<>(vehicleService.createVehicle(vehicle), HttpStatus.CREATED);
     }
 }

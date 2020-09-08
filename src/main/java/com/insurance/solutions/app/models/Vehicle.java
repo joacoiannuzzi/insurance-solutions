@@ -34,7 +34,7 @@ public class Vehicle {
 
     @JsonIgnore
     @ManyToOne(fetch = FetchType.EAGER, optional = false)
-    @JoinColumn(name = "client_id", nullable = true)
+    @JoinColumn(name = "client_id")
     private Client client;
 
     public Vehicle() {
