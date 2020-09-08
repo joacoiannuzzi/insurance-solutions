@@ -9,5 +9,7 @@ public interface VehicleRepository extends CrudRepository<Vehicle, Long> {
 
     boolean existsByLicensePlate(String licensePlate);
 
+    List<Vehicle> findAllByClientIsNull();
+
     List<Vehicle> findAllByClientNull();
 }
