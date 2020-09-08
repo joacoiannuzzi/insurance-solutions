@@ -3,9 +3,7 @@ package com.insurance.solutions.app.services;
 
 import com.insurance.solutions.app.exceptions.BadRequestException;
 import com.insurance.solutions.app.exceptions.ResourceNotFoundException;
-import com.insurance.solutions.app.models.Client;
 import com.insurance.solutions.app.models.Vehicle;
-import com.insurance.solutions.app.repositories.ClientRepository;
 import com.insurance.solutions.app.repositories.VehicleRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -31,5 +29,10 @@ public class VehicleService {
 
     public List<Vehicle> getAllVehiclesWithoutClient() {
         return vehicleRepository.findAllByClientNull();
+    }
+
+    public Vehicle findById(Long id) {
+        return vehicleRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Vehicle not found."));
     }
 }

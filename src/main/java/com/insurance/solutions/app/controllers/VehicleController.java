@@ -34,4 +34,9 @@ public class VehicleController {
     public ResponseEntity<List<Vehicle>> getAllVehiclesWithoutClients() {
         return ResponseEntity.ok(vehicleService.getAllVehiclesWithoutClient());
     }
+
+    @GetMapping("{id}")
+    public ResponseEntity<Vehicle> getVehicleById(@PathVariable Long id) {
+        return ResponseEntity.ok(vehicleService.findById(id));
+    }
 }
