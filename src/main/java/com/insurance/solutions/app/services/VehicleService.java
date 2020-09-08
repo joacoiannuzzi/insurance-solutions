@@ -18,21 +18,11 @@ public class VehicleService {
     @Autowired
     private VehicleRepository vehicleRepository;
 
-    @Autowired
-    private ClientRepository clientRepository;
-
-    public Vehicle createVehicle(Long clientId, Vehicle vehicle) {
+    public Vehicle createVehicle(Vehicle vehicle) {
         if (vehicleRepository.existsByLicensePlate(vehicle.getLicensePlate()))
             throw new BadRequestException("A vehicle with license plate: " + vehicle.getLicensePlate() + " already exists.");
 
-        Client client = clientRepository.findById(clientId)
-                .orElseThrow(() -> new ResourceNotFoundException("Client with id: " + clientId + " not found."));
-
-        vehicle.setClient(client);
-        Vehicle savedVehicle = vehicleRepository.save(vehicle);
-        client.addVehicle(savedVehicle);
-        clientRepository.save(client);
-        return savedVehicle;
+        return vehicleRepository.save(vehicle);
     }
 
     public List<Vehicle> findAll() {
