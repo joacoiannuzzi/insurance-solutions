@@ -1,14 +1,14 @@
 <div class="client-vehicles-header">
-  <h1 mat-dialog-title>Vehiculos del cliente {{client.firstName}}</h1>
+  <h1 mat-dialog-title>Vehiculos del cliente {{client.firstName}} {{client.lastName}}</h1>
   <button mat-icon-button aria-label="close details button" (click)="closeVehicles()">
     <mat-icon>close</mat-icon>
   </button>
 </div>
 <div mat-dialog-content class="client-vehicles-content">
 
-<!--  /////-->
+<!--  Vehicles Table-->
 
-  <table mat-table [dataSource]="client.vehicles" matSort class="mat-elevation-z8">
+  <table *ngIf="client.vehicles.length" mat-table [dataSource]="client.vehicles" matSort class="mat-elevation-z8">
 
     <!-- firstName Column -->
     <ng-container matColumnDef="vehicle">
@@ -36,7 +36,10 @@
     <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
   </table>
 
-<!--  /////-->
+<!--  End of Vehicles Table-->
+
+  <h2 *ngIf="!client.vehicles.length" class="no-vehicles-message">No vehicles to show</h2>
+
 </div>
 <div mat-dialog-actions class="client-vehicles-actions">
   <button mat-button (click)="addVehicle()">Agregar</button>

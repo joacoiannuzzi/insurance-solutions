@@ -10,7 +10,7 @@ export class Client {
   insuranceCompany?: string;
   vehicles: Vehicle[];
 
-  constructor(id: number, firstName: string, mail: string, lastName: string, dni: string, phoneNumber: string, vehicle: Vehicle[]) {
+  constructor(id: number, firstName: string, mail: string, lastName: string, dni: string, phoneNumber: string, vehicles: Vehicle[]) {
     this.id = id;
     this.firstName = firstName;
     this.mail = mail;
@@ -19,12 +19,11 @@ export class Client {
     this.phoneNumber = phoneNumber;
     // TODO: Eliminar
     this.insuranceCompany = "dsad";
-    this.vehicles = vehicle;
+    this.vehicles = vehicles;
   }
 
   static fromJsonObject(jsonObject: any): Client {
     return new Client(jsonObject.id, jsonObject.firstName, jsonObject.mail, jsonObject.lastName, jsonObject.dni, jsonObject.phoneNumber,
       jsonObject.vehicles.map((vehicle) => Vehicle.fromJsonObject(vehicle)));
   }
-
 }
