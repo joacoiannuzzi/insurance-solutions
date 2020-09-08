@@ -8,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.List;
 
 
 @RestController
@@ -21,5 +22,16 @@ public class VehicleController {
     @PostMapping("/create")
     public ResponseEntity<Vehicle> createVehicle(@Valid @RequestBody Vehicle vehicle) {
         return new ResponseEntity<>(vehicleService.createVehicle(vehicle), HttpStatus.CREATED);
+    }
+
+
+    @GetMapping
+    public ResponseEntity<List<Vehicle>> getAllVehicles() {
+        return ResponseEntity.ok(vehicleService.findAll());
+    }
+
+    @GetMapping("clientless")
+    public ResponseEntity<List<Vehicle>> getAllVehiclesWithoutClients() {
+        return ResponseEntity.ok(vehicleService.getAllVehiclesWithoutClient());
     }
 }
