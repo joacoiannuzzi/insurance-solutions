@@ -53,4 +53,18 @@ export class ClientService {
       )
       : this.findAll();
   }
+  public delete(user: Client) {
+    return this.http.delete<Client>(this.clientsUrl + "/" + user.id).pipe(
+      map((res: any) => {
+        this.clientsList.splice(this.clientsList.findIndex(c => c.id === user.id))
+        // Snackbar success
+        return res;
+        
+      }), () => {
+        // Snackbar failure
+        return new Observable<Boolean>((subscriber) =>
+        subscriber.next(false)
+      );}
+    )
+  }
 }
