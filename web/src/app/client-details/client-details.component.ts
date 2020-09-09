@@ -35,7 +35,6 @@ export class ClientDetailsComponent implements OnInit {
   }
 
   deleteClientDetails() {
-    this.dialogRef.close();
     //Detele client details
   }
 

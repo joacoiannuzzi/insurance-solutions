@@ -7,6 +7,7 @@ import {MatSort} from "@angular/material/sort";
 import {MatTableDataSource} from "@angular/material/table";
 import { DeleteConfirmationComponent } from './delete-confirmation/delete-confirmation.component';
 import { ClientDetailsComponent } from '../client-details/client-details.component';
+import { ConfirmDialogComponent } from '../confirm-dialog/confirm-dialog.component';
 
 @Component({
   selector: 'app-user-list',
@@ -45,12 +46,15 @@ export class ClientListComponent implements OnInit {
   }
 
   deleteClient(client: Client) {
-    const dialogRef = this.dialog.open(DeleteConfirmationComponent, {
-      data: { firstName: client.firstName, lastName: client.lastName }
-    });
-    dialogRef.afterClosed().subscribe(result => {
-      this.clientService.delete(client)
+    this.dialog.open(ConfirmDialogComponent, {
+      data: "Está seguro de que desea eliminar al cliente " + client.firstName + " " + client.lastName + "?"
     })
+      .afterClosed()
+      .subscribe((confirmed: Boolean) => {
+        if (confirmed) {
+          this.clientService.delete(client)
+        }
+        })
   }
 
   openClientDetails(element: Client): void {
