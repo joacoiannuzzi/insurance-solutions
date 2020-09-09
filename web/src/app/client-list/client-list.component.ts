@@ -6,6 +6,7 @@ import { FormInfo } from '../client-form/form-info';
 import {MatSort} from "@angular/material/sort";
 import {MatTableDataSource} from "@angular/material/table";
 import { DeleteConfirmationComponent } from './delete-confirmation/delete-confirmation.component';
+import { ClientDetailsComponent } from '../client-details/client-details.component';
 
 @Component({
   selector: 'app-user-list',
@@ -34,7 +35,7 @@ export class ClientListComponent implements OnInit {
   openDialog(): void {
     const dialogRef = this.dialog.open(FormInfo, {
       width: '3290px',
-      data: new Client(null, "", "", "", "", "")
+      data: new Client(null,"","","","","")
 
     });
 
@@ -45,11 +46,17 @@ export class ClientListComponent implements OnInit {
 
   deleteClient(client: Client) {
     const dialogRef = this.dialog.open(DeleteConfirmationComponent, {
-      data: {firstName: client.firstName, lastName: client.lastName}
+      data: { firstName: client.firstName, lastName: client.lastName }
     });
     dialogRef.afterClosed().subscribe(result => {
       this.clientService.delete(client)
-    }
+    })
+  }
 
-    )}
+  openClientDetails(element: Client): void {
+    this.dialog.open(ClientDetailsComponent, {
+      width: '3290px',
+      data: element
+    });
+  }
 }

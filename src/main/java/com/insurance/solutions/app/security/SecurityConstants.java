@@ -12,6 +12,7 @@ public class SecurityConstants {
 
 
     public static final String CLIENT = "/clients/**";
+    public static final String VEHICLE = "/vehicles/**";
 
 
     // Swagger configuration

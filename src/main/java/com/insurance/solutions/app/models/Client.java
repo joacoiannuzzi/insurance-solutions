@@ -2,6 +2,8 @@ package com.insurance.solutions.app.models;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Table
@@ -9,7 +11,7 @@ public class Client {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private long id;
+    private Long id;
 
     @NotBlank(message = "DNI can not be blank")
     private String dni;
@@ -29,27 +31,37 @@ public class Client {
     @NotBlank(message = "Insurance company can not be blank")
     private String insuranceCompany;
 
-    @NotBlank(message = "Vehicle can not be blank")
-    private String vehicle;
+    @OneToMany(mappedBy = "client",
+            fetch = FetchType.EAGER,
+            cascade = CascadeType.ALL)
+    private final Set<Vehicle> vehicles = new HashSet<>();
+
 
     public Client() {
     }
 
-    public Client(String dni, String firstName, String lastName, String phoneNumber, String mail, String insuranceCompany, String vehicle) {
+    public Client(String dni, String firstName, String lastName, String phoneNumber, String mail, String insuranceCompany) {
         this.dni = dni;
         this.firstName = firstName;
         this.lastName = lastName;
         this.phoneNumber = phoneNumber;
         this.mail = mail;
         this.insuranceCompany = insuranceCompany;
-        this.vehicle = vehicle;
     }
 
-    public long getId() {
+    public void addVehicle(Vehicle vehicle) {
+        vehicles.add(vehicle);
+    }
+
+    public void removeVehicle(Vehicle vehicle) {
+        vehicles.remove(vehicle);
+    }
+
+    public Long getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -101,11 +113,7 @@ public class Client {
         this.insuranceCompany = insuranceCompany;
     }
 
-    public String getVehicle() {
-        return vehicle;
-    }
-
-    public void setVehicle(String vehicle) {
-        this.vehicle = vehicle;
+    public Set<Vehicle> getVehicles() {
+        return vehicles;
     }
 }

@@ -1,4 +1,4 @@
-.client-details-header {
+.client-vehicles-header {
   display: flex;
   flex-direction: row;
 
@@ -7,17 +7,19 @@
   }
 }
 
-.client-details-content {
-  display: flex;
-  flex-direction: column;
-  column-count: 2;
-}
-
-.client-details-actions {
+.client-vehicles-actions {
   display: flex;
   align-content: center;
 
   button {
     flex: 1;
   }
+}
+
+table {
+  width: 100%;
+}
+
+.no-vehicles-message {
+  text-align: center;
 }

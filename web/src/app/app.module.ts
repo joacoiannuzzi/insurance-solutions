@@ -7,20 +7,24 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import {ClientService} from "../shared/services/client.service";
 import { ClientListComponent } from './client-list/client-list.component';
 import {HttpClientModule} from "@angular/common/http";
-import {FormsModule} from "@angular/forms";
+import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {MatTableModule} from '@angular/material/table';
 import { NavbarComponent } from './navbar/navbar.component';
 import {MatToolbarModule} from '@angular/material/toolbar';
 import {MatButtonModule} from '@angular/material/button';
 import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 import {MatCardModule} from "@angular/material/card";
-import { FormInfo } from "../app/client-form/form-info"
-import {MatInputModule} from '@angular/material/input'; 
+import { FormInfo } from "./client-form/form-info";
+import {MatInputModule} from '@angular/material/input';
 import {MatIconModule} from '@angular/material/icon';
 import {MatSortModule} from "@angular/material/sort";
 import { ClientDetailsComponent } from './client-details/client-details.component';
+import {MatDialogModule } from '@angular/material/dialog';
+import { ClientVehiclesComponent } from './client-vehicles/client-vehicles.component';
+import { VehicleAssignationComponent } from './vehicle-assignation/vehicle-assignation.component';
+import { ConfirmDialogComponent } from './confirm-dialog/confirm-dialog.component';
+import {MatAutocompleteModule} from "@angular/material/autocomplete";
 
-import {MatDialogModule } from '@angular/material/dialog'; 
 import { DeleteConfirmationComponent } from './client-list/delete-confirmation/delete-confirmation.component';
 @NgModule({
   declarations: [
@@ -29,7 +33,10 @@ import { DeleteConfirmationComponent } from './client-list/delete-confirmation/d
     NavbarComponent,
     FormInfo,
     ClientDetailsComponent,
-    DeleteConfirmationComponent
+    DeleteConfirmationComponent,
+    ClientVehiclesComponent,
+    VehicleAssignationComponent,
+    ConfirmDialogComponent
   ],
   imports: [
     BrowserModule,
@@ -46,6 +53,8 @@ import { DeleteConfirmationComponent } from './client-list/delete-confirmation/d
     MatDialogModule,
     MatIconModule,
     MatSortModule,
+    MatAutocompleteModule,
+    ReactiveFormsModule
   ],
   providers: [ClientService],
   bootstrap: [AppComponent]
