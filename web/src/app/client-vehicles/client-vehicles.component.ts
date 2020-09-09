@@ -3,6 +3,7 @@ import {MAT_DIALOG_DATA, MatDialog, MatDialogRef} from "@angular/material/dialog
 import {Client} from "../../shared/models/client";
 import {Vehicle} from "../../shared/models/vehicle";
 import {ConfirmDialogComponent} from "../confirm-dialog/confirm-dialog.component";
+import {VehicleAssignationComponent} from "../vehicle-assignation/vehicle-assignation.component";
 
 @Component({
   selector: 'app-client-vehicles',
@@ -24,7 +25,10 @@ export class ClientVehiclesComponent implements OnInit {
   }
 
   addVehicle() {
-    //Add vehicle
+    this.dialog.open(VehicleAssignationComponent, {
+      width: '3290px',
+      data: this.client
+    })
   }
 
   deleteVehicle(element: Vehicle) {

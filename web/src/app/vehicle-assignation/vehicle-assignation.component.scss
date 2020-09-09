@@ -8,6 +8,18 @@
   width: 100%;
 }
 
+.vehicle-assignation-header {
+  display: flex;
+  flex-direction: row;
+
+  button {
+    margin-left: auto;
+  }
+}
+
+.vehicle-assignation-content {
+  text-align: -webkit-center;
+}
 
 .vehicle-assignation-actions {
   display: flex;
