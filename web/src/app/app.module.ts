@@ -25,7 +25,6 @@ import { VehicleAssignationComponent } from './vehicle-assignation/vehicle-assig
 import { ConfirmDialogComponent } from './confirm-dialog/confirm-dialog.component';
 import {MatAutocompleteModule} from "@angular/material/autocomplete";
 
-import { DeleteConfirmationComponent } from './client-list/delete-confirmation/delete-confirmation.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -33,7 +32,6 @@ import { DeleteConfirmationComponent } from './client-list/delete-confirmation/d
     NavbarComponent,
     FormInfo,
     ClientDetailsComponent,
-    DeleteConfirmationComponent,
     ClientVehiclesComponent,
     VehicleAssignationComponent,
     ConfirmDialogComponent
