@@ -5,7 +5,7 @@ import {
   MAT_DIALOG_DATA,
 } from '@angular/material/dialog';
 import {Client} from '../../shared/models/client'
-import { ClientService } from 'src/shared/services/client.service';
+import { ClientService } from '../../shared/services/client.service';
 
 @Component({
   selector: 'form-info',

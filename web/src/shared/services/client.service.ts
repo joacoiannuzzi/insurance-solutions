@@ -24,7 +24,7 @@ export class ClientService {
   }
 
   public save(user: Client) {
-    return this.http.post<Client>(this.usersUrl+ "/create", user).pipe(
+    return this.http.post<Client>(this.usersUrl + "/create", user).pipe(
     
       map((res: any) => {
         this.clientsList.push(Client.fromJsonObject(res))
@@ -38,5 +38,19 @@ export class ClientService {
         subscriber.next(this.clientsList)
       )
       : this.findAll();
+  }
+  public delete(user: Client) {
+    return this.http.delete<Client>(this.usersUrl + "/" + user.id).pipe(
+      map((res: any) => {
+        this.clientsList.splice(this.clientsList.findIndex(c => c.id === user.id))
+        // Snackbar success
+        return res;
+        
+      }), () => {
+        // Snackbar failure
+        return new Observable<Boolean>((subscriber) =>
+        subscriber.next(false)
+      );}
+    )
   }
 }

@@ -2,10 +2,10 @@ import {Component, OnInit, ViewChild} from '@angular/core';
 import {ClientService} from "../../shared/services/client.service";
 import {Client} from "../../shared/models/client";
 import {MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material/dialog';
-import { FormInfo } from '../user-form/form-info';
+import { FormInfo } from '../client-form/form-info';
 import {MatSort} from "@angular/material/sort";
 import {MatTableDataSource} from "@angular/material/table";
-import {ClientDetailsComponent} from "../client-details/client-details.component";
+import { DeleteConfirmationComponent } from './delete-confirmation/delete-confirmation.component';
 
 @Component({
   selector: 'app-user-list',
@@ -15,12 +15,12 @@ import {ClientDetailsComponent} from "../client-details/client-details.component
 export class ClientListComponent implements OnInit {
   displayedColumns: string[] = ['firstName', 'lastName', 'dni', 'phoneNumber', 'mail', 'options'];
   clients: Client[];
-  dataSource : MatTableDataSource<Client>
+  dataSource: MatTableDataSource<Client>
   loading: boolean = true;
 
-  @ViewChild(MatSort, {static: true}) sort: MatSort;
+  @ViewChild(MatSort, { static: true }) sort: MatSort;
 
-  constructor(private clientService: ClientService, public dialog: MatDialog) {}
+  constructor(private clientService: ClientService, public dialog: MatDialog) { }
 
   ngOnInit(): void {
     this.clientService.clients.subscribe((data) => {
@@ -34,7 +34,7 @@ export class ClientListComponent implements OnInit {
   openDialog(): void {
     const dialogRef = this.dialog.open(FormInfo, {
       width: '3290px',
-      data: new Client(null,"","","","","") 
+      data: new Client(null, "", "", "", "", "")
 
     });
 
@@ -43,5 +43,13 @@ export class ClientListComponent implements OnInit {
     });
   }
 
-}
+  deleteClient(client: Client) {
+    const dialogRef = this.dialog.open(DeleteConfirmationComponent, {
+      data: {firstName: client.firstName, lastName: client.lastName}
+    });
+    dialogRef.afterClosed().subscribe(result => {
+      this.clientService.delete(client)
+    }
 
+    )}
+}

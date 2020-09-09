@@ -14,20 +14,22 @@ import {MatToolbarModule} from '@angular/material/toolbar';
 import {MatButtonModule} from '@angular/material/button';
 import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 import {MatCardModule} from "@angular/material/card";
-import { FormInfo } from "../app/user-form/form-info"
+import { FormInfo } from "../app/client-form/form-info"
 import {MatInputModule} from '@angular/material/input'; 
 import {MatIconModule} from '@angular/material/icon';
 import {MatSortModule} from "@angular/material/sort";
 import { ClientDetailsComponent } from './client-details/client-details.component';
 
 import {MatDialogModule } from '@angular/material/dialog'; 
+import { DeleteConfirmationComponent } from './client-list/delete-confirmation/delete-confirmation.component';
 @NgModule({
   declarations: [
     AppComponent,
     ClientListComponent,
     NavbarComponent,
     FormInfo,
-    ClientDetailsComponent
+    ClientDetailsComponent,
+    DeleteConfirmationComponent
   ],
   imports: [
     BrowserModule,
@@ -40,13 +42,10 @@ import {MatDialogModule } from '@angular/material/dialog';
     MatButtonModule,
     MatProgressSpinnerModule,
     MatCardModule,
-<<<<<<< HEAD
     MatInputModule,
-    MatDialogModule
-=======
+    MatDialogModule,
     MatIconModule,
-    MatSortModule
->>>>>>> cb4b6e1d2ced9649c3183ec3707e7dda2431507e
+    MatSortModule,
   ],
   providers: [ClientService],
   bootstrap: [AppComponent]

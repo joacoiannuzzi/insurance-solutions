@@ -1,6 +1,6 @@
-import {Component, Inject, OnInit} from '@angular/core';
-import {MatDialogRef} from "@angular/material/dialog";
-import {Client} from "../../shared/models/client";
+import { Component, Inject, OnInit } from '@angular/core';
+import { MatDialogRef } from "@angular/material/dialog";
+import { Client } from "../../shared/models/client";
 
 @Component({
   selector: 'app-client-details',
