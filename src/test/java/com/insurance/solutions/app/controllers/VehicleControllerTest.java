@@ -2,6 +2,7 @@ package com.insurance.solutions.app.controllers;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.insurance.solutions.app.exceptions.ResourceNotFoundException;
 import com.insurance.solutions.app.models.Client;
 import com.insurance.solutions.app.models.ENUM_CATEGORY;
 import com.insurance.solutions.app.models.Vehicle;
@@ -9,6 +10,7 @@ import com.insurance.solutions.app.repositories.ClientRepository;
 import com.insurance.solutions.app.repositories.VehicleRepository;
 import com.insurance.solutions.app.services.ClientService;
 import com.insurance.solutions.app.services.VehicleService;
+import org.junit.Assert;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -22,6 +24,7 @@ import java.util.Collections;
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertThrows;
 import static org.springframework.http.MediaType.APPLICATION_JSON;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -89,7 +92,7 @@ class VehicleControllerTest {
         Long id = objectMapper.readValue(response.getResponse().getContentAsString(), Vehicle.class).getId();
         vehicle.setId(id);
 
-        assertEquals(toJson(vehicle), toJson(vehicleRepository.findById(id)));
+        Assert.assertEquals(toJson(vehicle), toJson(vehicleRepository.findById(id)));
 
     }
 
@@ -124,7 +127,7 @@ class VehicleControllerTest {
                 .andExpect(status().isBadRequest())
                 .andReturn();
 
-        assertEquals(size, vehicleService.findAll().size());
+        Assert.assertEquals(size, vehicleService.findAll().size());
 
     }
 
@@ -149,7 +152,7 @@ class VehicleControllerTest {
                 .andExpect(status().isNotFound())
                 .andReturn();
 
-        assertEquals(size, vehicleService.findAll().size());
+        Assert.assertEquals(size, vehicleService.findAll().size());
 
     }
 
@@ -281,6 +284,33 @@ class VehicleControllerTest {
 
         assertEquals("Size should be the same", allVehiclesWithoutClient.size(), list.size());
 
+    }
+
+    @Test
+    void getVehicleById() throws Exception {
+
+        Vehicle vehicle = new Vehicle("48237", ENUM_CATEGORY.TRUCK,
+                "ford", "model", "drivingProfile", "monitor");
+
+        Vehicle savedVehicle = vehicleService.createVehicle(vehicle);
+
+        MvcResult response = mockMvc
+                .perform(get(urlBase + "/" + savedVehicle.getId()))
+                .andExpect(status().isOk())
+                .andExpect(content().contentType(APPLICATION_JSON))
+                .andExpect(content().string(toJson(savedVehicle)))
+                .andReturn();
+
+        assertEquals(toJson(savedVehicle), response.getResponse().getContentAsString());
+
+        long mockID = 100L;
+
+        Exception exception = assertThrows(ResourceNotFoundException.class, () -> vehicleService.findById(mockID));
+        assertEquals("Vehicle not found.", exception.getMessage());
+
+        mockMvc
+                .perform(get(urlBase + "/" + mockID))
+                .andExpect(status().isNotFound());
     }
 
 }
