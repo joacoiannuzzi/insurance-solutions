@@ -9,7 +9,6 @@ import com.insurance.solutions.app.repositories.ClientRepository;
 import com.insurance.solutions.app.repositories.VehicleRepository;
 import com.insurance.solutions.app.services.ClientService;
 import com.insurance.solutions.app.services.VehicleService;
-import org.junit.Assert;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -18,7 +17,13 @@ import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 
+import java.io.UnsupportedEncodingException;
+import java.util.Collections;
+import java.util.List;
+
+import static org.junit.Assert.assertEquals;
 import static org.springframework.http.MediaType.APPLICATION_JSON;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
@@ -52,6 +57,10 @@ class VehicleControllerTest {
         return objectMapper.writeValueAsString(o);
     }
 
+    private <T> T toClass(MvcResult response, Class<T> type) throws JsonProcessingException, UnsupportedEncodingException {
+        return objectMapper.readValue(response.getResponse().getContentAsString(), type);
+    }
+
     @Test
     void createValidVehicle() throws Exception {
         clientRepository.deleteAll();
@@ -80,7 +89,7 @@ class VehicleControllerTest {
         Long id = objectMapper.readValue(response.getResponse().getContentAsString(), Vehicle.class).getId();
         vehicle.setId(id);
 
-        Assert.assertEquals(toJson(vehicle), toJson(vehicleRepository.findById(id)));
+        assertEquals(toJson(vehicle), toJson(vehicleRepository.findById(id)));
 
     }
 
@@ -115,7 +124,7 @@ class VehicleControllerTest {
                 .andExpect(status().isBadRequest())
                 .andReturn();
 
-        Assert.assertEquals(size, vehicleService.findAll().size());
+        assertEquals(size, vehicleService.findAll().size());
 
     }
 
@@ -140,7 +149,137 @@ class VehicleControllerTest {
                 .andExpect(status().isNotFound())
                 .andReturn();
 
-        Assert.assertEquals(size, vehicleService.findAll().size());
+        assertEquals(size, vehicleService.findAll().size());
+
+    }
+
+    @Test
+    void getAllVehicles() throws Exception {
+
+        List<Vehicle> all = vehicleService.findAll();
+
+        MvcResult mvcResult = mockMvc
+                .perform(
+                        get(urlBase)
+                )
+                .andExpect(status().isOk())
+                .andExpect(content().contentType(APPLICATION_JSON))
+                .andExpect(content().json(toJson(all)))
+                .andReturn();
+
+        List list = toClass(mvcResult, List.class);
+
+        assertEquals("Size should be the same", all.size(), list.size());
+
+    }
+
+    @Test
+    void getEmptyAllVehicles() throws Exception {
+
+        vehicleRepository.deleteAll();
+
+        List<Vehicle> all = vehicleService.findAll();
+
+        List<Object> emptyList = Collections.emptyList();
+
+        MvcResult mvcResult = mockMvc
+                .perform(
+                        get(urlBase)
+                )
+                .andExpect(status().isOk())
+                .andExpect(content().contentType(APPLICATION_JSON))
+                .andExpect(content().json(toJson(emptyList)))
+                .andReturn();
+
+        List list = toClass(mvcResult, List.class);
+
+        assertEquals("Size should be the same", all.size(), list.size());
+
+    }
+
+    @Test
+    void getAllVehiclesWithoutClients() throws Exception {
+
+        vehicleRepository.deleteAll();
+        clientRepository.deleteAll();
+
+        Client client = new Client("1", "Juan", "Perez", "123",
+                "juanperez@mail.com", "Seguro");
+        Client savedClient = clientService.createClient(client);
+
+        Vehicle vehicle = new Vehicle("86899789", ENUM_CATEGORY.CAR,
+                "ford", "model", "drivingProfile", "monitor");
+        Vehicle savedVehicle = vehicleService.createVehicle(vehicle);
+
+        clientService.addVehicle(savedVehicle.getId(), savedClient.getId());
+
+        Client client2 = new Client("3345", "Jorge", "Perez", "3453453",
+                "jorgeperez@mail.com", "SEcure");
+        Client savedClient2 = clientService.createClient(client2);
+
+        Vehicle vehicle2 = new Vehicle("34634334", ENUM_CATEGORY.MOTORCYCLE,
+                "ford2", "model2", "drivingProfile2", "monitor2");
+        Vehicle savedVehicle2 = vehicleService.createVehicle(vehicle2);
+
+        List<Vehicle> allVehiclesWithoutClient = vehicleService.getAllVehiclesWithoutClient();
+
+        MvcResult mvcResult = mockMvc
+                .perform(
+                        get(urlBase + "/clientless")
+                )
+                .andExpect(status().isOk())
+                .andExpect(content().contentType(APPLICATION_JSON))
+                .andExpect(content().json(toJson(allVehiclesWithoutClient)))
+                .andReturn();
+
+        List list = toClass(mvcResult, List.class);
+
+        assertEquals("Size should be the same", allVehiclesWithoutClient.size(), list.size());
+
+    }
+
+    @Test
+    void getEmptyAllVehiclesWithoutClients() throws Exception {
+
+        vehicleRepository.deleteAll();
+        clientRepository.deleteAll();
+
+        Client client = new Client("1", "Juan", "Perez", "123",
+                "juanperez@mail.com", "Seguro");
+        Client savedClient = clientService.createClient(client);
+
+        Vehicle vehicle = new Vehicle("86899789", ENUM_CATEGORY.CAR,
+                "ford", "model", "drivingProfile", "monitor");
+        Vehicle savedVehicle = vehicleService.createVehicle(vehicle);
+
+        clientService.addVehicle(savedVehicle.getId(), savedClient.getId());
+
+        Client client2 = new Client("3345", "Jorge", "Perez", "3453453",
+                "jorgeperez@mail.com", "SEcure");
+        Client savedClient2 = clientService.createClient(client2);
+
+        Vehicle vehicle2 = new Vehicle("34634334", ENUM_CATEGORY.MOTORCYCLE,
+                "ford2", "model2", "drivingProfile2", "monitor2");
+        Vehicle savedVehicle2 = vehicleService.createVehicle(vehicle2);
+
+        clientService.addVehicle(savedVehicle2.getId(), savedClient2.getId());
+
+        List<Vehicle> allVehiclesWithoutClient = vehicleService.getAllVehiclesWithoutClient();
+
+        List<Object> emptyList = Collections.emptyList();
+
+        MvcResult mvcResult = mockMvc
+                .perform(
+                        get(urlBase + "/clientless")
+                )
+                .andExpect(status().isOk())
+                .andExpect(content().contentType(APPLICATION_JSON))
+                .andExpect(content().json(toJson(emptyList)))
+                .andReturn();
+
+        List list = toClass(mvcResult, List.class);
+
+        assertEquals("Size should be the same", allVehiclesWithoutClient.size(), list.size());
 
     }
 
