@@ -1,0 +1,28 @@
+<h1 mat-dialog-title> Edite su Información</h1>
+<div mat-dialog-content>
+  <mat-form-field appearance="fill">
+    <mat-label>Nombre</mat-label>
+    <input matInput [(ngModel)]="data.firstName">
+  </mat-form-field> 
+  <mat-form-field appearance="fill">
+    <mat-label>Apellido</mat-label>
+    <input matInput [(ngModel)]="data.lastName">
+  </mat-form-field >
+  <mat-form-field appearance="fill">
+    <mat-label>DNI</mat-label>
+    <input matInput [(ngModel)]="data.dni">
+  </mat-form-field >
+  <mat-form-field appearance="fill">
+    <mat-label>Número Telefónico</mat-label>
+    <input matInput [(ngModel)]="data.phoneNumber">
+  </mat-form-field>
+  <mat-form-field appearance="fill">
+    <mat-label>Email </mat-label>
+    <input matInput [(ngModel)]="data.mail">
+  </mat-form-field>
+</div>
+<div mat-dialog-actions>
+  <button mat-button (click)="onNoClick()">Cancelar</button>
+  <button mat-button (click)="updateClient()" cdkFocusInitial>Confirmar</button>
+</div>
+

@@ -7,6 +7,7 @@ import {MatSort} from "@angular/material/sort";
 import {MatTableDataSource} from "@angular/material/table";
 import { ClientDetailsComponent } from '../client-details/client-details.component';
 import { ConfirmDialogComponent } from '../confirm-dialog/confirm-dialog.component';
+import { ClientUpdateComponent } from '../client-update/client-update.component';
 
 @Component({
   selector: 'app-user-list',
@@ -34,7 +35,8 @@ export class ClientListComponent implements OnInit {
 
   openDialog(): void {
     const dialogRef = this.dialog.open(FormInfo, {
-      width: '3290px',
+      width: '800px',
+
       data: new Client(null,"","","","","")
 
     });
@@ -54,6 +56,21 @@ export class ClientListComponent implements OnInit {
           this.clientService.delete(client)
         }
         })
+  }
+
+  updateClient(client: Client)  {
+   const dialogRef = this.dialog.open(ClientUpdateComponent, {
+      width: '800px',
+      data: client
+    });
+    dialogRef.afterClosed()
+      .subscribe((confirmed: Boolean) => {
+        if (confirmed) {
+        this.clientService.update(client)
+      }
+    })
+    
+
   }
 
   openClientDetails(element: Client): void {
