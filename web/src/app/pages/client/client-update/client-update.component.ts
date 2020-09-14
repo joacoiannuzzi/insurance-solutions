@@ -4,8 +4,8 @@ import {
   MatDialogRef,
   MAT_DIALOG_DATA,
 } from '@angular/material/dialog';
-import {Client} from '../../shared/models/client'
-import { ClientService } from '../../shared/services/client.service';
+import {Client} from '../../../../shared/models/client'
+import { ClientService } from '../../../../shared/services/client.service';
 
 @Component({
   selector: 'client-update.component',

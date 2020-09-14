@@ -1,8 +1,8 @@
 import {Component, Inject, OnInit} from '@angular/core';
 import {MAT_DIALOG_DATA, MatDialog, MatDialogRef} from "@angular/material/dialog";
-import {Client} from "../../shared/models/client";
-import {Vehicle} from "../../shared/models/vehicle";
-import {ConfirmDialogComponent} from "../confirm-dialog/confirm-dialog.component";
+import {Client} from "../../../../shared/models/client";
+import {Vehicle} from "../../../../shared/models/vehicle";
+import {ConfirmDialogComponent} from "../../../components/confirm-dialog/confirm-dialog.component";
 import {VehicleAssignationComponent} from "../vehicle-assignation/vehicle-assignation.component";
 
 @Component({
@@ -26,7 +26,7 @@ export class ClientVehiclesComponent implements OnInit {
 
   addVehicle() {
     this.dialog.open(VehicleAssignationComponent, {
-      width: '3290px',
+      width: '800px',
       data: this.client
     })
   }

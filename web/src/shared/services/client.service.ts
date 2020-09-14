@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Client } from '../models/client';
 import {Observable} from "rxjs";
-import {map} from "rxjs/operators";
+import {catchError, map} from "rxjs/operators";
 
 @Injectable()
 export class ClientService {
@@ -32,6 +32,14 @@ export class ClientService {
     );
   }
 
+  assignVehicle(clientId: number, vehicleId: number) {
+    return this.http.get<Client>(`${this.clientsUrl}/${clientId}/add-vehicle/${vehicleId}`).pipe(
+      map((res: any) => {
+        return res;
+      })
+    );
+  }
+
   public update(client: Client) {
     return this.http.put<Client>(this.clientsUrl + "/update/" + client.id , client).pipe(
       map((res: Client) => {
@@ -53,18 +61,18 @@ export class ClientService {
       )
       : this.findAll();
   }
+
   public delete(user: Client) {
-    return this.http.delete<Client>(this.clientsUrl + "/" + user.id).pipe(
-      map((res: any) => {
+    return this.http.delete<Client>(this.clientsUrl + "/" + user.id).pipe(map(() => {
         this.clientsList.splice(this.clientsList.findIndex(c => c.id === user.id))
         // Snackbar success
-        return res;
-        
-      }), () => {
+        return this.clientsList;
+      }), catchError( () => {
         // Snackbar failure
-        return new Observable<Boolean>((subscriber) =>
-        subscriber.next(false)
-      );}
-    )
+        return new Observable<Client[]>((subscriber) =>
+          subscriber.next(this.clientsList)
+        );
+      }
+    ))
   }
 }

@@ -3,7 +3,7 @@
   <mat-form-field appearance="fill">
     <mat-label>Nombre</mat-label>
     <input matInput [(ngModel)]="data.firstName">
-  </mat-form-field> 
+  </mat-form-field>
   <mat-form-field appearance="fill">
     <mat-label>Apellido</mat-label>
     <input matInput [(ngModel)]="data.lastName">
@@ -22,7 +22,7 @@
   </mat-form-field>
 </div>
 <div mat-dialog-actions>
-  <button mat-button (click)="onNoClick()">Cancelar</button>
-  <button mat-button (click)="updateClient()" cdkFocusInitial>Confirmar</button>
+  <button mat-raised-button (click)="onNoClick()">Cancelar</button>
+  <button mat-raised-button color="primary" (click)="updateClient()" cdkFocusInitial>Confirmar</button>
 </div>
 

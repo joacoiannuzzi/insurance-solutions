@@ -1,20 +1,20 @@
 import { Component, Inject } from '@angular/core';
 import {
-  MatDialog,
   MatDialogRef,
   MAT_DIALOG_DATA,
 } from '@angular/material/dialog';
-import {Client} from '../../shared/models/client'
-import { ClientService } from '../../shared/services/client.service';
+import {Client} from '../../../../shared/models/client'
+import { ClientService } from '../../../../shared/services/client.service';
 
 @Component({
-  selector: 'form-info',
-  templateUrl: 'form-info.html',
+  selector: 'client-add',
+  templateUrl: 'client-add.component.html',
+  styleUrls: ['./client-add.component.scss']
 })
 
-export class FormInfo {
+export class ClientAddComponent {
   constructor(
-    public dialogRef: MatDialogRef<FormInfo>,
+    public dialogRef: MatDialogRef<ClientAddComponent>,
     @Inject(MAT_DIALOG_DATA) public data: Client,
     public clientService: ClientService,
 
@@ -28,7 +28,7 @@ export class FormInfo {
     console.log(this.data)
     this.clientService.save(this.data).subscribe(res => {
       this.dialogRef.close(res);
-
+      this.clientService.clients.subscribe();
     })
   }
 

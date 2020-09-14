@@ -1,6 +1,6 @@
 import {Component, Inject, OnInit} from '@angular/core';
 import {MAT_DIALOG_DATA, MatDialog, MatDialogRef} from "@angular/material/dialog";
-import {Client} from "../../shared/models/client";
+import {Client} from "../../../../shared/models/client";
 import {ClientVehiclesComponent} from "../client-vehicles/client-vehicles.component";
 
 @Component({
@@ -24,18 +24,9 @@ export class ClientDetailsComponent implements OnInit {
 
   private openVehicles(client: Client): void {
     this.dialog.open(ClientVehiclesComponent, {
-      width: '3290px',
+      width: '800px',
       data: client
     });
-  }
-
-  editClientDetails() {
-    this.dialogRef.close();
-    //Edit client details
-  }
-
-  deleteClientDetails() {
-    //Detele client details
   }
 
   closeDetails() {
