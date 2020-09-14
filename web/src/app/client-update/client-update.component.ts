@@ -8,13 +8,12 @@ import {Client} from '../../shared/models/client'
 import { ClientService } from '../../shared/services/client.service';
 
 @Component({
-  selector: 'form-info',
-  templateUrl: 'form-info.html',
+  selector: 'client-update.component',
+  templateUrl: 'client-update.component.html',
 })
-
-export class FormInfo {
+export class ClientUpdateComponent {
   constructor(
-    public dialogRef: MatDialogRef<FormInfo>,
+    public dialogRef: MatDialogRef<ClientUpdateComponent>,
     @Inject(MAT_DIALOG_DATA) public data: Client,
     public clientService: ClientService,
 
@@ -22,14 +21,6 @@ export class FormInfo {
 
   onNoClick(): void {
     this.dialogRef.close();
-  }
-
-  saveClient() {
-    console.log(this.data)
-    this.clientService.save(this.data).subscribe(res => {
-      this.dialogRef.close(res);
-
-    })
   }
 
   updateClient() {

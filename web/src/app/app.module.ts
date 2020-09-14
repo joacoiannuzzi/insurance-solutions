@@ -24,9 +24,10 @@ import { ClientVehiclesComponent } from './client-vehicles/client-vehicles.compo
 import { VehicleAssignationComponent } from './vehicle-assignation/vehicle-assignation.component';
 import { ConfirmDialogComponent } from './confirm-dialog/confirm-dialog.component';
 import {MatAutocompleteModule} from "@angular/material/autocomplete";
+import { ClientUpdateComponent } from './client-update/client-update.component';
 
 @NgModule({
-  declarations: [
+  declarations: [	
     AppComponent,
     ClientListComponent,
     NavbarComponent,
@@ -34,8 +35,9 @@ import {MatAutocompleteModule} from "@angular/material/autocomplete";
     ClientDetailsComponent,
     ClientVehiclesComponent,
     VehicleAssignationComponent,
-    ConfirmDialogComponent
-  ],
+    ConfirmDialogComponent,
+      ClientUpdateComponent
+   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
