@@ -8,7 +8,7 @@
 
 <!--  Vehicles Table-->
 
-  <table *ngIf="vehicles?.length" mat-table [dataSource]="vehicles" matSort class="">
+  <table [hidden]="vehicles?.length" mat-table [dataSource]="dataSource" matSort class="">
 
     <!-- firstName Column -->
     <ng-container matColumnDef="vehicle">

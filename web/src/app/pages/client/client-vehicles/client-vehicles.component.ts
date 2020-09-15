@@ -1,4 +1,4 @@
-import {Component, Inject, OnInit, ViewChild} from '@angular/core';
+import {AfterViewInit, Component, Inject, OnInit, ViewChild} from '@angular/core';
 import {MAT_DIALOG_DATA, MatDialog, MatDialogRef} from "@angular/material/dialog";
 import {Client} from "../../../../shared/models/client";
 import {Vehicle} from "../../../../shared/models/vehicle";
@@ -14,7 +14,7 @@ import {VehicleService} from "../../../../shared/services/vehicle.service";
   templateUrl: './client-vehicles.component.html',
   styleUrls: ['./client-vehicles.component.scss']
 })
-export class ClientVehiclesComponent implements OnInit {
+export class ClientVehiclesComponent implements OnInit, AfterViewInit {
   displayedColumns: string[] = ['vehicle', 'firstName', 'options'];
   vehicles: Vehicle[];
   dataSource: MatTableDataSource<Vehicle>;
@@ -32,6 +32,9 @@ export class ClientVehiclesComponent implements OnInit {
 
   ngOnInit(): void {
     this.getVehicles();
+  }
+
+  ngAfterViewInit(): void {
   }
 
   getVehicles() {
