@@ -1,3 +1,6 @@
+import { VehicleUpdateComponent } from './pages/vehicle/vehicle-update/vehicle-update.component';
+import { VehicleDetailsComponent } from './pages/vehicle/vehicle-details/vehicle-details.component';
+import { VehicleListComponent } from './pages/vehicle/vehicle-list/vehicle-list.component';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 
@@ -33,14 +36,17 @@ import {MatSnackBarModule} from '@angular/material/snack-bar';
 @NgModule({
   declarations: [
     AppComponent,
-    ClientListComponent,
     NavbarComponent,
+    ClientListComponent,
     ClientAddComponent,
     ClientDetailsComponent,
     ClientVehiclesComponent,
+    ClientUpdateComponent,
+    VehicleListComponent,
+    VehicleDetailsComponent,
     VehicleAssignationComponent,
+    VehicleUpdateComponent,
     ConfirmDialogComponent,
-    ClientUpdateComponent
    ],
   imports: [
     BrowserModule,
