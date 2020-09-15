@@ -32,13 +32,15 @@ export class VehicleAssignationComponent implements OnInit {
   }
 
   getVehicles() {
-    this.vehiclesService.vehicles.subscribe((res: Vehicle[]) => {
-      this.options = res;
+    this.vehiclesService.findAll().subscribe((res: Vehicle[]) => {
+      this.options = [...res];
     })
     this.filteredOptions = this.myControl.valueChanges
       .pipe(
         startWith(''),
-        map(value => this._filter(value))
+        map(value => {
+          return this._filter(value?.licensePlate ? value.licensePlate : value);
+        })
       );
   }
 
@@ -57,7 +59,6 @@ export class VehicleAssignationComponent implements OnInit {
 
   cancel() {
     this.dialogRef.close();
-    console.log("HERE on add: ", this.options);
   }
 
   assignVehicle() {

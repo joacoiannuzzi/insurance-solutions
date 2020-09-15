@@ -14,7 +14,7 @@ export class VehicleService {
     this.vehiclesUrl = 'http://localhost:8080/vehicles';
   }
 
-  private findAll(): Observable<any> {
+  public findAll(): Observable<any> {
     return this.http.get(this.vehiclesUrl + "/clientless").pipe(
       map((res: any) => {
         this.vehiclesList = res.map((vehicle) => Vehicle.fromJsonObject(vehicle));
@@ -44,10 +44,6 @@ export class VehicleService {
         //TODO snackbar
       })
     );
-  }
-
-  public resetVehicles() {
-    this.findAll();
   }
 
   get vehicles(): Observable<Vehicle[]> {
