@@ -13,7 +13,7 @@ import { MatSort } from '@angular/material/sort';
   styleUrls: ['./vehicle-list.component.scss']
 })
 export class VehicleListComponent implements OnInit, AfterViewInit {
-  displayedColumns: string[] = ['licensePlate', 'category', 'model', 'brand'];
+  displayedColumns: string[] = ['licensePlate', 'category', 'model', 'brand', "options"];
   vehicles: Vehicle[];
   dataSource: MatTableDataSource<Vehicle> = new MatTableDataSource<Vehicle>();
   loading: boolean = true;
