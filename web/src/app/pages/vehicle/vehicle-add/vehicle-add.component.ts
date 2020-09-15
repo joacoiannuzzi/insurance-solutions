@@ -24,7 +24,7 @@ export class VehicleAddComponent implements OnInit {
       licensePlate: new FormControl('', [
         Validators.required,
         Validators.minLength(6),
-        //  To accept only alphabets and space.
+        //  To accept license plates from 1994-2016 (argentine format) and 2016-present (mercosur format).
         Validators.pattern('(([A-Z]){2}([0-9]){3}([A-Z]){2})|(([A-Z]){3}([0-9]){3})')
       ]),
       category: new FormControl('', [
@@ -42,11 +42,6 @@ export class VehicleAddComponent implements OnInit {
         Validators.required,
         Validators.minLength(1),
         Validators.pattern('([A-Z,a-z, ,-,_,0-9])\\w+')
-      ]),
-      client: new FormControl('', [
-        Validators.required,
-        Validators.minLength(1),
-        Validators.pattern('([A-Z,a-z, ])\\w+')
       ]),
     });
   }
