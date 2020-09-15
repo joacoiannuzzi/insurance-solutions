@@ -64,7 +64,7 @@ export class ClientService {
   public delete(user: Client) {
     return this.http.delete<Client>(this.clientsUrl + "/" + user.id).pipe(map(() => {
       let auxClientsList: Client[] = [...this.clientsList];
-      auxClientsList.splice(this.clientsList.findIndex(c => c.id === user.id));
+      auxClientsList.splice(this.clientsList.findIndex(c => c.id === user.id), 1);
       this.clientsList = [...auxClientsList];
       // Snackbar success
       return this.clientsList;
