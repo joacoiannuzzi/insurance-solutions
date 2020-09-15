@@ -2,14 +2,18 @@ table {
   width: 100%;
 }
 
-button {
-  margin: 16px 8px;
-}
-
-.add {
-  margin-left: auto;
-}
-
 .spinner {
   margin: 25% auto 0;
+}
+
+.table-options {
+  display: flex;
+
+  mat-form-field {
+    margin-left: 16px;
+  }
+
+  span {
+    flex: 1;
+  }
 }

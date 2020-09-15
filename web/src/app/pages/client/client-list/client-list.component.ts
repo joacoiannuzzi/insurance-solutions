@@ -18,11 +18,11 @@ import {MatPaginator} from "@angular/material/paginator";
 export class ClientListComponent implements OnInit, AfterViewInit  {
   displayedColumns: string[] = ['firstName', 'lastName', 'dni', 'phoneNumber', 'mail', 'options'];
   clients: Client[];
-  dataSource: MatTableDataSource<Client> = new MatTableDataSource<Client>();
+  dataSource: MatTableDataSource<Client> = new MatTableDataSource<Client>([]);
   loading: boolean = true;
 
   @ViewChild(MatSort) sort: MatSort;
-  // @ViewChild(MatPaginator) paginator: MatPaginator;
+  @ViewChild(MatPaginator) paginator: MatPaginator;
 
   constructor(private clientService: ClientService, public dialog: MatDialog) {
   }
@@ -33,7 +33,7 @@ export class ClientListComponent implements OnInit, AfterViewInit  {
 
   ngAfterViewInit(): void {
     this.dataSource.sort = this.sort;
-    // this.dataSource.paginator = this.paginator;
+    this.dataSource.paginator = this.paginator;
   }
 
   getClients() {
@@ -45,14 +45,14 @@ export class ClientListComponent implements OnInit, AfterViewInit  {
     });
   }
 
-  // applyFilter(event: Event) {
-  //   const filterValue = (event.target as HTMLInputElement).value;
-  //   this.dataSource.filter = filterValue.trim().toLowerCase();
-  //
-  //   if (this.dataSource.paginator) {
-  //     this.dataSource.paginator.firstPage();
-  //   }
-  // }
+  applyFilter(event: Event) {
+    const filterValue = (event.target as HTMLInputElement).value;
+    this.dataSource.filter = filterValue.trim().toLowerCase();
+
+    if (this.dataSource.paginator) {
+      this.dataSource.paginator.firstPage();
+    }
+  }
 
   openDialog(): void {
     const dialogRef = this.dialog.open(ClientAddComponent, {
