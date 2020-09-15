@@ -1,6 +1,4 @@
 import { MatPaginator } from '@angular/material/paginator';
-import { VehicleDetailsComponent } from './../vehicle-details/vehicle-details.component';
-import { VehicleUpdateComponent } from './../vehicle-update/vehicle-update.component';
 import { ConfirmDialogComponent } from './../../../../app/components/confirm-dialog/confirm-dialog.component';
 import { Vehicle } from './../../../../shared/models/vehicle';
 import { VehicleService } from './../../../../shared/services/vehicle.service';
@@ -77,22 +75,22 @@ export class VehicleListComponent implements OnInit, AfterViewInit {
       })
   }
 
-updateVehicle(vehicle: Vehicle){ 
-    const dialogRef = this.dialog.open(VehicleUpdateComponent, {
-      width: '800px',
-      data: vehicle
-    });
-    dialogRef.afterClosed().subscribe((confirmed) => {
-      if (confirmed) {
-        this.getVehicles();
-      }
-    })
-  }
+// updateVehicle(vehicle: Vehicle){ 
+//     const dialogRef = this.dialog.open(VehicleUpdateComponent, {
+//       width: '800px',
+//       data: vehicle
+//     });
+//     dialogRef.afterClosed().subscribe((confirmed) => {
+//       if (confirmed) {
+//         this.getVehicles();
+//       }
+//     })
+//   }
 
-  openVehicleDetails(element: Vehicle): void {
-    this.dialog.open(VehicleDetailsComponent, {
-      width: '800px',
-      data: element
-    });
-  }
+//   openVehicleDetails(element: Vehicle): void {
+//     this.dialog.open(VehicleDetailsComponent, {
+//       width: '800px',
+//       data: element
+//     });
+//   }
 }

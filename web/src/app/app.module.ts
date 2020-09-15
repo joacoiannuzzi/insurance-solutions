@@ -1,5 +1,3 @@
-import { VehicleUpdateComponent } from './pages/vehicle/vehicle-update/vehicle-update.component';
-import { VehicleDetailsComponent } from './pages/vehicle/vehicle-details/vehicle-details.component';
 import { VehicleListComponent } from './pages/vehicle/vehicle-list/vehicle-list.component';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
@@ -43,9 +41,7 @@ import {MatSnackBarModule} from '@angular/material/snack-bar';
     ClientVehiclesComponent,
     ClientUpdateComponent,
     VehicleListComponent,
-    VehicleDetailsComponent,
     VehicleAssignationComponent,
-    VehicleUpdateComponent,
     ConfirmDialogComponent,
    ],
   imports: [
