@@ -13,7 +13,7 @@ import { MatSort } from '@angular/material/sort';
   styleUrls: ['./vehicle-list.component.scss']
 })
 export class VehicleListComponent implements OnInit, AfterViewInit {
-  displayedColumns: string[] = ['licensePlate', 'category', 'brand', 'model'];
+  displayedColumns: string[] = ['licensePlate', 'category', 'model', 'brand'];
   vehicles: Vehicle[];
   dataSource: MatTableDataSource<Vehicle> = new MatTableDataSource<Vehicle>();
   loading: boolean = true;
@@ -61,7 +61,7 @@ export class VehicleListComponent implements OnInit, AfterViewInit {
   //   });
   // }
 
-  deleteClient(vehicle: Vehicle) {
+  deleteVehicle(vehicle: Vehicle) {
     this.dialog.open(ConfirmDialogComponent, {
       data: "¿Está seguro de que desea eliminar al vehículo de marca " + vehicle.brand + " y modelo " + vehicle.model + ", con placa" + vehicle.licensePlate + "?"
     })

@@ -55,17 +55,7 @@
       <!-- options Column -->
       <ng-container matColumnDef="options">
         <th mat-header-cell *matHeaderCellDef> Opciones </th>
-        <td mat-cell *matCellDef="let element">
-          <button mat-mini-fab color="primary" type="button" (click)="openVehicleDetails(element)">
-          <mat-icon>remove_red_eye</mat-icon>
-          </button>
-          <button mat-mini-fab color="primary" type="button" (click)="updateVehicle(element)">
-            <mat-icon>edit</mat-icon>
-          </button>
-          <button mat-mini-fab color="primary" type="button" (click)="deleteClient(element)">
-            <mat-icon>delete</mat-icon>
-          </button>
-        </td>
+        <td mat-cell *matCellDef="let element"> </td>
       </ng-container>
 
       <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
