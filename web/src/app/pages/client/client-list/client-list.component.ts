@@ -1,4 +1,4 @@
-import {Component, OnInit, ViewChild} from '@angular/core';
+import {AfterViewInit, Component, OnInit, ViewChild} from '@angular/core';
 import {ClientService} from "../../../../shared/services/client.service";
 import {Client} from "../../../../shared/models/client";
 import {MatDialog} from '@angular/material/dialog';
@@ -8,19 +8,21 @@ import {ClientDetailsComponent} from '../client-details/client-details.component
 import {ConfirmDialogComponent} from '../../../components/confirm-dialog/confirm-dialog.component';
 import {ClientUpdateComponent} from '../client-update/client-update.component';
 import {ClientAddComponent} from "../client-add/client-add.component";
+import {MatPaginator} from "@angular/material/paginator";
 
 @Component({
   selector: 'app-user-list',
   templateUrl: './client-list.component.html',
   styleUrls: ['./client-list.component.scss']
 })
-export class ClientListComponent implements OnInit {
+export class ClientListComponent implements OnInit, AfterViewInit  {
   displayedColumns: string[] = ['firstName', 'lastName', 'dni', 'phoneNumber', 'mail', 'options'];
   clients: Client[];
-  dataSource: MatTableDataSource<Client>;
+  dataSource: MatTableDataSource<Client> = new MatTableDataSource<Client>();
   loading: boolean = true;
 
-  @ViewChild(MatSort, {static: true}) sort: MatSort;
+  @ViewChild(MatSort) sort: MatSort;
+  // @ViewChild(MatPaginator) paginator: MatPaginator;
 
   constructor(private clientService: ClientService, public dialog: MatDialog) {
   }
@@ -29,15 +31,28 @@ export class ClientListComponent implements OnInit {
     this.getClients();
   }
 
+  ngAfterViewInit(): void {
+    this.dataSource.sort = this.sort;
+    // this.dataSource.paginator = this.paginator;
+  }
+
   getClients() {
     this.loading = true;
     this.clientService.clients.subscribe((data) => {
       this.clients = data;
       this.loading = false;
-      this.dataSource = new MatTableDataSource<Client>(this.clients);
-      this.dataSource.sort = this.sort;
+      this.dataSource.data = this.clients;
     });
   }
+
+  // applyFilter(event: Event) {
+  //   const filterValue = (event.target as HTMLInputElement).value;
+  //   this.dataSource.filter = filterValue.trim().toLowerCase();
+  //
+  //   if (this.dataSource.paginator) {
+  //     this.dataSource.paginator.firstPage();
+  //   }
+  // }
 
   openDialog(): void {
     const dialogRef = this.dialog.open(ClientAddComponent, {
@@ -56,7 +71,6 @@ export class ClientListComponent implements OnInit {
     })
       .afterClosed()
       .subscribe((confirmed: boolean) => {
-        console.log(confirmed)
         if (confirmed) {
           this.clientService.delete(client).subscribe((res) => {
             this.getClients();
@@ -70,7 +84,7 @@ export class ClientListComponent implements OnInit {
       width: '800px',
       data: client
     });
-    dialogRef.afterClosed().subscribe((confirmed: Boolean) => {
+    dialogRef.afterClosed().subscribe((confirmed) => {
       if (confirmed) {
         this.getClients();
       }

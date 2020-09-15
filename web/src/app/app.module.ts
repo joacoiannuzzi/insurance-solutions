@@ -26,6 +26,8 @@ import {ConfirmDialogComponent} from "./components/confirm-dialog/confirm-dialog
 import {ClientUpdateComponent} from "./pages/client/client-update/client-update.component";
 import {ClientAddComponent} from "./pages/client/client-add/client-add.component";
 import {VehicleService} from "../shared/services/vehicle.service";
+import {MatPaginatorModule} from "@angular/material/paginator";
+import {MatGridListModule} from "@angular/material/grid-list";
 
 @NgModule({
   declarations: [
@@ -55,7 +57,9 @@ import {VehicleService} from "../shared/services/vehicle.service";
     MatIconModule,
     MatSortModule,
     MatAutocompleteModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    MatPaginatorModule,
+    MatGridListModule
   ],
   providers: [ClientService, VehicleService],
   bootstrap: [AppComponent]
