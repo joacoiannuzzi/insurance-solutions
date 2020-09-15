@@ -22,13 +22,14 @@ export class ClientListComponent implements OnInit, AfterViewInit  {
   loading: boolean = true;
 
   @ViewChild(MatSort) sort: MatSort;
-  @ViewChild(MatPaginator) paginator: MatPaginator;
+  @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
 
   constructor(private clientService: ClientService, public dialog: MatDialog) {
   }
 
   ngOnInit(): void {
     this.getClients();
+    this.paginator._intl.itemsPerPageLabel = 'Elementos por página';
   }
 
   ngAfterViewInit(): void {
@@ -60,7 +61,7 @@ export class ClientListComponent implements OnInit, AfterViewInit  {
       data: new Client(null, "", "", "", "", "")
     });
 
-    dialogRef.afterClosed().subscribe(result => {
+    dialogRef.afterClosed().subscribe(() => {
       this.getClients();
     });
   }
@@ -72,7 +73,7 @@ export class ClientListComponent implements OnInit, AfterViewInit  {
       .afterClosed()
       .subscribe((confirmed: boolean) => {
         if (confirmed) {
-          this.clientService.delete(client).subscribe((res) => {
+          this.clientService.delete(client).subscribe(() => {
             this.getClients();
           });
         }
