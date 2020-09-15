@@ -1,6 +1,6 @@
-import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { Client } from '../models/client';
+import {Injectable} from '@angular/core';
+import {HttpClient} from '@angular/common/http';
+import {Client} from '../models/client';
 import {Observable} from "rxjs";
 import {catchError, map} from "rxjs/operators";
 
@@ -25,9 +25,8 @@ export class ClientService {
 
   public save(client: Client) {
     return this.http.post<Client>(this.clientsUrl + "/create", client).pipe(
-
       map((res: any) => {
-        this.clientsList.push(Client.fromJsonObject(res))
+        this.clientsList = [...this.clientsList, Client.fromJsonObject(res)]
       })
     );
   }
@@ -41,15 +40,15 @@ export class ClientService {
   }
 
   public update(client: Client) {
-    return this.http.put<Client>(this.clientsUrl + "/update/" + client.id , client).pipe(
+    console.log("HERE on update");
+    console.log(client);
+    return this.http.put<Client>(this.clientsUrl + "/update/" + client.id, client).pipe(
       map((res: Client) => {
         let i = this.clientsList.findIndex(c => c.id === client.id);
-        this.clientsList[i] = res;
+        let auxClientsList: Client[] = [...this.clientsList];
+        auxClientsList[i] = res;
+        this.clientsList = [...auxClientsList];
         return res;
-      }),
-      map(() => {
-        console.log("ERROR IN UPDATE")
-        //TODO snackbar
       })
     );
   }
@@ -64,10 +63,13 @@ export class ClientService {
 
   public delete(user: Client) {
     return this.http.delete<Client>(this.clientsUrl + "/" + user.id).pipe(map(() => {
-        this.clientsList.splice(this.clientsList.findIndex(c => c.id === user.id))
-        // Snackbar success
-        return this.clientsList;
-      }), catchError( () => {
+      let auxClientsList: Client[] = [...this.clientsList];
+      auxClientsList.splice(this.clientsList.findIndex(c => c.id === user.id));
+      this.clientsList = [...auxClientsList];
+      // Snackbar success
+      return this.clientsList;
+    }), catchError(() => {
+        console.log("HERE IN ERROR DELETE");
         // Snackbar failure
         return new Observable<Client[]>((subscriber) =>
           subscriber.next(this.clientsList)

@@ -1,10 +1,11 @@
-import { Component, Inject } from '@angular/core';
+import {Component, Inject, OnInit} from '@angular/core';
 import {
   MatDialogRef,
   MAT_DIALOG_DATA,
 } from '@angular/material/dialog';
 import {Client} from '../../../../shared/models/client'
-import { ClientService } from '../../../../shared/services/client.service';
+import {ClientService} from '../../../../shared/services/client.service';
+import {FormControl, FormGroup, Validators} from "@angular/forms";
 
 @Component({
   selector: 'client-add',
@@ -12,31 +13,71 @@ import { ClientService } from '../../../../shared/services/client.service';
   styleUrls: ['./client-add.component.scss']
 })
 
-export class ClientAddComponent {
+export class ClientAddComponent implements OnInit {
+  clientForm: FormGroup;
+
   constructor(
     public dialogRef: MatDialogRef<ClientAddComponent>,
     @Inject(MAT_DIALOG_DATA) public data: Client,
     public clientService: ClientService,
+  ) {
+  }
 
-  ) { }
+  ngOnInit(): void {
+    this.clientForm = new FormGroup({
+      firstName: new FormControl('', [
+        Validators.required,
+        Validators.minLength(2),
+        //  To accept only alphabets and space.
+        Validators.pattern('^[a-zA-Z ]*$')
+      ]),
+      lastName: new FormControl('', [
+        Validators.required,
+        Validators.minLength(2),
+        //  To accept only alphabets and space.
+        Validators.pattern('^[a-zA-Z ]*$')
+      ]),
+      dni: new FormControl('', [
+        Validators.required,
+        Validators.maxLength(9),
+        Validators.minLength(7)
+      ]),
+      phoneNumber: new FormControl('', [
+        Validators.required,
+      ]),
+      mail: new FormControl('', [
+        Validators.required,
+        Validators.email,
+      ]),
+    });
+  }
 
-  onNoClick(): void {
+  get firstName() { return this.clientForm.get('firstName'); }
+
+  get lastName() { return this.clientForm.get('lastName'); }
+
+  get dni() { return this.clientForm.get('dni'); }
+
+  get phoneNumber() { return this.clientForm.get('phoneNumber'); }
+
+  get mail() { return this.clientForm.get('mail'); }
+
+  get invalid() { return this.clientForm.invalid }
+
+  close(): void {
     this.dialogRef.close();
   }
 
   saveClient() {
-    console.log(this.data)
-    this.clientService.save(this.data).subscribe(res => {
-      this.dialogRef.close(res);
-      this.clientService.clients.subscribe();
-    })
-  }
+    if (this.clientForm.valid) {
+      // Se mapea todos los values del form al objeto client
+      Object.keys(this.clientForm.value).map((key) => this.data[key] = this.clientForm.value[key]);
 
-  updateClient() {
-    console.log(this.data)
-    this.clientService.update(this.data).subscribe(res => {
-      this.dialogRef.close(res);
-    })
+      this.clientService.save(this.data).subscribe(res => {
+        this.dialogRef.close(res);
+        this.clientService.clients.subscribe();
+      })
+    }
   }
 
 }

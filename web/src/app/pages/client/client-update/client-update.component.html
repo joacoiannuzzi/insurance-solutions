@@ -1,28 +1,85 @@
-<h1 mat-dialog-title> Edite su Información</h1>
+<h1 mat-dialog-title> Editar cliente</h1>
 <div mat-dialog-content>
-  <mat-form-field appearance="fill">
-    <mat-label>Nombre</mat-label>
-    <input matInput [(ngModel)]="data.firstName">
-  </mat-form-field>
-  <mat-form-field appearance="fill">
-    <mat-label>Apellido</mat-label>
-    <input matInput [(ngModel)]="data.lastName">
-  </mat-form-field >
-  <mat-form-field appearance="fill">
-    <mat-label>DNI</mat-label>
-    <input matInput [(ngModel)]="data.dni">
-  </mat-form-field >
-  <mat-form-field appearance="fill">
-    <mat-label>Número Telefónico</mat-label>
-    <input matInput [(ngModel)]="data.phoneNumber">
-  </mat-form-field>
-  <mat-form-field appearance="fill">
-    <mat-label>Email </mat-label>
-    <input matInput [(ngModel)]="data.mail">
-  </mat-form-field>
+
+  <div class="form-container">
+    <div class="item">
+      <mat-form-field appearance="fill">
+        <mat-label>Nombre</mat-label>
+        <input matInput [formControl]="firstName" placeholder="Juan">
+        <mat-error *ngIf="firstName.errors?.pattern && !firstName.errors?.minlength && !firstName.errors?.required">
+          Solo caracteres validos
+        </mat-error>
+        <mat-error *ngIf="firstName.errors?.minlength && !firstName.errors?.required">
+          Tiene que tener un mínimo de 2 caracteres
+        </mat-error>
+        <mat-error *ngIf="firstName.errors?.required">
+          Se <strong>requiere</strong> nombre
+        </mat-error>
+      </mat-form-field>
+    </div>
+
+    <div class="item">
+      <mat-form-field appearance="fill">
+        <mat-label>Apellido</mat-label>
+        <input matInput [formControl]="lastName" placeholder="Perez">
+        <mat-error *ngIf="lastName.errors?.pattern && !lastName.errors?.minlength && !lastName.errors?.required">
+          Solo caracteres validos
+        </mat-error>
+        <mat-error *ngIf="lastName.errors?.minlength && !lastName.errors?.required">
+          Tiene que tener un mínimo de 2 caracteres
+        </mat-error>
+        <mat-error *ngIf="lastName.errors?.required">
+          Se <strong>requiere</strong> apellido
+        </mat-error>
+      </mat-form-field >
+    </div>
+
+    <div class="item">
+      <mat-form-field appearance="fill">
+        <mat-label>DNI</mat-label>
+        <input matInput [formControl]="dni" placeholder="12345678">
+        <mat-error *ngIf="dni.errors?.maxlength && !dni.errors?.required">
+          Tiene que tener un máximo de 9 caracteres
+        </mat-error>
+        <mat-error *ngIf="dni.errors?.minlength && !dni.errors?.required">
+          Tiene que tener un mínimo de 7 caracteres
+        </mat-error>
+        <mat-error *ngIf="dni.errors?.required">
+          Se <strong>requiere</strong> DNI
+        </mat-error>
+      </mat-form-field >
+    </div>
+
+    <div class="item">
+      <mat-form-field appearance="fill">
+        <mat-label>Teléfono</mat-label>
+        <input matInput [formControl]="phoneNumber" placeholder="1234567890">
+        <mat-error *ngIf="phoneNumber.errors?.required">
+          Se <strong>requiere</strong> teléfono
+        </mat-error>
+      </mat-form-field>
+    </div>
+
+    <div class="item">
+      <mat-form-field appearance="fill">
+        <mat-label>Email </mat-label>
+        <input matInput [formControl]="mail" placeholder="example@mail.com">
+        <mat-error *ngIf="mail.errors?.email && !mail.errors?.required">
+          Ingresar una dirección de email valida
+        </mat-error>
+        <mat-error *ngIf="mail.errors?.required">
+          Se <strong>requiere</strong> email
+        </mat-error>
+      </mat-form-field>
+    </div>
+  </div>
 </div>
 <div mat-dialog-actions>
-  <button mat-raised-button (click)="onNoClick()">Cancelar</button>
-  <button mat-raised-button color="primary" (click)="updateClient()" cdkFocusInitial>Confirmar</button>
+  <div class="buttons-container">
+    <div class="item">
+      <button mat-raised-button (click)="close()">Cancelar</button>
+      <button mat-raised-button [disabled]="invalid" color="primary" (click)="updateClient()">Guardar</button>
+    </div>
+  </div>
 </div>
 

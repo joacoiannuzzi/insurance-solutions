@@ -4,9 +4,9 @@ import {Client} from "../../../../shared/models/client";
 import {MatDialog} from '@angular/material/dialog';
 import {MatSort} from "@angular/material/sort";
 import {MatTableDataSource} from "@angular/material/table";
-import { ClientDetailsComponent } from '../client-details/client-details.component';
-import { ConfirmDialogComponent } from '../../../components/confirm-dialog/confirm-dialog.component';
-import { ClientUpdateComponent } from '../client-update/client-update.component';
+import {ClientDetailsComponent} from '../client-details/client-details.component';
+import {ConfirmDialogComponent} from '../../../components/confirm-dialog/confirm-dialog.component';
+import {ClientUpdateComponent} from '../client-update/client-update.component';
 import {ClientAddComponent} from "../client-add/client-add.component";
 
 @Component({
@@ -20,9 +20,10 @@ export class ClientListComponent implements OnInit {
   dataSource: MatTableDataSource<Client>;
   loading: boolean = true;
 
-  @ViewChild(MatSort, { static: true }) sort: MatSort;
+  @ViewChild(MatSort, {static: true}) sort: MatSort;
 
-  constructor(private clientService: ClientService, public dialog: MatDialog) { }
+  constructor(private clientService: ClientService, public dialog: MatDialog) {
+  }
 
   ngOnInit(): void {
     this.getClients();
@@ -41,43 +42,37 @@ export class ClientListComponent implements OnInit {
   openDialog(): void {
     const dialogRef = this.dialog.open(ClientAddComponent, {
       width: '800px',
-      data: new Client(null,"","","","","")
+      data: new Client(null, "", "", "", "", "")
     });
 
     dialogRef.afterClosed().subscribe(result => {
-      // this.clients.push(result);
-      // this.dataSource._updateChangeSubscription();
       this.getClients();
     });
   }
 
   deleteClient(client: Client) {
     this.dialog.open(ConfirmDialogComponent, {
-      data: "¿Está seguro de que desea eliminar al cliente " + client.firstName + " " + client.lastName + "?"
+      data: "¿Está seguro de que desea eliminar al cliente " + client.firstName + " " + client.lastName + " con dni " + client.dni + "?"
     })
       .afterClosed()
       .subscribe((confirmed: boolean) => {
         console.log(confirmed)
         if (confirmed) {
           this.clientService.delete(client).subscribe((res) => {
-            this.clients = res;
             this.getClients();
           });
         }
       })
   }
 
-  updateClient(client: Client)  {
-   const dialogRef = this.dialog.open(ClientUpdateComponent, {
+  updateClient(client: Client) {
+    const dialogRef = this.dialog.open(ClientUpdateComponent, {
       width: '800px',
       data: client
     });
-    dialogRef.afterClosed()
-      .subscribe((confirmed: Boolean) => {
-        if (confirmed) {
-        this.clientService.update(client).subscribe(res => {
-          this.getClients();
-        })
+    dialogRef.afterClosed().subscribe((confirmed: Boolean) => {
+      if (confirmed) {
+        this.getClients();
       }
     })
   }
