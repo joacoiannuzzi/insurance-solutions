@@ -7,21 +7,24 @@
 <div  mat-dialog-content class="vehicle-assignation-content">
   <form class="example-form">
     <mat-form-field class="example-full-width">
+      <mat-label>Ingrese Dominio</mat-label>
       <input type="text"
              placeholder="Ingrese Dominio"
-             aria-label="Ingrese Dominio"
              matInput
              [formControl]="myControl"
              [matAutocomplete]="auto">
-      <mat-autocomplete #auto="matAutocomplete">
+      <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayOption">
         <mat-option *ngFor="let option of filteredOptions | async" [value]="option">
           {{option.licensePlate}}
         </mat-option>
       </mat-autocomplete>
+      <mat-error *ngIf="myControl.errors?.required">
+        Se <strong>requiere</strong> dominio
+      </mat-error>
     </mat-form-field>
   </form>
 </div>
 <div mat-dialog-actions class="vehicle-assignation-actions">
   <button mat-button (click)="cancel()">Cancelar</button>
-  <button mat-button (click)="assignVehicle()">Aceptar</button>
+  <button mat-button [disabled]="invalid" (click)="assignVehicle()">Aceptar</button>
 </div>

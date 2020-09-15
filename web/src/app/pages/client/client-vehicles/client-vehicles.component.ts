@@ -1,9 +1,13 @@
-import {Component, Inject, OnInit} from '@angular/core';
+import {Component, Inject, OnInit, ViewChild} from '@angular/core';
 import {MAT_DIALOG_DATA, MatDialog, MatDialogRef} from "@angular/material/dialog";
 import {Client} from "../../../../shared/models/client";
 import {Vehicle} from "../../../../shared/models/vehicle";
 import {ConfirmDialogComponent} from "../../../components/confirm-dialog/confirm-dialog.component";
 import {VehicleAssignationComponent} from "../vehicle-assignation/vehicle-assignation.component";
+import {MatTableDataSource} from "@angular/material/table";
+import {MatSort} from "@angular/material/sort";
+import {ClientService} from "../../../../shared/services/client.service";
+import {VehicleService} from "../../../../shared/services/vehicle.service";
 
 @Component({
   selector: 'app-client-vehicles',
@@ -11,13 +15,33 @@ import {VehicleAssignationComponent} from "../vehicle-assignation/vehicle-assign
   styleUrls: ['./client-vehicles.component.scss']
 })
 export class ClientVehiclesComponent implements OnInit {
-  displayedColumns: string[] = ['vehicle','firstName','options'];
+  displayedColumns: string[] = ['vehicle', 'firstName', 'options'];
+  vehicles: Vehicle[];
+  dataSource: MatTableDataSource<Vehicle>;
+  loading: boolean = true;
+
+  @ViewChild(MatSort, {static: true}) sort: MatSort;
 
   constructor(public dialogRef: MatDialogRef<ClientVehiclesComponent>,
               @Inject(MAT_DIALOG_DATA) public client: Client,
-              public dialog: MatDialog) { }
+              public dialog: MatDialog,
+              private clientService: ClientService,
+              private vehicleService: VehicleService,
+  ) {
+  }
 
   ngOnInit(): void {
+    this.getVehicles();
+  }
+
+  getVehicles() {
+    this.loading = true;
+    this.clientService.vehicles(this.client).subscribe((data: Vehicle[]) => {
+      this.vehicles = data;
+      this.loading = false;
+      this.dataSource = new MatTableDataSource<Vehicle>(this.vehicles);
+      this.dataSource.sort = this.sort;
+    });
   }
 
   closeVehicles() {
@@ -25,10 +49,15 @@ export class ClientVehiclesComponent implements OnInit {
   }
 
   addVehicle() {
-    this.dialog.open(VehicleAssignationComponent, {
+    const addVehicleRef = this.dialog.open(VehicleAssignationComponent, {
       width: '800px',
       data: this.client
-    })
+    });
+
+    addVehicleRef.afterClosed().subscribe(() => {
+      this.vehicleService.vehicles;
+      this.getVehicles()
+    });
   }
 
   deleteVehicle(element: Vehicle) {
@@ -39,7 +68,10 @@ export class ClientVehiclesComponent implements OnInit {
       .afterClosed()
       .subscribe((confirmed: Boolean) => {
         if (confirmed) {
-          //DELETE VEHICLE
+          this.clientService.deleteVehicle(this.client.id, element.id).subscribe(() => {
+            this.vehicleService.vehicles;
+            this.getVehicles();
+          })
         }
       });
   }
