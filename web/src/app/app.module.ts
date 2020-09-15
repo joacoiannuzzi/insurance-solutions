@@ -28,6 +28,7 @@ import {ClientAddComponent} from "./pages/client/client-add/client-add.component
 import {VehicleService} from "../shared/services/vehicle.service";
 import {MatPaginatorModule} from "@angular/material/paginator";
 import {MatGridListModule} from "@angular/material/grid-list";
+import {MatSnackBarModule} from '@angular/material/snack-bar';
 
 @NgModule({
   declarations: [
@@ -59,7 +60,8 @@ import {MatGridListModule} from "@angular/material/grid-list";
     MatAutocompleteModule,
     ReactiveFormsModule,
     MatPaginatorModule,
-    MatGridListModule
+    MatGridListModule,
+    MatSnackBarModule
   ],
   providers: [ClientService, VehicleService],
   bootstrap: [AppComponent]

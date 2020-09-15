@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { Vehicle } from '../models/vehicle';
 import {Observable} from "rxjs";
 import {catchError, map} from "rxjs/operators";
+import {MatSnackBar} from "@angular/material/snack-bar";
 
 @Injectable()
 export class VehicleService {
@@ -10,15 +11,21 @@ export class VehicleService {
   private readonly vehiclesUrl: string;
   private vehiclesList: Vehicle[];
 
-  constructor(private http: HttpClient) {
+  constructor(private http: HttpClient, private snackBar: MatSnackBar) {
     this.vehiclesUrl = 'http://localhost:8080/vehicles';
   }
 
-  public findAll(): Observable<any> {
+  public findAll(): Observable<Vehicle[]> {
     return this.http.get(this.vehiclesUrl + "/clientless").pipe(
       map((res: any) => {
         this.vehiclesList = res.map((vehicle) => Vehicle.fromJsonObject(vehicle));
         return this.vehiclesList;
+      }),
+      catchError(() => {
+        this.snackBar.open('Hubo un error al traer los vehículos.', '', {
+          duration: 2000,
+        });
+        return this.vehicles;
       })
     );
   }
@@ -27,7 +34,16 @@ export class VehicleService {
     return this.http.post<Vehicle>(this.vehiclesUrl + "/create", vehicle).pipe(
 
       map((res: any) => {
-        this.vehiclesList.push(Vehicle.fromJsonObject(res))
+        this.vehiclesList.push(Vehicle.fromJsonObject(res));
+        this.snackBar.open('El vehículo fué guardado con éxito.', '', {
+          duration: 2000,
+        });
+      }),
+      catchError(() => {
+        this.snackBar.open('Hubo un error al guardar el vehículo.', '', {
+          duration: 2000,
+        });
+        return [];
       })
     );
   }
@@ -37,11 +53,16 @@ export class VehicleService {
       map((res: Vehicle) => {
         let i = this.vehiclesList.findIndex(c => c.id === vehicle.id);
         this.vehiclesList[i] = res;
+        this.snackBar.open('El vehículo fué actualizado con éxito.', '', {
+          duration: 2000,
+        });
         return res;
       }),
-      map(() => {
-        console.log("ERROR IN UPDATE")
-        //TODO snackbar
+      catchError(() => {
+        this.snackBar.open('Hubo un error al actualizar el vehículo.', '', {
+          duration: 2000,
+        });
+        return this.vehicles;
       })
     );
   }
@@ -55,15 +76,18 @@ export class VehicleService {
   }
 
   public delete(user: Vehicle) {
-    return this.http.delete<Vehicle>(this.vehiclesUrl + "/" + user.id).pipe(map(() => {
+    return this.http.delete<Vehicle>(this.vehiclesUrl + "/" + user.id).pipe(
+      map(() => {
         this.vehiclesList.splice(this.vehiclesList.findIndex(c => c.id === user.id))
-        // Snackbar success
+        this.snackBar.open('El vehículo fué eliminado con éxito.', '', {
+          duration: 2000,
+        });
         return this.vehiclesList;
       }), catchError( () => {
-        // Snackbar failure
-        return new Observable<Vehicle[]>((subscriber) =>
-          subscriber.next(this.vehiclesList)
-        );
+        this.snackBar.open('Hubo un error al eliminar el vehículo.', '', {
+          duration: 2000,
+        });
+        return this.vehicles;
       }
     ))
   }
