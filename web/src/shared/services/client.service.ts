@@ -3,12 +3,14 @@ import {HttpClient} from '@angular/common/http';
 import {Client} from '../models/client';
 import {Observable} from "rxjs";
 import {catchError, map} from "rxjs/operators";
+import {Vehicle} from "../models/vehicle";
 
 @Injectable()
 export class ClientService {
 
   private readonly clientsUrl: string;
   private clientsList: Client[];
+  private vehicleList: Vehicle[];
 
   constructor(private http: HttpClient) {
     this.clientsUrl = 'http://localhost:8080/clients';
@@ -23,6 +25,15 @@ export class ClientService {
     );
   }
 
+  private getVehicles(id: number): Observable<any> {
+    return this.http.get(this.clientsUrl + "/vehicles/" + id).pipe(
+      map((res: any) => {
+        this.vehicleList = res.map((vehicle) => Vehicle.fromJsonObject(vehicle));
+        return this.vehicleList;
+      })
+    );
+  }
+
   public save(client: Client) {
     return this.http.post<Client>(this.clientsUrl + "/create", client).pipe(
       map((res: any) => {
@@ -32,9 +43,21 @@ export class ClientService {
   }
 
   assignVehicle(clientId: number, vehicleId: number) {
-    return this.http.get<Client>(`${this.clientsUrl}/${clientId}/add-vehicle/${vehicleId}`).pipe(
+    return this.http.put<Client>(`${this.clientsUrl}/${clientId}/add-vehicle/${vehicleId}`, {}).pipe(
       map((res: any) => {
-        return res;
+        this.vehicleList = [...this.vehicleList, Vehicle.fromJsonObject(res)]
+      })
+    );
+  }
+
+  deleteVehicle(clientId: number, vehicleId: number) {
+    return this.http.put<Client>(`${this.clientsUrl}/${clientId}/delete-vehicle/${vehicleId}`, {}).pipe(
+      map((res: any) => {
+        let auxVehicleList: Vehicle[] = [...this.vehicleList];
+        auxVehicleList.splice(this.vehicleList.findIndex(c => c.id === vehicleId), 1);
+        this.vehicleList = [...auxVehicleList];
+        // Snackbar success
+        return this.vehicleList;
       })
     );
   }
@@ -59,6 +82,14 @@ export class ClientService {
         subscriber.next(this.clientsList)
       )
       : this.findAll();
+  }
+
+  vehicles(client: Client): Observable<Vehicle[]> {
+    return this.vehicleList
+      ? new Observable<Vehicle[]>((subscriber) =>
+        subscriber.next(this.vehicleList)
+      )
+      : this.getVehicles(client.id);
   }
 
   public delete(user: Client) {
