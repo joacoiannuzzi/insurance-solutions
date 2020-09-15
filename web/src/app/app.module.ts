@@ -29,6 +29,7 @@ import {VehicleService} from "../shared/services/vehicle.service";
 import {MatPaginatorModule} from "@angular/material/paginator";
 import {MatGridListModule} from "@angular/material/grid-list";
 import {MatSnackBarModule} from '@angular/material/snack-bar';
+import { VehicleAddComponent } from './pages/vehicle/vehicle-add/vehicle-add.component';
 
 @NgModule({
   declarations: [
@@ -40,7 +41,8 @@ import {MatSnackBarModule} from '@angular/material/snack-bar';
     ClientVehiclesComponent,
     VehicleAssignationComponent,
     ConfirmDialogComponent,
-    ClientUpdateComponent
+    ClientUpdateComponent,
+    VehicleAddComponent
    ],
   imports: [
     BrowserModule,

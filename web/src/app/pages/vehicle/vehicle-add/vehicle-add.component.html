@@ -1,0 +1,86 @@
+<h1 mat-dialog-title>Agregar vehículo</h1>
+<div mat-dialog-content>
+
+  <form [formGroup]="vehicleForm">
+    <div class="form-container">
+
+      <div class="item">
+        <mat-form-field appearance="fill">
+          <mat-label>Patente: </mat-label>
+          <input matInput [formControl]="licensePlate" placeholder="">
+          <mat-error *ngIf="licensePlate.errors?.pattern && !licensePlate.errors?.minlength && !licensePlate.errors?.required">
+            Sólo caractéres válidos
+          </mat-error>
+          <mat-error *ngIf="licensePlate.errors?.minlength && !licensePlate.errors?.required">
+            Debe tener un mínimo de 6 caractéres
+          </mat-error>
+          <mat-error *ngIf="licensePlate.errors?.required">
+            Se <strong>requiere</strong> patente
+          </mat-error>
+        </mat-form-field>
+      </div>
+
+      <div class="item">
+        <mat-form-field appearance="fill">
+          <mat-label>Categoría: </mat-label>
+          <input matInput [formControl]="category" placeholder="categoría">
+          <mat-error *ngIf="category.errors?.pattern && !category.errors?.minlength && !category.errors?.required">
+            Sólo caractéres válidos
+          </mat-error>
+          <mat-error *ngIf="category.errors?.minlength && !category.errors?.required">
+            Debe tener un mínimo de 1 caractér
+          </mat-error>
+          <mat-error *ngIf="category.errors?.required">
+            Se <strong>requiere</strong> categoría
+          </mat-error>
+        </mat-form-field >
+      </div>
+
+      <div class="item">
+        <mat-form-field appearance="fill">
+          <mat-label>Marca: </mat-label>
+          <input matInput [formControl]="brand" placeholder="marca">
+          <mat-error *ngIf="brand.errors?.minlength && !brand.errors?.required">
+            Debe tener un mínimo de 1 caractér
+          </mat-error>
+          <mat-error *ngIf="brand.errors?.required">
+            Se <strong>requiere</strong> marca
+          </mat-error>
+        </mat-form-field >
+      </div>
+
+      <div class="item">
+        <mat-form-field appearance="fill">
+          <mat-label>Modelo: </mat-label>
+          <input matInput [formControl]="model" placeholder="modelo">
+          <mat-error *ngIf="model.errors?.required">
+            Se <strong>requiere</strong> modelo
+          </mat-error>
+        </mat-form-field>
+      </div>
+
+      <div class="item">
+        <mat-form-field appearance="fill">
+          <mat-label>Cliente: </mat-label>
+          <input matInput [formControl]="client" placeholder="cliente">
+          <mat-error *ngIf="client.errors?.client && !client.errors?.required">
+            Ingresar un cliente válido
+          </mat-error>
+          <mat-error *ngIf="client.errors?.required">
+            Se <strong>requiere</strong> cliente
+          </mat-error>
+        </mat-form-field>
+      </div>
+
+    </div>
+  </form>
+
+</div>
+<div mat-dialog-actions>
+  <div class="buttons-container">
+    <div class="item">
+      <button mat-raised-button (click)="close()">Cancelar</button>
+      <button mat-raised-button [disabled]="invalid" color="primary" (click)="saveVehicle()">Guardar</button>
+    </div>
+  </div>
+</div>
