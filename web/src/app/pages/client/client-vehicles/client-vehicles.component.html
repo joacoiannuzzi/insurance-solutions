@@ -4,11 +4,11 @@
     <mat-icon>close</mat-icon>
   </button>
 </div>
-<div mat-dialog-content class="client-vehicles-content">
+<div mat-dialog-content class="client-vehicles-content mat-elevation-z8">
 
 <!--  Vehicles Table-->
 
-  <table *ngIf="vehicles?.length" mat-table [dataSource]="vehicles" matSort class="mat-elevation-z8">
+  <table *ngIf="vehicles?.length" mat-table [dataSource]="vehicles" matSort class="">
 
     <!-- firstName Column -->
     <ng-container matColumnDef="vehicle">
@@ -38,7 +38,7 @@
 
 <!--  End of Vehicles Table-->
 
-  <h2 *ngIf="!vehicles?.length" class="no-vehicles-message">No hay vehiculos para mostrar de este cliente</h2>
+  <h2 *ngIf="!vehicles?.length" class="no-vehicles-message">No hay vehículos para mostrar de este cliente</h2>
 
 </div>
 <div mat-dialog-actions class="client-vehicles-actions">

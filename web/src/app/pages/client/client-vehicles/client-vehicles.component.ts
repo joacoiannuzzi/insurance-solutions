@@ -62,7 +62,7 @@ export class ClientVehiclesComponent implements OnInit {
 
   deleteVehicle(element: Vehicle) {
     this.dialog.open(ConfirmDialogComponent, {
-      width: '3290px',
+      width: '800px',
       data: "¿Esta seguro de que desea eliminar el vehiculo dominio " + element.licensePlate + " del cliente " + this.client.firstName + " " + this.client.lastName + "?"
     })
       .afterClosed()
