@@ -2,10 +2,14 @@ package com.insurance.solutions.app.controllers;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.insurance.solutions.app.exceptions.BadRequestException;
 import com.insurance.solutions.app.exceptions.ResourceNotFoundException;
 import com.insurance.solutions.app.models.Client;
+import com.insurance.solutions.app.models.ENUM_CATEGORY;
+import com.insurance.solutions.app.models.Vehicle;
 import com.insurance.solutions.app.repositories.ClientRepository;
 import com.insurance.solutions.app.services.ClientService;
+import com.insurance.solutions.app.services.VehicleService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -44,6 +48,9 @@ public class ClientControllerTest {
 
     @Autowired
     private ClientService clientService;
+
+    @Autowired
+    private VehicleService vehicleService;
 
     private String toJson(Object o) throws JsonProcessingException {
         return objectMapper.writeValueAsString(o);
@@ -281,6 +288,154 @@ public class ClientControllerTest {
                         put("/clients/update/" + mockID)
                                 .contentType(APPLICATION_JSON)
                                 .content(toJson(updatedClient))
+                )
+                .andExpect(status().isNotFound());
+    }
+
+    @Test
+    void addVehicleToClient() throws Exception {
+
+        Client client = new Client("1000", "name", "last name", "123",
+                "mail@mail.com", "company");
+
+
+        Vehicle vehicle = new Vehicle("1", ENUM_CATEGORY.CAR,
+                "brand", "model", "drivingProfile", "monitor");
+
+        long clientId = clientService.createClient(client).getId();
+
+        Vehicle savedVehicle = vehicleService.createVehicle(vehicle);
+
+        mockMvc
+                .perform(
+                        put(urlBase + "/" + clientId + "/add-vehicle/" + savedVehicle.getId())
+                )
+                .andExpect(status().isOk())
+                .andExpect(content().contentType(APPLICATION_JSON))
+                .andExpect(content().json(toJson(savedVehicle)));
+
+        // add existing vehicle to not existing client
+        long clientMockID = 1000L;
+
+        Exception exception1 = assertThrows(ResourceNotFoundException.class, () -> clientService.addVehicle(savedVehicle.getId(), clientMockID));
+        assertEquals("Client not found.", exception1.getMessage());
+
+        mockMvc
+                .perform(
+                        put(urlBase + "/" + clientMockID + "/add-vehicle/" + savedVehicle.getId())
+                )
+                .andExpect(status().isNotFound());
+
+        // add not existing vehicle to existing client
+        long vehicleMockID = 1000L;
+
+        Exception exception2 = assertThrows(ResourceNotFoundException.class, () -> clientService.addVehicle(vehicleMockID, clientId));
+        assertEquals("Vehicle not found.", exception2.getMessage());
+
+        mockMvc
+                .perform(
+                        put(urlBase + "/" + clientId + "/add-vehicle/" + vehicleMockID)
+                )
+                .andExpect(status().isNotFound());
+
+        // add not existing vehicle to not existing client
+        Exception exception3 = assertThrows(ResourceNotFoundException.class, () -> clientService.addVehicle(vehicleMockID, clientMockID));
+        assertEquals("Client not found.", exception3.getMessage());
+
+        mockMvc
+                .perform(
+                        put(urlBase + "/" + clientMockID + "/add-vehicle/" + vehicleMockID)
+                )
+                .andExpect(status().isNotFound());
+    }
+
+    @Test
+    void deleteVehicleFromClient() throws Exception {
+
+        Client client = new Client("11", "name1", "last name 2", "1234",
+                "mail2@mail.com", "company2");
+
+
+        Vehicle vehicle = new Vehicle("2", ENUM_CATEGORY.CAR,
+                "brand2", "model2", "drivingProfile2", "monitor2");
+
+        long vehicleMockID = 1000L;
+
+        long clientMockID = 1000L;
+
+        long clientId = clientService.createClient(client).getId();
+
+        Vehicle savedVehicle = vehicleService.createVehicle(vehicle);
+
+        clientService.addVehicle(savedVehicle.getId(), clientId);
+
+        List<Vehicle> beforeClientVehicles = clientService.getClientVehicles(clientId);
+
+        mockMvc
+                .perform(
+                        put(urlBase + "/" + clientId + "/delete-vehicle/" + vehicle.getId())
+                )
+                .andExpect(status().isOk());
+
+        List<Vehicle> afterClientVehicles = clientService.getClientVehicles(clientId);
+
+        Assert.assertNotEquals("Size should not be the same", beforeClientVehicles.size(), afterClientVehicles.size());
+
+        // Delete existing vehicle in not existing client
+
+        Exception exception1 = assertThrows(BadRequestException.class, () -> clientService.deleteVehicle(savedVehicle.getId(), clientMockID));
+        assertEquals("Vehicle does not belong to client.", exception1.getMessage());
+
+        mockMvc
+                .perform(
+                        put(urlBase + "/" + clientMockID + "/delete-vehicle/" + savedVehicle.getId())
+                )
+                .andExpect(status().isBadRequest());
+
+        // Delete not existing vehicle in existing client
+
+        Exception exception2 = assertThrows(ResourceNotFoundException.class, () -> clientService.deleteVehicle(vehicleMockID, clientId));
+        assertEquals("Vehicle not found.", exception2.getMessage());
+
+        mockMvc
+                .perform(
+                        put(urlBase + "/" + clientId + "/delete-vehicle/" + vehicleMockID)
+                )
+                .andExpect(status().isNotFound());
+
+        // Delete not existing vehicle in not existing client
+
+        Exception exception3 = assertThrows(ResourceNotFoundException.class, () -> clientService.deleteVehicle(vehicleMockID, clientMockID));
+        assertEquals("Vehicle not found.", exception3.getMessage());
+
+        mockMvc
+                .perform(
+                        put(urlBase + "/" + clientMockID + "/delete-vehicle/" + vehicleMockID)
+                )
+                .andExpect(status().isNotFound());
+    }
+
+    @Test
+    void getClientVehicles() throws Exception {
+        long clientId = clientService.findAll().get(0).getId();
+        List<Vehicle> vehicles = clientService.getClientVehicles(clientId);
+        long clientMockID = 1000L;
+
+        MvcResult mvcResult = mockMvc
+                .perform(
+                        get(urlBase + "/vehicles/" + clientId)
+                )
+                .andExpect(status().isOk())
+                .andExpect(content().contentType(APPLICATION_JSON))
+                .andReturn();
+
+        List list = toClass(mvcResult, List.class);
+
+        Assert.assertEquals("Size should be the same", vehicles.size(), list.size());
+
+        mockMvc
+                .perform(
+                        get(urlBase + "/vehicles/" + clientMockID)
                 )
                 .andExpect(status().isNotFound());
     }
