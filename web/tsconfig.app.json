@@ -7,7 +7,8 @@
   },
   "files": [
     "src/main.ts",
-    "src/polyfills.ts"
+    "src/polyfills.ts",
+    "src/app/pages/vehicle/vehicle-add/clientExistsValidator.ts"
   ],
   "include": [
     "src/**/*.d.ts"

@@ -1,11 +1,13 @@
-import { MatPaginator } from '@angular/material/paginator';
-import { ConfirmDialogComponent } from './../../../../app/components/confirm-dialog/confirm-dialog.component';
-import { Vehicle } from './../../../../shared/models/vehicle';
-import { VehicleService } from './../../../../shared/services/vehicle.service';
-import { Component, OnInit, AfterViewInit, ViewChild } from '@angular/core';
-import { MatTableDataSource } from '@angular/material/table';
-import { MatDialog } from '@angular/material/dialog';
-import { MatSort } from '@angular/material/sort';
+import {MatPaginator} from '@angular/material/paginator';
+import {ConfirmDialogComponent} from '../../../components/confirm-dialog/confirm-dialog.component';
+import {Vehicle} from '../../../../shared/models/vehicle';
+import {VehicleService} from '../../../../shared/services/vehicle.service';
+import {AfterViewInit, Component, OnInit, ViewChild} from '@angular/core';
+import {MatTableDataSource} from '@angular/material/table';
+import {MatDialog} from '@angular/material/dialog';
+import {MatSort} from '@angular/material/sort';
+import {VehicleAddComponent} from "../vehicle-add/vehicle-add.component";
+import {category} from "../../../../shared/models/category";
 
 @Component({
   selector: 'app-vehicle-list',
@@ -25,7 +27,7 @@ export class VehicleListComponent implements OnInit, AfterViewInit {
 
   ngOnInit(): void {
     this.getVehicles();
-    
+
   }
 
   ngAfterViewInit(): void {
@@ -50,16 +52,17 @@ export class VehicleListComponent implements OnInit, AfterViewInit {
       this.dataSource.paginator.firstPage();
     }
   }
-// openDialog(): void {
-//     const dialogRef = this.dialog.open(VehicleAddComponent, {
-//       width: '800px',
-//       data: new Vehicle(0,"","","","","","")
-//     });
 
-  //   dialogRef.afterClosed().subscribe(result => {
-  //     this.getVehicles();
-  //   });
-  // }
+  openDialog(): void {
+    const dialogRef = this.dialog.open(VehicleAddComponent, {
+      width: '800px',
+      data: new Vehicle(0,"",category.CAR, "","","profile","systems")
+    });
+
+    dialogRef.afterClosed().subscribe(() => {
+      this.getVehicles();
+    });
+  }
 
   deleteVehicle(vehicle: Vehicle) {
     this.dialog.open(ConfirmDialogComponent, {
@@ -68,14 +71,14 @@ export class VehicleListComponent implements OnInit, AfterViewInit {
       .afterClosed()
       .subscribe((confirmed: boolean) => {
         if (confirmed) {
-          this.vehicleService.delete(vehicle).subscribe((res) => {
+          this.vehicleService.delete(vehicle).subscribe(() => {
             this.getVehicles();
           });
         }
       })
   }
 
-// updateVehicle(vehicle: Vehicle){ 
+// updateVehicle(vehicle: Vehicle){
 //     const dialogRef = this.dialog.open(VehicleUpdateComponent, {
 //       width: '800px',
 //       data: vehicle
