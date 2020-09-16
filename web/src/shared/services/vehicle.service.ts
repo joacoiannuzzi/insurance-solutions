@@ -35,7 +35,7 @@ export class VehicleService {
 
       map((res: any) => {
         this.vehiclesList.push(Vehicle.fromJsonObject(res));
-        this.snackBar.open('El vehículo fué guardado con éxito.', '', {
+        this.snackBar.open('El vehículo fue guardado con éxito.', '', {
           duration: 2000,
         });
       }),
@@ -53,7 +53,7 @@ export class VehicleService {
       map((res: Vehicle) => {
         let i = this.vehiclesList.findIndex(c => c.id === vehicle.id);
         this.vehiclesList[i] = res;
-        this.snackBar.open('El vehículo fué actualizado con éxito.', '', {
+        this.snackBar.open('El vehículo fue actualizado con éxito.', '', {
           duration: 2000,
         });
         return res;
@@ -79,7 +79,7 @@ export class VehicleService {
     return this.http.delete<Vehicle>(this.vehiclesUrl + "/" + user.id).pipe(
       map(() => {
         this.vehiclesList.splice(this.vehiclesList.findIndex(c => c.id === user.id))
-        this.snackBar.open('El vehículo fué eliminado con éxito.', '', {
+        this.snackBar.open('El vehículo fue eliminado con éxito.', '', {
           duration: 2000,
         });
         return this.vehiclesList;

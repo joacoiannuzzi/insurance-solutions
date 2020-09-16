@@ -1,3 +1,4 @@
+import { VehicleListComponent } from './pages/vehicle/vehicle-list/vehicle-list.component';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 
@@ -33,14 +34,15 @@ import {MatSnackBarModule} from '@angular/material/snack-bar';
 @NgModule({
   declarations: [
     AppComponent,
-    ClientListComponent,
     NavbarComponent,
+    ClientListComponent,
     ClientAddComponent,
     ClientDetailsComponent,
     ClientVehiclesComponent,
+    ClientUpdateComponent,
+    VehicleListComponent,
     VehicleAssignationComponent,
     ConfirmDialogComponent,
-    ClientUpdateComponent
    ],
   imports: [
     BrowserModule,
