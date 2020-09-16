@@ -31,6 +31,7 @@ import {MatPaginatorModule} from "@angular/material/paginator";
 import {MatGridListModule} from "@angular/material/grid-list";
 import {MatSnackBarModule} from '@angular/material/snack-bar';
 import { VehicleAddComponent } from './pages/vehicle/vehicle-add/vehicle-add.component';
+import {MatSelectModule} from "@angular/material/select";
 
 @NgModule({
   declarations: [
@@ -66,7 +67,8 @@ import { VehicleAddComponent } from './pages/vehicle/vehicle-add/vehicle-add.com
     ReactiveFormsModule,
     MatPaginatorModule,
     MatGridListModule,
-    MatSnackBarModule
+    MatSnackBarModule,
+    MatSelectModule
   ],
   providers: [ClientService, VehicleService],
   bootstrap: [AppComponent]

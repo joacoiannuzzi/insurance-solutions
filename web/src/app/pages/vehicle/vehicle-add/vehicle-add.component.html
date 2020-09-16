@@ -23,33 +23,10 @@
       <div class="item">
         <mat-form-field appearance="fill">
           <mat-label>Categoría: </mat-label>
-          <input matInput [formControl]="category" placeholder="categoría">
-          <mat-error *ngIf="category.errors?.pattern && !category.errors?.minlength && !category.errors?.required">
-            Sólo caractéres válidos
-          </mat-error>
-          <mat-error *ngIf="category.errors?.minlength && !category.errors?.required">
-            Debe tener un mínimo de 1 caractér
-          </mat-error>
-          <mat-error *ngIf="category.errors?.required">
-            Se <strong>requiere</strong> categoría
-          </mat-error>
-        </mat-form-field >
-      </div>
-
-      <div class="item">
-        <mat-form-field appearance="fill">
-          <mat-label>Marca: </mat-label>
-          <input matInput [formControl]="brand" placeholder="marca">
-          <mat-error *ngIf="brand.errors?.pattern && !brand.errors?.minlength && !brand.errors?.required">
-            Sólo caractéres válidos
-          </mat-error>
-          <mat-error *ngIf="brand.errors?.minlength && !brand.errors?.required">
-            Debe tener un mínimo de 1 caractér
-          </mat-error>
-          <mat-error *ngIf="brand.errors?.required">
-            Se <strong>requiere</strong> marca
-          </mat-error>
-        </mat-form-field >
+          <mat-select [formControl]="category">
+            <mat-option *ngFor="let cat of categories" [value]="cat">{{categoryLabels[cat]}}</mat-option>
+          </mat-select>
+        </mat-form-field>
       </div>
 
       <div class="item">
@@ -70,8 +47,33 @@
 
       <div class="item">
         <mat-form-field appearance="fill">
+          <mat-label>Marca: </mat-label>
+          <input matInput [formControl]="brand" placeholder="marca">
+          <mat-error *ngIf="brand.errors?.pattern && !brand.errors?.minlength && !brand.errors?.required">
+            Sólo caractéres válidos
+          </mat-error>
+          <mat-error *ngIf="brand.errors?.minlength && !brand.errors?.required">
+            Debe tener un mínimo de 1 caractér
+          </mat-error>
+          <mat-error *ngIf="brand.errors?.required">
+            Se <strong>requiere</strong> marca
+          </mat-error>
+        </mat-form-field>
+      </div>
+
+      <div class="item">
+        <mat-form-field appearance="fill">
           <mat-label>Cliente: </mat-label>
-          <input matInput [formControl]="client" placeholder="cliente">
+          <input type="text"
+                 placeholder="Ingrese DNI del Cliente"
+                 matInput
+                 [formControl]="client"
+                 [matAutocomplete]="auto">
+          <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayOption">
+            <mat-option *ngFor="let option of filteredOptions | async" [value]="option">
+              {{option.dni}}
+            </mat-option>
+          </mat-autocomplete>
         </mat-form-field>
       </div>
 
