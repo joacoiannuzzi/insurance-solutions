@@ -17,7 +17,7 @@ import {VehicleService} from "../../../../shared/services/vehicle.service";
 export class ClientVehiclesComponent implements OnInit, AfterViewInit {
   displayedColumns: string[] = ['vehicle', 'firstName', 'options'];
   vehicles: Vehicle[];
-  dataSource: MatTableDataSource<Vehicle>;
+  dataSource: MatTableDataSource<Vehicle> = new MatTableDataSource<Vehicle>();
   loading: boolean = true;
 
   @ViewChild(MatSort, {static: true}) sort: MatSort;
@@ -35,6 +35,7 @@ export class ClientVehiclesComponent implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit(): void {
+    this.dataSource.sort = this.sort;
   }
 
   getVehicles() {
@@ -42,8 +43,7 @@ export class ClientVehiclesComponent implements OnInit, AfterViewInit {
     this.clientService.vehicles(this.client).subscribe((data: Vehicle[]) => {
       this.vehicles = data;
       this.loading = false;
-      this.dataSource = new MatTableDataSource<Vehicle>(this.vehicles);
-      this.dataSource.sort = this.sort;
+      this.dataSource.data = this.vehicles;
     });
   }
 

@@ -1,3 +1,7 @@
+<div *ngIf="loading">
+  <mat-spinner class="spinner"
+               mode="indeterminate"></mat-spinner>
+</div>
 <div class="client-vehicles-header">
   <h1 mat-dialog-title>Vehiculos del cliente {{client.firstName}} {{client.lastName}}</h1>
   <button mat-icon-button aria-label="close details button" (click)="closeVehicles()">
