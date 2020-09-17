@@ -10,19 +10,24 @@
 </div>
 <div mat-dialog-content class="client-vehicles-content mat-elevation-z8">
 
+  <mat-form-field>
+    <mat-label>Buscar...</mat-label>
+    <input matInput (keyup)="applyFilter($event)" #input>
+  </mat-form-field>
+
 <!--  Vehicles Table-->
 
-  <table [hidden]="vehicles?.length" mat-table [dataSource]="dataSource" matSort class="">
+  <table [hidden]="!vehicles?.length&&!loading" mat-table matSort [dataSource]="this.dataSource">
 
     <!-- firstName Column -->
-    <ng-container matColumnDef="vehicle">
+    <ng-container matColumnDef="licensePlate">
       <th mat-header-cell *matHeaderCellDef mat-sort-header> Dominio </th>
       <td mat-cell *matCellDef="let element"> {{element.licensePlate}} </td>
     </ng-container>
 
     <!-- lastName Column -->
     <ng-container matColumnDef="firstName">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header> Nombre </th>
+      <th mat-header-cell *matHeaderCellDef> Nombre </th>
       <td mat-cell *matCellDef="let element"> {{client.firstName + " " + client.lastName}} </td>
     </ng-container>
 
@@ -38,11 +43,16 @@
 
     <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
     <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+
+    <!-- Row shown when there is no matching data. -->
+    <tr class="mat-row" *matNoDataRow>
+      <td class="mat-cell" colspan="4">No hay vehiculos para este cliente.</td>
+    </tr>
   </table>
 
 <!--  End of Vehicles Table-->
 
-  <h2 *ngIf="!vehicles?.length" class="no-vehicles-message">No hay vehículos para mostrar de este cliente</h2>
+  <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]"></mat-paginator>
 
 </div>
 <div mat-dialog-actions class="client-vehicles-actions">
