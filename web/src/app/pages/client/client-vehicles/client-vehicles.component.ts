@@ -1,4 +1,4 @@
-import {Component, Inject, OnInit, ViewChild} from '@angular/core';
+import {AfterViewInit, Component, Inject, OnInit, ViewChild} from '@angular/core';
 import {MAT_DIALOG_DATA, MatDialog, MatDialogRef} from "@angular/material/dialog";
 import {Client} from "../../../../shared/models/client";
 import {Vehicle} from "../../../../shared/models/vehicle";
@@ -8,19 +8,21 @@ import {MatTableDataSource} from "@angular/material/table";
 import {MatSort} from "@angular/material/sort";
 import {ClientService} from "../../../../shared/services/client.service";
 import {VehicleService} from "../../../../shared/services/vehicle.service";
+import {MatPaginator} from "@angular/material/paginator";
 
 @Component({
   selector: 'app-client-vehicles',
   templateUrl: './client-vehicles.component.html',
   styleUrls: ['./client-vehicles.component.scss']
 })
-export class ClientVehiclesComponent implements OnInit {
-  displayedColumns: string[] = ['vehicle', 'firstName', 'options'];
+export class ClientVehiclesComponent implements OnInit, AfterViewInit {
+  displayedColumns: string[] = ['licensePlate', 'firstName', 'options'];
   vehicles: Vehicle[];
-  dataSource: MatTableDataSource<Vehicle>;
+  dataSource: MatTableDataSource<Vehicle> = new MatTableDataSource<Vehicle>([]);
   loading: boolean = true;
 
-  @ViewChild(MatSort, {static: true}) sort: MatSort;
+  @ViewChild(MatSort) sort: MatSort;
+  @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
 
   constructor(public dialogRef: MatDialogRef<ClientVehiclesComponent>,
               @Inject(MAT_DIALOG_DATA) public client: Client,
@@ -32,15 +34,20 @@ export class ClientVehiclesComponent implements OnInit {
 
   ngOnInit(): void {
     this.getVehicles();
+    this.paginator._intl.itemsPerPageLabel = 'Elementos por página';
+  }
+
+  ngAfterViewInit(): void {
+    this.dataSource.sort = this.sort;
+    this.dataSource.paginator = this.paginator;
   }
 
   getVehicles() {
     this.loading = true;
-    this.clientService.vehicles(this.client).subscribe((data: Vehicle[]) => {
+    this.clientService.vehicles(this.client).subscribe((data ) => {
       this.vehicles = data;
       this.loading = false;
-      this.dataSource = new MatTableDataSource<Vehicle>(this.vehicles);
-      this.dataSource.sort = this.sort;
+      this.dataSource.data = this.vehicles;
     });
   }
 
@@ -74,5 +81,14 @@ export class ClientVehiclesComponent implements OnInit {
           })
         }
       });
+  }
+
+  applyFilter(event: Event) {
+    const filterValue = (event.target as HTMLInputElement).value;
+    this.dataSource.filter = filterValue.trim().toLowerCase();
+
+    if (this.dataSource.paginator) {
+      this.dataSource.paginator.firstPage();
+    }
   }
 }

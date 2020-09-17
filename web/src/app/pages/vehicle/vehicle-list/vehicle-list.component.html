@@ -5,16 +5,16 @@
 <mat-card [hidden]="!loading" class="mat-card my-5">
   <mat-card-header>
     <mat-card-title><h2>Vehículos</h2></mat-card-title>
-  </mat-card-header> 
+  </mat-card-header>
      <mat-card-content class="table-options">
     <mat-form-field>
       <mat-label>Buscar...</mat-label>
       <input matInput (keyup)="applyFilter($event)" #input>
     </mat-form-field>
     <span></span>
-    <!-- <button (click) = "openDialog()" mat-mini-fab color="primary" aria-label="Example icon button with a delete icon">
+       <button (click) = "openDialog()" mat-mini-fab color="primary" aria-label="Example icon button with a delete icon">
       <mat-icon>add</mat-icon>
-    </button> -->
+    </button>
   </mat-card-content>
   <mat-card-content class="mat-elevation-z8">
     <table mat-table [dataSource]="vehicles" matSort>
