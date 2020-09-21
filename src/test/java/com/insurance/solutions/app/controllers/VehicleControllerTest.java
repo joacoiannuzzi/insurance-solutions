@@ -26,8 +26,8 @@ import java.util.List;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertThrows;
 import static org.springframework.http.MediaType.APPLICATION_JSON;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 
@@ -311,6 +311,50 @@ class VehicleControllerTest {
         mockMvc
                 .perform(get(urlBase + "/" + mockID))
                 .andExpect(status().isNotFound());
+    }
+
+    @Test
+    public void deleteExistingVehicle() throws Exception {
+        Vehicle vehicle = new Vehicle("1", ENUM_CATEGORY.CAR,
+                "brand1", "model1", "drivingProfile1", "monitor1");
+
+        long vehicleId = vehicleService.createVehicle(vehicle).getId();
+
+
+        Assert.assertEquals(toJson(vehicle), toJson(vehicleService.findById(vehicleId)));
+
+        mockMvc
+                .perform(
+                        delete(urlBase + "/delete/" + vehicleId)
+                )
+                .andExpect(status().isOk());
+
+        Exception exception = Assert.assertThrows(ResourceNotFoundException.class, () -> vehicleService.findById(vehicleId));
+        Assert.assertEquals("Vehicle not found.", exception.getMessage());
+
+        mockMvc
+                .perform(
+                        delete(urlBase + "/delete/" + vehicleId)
+                )
+                .andExpect(status().isNotFound());
+    }
+
+    @Test
+    void deleteNotExistingVehicle() throws Exception {
+
+        List<Vehicle> before = vehicleService.findAll();
+
+        long idToDelete = 57775786867867878L;
+
+        mockMvc
+                .perform(
+                        delete(urlBase + "/delete/" + idToDelete)
+                )
+                .andExpect(status().isNotFound());
+
+        List<Vehicle> after = vehicleService.findAll();
+
+        assertEquals("Size should be the same", before.size(), after.size());
     }
 
 }

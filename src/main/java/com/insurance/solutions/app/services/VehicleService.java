@@ -35,4 +35,9 @@ public class VehicleService {
         return vehicleRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Vehicle not found."));
     }
+
+    public void deleteVehicle(Long vehicleId) {
+        Vehicle vehicle = vehicleRepository.findById(vehicleId).orElseThrow(() -> new ResourceNotFoundException("Vehicle not found."));
+        vehicleRepository.delete(vehicle);
+    }
 }

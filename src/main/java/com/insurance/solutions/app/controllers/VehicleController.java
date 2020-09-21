@@ -39,4 +39,10 @@ public class VehicleController {
     public ResponseEntity<Vehicle> getVehicleById(@PathVariable Long id) {
         return ResponseEntity.ok(vehicleService.findById(id));
     }
+
+    @DeleteMapping("/delete/{vehicleId}")
+    public ResponseEntity<String> deleteVehicle(@PathVariable Long vehicleId) {
+        vehicleService.deleteVehicle(vehicleId);
+        return new ResponseEntity<>("Vehicle deleted", HttpStatus.OK);
+    }
 }
