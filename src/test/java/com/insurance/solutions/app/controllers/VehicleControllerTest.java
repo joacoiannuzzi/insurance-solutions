@@ -3,9 +3,9 @@ package com.insurance.solutions.app.controllers;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.insurance.solutions.app.exceptions.ResourceNotFoundException;
+import com.insurance.solutions.app.models.Vehicle;
 import com.insurance.solutions.app.models.Client;
 import com.insurance.solutions.app.models.ENUM_CATEGORY;
-import com.insurance.solutions.app.models.Vehicle;
 import com.insurance.solutions.app.repositories.ClientRepository;
 import com.insurance.solutions.app.repositories.VehicleRepository;
 import com.insurance.solutions.app.services.ClientService;
@@ -27,6 +27,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertThrows;
 import static org.springframework.http.MediaType.APPLICATION_JSON;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
@@ -310,6 +311,42 @@ class VehicleControllerTest {
 
         mockMvc
                 .perform(get(urlBase + "/" + mockID))
+                .andExpect(status().isNotFound());
+    }
+
+    @Test
+    public void updateVehicle() throws Exception {
+        Vehicle aVehicle = new Vehicle("2", ENUM_CATEGORY.CAR,
+                "brand2", "model2", "drivingProfile2", "monitor2");
+        Vehicle vehicleUpdated = new Vehicle("3", ENUM_CATEGORY.CAR,
+                "brand3", "model3", "drivingProfile3", "monitor3");
+
+        Long id = vehicleService.createVehicle(aVehicle).getId();
+
+        Assert.assertEquals(toJson(aVehicle), toJson(vehicleService.findById(id)));
+
+        mockMvc
+                .perform(
+                        put(urlBase + "/update/" + id)
+                                .contentType(APPLICATION_JSON)
+                                .content(toJson(vehicleUpdated))
+                )
+                .andExpect(status().isOk());
+
+        vehicleUpdated.setId(id);
+        Assert.assertEquals(toJson(vehicleUpdated), toJson(vehicleService.findById(id)));
+
+        long mockID = 1000L;
+
+        Exception exception = Assert.assertThrows(ResourceNotFoundException.class, () -> vehicleService.updateVehicle(mockID, vehicleUpdated));
+        Assert.assertEquals("Vehicle not found.", exception.getMessage());
+
+        mockMvc
+                .perform(
+                        put(urlBase + "/update/" + mockID)
+                                .contentType(APPLICATION_JSON)
+                                .content(toJson(vehicleUpdated))
+                )
                 .andExpect(status().isNotFound());
     }
 

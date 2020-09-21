@@ -40,6 +40,11 @@ public class VehicleController {
         return ResponseEntity.ok(vehicleService.findById(id));
     }
 
+    @PutMapping("/update/{vehicleId}")
+    public ResponseEntity<Vehicle> updateVehicle(@PathVariable Long vehicleId, @RequestBody Vehicle vehicle) {
+        return new ResponseEntity<>(vehicleService.updateVehicle(vehicleId, vehicle), HttpStatus.OK);
+    }
+
     @DeleteMapping("/delete/{vehicleId}")
     public ResponseEntity<String> deleteVehicle(@PathVariable Long vehicleId) {
         vehicleService.deleteVehicle(vehicleId);

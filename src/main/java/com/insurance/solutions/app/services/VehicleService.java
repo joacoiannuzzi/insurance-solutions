@@ -36,6 +36,15 @@ public class VehicleService {
                 .orElseThrow(() -> new ResourceNotFoundException("Vehicle not found."));
     }
 
+    public Vehicle updateVehicle(Long vehicleId, Vehicle vehicle) {
+        Vehicle oldVehicle = vehicleRepository.findById(vehicleId).orElseThrow(() -> new ResourceNotFoundException("Vehicle not found."));
+        Vehicle newVehicle = new Vehicle(vehicle.getLicensePlate(), vehicle.getCategory(), vehicle.getBrand(), vehicle.getModel(),
+                vehicle.getDrivingProfiles(), vehicle.getMonitoringSystems());
+
+        newVehicle.setId(oldVehicle.getId());
+        return vehicleRepository.save(newVehicle);
+    }
+
     public void deleteVehicle(Long vehicleId) {
         Vehicle vehicle = vehicleRepository.findById(vehicleId).orElseThrow(() -> new ResourceNotFoundException("Vehicle not found."));
         vehicleRepository.delete(vehicle);
