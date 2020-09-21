@@ -1,5 +1,6 @@
 package com.insurance.solutions.app.controllers;
 
+import com.insurance.solutions.app.models.DrivingProfile;
 import com.insurance.solutions.app.models.Vehicle;
 import com.insurance.solutions.app.services.VehicleService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -49,5 +50,20 @@ public class VehicleController {
     public ResponseEntity<String> deleteVehicle(@PathVariable Long vehicleId) {
         vehicleService.deleteVehicle(vehicleId);
         return new ResponseEntity<>("Vehicle deleted", HttpStatus.OK);
+    }
+
+    @GetMapping("/driving-profile/{vehicleId}")
+    public ResponseEntity<List<DrivingProfile>> getClientVehicles(@PathVariable Long vehicleId) {
+        return ResponseEntity.ok(vehicleService.getDrivingProfilesOfVehicle(vehicleId));
+    }
+
+    @PutMapping("/{vehicleId}/add-driving-profile/{drivingProfileId}")
+    public ResponseEntity<DrivingProfile> addVehicle(@PathVariable Long vehicleId, @PathVariable Long drivingProfileId) {
+        return ResponseEntity.ok(vehicleService.addDrivingProfile(vehicleId, drivingProfileId));
+    }
+
+    @PutMapping("/{vehicleId}/delete-driving-profile/{drivingProfileId}")
+    public ResponseEntity<DrivingProfile> deleteVehicle(@PathVariable Long vehicleId, @PathVariable Long drivingProfileId) {
+        return ResponseEntity.ok(vehicleService.deleteDrivingProfile(vehicleId, drivingProfileId));
     }
 }

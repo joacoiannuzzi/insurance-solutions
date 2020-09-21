@@ -10,6 +10,7 @@ import com.insurance.solutions.app.models.Vehicle;
 import com.insurance.solutions.app.repositories.ClientRepository;
 import com.insurance.solutions.app.services.ClientService;
 import com.insurance.solutions.app.services.VehicleService;
+import org.junit.Assert;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,7 +24,6 @@ import java.io.UnsupportedEncodingException;
 import java.util.Collections;
 import java.util.List;
 
-import org.junit.Assert;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertThrows;
 import static org.springframework.http.MediaType.APPLICATION_JSON;
@@ -79,6 +79,7 @@ public class ClientControllerTest {
                 )
         );
     }
+
 
     @Test
     void createValidClient() throws Exception {
@@ -188,7 +189,7 @@ public class ClientControllerTest {
                 .perform(
                         delete(urlBase + "/" + idToDelete)
                 )
-                .andExpect(status().isOk());
+                    .andExpect(status().isOk());
 
         Exception exception = assertThrows(ResourceNotFoundException.class, () -> clientService.getClientById(idToDelete));
         assertEquals("Client not found.", exception.getMessage());
@@ -300,7 +301,7 @@ public class ClientControllerTest {
 
 
         Vehicle vehicle = new Vehicle("1", ENUM_CATEGORY.CAR,
-                "brand", "model", "drivingProfile", "monitor");
+                "brand", "model");
 
         long clientId = clientService.createClient(client).getId();
 
@@ -357,7 +358,7 @@ public class ClientControllerTest {
 
 
         Vehicle vehicle = new Vehicle("2", ENUM_CATEGORY.CAR,
-                "brand2", "model2", "drivingProfile2", "monitor2");
+                "brand2", "model2");
 
         long vehicleMockID = 1000L;
 

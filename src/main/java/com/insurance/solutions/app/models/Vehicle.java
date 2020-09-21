@@ -5,6 +5,8 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Table
@@ -25,10 +27,12 @@ public class Vehicle {
     @NotBlank(message = "Model can not be blank")
     private String model;
 
-    @NotBlank(message = "Driving profile can not be blank")
-    private String drivingProfiles;
 
-    @NotBlank(message = "Driving profile can not be blank")
+    @OneToMany(mappedBy = "vehicle",
+            fetch = FetchType.EAGER,
+            cascade = CascadeType.ALL)
+    private final Set<DrivingProfile> drivingProfiles = new HashSet<>();
+
     private String monitoringSystems;
 
 
@@ -40,13 +44,24 @@ public class Vehicle {
     public Vehicle() {
     }
 
-    public Vehicle(String licensePlate, ENUM_CATEGORY category, String brand, String model, String drivingProfiles, String monitoringSystems) {
+    public Vehicle(String licensePlate, ENUM_CATEGORY category, String brand, String model) {
         this.licensePlate = licensePlate;
         this.category = category;
         this.brand = brand;
         this.model = model;
-        this.drivingProfiles = drivingProfiles;
-        this.monitoringSystems = monitoringSystems;
+    }
+
+
+    public void addDrivingProfile(DrivingProfile drivingProfile) {
+        drivingProfiles.add(drivingProfile);
+    }
+
+    public void removeDrivingProfile(DrivingProfile drivingProfile) {
+        drivingProfiles.remove(drivingProfile);
+    }
+
+    public Set<DrivingProfile> getDrivingProfiles() {
+        return drivingProfiles;
     }
 
     public Long getId() {
@@ -89,13 +104,6 @@ public class Vehicle {
         this.model = model;
     }
 
-    public String getDrivingProfiles() {
-        return drivingProfiles;
-    }
-
-    public void setDrivingProfiles(String drivingProfiles) {
-        this.drivingProfiles = drivingProfiles;
-    }
 
     public String getMonitoringSystems() {
         return monitoringSystems;
