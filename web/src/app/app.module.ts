@@ -33,6 +33,7 @@ import {MatSnackBarModule} from '@angular/material/snack-bar';
 import { VehicleAddComponent } from './pages/vehicle/vehicle-add/vehicle-add.component';
 import {MatSelectModule} from "@angular/material/select";
 import { DrivingProfilesComponent } from './pages/vehicle/driving-profiles/driving-profiles.component';
+import { VehicleDetailsComponent } from './pages/vehicle/vehicle-details/vehicle-details.component';
 
 @NgModule({
   declarations: [
@@ -49,6 +50,8 @@ import { DrivingProfilesComponent } from './pages/vehicle/driving-profiles/drivi
     ClientUpdateComponent,
     VehicleAddComponent,
     DrivingProfilesComponent
+    VehicleAddComponent,
+    VehicleDetailsComponent
    ],
   imports: [
     BrowserModule,

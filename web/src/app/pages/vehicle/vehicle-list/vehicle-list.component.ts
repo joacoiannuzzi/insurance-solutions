@@ -8,6 +8,7 @@ import {MatDialog} from '@angular/material/dialog';
 import {MatSort} from '@angular/material/sort';
 import {VehicleAddComponent} from "../vehicle-add/vehicle-add.component";
 import {category} from "../../../../shared/models/category";
+import {VehicleDetailsComponent} from "../vehicle-details/vehicle-details.component";
 
 @Component({
   selector: 'app-vehicle-list',
@@ -15,7 +16,7 @@ import {category} from "../../../../shared/models/category";
   styleUrls: ['./vehicle-list.component.scss']
 })
 export class VehicleListComponent implements OnInit, AfterViewInit {
-  displayedColumns: string[] = ['licensePlate', 'category', 'model', 'brand', "options"];
+  displayedColumns: string[] = ['licensePlate', 'category', 'model', 'brand', 'client', "options"];
   vehicles: Vehicle[];
   dataSource: MatTableDataSource<Vehicle> = new MatTableDataSource<Vehicle>();
   loading: boolean = true;
@@ -27,7 +28,6 @@ export class VehicleListComponent implements OnInit, AfterViewInit {
 
   ngOnInit(): void {
     this.getVehicles();
-
   }
 
   ngAfterViewInit(): void {
@@ -90,10 +90,10 @@ export class VehicleListComponent implements OnInit, AfterViewInit {
 //     })
 //   }
 
-//   openVehicleDetails(element: Vehicle): void {
-//     this.dialog.open(VehicleDetailsComponent, {
-//       width: '800px',
-//       data: element
-//     });
-//   }
+  openVehicleDetails(element: Vehicle): void {
+    this.dialog.open(VehicleDetailsComponent, {
+      width: '800px',
+      data: element
+    });
+  }
 }

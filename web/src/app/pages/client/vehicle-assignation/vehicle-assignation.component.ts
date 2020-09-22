@@ -32,7 +32,7 @@ export class VehicleAssignationComponent implements OnInit {
   }
 
   getVehicles() {
-    this.vehiclesService.findAll().subscribe((res: Vehicle[]) => {
+    this.vehiclesService.getClientLess().subscribe((res: Vehicle[]) => {
       this.options = [...res];
     })
     this.filteredOptions = this.myControl.valueChanges
