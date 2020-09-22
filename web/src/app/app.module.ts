@@ -49,7 +49,7 @@ import { VehicleDetailsComponent } from './pages/vehicle/vehicle-details/vehicle
     ConfirmDialogComponent,
     ClientUpdateComponent,
     VehicleAddComponent,
-    DrivingProfilesComponent
+    DrivingProfilesComponent,
     VehicleAddComponent,
     VehicleDetailsComponent
    ],

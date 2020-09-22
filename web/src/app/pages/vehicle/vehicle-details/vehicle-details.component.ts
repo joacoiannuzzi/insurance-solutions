@@ -3,6 +3,7 @@ import {MAT_DIALOG_DATA, MatDialog, MatDialogRef} from "@angular/material/dialog
 import {Vehicle} from "../../../../shared/models/vehicle";
 import {VehicleService} from "../../../../shared/services/vehicle.service";
 import {ConfirmDialogComponent} from "../../../components/confirm-dialog/confirm-dialog.component";
+import {DrivingProfilesComponent} from "../driving-profiles/driving-profiles.component";
 
 @Component({
   selector: 'app-vehicle-details',
@@ -22,15 +23,15 @@ export class VehicleDetailsComponent implements OnInit {
 
   seeProfiles() {
     this.dialogRef.close();
-    //this.openProfiles(this.vehicle);
+    this.openProfiles(this.vehicle);
   }
 
-  // private openProfiles(vehicle: Vehicle): void {
-  //   this.dialog.open(DrivingProfileComponent, {
-  //     width: '800px',
-  //     data: vehicle
-  //   });
-  // }
+  private openProfiles(vehicle: Vehicle): void {
+    this.dialog.open(DrivingProfilesComponent, {
+      width: '800px',
+      data: vehicle
+    });
+  }
 
   closeDetails() {
     this.dialogRef.close();
