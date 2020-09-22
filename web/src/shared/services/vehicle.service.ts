@@ -15,8 +15,22 @@ export class VehicleService {
     this.vehiclesUrl = 'http://localhost:8080/vehicles';
   }
 
-  public findAll(): Observable<Vehicle[]> {
+  public getClientLess(): Observable<Vehicle[]> {
     return this.http.get(this.vehiclesUrl + "/clientless").pipe(
+      map((res: any) => {
+        return res.map((vehicle) => Vehicle.fromJsonObject(vehicle));
+      }),
+      catchError(() => {
+        this.snackBar.open('Hubo un error al traer los vehículos.', '', {
+          duration: 2000,
+        });
+        return this.vehicles;
+      })
+    );
+  }
+
+  public findAll(): Observable<Vehicle[]> {
+    return this.http.get(this.vehiclesUrl).pipe(
       map((res: any) => {
         this.vehiclesList = res.map((vehicle) => Vehicle.fromJsonObject(vehicle));
         return this.vehiclesList;
