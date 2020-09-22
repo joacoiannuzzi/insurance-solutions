@@ -9,7 +9,6 @@ import {MatSort} from '@angular/material/sort';
 import {VehicleAddComponent} from "../vehicle-add/vehicle-add.component";
 import {category} from "../../../../shared/models/category";
 import {VehicleDetailsComponent} from "../vehicle-details/vehicle-details.component";
-import {Client} from "../../../../shared/models/client";
 
 @Component({
   selector: 'app-vehicle-list',
@@ -17,7 +16,7 @@ import {Client} from "../../../../shared/models/client";
   styleUrls: ['./vehicle-list.component.scss']
 })
 export class VehicleListComponent implements OnInit, AfterViewInit {
-  displayedColumns: string[] = ['licensePlate', 'category', 'model', 'brand', "options"];
+  displayedColumns: string[] = ['licensePlate', 'category', 'model', 'brand', 'client', "options"];
   vehicles: Vehicle[];
   dataSource: MatTableDataSource<Vehicle> = new MatTableDataSource<Vehicle>();
   loading: boolean = true;
@@ -29,7 +28,6 @@ export class VehicleListComponent implements OnInit, AfterViewInit {
 
   ngOnInit(): void {
     this.getVehicles();
-
   }
 
   ngAfterViewInit(): void {
@@ -58,7 +56,7 @@ export class VehicleListComponent implements OnInit, AfterViewInit {
   openDialog(): void {
     const dialogRef = this.dialog.open(VehicleAddComponent, {
       width: '800px',
-      data: new Vehicle(0,"",category.CAR, "","","profile","systems", new Client(0,'','','','','',))
+      data: new Vehicle(0,"",category.CAR, "","","profile","systems")
     });
 
     dialogRef.afterClosed().subscribe(() => {

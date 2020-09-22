@@ -26,7 +26,7 @@ export class VehicleDetailsComponent implements OnInit {
   }
 
   // private openProfiles(vehicle: Vehicle): void {
-  //   this.dialog.open(VehicleProfileComponent, {
+  //   this.dialog.open(DrivingProfileComponent, {
   //     width: '800px',
   //     data: vehicle
   //   });
