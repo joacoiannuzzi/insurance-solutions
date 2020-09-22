@@ -32,6 +32,7 @@ import {MatGridListModule} from "@angular/material/grid-list";
 import {MatSnackBarModule} from '@angular/material/snack-bar';
 import { VehicleAddComponent } from './pages/vehicle/vehicle-add/vehicle-add.component';
 import {MatSelectModule} from "@angular/material/select";
+import { VehicleDetailsComponent } from './pages/vehicle/vehicle-details/vehicle-details.component';
 
 @NgModule({
   declarations: [
@@ -46,7 +47,8 @@ import {MatSelectModule} from "@angular/material/select";
     VehicleAssignationComponent,
     ConfirmDialogComponent,
     ClientUpdateComponent,
-    VehicleAddComponent
+    VehicleAddComponent,
+    VehicleDetailsComponent
    ],
   imports: [
     BrowserModule,

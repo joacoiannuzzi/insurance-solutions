@@ -1,0 +1,23 @@
+.vehicle-details-header {
+  display: flex;
+  flex-direction: row;
+
+  button {
+    margin-left: auto;
+  }
+}
+
+.vehicle-details-content {
+  display: flex;
+  flex-direction: column;
+  column-count: 2;
+}
+
+.vehicle-details-actions {
+  display: flex;
+  align-content: center;
+
+  button {
+    flex: 1;
+  }
+}
