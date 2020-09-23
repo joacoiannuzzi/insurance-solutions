@@ -8,9 +8,17 @@
 }
 
 .vehicle-details-content {
-  display: flex;
-  flex-direction: column;
-  column-count: 2;
+  width: 100%;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  row-gap: 15px;
+  column-gap: 10px;
+
+  .item {
+    width: 100%;
+    display: flex;
+    justify-content: left;
+  }
 }
 
 .vehicle-details-actions {

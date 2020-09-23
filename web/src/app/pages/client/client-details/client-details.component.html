@@ -5,12 +5,11 @@
   </button>
 </div>
 <div mat-dialog-content class="client-details-content">
-  <p>Nombre: {{client.firstName}}</p>
-  <p>Apellido: {{client.lastName}}</p>
-  <p>DNI: {{client.dni}}</p>
-  <p>Telefono: {{client.phoneNumber}}</p>
-  <p>Mail: {{client.mail}}</p>
-  <p></p>
+  <p class="item">Nombre: {{client.firstName}}</p>
+  <p class="item">Apellido: {{client.lastName}}</p>
+  <p class="item">DNI: {{client.dni}}</p>
+  <p class="item">Telefono: {{client.phoneNumber}}</p>
+  <p class="item">Mail: {{client.mail}}</p>
 </div>
 <div mat-dialog-actions class="client-details-actions">
   <button mat-raised-button color="primary" (click)="seeVehicles()">Ver Vehiculos</button>
