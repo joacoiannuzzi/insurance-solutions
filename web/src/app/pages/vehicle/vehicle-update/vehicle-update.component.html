@@ -8,7 +8,7 @@
         <mat-label>Patente: </mat-label>
         <input matInput [formControl]="licensePlate" placeholder="">
         <mat-error *ngIf="licensePlate.errors?.pattern && !licensePlate.errors?.minlength && !licensePlate.errors?.required">
-          Sólo caractéres válidos
+          No cumple el formato de patente admitida.
         </mat-error>
         <mat-error *ngIf="licensePlate.errors?.minlength && !licensePlate.errors?.required">
           Debe tener un mínimo de 6 caractéres
@@ -33,7 +33,7 @@
         <mat-label>Modelo: </mat-label>
         <input matInput [formControl]="model" placeholder="modelo">
         <mat-error *ngIf="model.errors?.pattern && !model.errors?.minlength && !model.errors?.required">
-          No cumple el formato de patente admitida
+          Sólo caractéres válidos.
         </mat-error>
         <mat-error *ngIf="model.errors?.minlength && !model.errors?.required">
           Debe tener un mínimo de 1 caractér
