@@ -46,7 +46,7 @@ export class DrivingProfilesComponent implements OnInit {
   deleteDrivingProfile(element: DrivingProfile) {
     this.dialog.open(ConfirmDialogComponent, {
       width: '800px',
-      data: "¿Esta seguro de que desea eliminar el perfil?"
+      data: "¿Está seguro de que desea eliminar el perfil?"
     })
       .afterClosed()
       .subscribe((confirmed: Boolean) => {

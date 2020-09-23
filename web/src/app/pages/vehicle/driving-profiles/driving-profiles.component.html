@@ -1,5 +1,5 @@
 <div class="drivingProfiles-header">
-  <h1 mat-dialog-title>Perfiles del veículo {{vehicle.licensePlate}}</h1>
+  <h1 mat-dialog-title>Perfiles del vehículo {{vehicle.licensePlate}}</h1>
   <button mat-icon-button aria-label="close details button" (click)="closeDrivingProfiles()">
     <mat-icon>close</mat-icon>
   </button>
@@ -18,12 +18,12 @@
     <!-- firstName Column -->
     <ng-container matColumnDef="drivingProfile">
       <th mat-header-cell *matHeaderCellDef mat-sort-header> Perfil de Conducción </th>
-      <td mat-cell *matCellDef="let element"> perfil {{element.id}} </td>
+      <td mat-cell *matCellDef="let element"> Perfil {{element.id}} </td>
     </ng-container>
 
     <!-- options Column -->
     <ng-container matColumnDef="options">
-      <th mat-header-cell *matHeaderCellDef> Options </th>
+      <th mat-header-cell *matHeaderCellDef> Opciones </th>
       <td mat-cell *matCellDef="let element">
         <button mat-mini-fab color="primary" type="button" (click)="openDrivingProfileDetails(element)">
           <mat-icon>remove_red_eye</mat-icon>
