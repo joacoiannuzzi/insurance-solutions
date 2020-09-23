@@ -12,17 +12,15 @@ import {category} from "../../../../shared/models/category";
   styleUrls: ['./vehicle-update.component.scss']
 })
 export class VehicleUpdateComponent implements OnInit {
-  vehicle: Vehicle;
   vehicleForm: FormGroup;
   categories: category[] = [category.CAR,category.TRUCK,category.VAN,category.MOTORCYCLE];
   categoryLabels: string[] = ['Automóvil', 'Camión', 'Camioneta', 'Moto'];
 
   constructor(
     private dialogRef: MatDialogRef<VehicleUpdateComponent>,
-    @Inject(MAT_DIALOG_DATA) private data: Vehicle,
+    @Inject(MAT_DIALOG_DATA) private vehicle: Vehicle,
     private vehicleService: VehicleService,
   ) {
-    this.vehicle = {...data};
   }
 
   ngOnInit(): void {
