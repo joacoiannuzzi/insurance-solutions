@@ -105,4 +105,8 @@ export class VehicleService {
       }
     ))
   }
+
+  deleteDrivingProfile(vehicleId: number, drivingProfileId: number) {
+    //put request
+  }
 }

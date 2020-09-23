@@ -32,6 +32,7 @@ import {MatGridListModule} from "@angular/material/grid-list";
 import {MatSnackBarModule} from '@angular/material/snack-bar';
 import { VehicleAddComponent } from './pages/vehicle/vehicle-add/vehicle-add.component';
 import {MatSelectModule} from "@angular/material/select";
+import { DrivingProfilesComponent } from './pages/vehicle/driving-profiles/driving-profiles.component';
 import { VehicleDetailsComponent } from './pages/vehicle/vehicle-details/vehicle-details.component';
 
 @NgModule({
@@ -47,6 +48,8 @@ import { VehicleDetailsComponent } from './pages/vehicle/vehicle-details/vehicle
     VehicleAssignationComponent,
     ConfirmDialogComponent,
     ClientUpdateComponent,
+    VehicleAddComponent,
+    DrivingProfilesComponent,
     VehicleAddComponent,
     VehicleDetailsComponent
    ],
