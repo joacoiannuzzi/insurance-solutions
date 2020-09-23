@@ -35,8 +35,7 @@ export class ClientService {
   private getVehicles(id: number): Observable<Vehicle[]> {
     return this.http.get(this.clientsUrl + "/vehicles/" + id).pipe(
       map((res: any) => {
-        this.vehicleList = res.map((vehicle) => Vehicle.fromJsonObject(vehicle));
-        return this.vehicleList;
+        return res.map((vehicle) => Vehicle.fromJsonObject(vehicle));
       }),
       catchError(() => {
         this.snackBar.open('Hubo un error al traer los clientes.', '', {
@@ -83,7 +82,7 @@ export class ClientService {
 
   deleteVehicle(clientId: number, vehicleId: number) {
     return this.http.put<Client>(`${this.clientsUrl}/${clientId}/delete-vehicle/${vehicleId}`, {}).pipe(
-      map((res: any) => {
+      map(() => {
         let auxVehicleList: Vehicle[] = [...this.vehicleList];
         auxVehicleList.splice(this.vehicleList.findIndex(c => c.id === vehicleId), 1);
         this.vehicleList = [...auxVehicleList];
@@ -131,11 +130,7 @@ export class ClientService {
   }
 
   vehicles(client: Client): Observable<Vehicle[]> {
-    return this.vehicleList
-      ? new Observable<Vehicle[]>((subscriber) =>
-        subscriber.next(this.vehicleList)
-      )
-      : this.getVehicles(client.id);
+    return this.getVehicles(client.id);
   }
 
   public delete(user: Client) {
