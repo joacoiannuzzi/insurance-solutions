@@ -15,7 +15,7 @@ import {VehicleService} from "../../../../shared/services/vehicle.service";
 })
 export class DrivingProfilesComponent implements OnInit {
 
-  displayedColumns: string[] = ['licensePlate', 'firstName', 'options'];
+  displayedColumns: string[] = ['drivingProfile', 'options'];
   drivingProfiles: DrivingProfile[];
   dataSource: MatTableDataSource<DrivingProfile> = new MatTableDataSource<DrivingProfile>(this.vehicle.drivingProfiles);
   loading: boolean = true;

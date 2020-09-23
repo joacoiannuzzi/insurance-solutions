@@ -1,0 +1,14 @@
+.drivingProfiles-header {
+  display: flex;
+  flex-direction: row;
+
+  button {
+    margin-left: auto;
+  }
+}
+
+.drivingProfiles-content {
+  display: flex;
+  flex-direction: column;
+  column-count: 2;
+}
