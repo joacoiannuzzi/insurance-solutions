@@ -1,0 +1,86 @@
+package com.insurance.solutions.app.controllers;
+
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.insurance.solutions.app.models.MonitoringSystem;
+import com.insurance.solutions.app.services.MonitoringSystemService;
+import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.ActiveProfiles;
+import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.MvcResult;
+
+import java.io.UnsupportedEncodingException;
+
+import static org.junit.Assert.assertEquals;
+import static org.springframework.http.MediaType.APPLICATION_JSON;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+
+@SpringBootTest
+@AutoConfigureMockMvc
+@ActiveProfiles("test")
+class MonitoringSystemControllerTest {
+
+    String urlBase = "/monitoring-systems";
+
+    @Autowired
+    private MockMvc mockMvc;
+
+    @Autowired
+    private ObjectMapper objectMapper;
+
+    @Autowired
+    private MonitoringSystemService monitoringSystemService;
+
+    private String toJson(Object o) throws JsonProcessingException {
+        return objectMapper.writeValueAsString(o);
+    }
+
+    private <T> T toClass(MvcResult response, Class<T> type) throws JsonProcessingException, UnsupportedEncodingException {
+        return objectMapper.readValue(response.getResponse().getContentAsString(), type);
+    }
+
+    @Test
+    public void createMonitoringSystem() throws Exception {
+        final var monitoringSystem = new MonitoringSystem("name1", "sensor1", "monitoringCompany1");
+
+
+        // valid
+        MvcResult mvcResult = mockMvc
+                .perform(
+                        post(urlBase + "/create")
+                                .contentType(APPLICATION_JSON)
+                                .accept(APPLICATION_JSON)
+                                .content(toJson(monitoringSystem))
+                )
+                .andExpect(status().isCreated())
+                .andExpect(content().contentType(APPLICATION_JSON))
+                .andExpect(jsonPath("$.id").isNumber())
+                .andReturn();
+
+        final var id = toClass(mvcResult, MonitoringSystem.class).getId();
+        monitoringSystem.setId(id);
+
+        assertEquals(toJson(monitoringSystem), toJson(monitoringSystemService.findById(id)));
+
+
+        // invalid
+        final int size = monitoringSystemService.findAll().size();
+
+        mockMvc
+                .perform(
+                        post(urlBase + "/create")
+                                .contentType(APPLICATION_JSON)
+                                .accept(APPLICATION_JSON)
+                                .content(toJson(monitoringSystem))
+                )
+                .andExpect(status().isBadRequest());
+
+        assertEquals(size, monitoringSystemService.findAll().size());
+
+    }
+
+}
