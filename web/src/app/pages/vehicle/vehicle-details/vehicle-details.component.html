@@ -5,12 +5,11 @@
   </button>
 </div>
 <div mat-dialog-content class="vehicle-details-content">
-  <p>Patente: {{vehicle.licensePlate}}</p>
-  <p>Categoria: {{vehicle.category}}</p>
-  <p>Modelo: {{vehicle.model}}</p>
-  <p>Marca: {{vehicle.brand}}</p>
-  <p>Cliente: Nombre del Cliente</p>
-  <p></p>
+  <p class="item">Patente: {{vehicle.licensePlate}}</p>
+  <p class="item">Categoria: {{vehicle.category}}</p>
+  <p class="item">Modelo: {{vehicle.model}}</p>
+  <p class="item">Marca: {{vehicle.brand}}</p>
+  <p class="item">Cliente: Nombre del Cliente</p>
 </div>
 <div mat-dialog-actions class="vehicle-details-actions">
   <button mat-raised-button color="primary" (click)="seeProfiles()">Ver Perfiles</button>
