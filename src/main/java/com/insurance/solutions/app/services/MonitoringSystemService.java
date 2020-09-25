@@ -30,4 +30,8 @@ public class MonitoringSystemService {
         return monitoringSystemRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Monitoring system not found."));
     }
+
+    public List<MonitoringSystem> getAllMonitoringSystems() {
+        return (List<MonitoringSystem>) monitoringSystemRepository.findAll();
+    }
 }

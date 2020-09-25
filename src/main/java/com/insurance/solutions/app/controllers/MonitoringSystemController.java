@@ -8,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.List;
 
 @RestController
 @RequestMapping("monitoring-systems")
@@ -26,5 +27,10 @@ public class MonitoringSystemController {
     @GetMapping("{id}")
     public ResponseEntity<MonitoringSystem> getMonitoringSystemById(@PathVariable Long id) {
         return ResponseEntity.ok(monitoringSystemService.findById(id));
+    }
+
+    @GetMapping("get-all")
+    public ResponseEntity<List<MonitoringSystem>> getAllMonitoringSystems() {
+        return ResponseEntity.ok(monitoringSystemService.getAllMonitoringSystems());
     }
 }

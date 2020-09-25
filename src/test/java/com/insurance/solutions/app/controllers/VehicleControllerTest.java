@@ -145,7 +145,7 @@ class VehicleControllerTest {
     @Test
     void getEmptyAllVehicles() throws Exception {
 
-        vehicleRepository.deleteAll();
+        vehicleService.deleteAll();
 
         final var all = vehicleService.findAll();
 

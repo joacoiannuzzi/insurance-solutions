@@ -83,4 +83,15 @@ public class VehicleService {
         drivingProfile.setVehicle(null);
         return drivingProfileRepository.save(drivingProfile);
     }
+
+    public void deleteAll() {
+        List<Vehicle> vehicles = findAll();
+        for (Vehicle vehicle: vehicles) {
+            for (DrivingProfile drivingProfile: vehicle.getDrivingProfiles()) vehicle.removeDrivingProfile(drivingProfile);
+            vehicle.setMonitoringSystem(null);
+            vehicle.setClient(null);
+            vehicleRepository.save(vehicle);
+        }
+        vehicleRepository.deleteAll();
+    }
 }

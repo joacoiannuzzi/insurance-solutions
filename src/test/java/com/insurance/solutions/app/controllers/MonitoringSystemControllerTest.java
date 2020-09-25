@@ -2,8 +2,9 @@ package com.insurance.solutions.app.controllers;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.insurance.solutions.app.exceptions.ResourceNotFoundException;
 import com.insurance.solutions.app.models.MonitoringSystem;
+import com.insurance.solutions.app.repositories.MonitoringSystemRepository;
+import com.insurance.solutions.app.exceptions.ResourceNotFoundException;
 import com.insurance.solutions.app.services.MonitoringSystemService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +15,8 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 
 import java.io.UnsupportedEncodingException;
+import java.util.Collections;
+import java.util.List;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertThrows;
@@ -37,6 +40,9 @@ class MonitoringSystemControllerTest {
 
     @Autowired
     private MonitoringSystemService monitoringSystemService;
+
+    @Autowired
+    private MonitoringSystemRepository monitoringSystemRepository;
 
     private String toJson(Object o) throws JsonProcessingException {
         return objectMapper.writeValueAsString(o);
@@ -113,4 +119,46 @@ class MonitoringSystemControllerTest {
                 .andExpect(status().isNotFound());
     }
 
+    void getAllMonitoringSystem() throws Exception {
+
+        List<MonitoringSystem> all = monitoringSystemService.getAllMonitoringSystems();
+
+        MvcResult mvcResult = mockMvc
+                .perform(
+                        get(urlBase + "/get-all")
+                )
+                .andExpect(status().isOk())
+                .andExpect(content().contentType(APPLICATION_JSON))
+                .andExpect(content().json(toJson(all)))
+                .andReturn();
+
+        List list = toClass(mvcResult, List.class);
+
+        assertEquals("Size should be the same", all.size(), list.size());
+
+    }
+
+    @Test
+    void getEmptyAllMonitoringSystem() throws Exception {
+
+        monitoringSystemRepository.deleteAll();
+
+        List<MonitoringSystem> all = monitoringSystemService.getAllMonitoringSystems();
+
+        List<Object> emptyList = Collections.emptyList();
+
+        MvcResult mvcResult = mockMvc
+                .perform(
+                        get(urlBase + "/get-all")
+                )
+                .andExpect(status().isOk())
+                .andExpect(content().contentType(APPLICATION_JSON))
+                .andExpect(content().json(toJson(emptyList)))
+                .andReturn();
+
+        List list = toClass(mvcResult, List.class);
+
+        assertEquals("Size should be the same", all.size(), list.size());
+
+    }
 }
