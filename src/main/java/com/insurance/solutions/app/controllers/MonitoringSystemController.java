@@ -22,4 +22,9 @@ public class MonitoringSystemController {
     public ResponseEntity<MonitoringSystem> createMonitoringSystem(@Valid @RequestBody MonitoringSystem monitoringSystem) {
         return new ResponseEntity<>(monitoringSystemService.createMonitoringSystem(monitoringSystem), HttpStatus.CREATED);
     }
+
+    @GetMapping("{id}")
+    public ResponseEntity<MonitoringSystem> getMonitoringSystemById(@PathVariable Long id) {
+        return ResponseEntity.ok(monitoringSystemService.findById(id));
+    }
 }

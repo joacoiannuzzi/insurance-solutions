@@ -189,7 +189,7 @@ public class ClientControllerTest {
                 .perform(
                         delete(urlBase + "/" + idToDelete)
                 )
-                    .andExpect(status().isOk());
+                    .andExpect(status().isNoContent());
 
         Exception exception = assertThrows(ResourceNotFoundException.class, () -> clientService.getClientById(idToDelete));
         assertEquals("Client not found.", exception.getMessage());

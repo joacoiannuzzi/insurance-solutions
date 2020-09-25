@@ -2,6 +2,7 @@ package com.insurance.solutions.app.controllers;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.insurance.solutions.app.exceptions.ResourceNotFoundException;
 import com.insurance.solutions.app.models.MonitoringSystem;
 import com.insurance.solutions.app.services.MonitoringSystemService;
 import org.junit.jupiter.api.Test;
@@ -15,7 +16,9 @@ import org.springframework.test.web.servlet.MvcResult;
 import java.io.UnsupportedEncodingException;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertThrows;
 import static org.springframework.http.MediaType.APPLICATION_JSON;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
@@ -81,6 +84,33 @@ class MonitoringSystemControllerTest {
 
         assertEquals(size, monitoringSystemService.findAll().size());
 
+    }
+
+    @Test
+    public void getMonitoringSystemById() throws Exception {
+
+        final var savedMonitoringSystem = monitoringSystemService.createMonitoringSystem(
+                new MonitoringSystem("name_getById", "sensor__getById", "monitoringCompany__getById")
+        );
+
+        // valid
+
+        MvcResult response = mockMvc
+                .perform(get(urlBase + "/" + savedMonitoringSystem.getId()))
+                .andExpect(status().isOk())
+                .andExpect(content().contentType(APPLICATION_JSON))
+                .andExpect(content().json(toJson(savedMonitoringSystem)))
+                .andReturn();
+
+        // invalid
+        long mockID = 10000L;
+
+        Exception exception = assertThrows(ResourceNotFoundException.class, () -> monitoringSystemService.findById(mockID));
+        assertEquals("Monitoring system not found.", exception.getMessage());
+
+        mockMvc
+                .perform(get(urlBase + "/" + mockID))
+                .andExpect(status().isNotFound());
     }
 
 }

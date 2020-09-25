@@ -74,20 +74,14 @@ class VehicleControllerTest {
 
     @Test
     void createValidVehicle() throws Exception {
-        clientRepository.deleteAll();
         vehicleRepository.deleteAll();
 
-        Client client = new Client("1", "Juan", "Perez", "123",
-                "juanperez@mail.com", "Seguro");
-        Client savedClient = clientService.createClient(client);
-
-        Vehicle vehicle = new Vehicle("86899789", CAR,
+        Vehicle vehicle = new Vehicle("5667867678", CAR,
                 "ford", "model");
-
 
         MvcResult response = mockMvc
                 .perform(
-                        post(urlBase + "/" + savedClient.getId())
+                        post(urlBase + "/create")
                                 .contentType(APPLICATION_JSON)
                                 .accept(APPLICATION_JSON)
                                 .content(toJson(vehicle))
@@ -106,19 +100,8 @@ class VehicleControllerTest {
 
     @Test
     void createInvalidVehicleWithExistingLicensePlate() throws Exception {
-        clientRepository.deleteAll();
-        vehicleRepository.deleteAll();
 
-        Client client = new Client("1", "Juan", "Perez", "123",
-                "juanperez@mail.com", "Seguro");
-
-        Client client2 = new Client("345", "Juan", "Perez", "123",
-                "juanperez@mail.com", "Seguro");
-
-        Client savedClient = clientService.createClient(client);
-        Client savedClient2 = clientService.createClient(client2);
-
-        Vehicle vehicle = new Vehicle("86899789", CAR,
+        Vehicle vehicle = new Vehicle("77826348628468", CAR,
                 "ford", "model");
 
         vehicleService.createVehicle(vehicle);
@@ -127,37 +110,12 @@ class VehicleControllerTest {
 
         mockMvc
                 .perform(
-                        post(urlBase + "/" + savedClient2.getId())
+                        post(urlBase + "/create")
                                 .contentType(APPLICATION_JSON)
                                 .accept(APPLICATION_JSON)
                                 .content(toJson(vehicle))
                 )
                 .andExpect(status().isBadRequest())
-                .andReturn();
-
-        assertEquals(size, vehicleService.findAll().size());
-
-    }
-
-    @Test
-    void createInvalidVehicleWithInvalidUserId() throws Exception {
-        vehicleRepository.deleteAll();
-
-        Vehicle vehicle = new Vehicle("86899789", CAR,
-                "ford", "model");
-
-        int size = vehicleService.findAll().size();
-
-        long invalidUserId = 234234234L;
-
-        mockMvc
-                .perform(
-                        post(urlBase + "/" + invalidUserId)
-                                .contentType(APPLICATION_JSON)
-                                .accept(APPLICATION_JSON)
-                                .content(toJson(vehicle))
-                )
-                .andExpect(status().isNotFound())
                 .andReturn();
 
         assertEquals(size, vehicleService.findAll().size());
@@ -189,9 +147,9 @@ class VehicleControllerTest {
 
         vehicleRepository.deleteAll();
 
-        List<Vehicle> all = vehicleService.findAll();
+        final var all = vehicleService.findAll();
 
-        List<Object> emptyList = Collections.emptyList();
+        final var emptyList = Collections.emptyList();
 
         MvcResult mvcResult = mockMvc
                 .perform(
