@@ -25,7 +25,6 @@ public class VehicleController {
         return new ResponseEntity<>(vehicleService.createVehicle(vehicle), HttpStatus.CREATED);
     }
 
-
     @GetMapping
     public ResponseEntity<List<Vehicle>> getAllVehicles() {
         return ResponseEntity.ok(vehicleService.findAll());

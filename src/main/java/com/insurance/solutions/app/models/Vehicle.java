@@ -33,7 +33,8 @@ public class Vehicle {
             cascade = CascadeType.ALL)
     private final Set<DrivingProfile> drivingProfiles = new HashSet<>();
 
-    private String monitoringSystems;
+    @OneToOne(mappedBy = "vehicle")
+    private MonitoringSystem monitoringSystem;
 
 
     @JsonIgnore
@@ -104,21 +105,20 @@ public class Vehicle {
         this.model = model;
     }
 
-
-    public String getMonitoringSystems() {
-        return monitoringSystems;
-    }
-
-    public void setMonitoringSystems(String monitoringSystems) {
-        this.monitoringSystems = monitoringSystems;
-    }
-
     public Client getClient() {
         return client;
     }
 
     public void setClient(Client client) {
         this.client = client;
+    }
+
+    public MonitoringSystem getMonitoringSystem() {
+        return monitoringSystem;
+    }
+
+    public void setMonitoringSystem(MonitoringSystem monitoringSystem) {
+        this.monitoringSystem = monitoringSystem;
     }
 }
 

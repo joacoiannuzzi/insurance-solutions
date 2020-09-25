@@ -13,6 +13,8 @@ public class SecurityConstants {
 
     public static final String CLIENT = "/clients/**";
     public static final String VEHICLE = "/vehicles/**";
+    public static final String DRIVING_PROFILE = "/driving-profiles/**";
+    public static final String MONITORING_SYSTEM = "/monitoring-systems/**";
 
 
     // Swagger configuration
