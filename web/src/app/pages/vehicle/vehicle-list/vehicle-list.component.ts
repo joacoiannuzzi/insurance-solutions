@@ -9,6 +9,7 @@ import {MatSort} from '@angular/material/sort';
 import {VehicleAddComponent} from "../vehicle-add/vehicle-add.component";
 import {category} from "../../../../shared/models/category";
 import {VehicleDetailsComponent} from "../vehicle-details/vehicle-details.component";
+import {MonitoringSystem} from "../../../../shared/models/monitoringSystem";
 
 @Component({
   selector: 'app-vehicle-list',
@@ -56,7 +57,7 @@ export class VehicleListComponent implements OnInit, AfterViewInit {
   openDialog(): void {
     const dialogRef = this.dialog.open(VehicleAddComponent, {
       width: '800px',
-      data: new Vehicle(0,"",category.CAR, "","", [],[])
+      data: new Vehicle(0,"",category.CAR, "","", [], new MonitoringSystem(0,'','','',false))
     });
 
     dialogRef.afterClosed().subscribe(() => {

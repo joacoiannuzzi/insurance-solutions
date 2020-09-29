@@ -9,10 +9,10 @@ export class Vehicle {
   brand: string;
   model: string;
   drivingProfiles: DrivingProfile[];
-  monitoringSystems: MonitoringSystem[];
+  monitoringSystems: MonitoringSystem;
 
 
-  constructor(id: number, licensePlate: string, category: category, brand: string, model: string, drivingProfiles: DrivingProfile[], monitoringSystems: MonitoringSystem[]) {
+  constructor(id: number, licensePlate: string, category: category, brand: string, model: string, drivingProfiles: DrivingProfile[], monitoringSystems: MonitoringSystem) {
     this.id = id;
     this.licensePlate = licensePlate;
     this.category = category;
