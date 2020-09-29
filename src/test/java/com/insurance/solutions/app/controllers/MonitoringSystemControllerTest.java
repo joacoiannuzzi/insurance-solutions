@@ -2,10 +2,13 @@ package com.insurance.solutions.app.controllers;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.insurance.solutions.app.models.MonitoringSystem;
-import com.insurance.solutions.app.repositories.MonitoringSystemRepository;
 import com.insurance.solutions.app.exceptions.ResourceNotFoundException;
+import com.insurance.solutions.app.models.MonitoringSystem;
+import com.insurance.solutions.app.models.Vehicle;
+import com.insurance.solutions.app.repositories.MonitoringSystemRepository;
 import com.insurance.solutions.app.services.MonitoringSystemService;
+import com.insurance.solutions.app.services.VehicleService;
+import com.insurance.solutions.app.utils.FunctionUtils;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -17,7 +20,11 @@ import org.springframework.test.web.servlet.MvcResult;
 import java.io.UnsupportedEncodingException;
 import java.util.Collections;
 import java.util.List;
+import java.util.Random;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
+import static com.insurance.solutions.app.models.ENUM_CATEGORY.CAR;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertThrows;
 import static org.springframework.http.MediaType.APPLICATION_JSON;
@@ -43,6 +50,10 @@ class MonitoringSystemControllerTest {
 
     @Autowired
     private MonitoringSystemRepository monitoringSystemRepository;
+
+    @Autowired
+    private VehicleService vehicleService;
+
 
     private String toJson(Object o) throws JsonProcessingException {
         return objectMapper.writeValueAsString(o);
@@ -161,4 +172,66 @@ class MonitoringSystemControllerTest {
         assertEquals("Size should be the same", all.size(), list.size());
 
     }
+
+    @Test
+    void getAllMonitoringSystemWithoutVehicles() throws Exception {
+
+        monitoringSystemService.deleteAll();
+
+        // empty list
+
+        final var emptyList = Collections.emptyList();
+
+        MvcResult mvcResult = mockMvc
+                .perform(
+                        get(urlBase + "/without-vehicle")
+                )
+                .andExpect(status().isOk())
+                .andExpect(content().contentType(APPLICATION_JSON))
+                .andExpect(content().json(toJson(emptyList)))
+                .andReturn();
+
+        List list = toClass(mvcResult, List.class);
+
+        assertEquals("Size should be the same", emptyList.size(), list.size());
+
+
+        // with 10 vehicles
+
+        final var vehicles = Stream.generate(new Random()::nextInt)
+                .limit(10)
+                .map(number -> new Vehicle("licensePlate_" + number, CAR, "brand_" + number, "model_" + number))
+                .map(vehicle -> vehicleService.createVehicle(vehicle))
+                .collect(Collectors.toList());
+
+        final var monitoringSystems = Stream.generate(new Random()::nextInt)
+                .limit(20)
+                .map(number -> new MonitoringSystem("name_" + number, "sensor_" + number, "monitoringCompany_" + number))
+                .map(monitoringSystem -> monitoringSystemService.createMonitoringSystem(monitoringSystem))
+                .collect(Collectors.toList());
+
+
+        FunctionUtils.zip(
+                vehicles.stream(),
+                monitoringSystems.stream(),
+                (vehicle, monitoringSystem) -> vehicleService.setMonitoringSystem(vehicle.getId(), monitoringSystem.getId())
+        );
+
+        final var allMonitoringSystemsWithoutVehicle = monitoringSystemService.getAllMonitoringSystemsWithoutVehicle();
+
+        MvcResult mvcResult2 = mockMvc
+                .perform(
+                        get(urlBase + "/without-vehicle")
+                )
+                .andExpect(status().isOk())
+                .andExpect(content().contentType(APPLICATION_JSON))
+                .andExpect(content().json(toJson(allMonitoringSystemsWithoutVehicle)))
+                .andReturn();
+
+        List list2 = toClass(mvcResult2, List.class);
+
+        assertEquals("Size should be the same", allMonitoringSystemsWithoutVehicle.size(), list2.size());
+
+    }
+
 }

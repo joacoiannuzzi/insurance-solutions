@@ -1,6 +1,7 @@
 package com.insurance.solutions.app.controllers;
 
 import com.insurance.solutions.app.models.DrivingProfile;
+import com.insurance.solutions.app.models.MonitoringSystem;
 import com.insurance.solutions.app.models.Vehicle;
 import com.insurance.solutions.app.services.VehicleService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -64,5 +65,15 @@ public class VehicleController {
     @PutMapping("/{vehicleId}/delete-driving-profile/{drivingProfileId}")
     public ResponseEntity<DrivingProfile> deleteVehicle(@PathVariable Long vehicleId, @PathVariable Long drivingProfileId) {
         return ResponseEntity.ok(vehicleService.deleteDrivingProfile(vehicleId, drivingProfileId));
+    }
+
+    @PutMapping("/{vehicleId}/set-monitoring-system/{monitoringSystemId}")
+    public ResponseEntity<MonitoringSystem> addMonitoringSystem(@PathVariable Long vehicleId, @PathVariable Long monitoringSystemId) {
+        return ResponseEntity.ok(vehicleService.setMonitoringSystem(vehicleId, monitoringSystemId));
+    }
+
+    @GetMapping("without-monitoring-system")
+    public ResponseEntity<List<Vehicle>> getAllVehiclesWithoutMonitoringSystem() {
+        return ResponseEntity.ok(vehicleService.getAllVehiclesWithoutMonitoringSystem());
     }
 }

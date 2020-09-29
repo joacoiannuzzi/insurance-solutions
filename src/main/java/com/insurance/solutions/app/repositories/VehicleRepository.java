@@ -14,4 +14,6 @@ public interface VehicleRepository extends CrudRepository<Vehicle, Long> {
     List<Vehicle> findAllByClientIsNull();
 
     List<Vehicle> findAllByClientNull();
+
+    List<Vehicle> findAllByMonitoringSystemIsNull();
 }
