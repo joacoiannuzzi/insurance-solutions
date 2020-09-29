@@ -35,6 +35,7 @@ import {MatSelectModule} from "@angular/material/select";
 import { DrivingProfilesComponent } from './pages/vehicle/driving-profiles/driving-profiles.component';
 import { VehicleDetailsComponent } from './pages/vehicle/vehicle-details/vehicle-details.component';
 import { VehicleUpdateComponent } from './pages/vehicle/vehicle-update/vehicle-update.component';
+import { MonitoringSystemDetailsComponent } from './pages/monitoring-system/monitoring-system-details/monitoring-system-details.component';
 
 @NgModule({
   declarations: [
@@ -53,7 +54,8 @@ import { VehicleUpdateComponent } from './pages/vehicle/vehicle-update/vehicle-u
     DrivingProfilesComponent,
     VehicleAddComponent,
     VehicleDetailsComponent,
-    VehicleUpdateComponent
+    VehicleUpdateComponent,
+    MonitoringSystemDetailsComponent
    ],
   imports: [
     BrowserModule,
