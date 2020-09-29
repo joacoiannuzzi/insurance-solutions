@@ -1,3 +1,4 @@
+import { MonitoringSystemService } from './../shared/services/monitoring-system.service';
 import { VehicleListComponent } from './pages/vehicle/vehicle-list/vehicle-list.component';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
@@ -35,6 +36,7 @@ import {MatSelectModule} from "@angular/material/select";
 import { DrivingProfilesComponent } from './pages/vehicle/driving-profiles/driving-profiles.component';
 import { VehicleDetailsComponent } from './pages/vehicle/vehicle-details/vehicle-details.component';
 import { VehicleUpdateComponent } from './pages/vehicle/vehicle-update/vehicle-update.component';
+import { MonitoringSystemListComponent } from './pages/monitoring-system/monitoring-system-list/monitoring-system-list.component';
 
 @NgModule({
   declarations: [
@@ -53,7 +55,9 @@ import { VehicleUpdateComponent } from './pages/vehicle/vehicle-update/vehicle-u
     DrivingProfilesComponent,
     VehicleAddComponent,
     VehicleDetailsComponent,
-    VehicleUpdateComponent
+    VehicleUpdateComponent,
+    MonitoringSystemListComponent
+
    ],
   imports: [
     BrowserModule,
@@ -77,7 +81,7 @@ import { VehicleUpdateComponent } from './pages/vehicle/vehicle-update/vehicle-u
     MatSnackBarModule,
     MatSelectModule
   ],
-  providers: [ClientService, VehicleService],
+  providers: [ClientService, VehicleService, MonitoringSystemService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

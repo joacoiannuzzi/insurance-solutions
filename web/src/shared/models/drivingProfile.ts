@@ -1,4 +1,3 @@
-
 export class DrivingProfile {
   id: number;
   avgDailyDrivingTime: number;
@@ -9,7 +8,16 @@ export class DrivingProfile {
   startDate: string;
   totalDrivingTime: number;
 
-  constructor(id: number, avgDailyDrivingTime: number, avgSpeed: number, finishDate: string, maxSpeed: number, minSpeed: number, startDate: string, totalDrivingTime: number) {
+  constructor(
+    id: number,
+    avgDailyDrivingTime: number,
+    avgSpeed: number,
+    finishDate: string,
+    maxSpeed: number,
+    minSpeed: number,
+    startDate: string,
+    totalDrivingTime: number
+  ) {
     this.id = id;
     this.avgDailyDrivingTime = avgDailyDrivingTime;
     this.avgSpeed = avgSpeed;
@@ -20,6 +28,15 @@ export class DrivingProfile {
   }
 
   static fromJsonObject(jsonObject: any): DrivingProfile {
-    return new DrivingProfile(jsonObject.id, jsonObject.avgDailyDrivingTime, jsonObject.avgSpeed, jsonObject.finishDate, jsonObject.maxSpeed, jsonObject.minSpeed, jsonObject.startDate, jsonObject.totalDrivingTime);
+    return new DrivingProfile(
+      jsonObject.id,
+      jsonObject.avgDailyDrivingTime,
+      jsonObject.avgSpeed,
+      jsonObject.finishDate,
+      jsonObject.maxSpeed,
+      jsonObject.minSpeed,
+      jsonObject.startDate,
+      jsonObject.totalDrivingTime
+    );
   }
 }
