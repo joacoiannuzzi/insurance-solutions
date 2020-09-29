@@ -111,7 +111,7 @@ export class VehicleService {
   }
 
   getMonitoringSystemLess() {
-    return this.http.get(this.vehiclesUrl + "/monitoringSystemLess").pipe(
+    return this.http.get(this.vehiclesUrl + "/without-monitoring-system").pipe(
       map((res: any) => {
         return res.map((vehicle) => Vehicle.fromJsonObject(vehicle));
       }),
