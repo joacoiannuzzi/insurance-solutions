@@ -38,7 +38,7 @@ export class MonitoringSystemAssignationComponent implements OnInit {
       .pipe(
         startWith(''),
         map(value => {
-          return this._filter(value?.licensePlate ? value.licensePlate : value);
+          return this._filter(value?.serviceName ? value.serviceName : value);
         })
       );
   }

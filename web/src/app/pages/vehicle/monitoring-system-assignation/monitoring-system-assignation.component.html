@@ -1,5 +1,5 @@
 <div class="monitoring-system-assignation-header">
-  <h1 mat-dialog-title>Asignación de servicio de monitoreo {{monitoringSystem.serviceName}}</h1>
+  <h1 mat-dialog-title>Asignación de servicio de monitoreo al vehiculo {{vehicle.licensePlate}}</h1>
   <button mat-icon-button aria-label="close details button" (click)="closeDetails()">
     <mat-icon>close</mat-icon>
   </button>
@@ -15,7 +15,7 @@
              [matAutocomplete]="auto">
       <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayOption">
         <mat-option *ngFor="let option of filteredOptions | async" [value]="option">
-          {{option.licensePlate}}
+          {{option.serviceName}}
         </mat-option>
       </mat-autocomplete>
       <mat-error *ngIf="myControl.errors?.required">
