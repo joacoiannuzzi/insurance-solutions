@@ -62,9 +62,10 @@ public class VehicleController {
         return ResponseEntity.ok(vehicleService.addDrivingProfile(vehicleId, drivingProfileId));
     }
 
-    @PutMapping("/{vehicleId}/delete-driving-profile/{drivingProfileId}")
-    public ResponseEntity<DrivingProfile> deleteVehicle(@PathVariable Long vehicleId, @PathVariable Long drivingProfileId) {
-        return ResponseEntity.ok(vehicleService.deleteDrivingProfile(vehicleId, drivingProfileId));
+    @DeleteMapping("/{vehicleId}/delete-driving-profile/{drivingProfileId}")
+    public ResponseEntity<String> deleteDrivingProfile(@PathVariable Long vehicleId, @PathVariable Long drivingProfileId) {
+        vehicleService.deleteDrivingProfile(vehicleId, drivingProfileId);
+        return new ResponseEntity<>("Driving profile deleted", HttpStatus.OK);
     }
 
     @PutMapping("/{vehicleId}/set-monitoring-system/{monitoringSystemId}")

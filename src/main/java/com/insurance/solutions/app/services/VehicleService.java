@@ -77,15 +77,17 @@ public class VehicleService {
         return drivingProfile;
     }
 
-    public DrivingProfile deleteDrivingProfile(Long vehicleId, Long drivingProfileId) {
+    public void deleteDrivingProfile(Long vehicleId, Long drivingProfileId) {
         DrivingProfile drivingProfile = drivingProfileRepository.findById(drivingProfileId)
                 .orElseThrow(() -> new ResourceNotFoundException("Driving profile not found."));
 
-        if (drivingProfile.getVehicle() == null || !drivingProfile.getVehicle().getId().equals(vehicleId))
+        Vehicle vehicle = drivingProfile.getVehicle();
+
+        if (vehicle == null || !drivingProfile.getVehicle().getId().equals(vehicleId))
             throw new BadRequestException("Driving profile does not belong to vehicle.");
 
-        drivingProfile.setVehicle(null);
-        return drivingProfileRepository.save(drivingProfile);
+        vehicle.removeDrivingProfile(drivingProfile);
+        vehicleRepository.save(vehicle);
     }
 
     public void deleteAll() {
