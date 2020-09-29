@@ -50,9 +50,9 @@ export class MonitoringSystemListComponent implements OnInit, AfterViewInit {
     })
   }
 
-  openDialog() {
+  openDialog(): void {
     const dialogRef = this.dialog.open(MonitoringSystemAddComponent, {
-      width: '800px',
+      width: '300px',
       data: new MonitoringSystem(null, "", "", "", false)
     });
 

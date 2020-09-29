@@ -1,3 +1,4 @@
+import { MonitoringSystemAddComponent } from './pages/monitoring-system/monitoring-system-add/monitoring-system-add.component';
 import { MonitoringSystemService } from './../shared/services/monitoring-system.service';
 import { VehicleListComponent } from './pages/vehicle/vehicle-list/vehicle-list.component';
 import { BrowserModule } from '@angular/platform-browser';
@@ -56,7 +57,8 @@ import { MonitoringSystemListComponent } from './pages/monitoring-system/monitor
     VehicleAddComponent,
     VehicleDetailsComponent,
     VehicleUpdateComponent,
-    MonitoringSystemListComponent
+    MonitoringSystemListComponent,
+    MonitoringSystemAddComponent
 
    ],
   imports: [

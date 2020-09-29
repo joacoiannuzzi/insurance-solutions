@@ -6,6 +6,7 @@ import {Observable} from "rxjs";
 import {catchError, map} from "rxjs/operators";
 import {Vehicle} from "../models/vehicle";
 import {MatSnackBar} from "@angular/material/snack-bar";
+import { throwMatDialogContentAlreadyAttachedError } from '@angular/material/dialog';
 
 @Injectable()
 export class MonitoringSystemService {
@@ -39,6 +40,11 @@ export class MonitoringSystemService {
         subscriber.next(this.monitoringSystemsList)
       )
       : this.findAll();
+  }
+
+  public save(moSys: MonitoringSystem) {
+    // Acá iría el request
+    return this.monitoringSystems;
   }
 
 }

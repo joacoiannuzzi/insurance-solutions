@@ -4,7 +4,6 @@ import { MonitoringSystemService } from './../../../../shared/services/monitorin
 import { FormGroup, FormControl } from '@angular/forms';
 import { Component, OnInit, Inject } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
-import { inject } from '@angular/core/testing';
 
 @Component({
   selector: 'app-monitoring-system-add',
@@ -26,7 +25,7 @@ export class MonitoringSystemAddComponent implements OnInit {
       serviceName: new FormControl('', [
         Validators.required,
         Validators.minLength(2),
-        Validators.pattern('[A-Z0-9 _]*[A-Z0-9][A-Z0-9 _]')
+        Validators.pattern('^[a-zA-Z ]*$')
       ]),
       sensor: new FormControl('', [
         Validators.required,
@@ -36,7 +35,7 @@ export class MonitoringSystemAddComponent implements OnInit {
       company: new FormControl('', [
         Validators.required,
         Validators.minLength(2),
-        Validators.pattern('[A-Z0-9 _]*[A-Z0-9][A-Z0-9 _]')
+        Validators.pattern('^[a-zA-Z ]*$')
       ]),
 
     })
@@ -44,6 +43,7 @@ export class MonitoringSystemAddComponent implements OnInit {
   get serviceName() { return this.monitoringSystemForm.get('serviceName');}
   get sensor() { return this.monitoringSystemForm.get('sensor');}
   get company() { return this.monitoringSystemForm.get('company');}
+  get invalid() { return this.monitoringSystemForm.invalid }
 
   close(): void {
     this.dialogRef.close();
