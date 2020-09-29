@@ -74,7 +74,7 @@ export class ClientAddComponent implements OnInit {
       Object.keys(this.clientForm.value).map((key) => this.data[key] = this.clientForm.value[key]);
 
       this.clientService.save(this.data).subscribe(res => {
-        this.dialogRef.close(res);
+        if (!res) this.dialogRef.close(res);
         this.clientService.clients.subscribe();
       })
     }
