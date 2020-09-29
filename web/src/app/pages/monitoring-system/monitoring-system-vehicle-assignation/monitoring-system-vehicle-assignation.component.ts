@@ -5,8 +5,8 @@ import {Observable} from "rxjs";
 import {MAT_DIALOG_DATA, MatDialog, MatDialogRef} from "@angular/material/dialog";
 import {MonitoringSystem} from "../../../../shared/models/monitoringSystem";
 import {VehicleService} from "../../../../shared/services/vehicle.service";
-import {MonitoringSystemService} from "../../../../shared/services/monitoringSystem.service";
 import {map, startWith} from "rxjs/operators";
+import {MonitoringSystemService} from "../../../../shared/services/monitoring-system.service";
 
 @Component({
   selector: 'app-monitoring-system-vehicle-assignation',
@@ -65,9 +65,6 @@ export class MonitoringSystemVehicleAssignationComponent implements OnInit {
     if (this.myControl.valid) {
       this.monitoringSystemService.assignVehicle(this.monitoringSystem.id, this.myControl.value?.id).subscribe(() => {
         this.dialogRef.close();
-        this.monitoringSystemService.vehicles(this.monitoringSystem).subscribe(() => {
-          this.getVehicles();
-        });
       });
     }
   }

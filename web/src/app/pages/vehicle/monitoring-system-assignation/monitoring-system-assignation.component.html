@@ -1,1 +1,30 @@
-<p>monitoring-system-assignation works!</p>
+<div class="monitoring-system-assignation-header">
+  <h1 mat-dialog-title>Asignación de servicio de monitoreo {{monitoringSystem.serviceName}}</h1>
+  <button mat-icon-button aria-label="close details button" (click)="closeDetails()">
+    <mat-icon>close</mat-icon>
+  </button>
+</div>
+<div  mat-dialog-content class="monitoring-system-assignation-content">
+  <form class="example-form">
+    <mat-form-field class="example-full-width">
+      <mat-label>Ingrese Dominio</mat-label>
+      <input type="text"
+             placeholder="Ingrese Dominio"
+             matInput
+             [formControl]="myControl"
+             [matAutocomplete]="auto">
+      <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayOption">
+        <mat-option *ngFor="let option of filteredOptions | async" [value]="option">
+          {{option.licensePlate}}
+        </mat-option>
+      </mat-autocomplete>
+      <mat-error *ngIf="myControl.errors?.required">
+        Se <strong>requiere</strong> dominio
+      </mat-error>
+    </mat-form-field>
+  </form>
+</div>
+<div mat-dialog-actions class="monitoring-system-assignation-actions">
+  <button mat-button (click)="cancel()">Cancelar</button>
+  <button mat-button [disabled]="invalid" (click)="assignMonitoringSystem()">Aceptar</button>
+</div>
