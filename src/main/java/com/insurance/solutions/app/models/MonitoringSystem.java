@@ -21,6 +21,8 @@ public class MonitoringSystem {
     @JoinColumn(name = "vehicle_id", referencedColumnName = "id")
     private Vehicle vehicle;
 
+    private boolean isAssigned;
+
     public MonitoringSystem() {
     }
 
@@ -67,6 +69,15 @@ public class MonitoringSystem {
     }
 
     public void setVehicle(Vehicle vehicle) {
+
         this.vehicle = vehicle;
+    }
+
+    public boolean isAssigned() {
+        return isAssigned;
+    }
+
+    public void setAssigned(boolean assigned) {
+        isAssigned = assigned;
     }
 }

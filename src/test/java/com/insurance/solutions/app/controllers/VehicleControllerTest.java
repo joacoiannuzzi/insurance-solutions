@@ -4,15 +4,14 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.insurance.solutions.app.exceptions.BadRequestException;
 import com.insurance.solutions.app.exceptions.ResourceNotFoundException;
-import com.insurance.solutions.app.models.Client;
-import com.insurance.solutions.app.models.DrivingProfile;
-import com.insurance.solutions.app.models.Vehicle;
-import com.insurance.solutions.app.models.ENUM_CATEGORY;
+import com.insurance.solutions.app.models.*;
 import com.insurance.solutions.app.repositories.ClientRepository;
 import com.insurance.solutions.app.repositories.VehicleRepository;
 import com.insurance.solutions.app.services.ClientService;
 import com.insurance.solutions.app.services.DrivingProfileService;
+import com.insurance.solutions.app.services.MonitoringSystemService;
 import com.insurance.solutions.app.services.VehicleService;
+import com.insurance.solutions.app.utils.FunctionUtils;
 import org.junit.Assert;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,6 +25,9 @@ import java.io.UnsupportedEncodingException;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
+import java.util.Random;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import static com.insurance.solutions.app.models.ENUM_CATEGORY.*;
 import static org.junit.Assert.*;
@@ -63,6 +65,9 @@ class VehicleControllerTest {
 
     @Autowired
     private DrivingProfileService drivingProfileService;
+
+    @Autowired
+    private MonitoringSystemService monitoringSystemService;
 
     private String toJson(Object o) throws JsonProcessingException {
         return objectMapper.writeValueAsString(o);
@@ -327,7 +332,7 @@ class VehicleControllerTest {
 
         mockMvc
                 .perform(
-                        put(urlBase + "/" + vehicleMockId + "/add-vehicle/" + drivingProfileMockID)
+                        put(urlBase + "/" + vehicleMockId + "/add-driving-profile/" + drivingProfileMockID)
                 )
                 .andExpect(status().isNotFound());
     }
@@ -543,6 +548,119 @@ class VehicleControllerTest {
         List<Vehicle> after = vehicleService.findAll();
 
         assertEquals("Size should be the same", before.size(), after.size());
+    }
+
+    @Test
+    void setMonitoringSystemToVehicle() throws Exception {
+        final var vehicle = new Vehicle("345345345", CAR, "brand", "model");
+        final var monitoringSystem = new MonitoringSystem("name_34524234", "sensor_4592704729034", "monitoringCompany_4598458345");
+
+        Long vehicleId = vehicleService.createVehicle(vehicle).getId();
+        final var savedMonitoringSystem = monitoringSystemService.createMonitoringSystem(monitoringSystem);
+        savedMonitoringSystem.setAssigned(true);
+
+        mockMvc
+                .perform(
+                        put(urlBase + "/" + vehicleId + "/set-monitoring-system/" + savedMonitoringSystem.getId())
+                )
+                .andExpect(status().isOk())
+                .andExpect(content().contentType(APPLICATION_JSON))
+                .andExpect(content().json(toJson(savedMonitoringSystem)));
+
+        // add existing monitoring system to non existing vehicle
+        long vehicleMockId = 1000L;
+
+        Exception exception1 = assertThrows(ResourceNotFoundException.class, () -> vehicleService.setMonitoringSystem(vehicleMockId, savedMonitoringSystem.getId()));
+        assertEquals("Vehicle not found.", exception1.getMessage());
+
+        mockMvc
+                .perform(
+                        put(urlBase + "/" + vehicleMockId + "/set-monitoring-system//" + savedMonitoringSystem.getId())
+                )
+                .andExpect(status().isNotFound());
+
+        // add non existing monitoring system to existing vehicle
+        long monitoringSystemMockId = 1000L;
+
+        Exception exception2 = assertThrows(ResourceNotFoundException.class, () -> vehicleService.setMonitoringSystem(vehicleId, monitoringSystemMockId));
+        assertEquals("Monitoring system not found.", exception2.getMessage());
+
+        mockMvc
+                .perform(
+                        put(urlBase + "/" + vehicleId + "/set-monitoring-system/" + monitoringSystemMockId)
+                )
+                .andExpect(status().isNotFound());
+
+        // add not existing monitoring system to not existing vehicle
+        Exception exception3 = assertThrows(ResourceNotFoundException.class, () -> vehicleService.setMonitoringSystem(vehicleMockId, monitoringSystemMockId));
+        assertEquals("Vehicle not found.", exception3.getMessage());
+
+        mockMvc
+                .perform(
+                        put(urlBase + "/" + vehicleMockId + "/set-monitoring-system/" + monitoringSystemMockId)
+                )
+                .andExpect(status().isNotFound());
+    }
+
+    @Test
+    void getAllVehiclesWithoutMonitoringSystem() throws Exception {
+
+        vehicleService.deleteAll();
+
+        // empty list
+
+        final var emptyList = Collections.emptyList();
+
+        MvcResult mvcResult = mockMvc
+                .perform(
+                        get(urlBase + "/without-monitoring-system")
+                )
+                .andExpect(status().isOk())
+                .andExpect(content().contentType(APPLICATION_JSON))
+                .andExpect(content().json(toJson(emptyList)))
+                .andReturn();
+
+        List list = toClass(mvcResult, List.class);
+
+        assertEquals("Size should be the same", emptyList.size(), list.size());
+
+
+        // with 10 vehicles
+
+        final var vehicles = Stream.generate(new Random()::nextInt)
+                .limit(10)
+                .map(number -> new Vehicle("licensePlate_" + number, CAR, "brand_" + number, "model_" + number))
+                .map(vehicle -> vehicleService.createVehicle(vehicle))
+                .collect(Collectors.toList());
+
+        final var monitoringSystems = Stream.generate(new Random()::nextInt)
+                .limit(20)
+                .map(number -> new MonitoringSystem("name_" + number, "sensor_" + number, "monitoringCompany_" + number))
+                .map(monitoringSystem -> monitoringSystemService.createMonitoringSystem(monitoringSystem))
+                .collect(Collectors.toList());
+
+
+        FunctionUtils.zip(
+                vehicles.stream(),
+                monitoringSystems.stream(),
+                (vehicle, monitoringSystem) -> vehicleService.setMonitoringSystem(vehicle.getId(), monitoringSystem.getId())
+        );
+
+        final var allMonitoringSystemsWithoutVehicle = vehicleService.getAllVehiclesWithoutMonitoringSystem();
+
+        MvcResult mvcResult2 = mockMvc
+                .perform(
+                        get(urlBase + "/without-monitoring-system")
+                )
+                .andExpect(status().isOk())
+                .andExpect(content().contentType(APPLICATION_JSON))
+                .andExpect(content().json(toJson(allMonitoringSystemsWithoutVehicle)))
+                .andReturn();
+
+        List list2 = toClass(mvcResult2, List.class);
+
+        assertEquals("Size should be the same", allMonitoringSystemsWithoutVehicle.size(), list2.size());
+
     }
 
 }
