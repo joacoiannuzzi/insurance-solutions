@@ -607,6 +607,7 @@ class VehicleControllerTest {
 
         vehicleService.deleteAll();
 
+
         // empty list
 
         final var emptyList = Collections.emptyList();
