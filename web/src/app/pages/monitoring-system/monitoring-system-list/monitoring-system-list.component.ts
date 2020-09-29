@@ -13,7 +13,7 @@ import { MatPaginator } from '@angular/material/paginator';
   styleUrls: ['./monitoring-system-list.component.scss']
 })
 export class MonitoringSystemListComponent implements OnInit, AfterViewInit {
-  displayedColumns: string[] = ["serviceName", "sensor", "company", "isAssigned"];
+  displayedColumns: string[] = ["name", "sensor", "monitoringCompany", "assigned"];
   monitoringSystems: MonitoringSystem[];
   dataSource: MatTableDataSource<MonitoringSystem> = new MatTableDataSource<MonitoringSystem>();
   loading: boolean = true;
@@ -44,6 +44,7 @@ export class MonitoringSystemListComponent implements OnInit, AfterViewInit {
   getMonitoringSystems() {
     this.loading = true;
     this.monitoringSystemService.monitoringSystems.subscribe((data) => {
+      console.log(data);
       this.monitoringSystems = data; 
       this.loading = false;
       this.dataSource.data = this.monitoringSystems;
@@ -60,5 +61,7 @@ export class MonitoringSystemListComponent implements OnInit, AfterViewInit {
       this.getMonitoringSystems();
     });
   }
+
+
 
 }
