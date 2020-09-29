@@ -42,6 +42,21 @@ export class MonitoringSystemService {
       : this.findAll();
   }
 
-
+  assignVehicle(MonitoringSystemId: number, vehicleId: number) {
+    /*return this.http.put<Client>(`${this.clientsUrl}/${clientId}/add-vehicle/${vehicleId}`, {}).pipe(
+      map((res: any) => {
+        this.vehicleList = [...this.vehicleList, Vehicle.fromJsonObject(res)];
+        this.snackBar.open('El cliente fué actualizado con éxito.', '', {
+          duration: 2000,
+        });
+      }),
+      catchError(() => {
+        this.snackBar.open('Hubo un error al actualizar el cliente.', '', {
+          duration: 2000,
+        });
+        return this.clients;
+      })
+    );*/
+  }
 
 }
