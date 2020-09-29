@@ -1,5 +1,6 @@
 import {category} from "./category";
 import {DrivingProfile} from "./drivingProfile";
+import {MonitoringSystem} from "./monitoringSystem";
 
 export class Vehicle {
   id: number;
@@ -8,10 +9,10 @@ export class Vehicle {
   brand: string;
   model: string;
   drivingProfiles: DrivingProfile[];
-  monitoringSystems: string;
+  monitoringSystems: MonitoringSystem[];
 
 
-  constructor(id: number, licensePlate: string, category: category, brand: string, model: string, drivingProfiles: DrivingProfile[], monitoringSystems: string) {
+  constructor(id: number, licensePlate: string, category: category, brand: string, model: string, drivingProfiles: DrivingProfile[], monitoringSystems: MonitoringSystem[]) {
     this.id = id;
     this.licensePlate = licensePlate;
     this.category = category;

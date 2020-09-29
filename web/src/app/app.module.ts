@@ -38,6 +38,7 @@ import { VehicleUpdateComponent } from './pages/vehicle/vehicle-update/vehicle-u
 import { MonitoringSystemListComponent } from './pages/monitoring-system/monitoring-system-list/monitoring-system-list.component';
 import { MonitoringSystemDetailsComponent } from './pages/monitoring-system/monitoring-system-details/monitoring-system-details.component';
 import {MonitoringSystemService} from "../shared/services/monitoring-system.service";
+import { MonitoringSystemAssignationComponent } from './pages/monitoring-system/monitoring-system-assignation/monitoring-system-assignation.component';
 
 @NgModule({
   declarations: [
@@ -59,7 +60,8 @@ import {MonitoringSystemService} from "../shared/services/monitoring-system.serv
     VehicleUpdateComponent,
     MonitoringSystemDetailsComponent,
     VehicleUpdateComponent,
-    MonitoringSystemListComponent
+    MonitoringSystemListComponent,
+    MonitoringSystemAssignationComponent
 
    ],
   imports: [
