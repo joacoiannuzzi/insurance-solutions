@@ -34,4 +34,17 @@ public class MonitoringSystemService {
     public List<MonitoringSystem> getAllMonitoringSystems() {
         return (List<MonitoringSystem>) monitoringSystemRepository.findAll();
     }
+
+    public List<MonitoringSystem> getAllMonitoringSystemsWithoutVehicle() {
+        return monitoringSystemRepository.findAllByIsAssignedIsFalse();
+    }
+
+    public void deleteAll() {
+        findAll().forEach(monitoringSystem -> {
+            monitoringSystem.setVehicle(null);
+            monitoringSystem.setAssigned(false);
+            monitoringSystemRepository.save(monitoringSystem);
+        });
+        monitoringSystemRepository.deleteAll();
+    }
 }

@@ -33,4 +33,9 @@ public class MonitoringSystemController {
     public ResponseEntity<List<MonitoringSystem>> getAllMonitoringSystems() {
         return ResponseEntity.ok(monitoringSystemService.getAllMonitoringSystems());
     }
+
+    @GetMapping("without-vehicle")
+    public ResponseEntity<List<MonitoringSystem>> getAllMonitoringSystemsWithoutVehicle() {
+        return ResponseEntity.ok(monitoringSystemService.getAllMonitoringSystemsWithoutVehicle());
+    }
 }

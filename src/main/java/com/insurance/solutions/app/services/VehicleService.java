@@ -4,6 +4,7 @@ package com.insurance.solutions.app.services;
 import com.insurance.solutions.app.exceptions.BadRequestException;
 import com.insurance.solutions.app.exceptions.ResourceNotFoundException;
 import com.insurance.solutions.app.models.DrivingProfile;
+import com.insurance.solutions.app.models.MonitoringSystem;
 import com.insurance.solutions.app.models.Vehicle;
 import com.insurance.solutions.app.repositories.DrivingProfileRepository;
 import com.insurance.solutions.app.repositories.VehicleRepository;
@@ -21,6 +22,9 @@ public class VehicleService {
 
     @Autowired
     private DrivingProfileRepository drivingProfileRepository;
+
+    @Autowired
+    private MonitoringSystemService monitoringSystemService;
 
     public Vehicle createVehicle(Vehicle vehicle) {
         if (vehicleRepository.existsByLicensePlate(vehicle.getLicensePlate()))
@@ -86,12 +90,31 @@ public class VehicleService {
 
     public void deleteAll() {
         List<Vehicle> vehicles = findAll();
-        for (Vehicle vehicle: vehicles) {
-            for (DrivingProfile drivingProfile: vehicle.getDrivingProfiles()) vehicle.removeDrivingProfile(drivingProfile);
+        for (Vehicle vehicle : vehicles) {
+            for (DrivingProfile drivingProfile : vehicle.getDrivingProfiles())
+                vehicle.removeDrivingProfile(drivingProfile);
             vehicle.setMonitoringSystem(null);
             vehicle.setClient(null);
             vehicleRepository.save(vehicle);
         }
         vehicleRepository.deleteAll();
+    }
+
+    public MonitoringSystem setMonitoringSystem(Long vehicleId, Long monitoringSystemId) {
+        final var vehicle = findById(vehicleId);
+        final var monitoringSystem = monitoringSystemService.findById(monitoringSystemId);
+
+        monitoringSystem.setVehicle(vehicle);
+        monitoringSystem.setAssigned(true);
+
+        vehicle.setMonitoringSystem(monitoringSystem);
+
+        vehicleRepository.save(vehicle);
+        return monitoringSystem;
+
+    }
+
+    public List<Vehicle> getAllVehiclesWithoutMonitoringSystem() {
+        return vehicleRepository.findAllByMonitoringSystemIsNull();
     }
 }
