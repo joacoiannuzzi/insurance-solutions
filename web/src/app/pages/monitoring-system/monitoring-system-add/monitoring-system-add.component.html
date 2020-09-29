@@ -9,7 +9,7 @@
           <mat-label>Nombre del Servicio</mat-label>
           <input matInput [formControl]="serviceName" placeholder="Vigilancia">
           <mat-error *ngIf="serviceName.errors?.pattern && !serviceName.errors?.minlength && !serviceName.errors?.required">
-            Solo caracteres validos
+            Solo caracteres válidos
           </mat-error>
           <mat-error *ngIf="serviceName.errors?.minlength && !serviceName.errors?.required">
             Tiene que tener un mínimo de 2 caracteres
@@ -25,10 +25,10 @@
           <mat-label>Nombre del Sensor</mat-label>
           <input matInput [formControl]="sensor" placeholder="Cámara">
           <mat-error *ngIf="sensor.errors?.pattern && !sensor.errors?.minlength && !sensor.errors?.required">
-            Solo caracteres validos
+            Solo caracteres válidos
           </mat-error>
           <mat-error *ngIf="sensor.errors?.minlength && !sensor.errors?.required">
-            Tiene que tener un mínimo de 2 caracteres
+            Debe tener un mínimo de 2 caracteres
           </mat-error>
           <mat-error *ngIf="sensor.errors?.required">
             Se <strong>requiere</strong> el nombre del sensor
