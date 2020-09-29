@@ -35,16 +35,14 @@ public class MonitoringSystemService {
         return (List<MonitoringSystem>) monitoringSystemRepository.findAll();
     }
 
-    public List<MonitoringSystem> getAllMonitoringSystemsWithoutVehicle() {
-        return monitoringSystemRepository.findAllByIsAssignedIsFalse();
-    }
+    public MonitoringSystem updateMonitoringSystem(Long monitoringSystemId, MonitoringSystem monitoringSystem) {
+        MonitoringSystem oldMonitoringSystem = monitoringSystemRepository.findById(monitoringSystemId)
+                .orElseThrow(() -> new ResourceNotFoundException("Monitoring system not found."));
+        MonitoringSystem newMonitoringSystem = new MonitoringSystem(monitoringSystem.getName(), monitoringSystem.getSensor(),
+                monitoringSystem.getMonitoringCompany());
+        newMonitoringSystem.setVehicle(oldMonitoringSystem.getVehicle());
 
-    public void deleteAll() {
-        findAll().forEach(monitoringSystem -> {
-            monitoringSystem.setVehicle(null);
-            monitoringSystem.setAssigned(false);
-            monitoringSystemRepository.save(monitoringSystem);
-        });
-        monitoringSystemRepository.deleteAll();
+        newMonitoringSystem.setId(oldMonitoringSystem.getId());
+        return monitoringSystemRepository.save(newMonitoringSystem);
     }
 }

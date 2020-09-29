@@ -56,6 +56,8 @@ export class MonitoringSystemService {
     )
 
   }
+  public delete(moSys: MonitoringSystem) {
+  }
 
 
 }

@@ -4,6 +4,7 @@ import { MonitoringSystemService } from './../../../../shared/services/monitorin
 import { FormGroup, FormControl } from '@angular/forms';
 import { Component, OnInit, Inject } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
+import { ConfirmDialogComponent } from '../../../components/confirm-dialog/confirm-dialog.component';
 
 @Component({
   selector: 'app-monitoring-system-add',
@@ -56,7 +57,24 @@ export class MonitoringSystemAddComponent implements OnInit {
         this.dialogRef.close(res);
         this.monitoringSystemService.monitoringSystems.subscribe();
       })
-}
+    }
+  }
+
+  deleteMonitoringSystem(moSys: MonitoringSystem) {
+    this.dialogRef.open(ConfirmDialogComponent, {
+      data: "¿Está seguro que desea eliminar el servicio de monitoreo "
+        + moSys.name
+        + ", con el sensor " + moSys.sensor +
+        ", de la empresa " + moSys.monitoringCompany + "?"
+    })
+      .afterClosed()
+      .subscribe((confirmed: boolean) => {
+        if (confirmed) {
+          this.monitoringSystemService.delete(moSys).subscribe(() => {
+            this.saveMonitoringSystem();
+        })
+      }
+    })
   }
 
 }
