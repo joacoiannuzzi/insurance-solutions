@@ -54,4 +54,17 @@ export class MonitoringSystemDetailsComponent implements OnInit {
     });
     dialogRef.afterClosed().subscribe();*/
   }
+
+  unassignMonitoringSystem() {
+    this.dialog.open(ConfirmDialogComponent, {
+      data: "¿Está seguro de que desea desasignar al servicio de monitoreo " + this.monitoringSystem.serviceName + "?"
+    })
+      .afterClosed()
+      .subscribe((confirmed: boolean) => {
+        console.log(confirmed)
+        if (confirmed) {
+          this.monitoringSystemService.unassignVehicle(this.monitoringSystem.id);
+        }
+      })
+  }
 }

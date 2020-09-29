@@ -42,6 +42,7 @@ export class MonitoringSystemService {
       : this.findAll();
   }
 
-
-
+  unassignVehicle(MonitoringSystemId: number) {
+    //Back not implemented yet
+  }
 }
