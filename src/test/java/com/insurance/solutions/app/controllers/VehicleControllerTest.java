@@ -9,6 +9,7 @@ import com.insurance.solutions.app.models.DrivingProfile;
 import com.insurance.solutions.app.models.Vehicle;
 import com.insurance.solutions.app.models.ENUM_CATEGORY;
 import com.insurance.solutions.app.repositories.ClientRepository;
+import com.insurance.solutions.app.repositories.DrivingProfileRepository;
 import com.insurance.solutions.app.repositories.VehicleRepository;
 import com.insurance.solutions.app.services.ClientService;
 import com.insurance.solutions.app.services.DrivingProfileService;
@@ -347,7 +348,7 @@ class VehicleControllerTest {
 
         long vehicleId = vehicleService.createVehicle(vehicle).getId();
 
-        var savedDrivingProfile = drivingProfileService.createDrivingProfile(drivingProfile);
+        DrivingProfile savedDrivingProfile = drivingProfileService.createDrivingProfile(drivingProfile);
 
         vehicleService.addDrivingProfile(vehicleId, savedDrivingProfile.getId());
 
@@ -355,7 +356,7 @@ class VehicleControllerTest {
 
         mockMvc
                 .perform(
-                        put(urlBase + "/" + vehicleId + "/delete-driving-profile/" + drivingProfile.getId())
+                        delete(urlBase + "/" + vehicleId + "/delete-driving-profile/" + savedDrivingProfile.getId())
                 )
                 .andExpect(status().isOk());
 
@@ -365,12 +366,14 @@ class VehicleControllerTest {
 
         // Delete existing drivingProfile in not existing vehicle
 
-        Exception exception1 = assertThrows(BadRequestException.class, () -> vehicleService.deleteDrivingProfile(vehicleMockID, savedDrivingProfile.getId()));
+        DrivingProfile savedDrivingProfile2 = drivingProfileService.createDrivingProfile(drivingProfile);
+
+        Exception exception1 = assertThrows(BadRequestException.class, () -> vehicleService.deleteDrivingProfile(vehicleMockID, savedDrivingProfile2.getId()));
         assertEquals("Driving profile does not belong to vehicle.", exception1.getMessage());
 
         mockMvc
                 .perform(
-                        put(urlBase + "/" + vehicleMockID + "/delete-driving-profile/" + savedDrivingProfile.getId())
+                        delete(urlBase + "/" + vehicleMockID + "/delete-driving-profile/" + savedDrivingProfile2.getId())
                 )
                 .andExpect(status().isBadRequest());
 
@@ -381,7 +384,7 @@ class VehicleControllerTest {
 
         mockMvc
                 .perform(
-                        put(urlBase + "/" + vehicleId + "/delete-driving-profile/" + drivingProfileMockID)
+                        delete(urlBase + "/" + vehicleId + "/delete-driving-profile/" + drivingProfileMockID)
                 )
                 .andExpect(status().isNotFound());
 
@@ -392,7 +395,7 @@ class VehicleControllerTest {
 
         mockMvc
                 .perform(
-                        put(urlBase + "/" + vehicleMockID + "/delete-driving-profile/" + drivingProfileMockID)
+                        delete(urlBase + "/" + vehicleMockID + "/delete-driving-profile/" + drivingProfileMockID)
                 )
                 .andExpect(status().isNotFound());
     }
