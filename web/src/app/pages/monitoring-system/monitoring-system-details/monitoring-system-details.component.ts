@@ -1,4 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, Inject, OnInit} from '@angular/core';
+import {MAT_DIALOG_DATA, MatDialog, MatDialogRef} from "@angular/material/dialog";
+import {ConfirmDialogComponent} from "../../../components/confirm-dialog/confirm-dialog.component";
+import {MonitoringSystem} from "../../../../shared/models/monitoringSystem";
+import {MonitoringSystemService} from "../../../../shared/services/monitoring-system.service";
 
 @Component({
   selector: 'app-monitoring-system-details',
@@ -7,9 +11,47 @@ import { Component, OnInit } from '@angular/core';
 })
 export class MonitoringSystemDetailsComponent implements OnInit {
 
-  constructor() { }
+  constructor(public dialogRef: MatDialogRef<MonitoringSystemDetailsComponent>,
+              @Inject(MAT_DIALOG_DATA) public monitoringSystem: MonitoringSystem,
+              public dialog: MatDialog,
+              public monitoringSystemService: MonitoringSystemService,
+  ) {
+  }
 
   ngOnInit(): void {
   }
 
+  closeDetails() {
+    this.dialogRef.close();
+  }
+
+  deleteMonitoringSystem() {
+    this.dialog.open(ConfirmDialogComponent, {
+      data: "¿Está seguro de que desea eliminar al servicio de monitoreo " + this.monitoringSystem.serviceName + "?"
+    })
+      .afterClosed()
+      .subscribe((confirmed: boolean) => {
+        console.log(confirmed)
+        if (confirmed) {
+          this.monitoringSystemService.deleteMonitoringSystem();
+        }
+      })
+  }
+
+  updateMonitoringSystem() {
+    /*const dialogRef = this.dialog.open(MonitoringSystemUpdateComponent, {
+      width: '800px',
+      data: this.monitoringSystem
+    });
+    dialogRef.afterClosed().subscribe();*/
+  }
+
+  assignMonitoringSystem() {
+    //US-FE-018
+    /*const dialogRef = this.dialog.open(MonitoringSystemAssignationComponent, {
+      width: '800px',
+      data: this.monitoringSystem
+    });
+    dialogRef.afterClosed().subscribe();*/
+  }
 }

@@ -1,10 +1,8 @@
-import { MonitoringSystem } from './../models/monitoringSystem';
+import { MonitoringSystem } from '../models/monitoringSystem';
 import {Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
-import {Client} from '../models/client';
 import {Observable} from "rxjs";
 import {catchError, map} from "rxjs/operators";
-import {Vehicle} from "../models/vehicle";
 import {MatSnackBar} from "@angular/material/snack-bar";
 
 @Injectable()
@@ -31,9 +29,11 @@ export class MonitoringSystemService {
       })
     );
   }
- 
 
-  
+  deleteMonitoringSystem() {
+    //Back not implemented yet
+  }
+
   get monitoringSystems(): Observable<MonitoringSystem[]> {
     return this.monitoringSystemsList
       ? new Observable<MonitoringSystem[]>((subscriber) =>
@@ -43,5 +43,5 @@ export class MonitoringSystemService {
   }
 
 
-  
+
 }
