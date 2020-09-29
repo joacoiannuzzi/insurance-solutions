@@ -33,4 +33,9 @@ public class MonitoringSystemController {
     public ResponseEntity<List<MonitoringSystem>> getAllMonitoringSystems() {
         return ResponseEntity.ok(monitoringSystemService.getAllMonitoringSystems());
     }
+
+    @PutMapping("/update/{monitoringSystemId}")
+    public ResponseEntity<MonitoringSystem> updateMonitoringSystem(@PathVariable Long monitoringSystemId, @RequestBody MonitoringSystem monitoringSystem) {
+        return new ResponseEntity<>(monitoringSystemService.updateMonitoringSystem(monitoringSystemId, monitoringSystem), HttpStatus.OK);
+    }
 }

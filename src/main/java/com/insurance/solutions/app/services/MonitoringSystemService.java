@@ -34,4 +34,15 @@ public class MonitoringSystemService {
     public List<MonitoringSystem> getAllMonitoringSystems() {
         return (List<MonitoringSystem>) monitoringSystemRepository.findAll();
     }
+
+    public MonitoringSystem updateMonitoringSystem(Long monitoringSystemId, MonitoringSystem monitoringSystem) {
+        MonitoringSystem oldMonitoringSystem = monitoringSystemRepository.findById(monitoringSystemId)
+                .orElseThrow(() -> new ResourceNotFoundException("Monitoring system not found."));
+        MonitoringSystem newMonitoringSystem = new MonitoringSystem(monitoringSystem.getName(), monitoringSystem.getSensor(),
+                monitoringSystem.getMonitoringCompany());
+        newMonitoringSystem.setVehicle(oldMonitoringSystem.getVehicle());
+
+        newMonitoringSystem.setId(oldMonitoringSystem.getId());
+        return monitoringSystemRepository.save(newMonitoringSystem);
+    }
 }
