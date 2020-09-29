@@ -7,8 +7,7 @@ import com.insurance.solutions.app.models.MonitoringSystem;
 import com.insurance.solutions.app.models.Vehicle;
 import com.insurance.solutions.app.repositories.MonitoringSystemRepository;
 import com.insurance.solutions.app.services.MonitoringSystemService;
-import com.insurance.solutions.app.services.VehicleService;
-import com.insurance.solutions.app.utils.FunctionUtils;
+import org.junit.Assert;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -28,8 +27,8 @@ import static com.insurance.solutions.app.models.ENUM_CATEGORY.CAR;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertThrows;
 import static org.springframework.http.MediaType.APPLICATION_JSON;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @SpringBootTest
@@ -174,64 +173,45 @@ class MonitoringSystemControllerTest {
     }
 
     @Test
-    void getAllMonitoringSystemWithoutVehicles() throws Exception {
+    public void deleteExistingMonitoringSystem() throws Exception {
+        MonitoringSystem monitoringSystem = new MonitoringSystem("name2", "sensor2", "monitoringCompany2");
 
-        monitoringSystemService.deleteAll();
+        long monitoringSystemId = monitoringSystemService.createMonitoringSystem(monitoringSystem).getId();
 
-        // empty list
 
-        final var emptyList = Collections.emptyList();
+        Assert.assertEquals(toJson(monitoringSystem), toJson(monitoringSystemService.findById(monitoringSystemId)));
 
-        MvcResult mvcResult = mockMvc
+        mockMvc
                 .perform(
-                        get(urlBase + "/without-vehicle")
+                        delete(urlBase + "/delete/" + monitoringSystemId)
                 )
-                .andExpect(status().isOk())
-                .andExpect(content().contentType(APPLICATION_JSON))
-                .andExpect(content().json(toJson(emptyList)))
-                .andReturn();
+                .andExpect(status().isOk());
 
-        List list = toClass(mvcResult, List.class);
+        Exception exception = Assert.assertThrows(ResourceNotFoundException.class, () -> monitoringSystemService.findById(monitoringSystemId));
+        Assert.assertEquals("Monitoring system not found.", exception.getMessage());
 
-        assertEquals("Size should be the same", emptyList.size(), list.size());
-
-
-        // with 10 vehicles
-
-        final var vehicles = Stream.generate(new Random()::nextInt)
-                .limit(10)
-                .map(number -> new Vehicle("licensePlate_" + number, CAR, "brand_" + number, "model_" + number))
-                .map(vehicle -> vehicleService.createVehicle(vehicle))
-                .collect(Collectors.toList());
-
-        final var monitoringSystems = Stream.generate(new Random()::nextInt)
-                .limit(20)
-                .map(number -> new MonitoringSystem("name_" + number, "sensor_" + number, "monitoringCompany_" + number))
-                .map(monitoringSystem -> monitoringSystemService.createMonitoringSystem(monitoringSystem))
-                .collect(Collectors.toList());
-
-
-        FunctionUtils.zip(
-                vehicles.stream(),
-                monitoringSystems.stream(),
-                (vehicle, monitoringSystem) -> vehicleService.setMonitoringSystem(vehicle.getId(), monitoringSystem.getId())
-        );
-
-        final var allMonitoringSystemsWithoutVehicle = monitoringSystemService.getAllMonitoringSystemsWithoutVehicle();
-
-        MvcResult mvcResult2 = mockMvc
+        mockMvc
                 .perform(
-                        get(urlBase + "/without-vehicle")
+                        delete(urlBase + "/delete/" + monitoringSystemId)
                 )
-                .andExpect(status().isOk())
-                .andExpect(content().contentType(APPLICATION_JSON))
-                .andExpect(content().json(toJson(allMonitoringSystemsWithoutVehicle)))
-                .andReturn();
-
-        List list2 = toClass(mvcResult2, List.class);
-
-        assertEquals("Size should be the same", allMonitoringSystemsWithoutVehicle.size(), list2.size());
-
+                .andExpect(status().isNotFound());
     }
 
+    @Test
+    void deleteNotExistingMonitoringSystem() throws Exception {
+
+        List<MonitoringSystem> before = monitoringSystemService.findAll();
+
+        long idToDelete = 57775786867867878L;
+
+        mockMvc
+                .perform(
+                        delete(urlBase + "/delete/" + idToDelete)
+                )
+                .andExpect(status().isNotFound());
+
+        List<MonitoringSystem> after = monitoringSystemService.findAll();
+
+        assertEquals("Size should be the same", before.size(), after.size());
+    }
 }

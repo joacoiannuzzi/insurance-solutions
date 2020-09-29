@@ -3,7 +3,9 @@ package com.insurance.solutions.app.services;
 import com.insurance.solutions.app.exceptions.BadRequestException;
 import com.insurance.solutions.app.exceptions.ResourceNotFoundException;
 import com.insurance.solutions.app.models.MonitoringSystem;
+import com.insurance.solutions.app.models.Vehicle;
 import com.insurance.solutions.app.repositories.MonitoringSystemRepository;
+import com.insurance.solutions.app.repositories.VehicleRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -35,14 +37,10 @@ public class MonitoringSystemService {
         return (List<MonitoringSystem>) monitoringSystemRepository.findAll();
     }
 
-    public MonitoringSystem updateMonitoringSystem(Long monitoringSystemId, MonitoringSystem monitoringSystem) {
-        MonitoringSystem oldMonitoringSystem = monitoringSystemRepository.findById(monitoringSystemId)
+    public void deleteMonitoringSystemId(Long monitoringSystemId) {
+        monitoringSystemRepository.findById(monitoringSystemId)
                 .orElseThrow(() -> new ResourceNotFoundException("Monitoring system not found."));
-        MonitoringSystem newMonitoringSystem = new MonitoringSystem(monitoringSystem.getName(), monitoringSystem.getSensor(),
-                monitoringSystem.getMonitoringCompany());
-        newMonitoringSystem.setVehicle(oldMonitoringSystem.getVehicle());
 
-        newMonitoringSystem.setId(oldMonitoringSystem.getId());
-        return monitoringSystemRepository.save(newMonitoringSystem);
+        monitoringSystemRepository.deleteById(monitoringSystemId);
     }
 }
