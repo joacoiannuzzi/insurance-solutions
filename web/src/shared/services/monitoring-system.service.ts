@@ -58,6 +58,10 @@ export class MonitoringSystemService {
       })
     );*/
   }
+  public save(moSys: MonitoringSystem) {
+    // Acá iría el request
+    return this.monitoringSystems;
+  }
 
   getVehicleLess() {
     return this.http.get(this.monitoringSystemsUrl + "/vehicleLess").pipe(

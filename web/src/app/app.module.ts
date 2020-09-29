@@ -1,3 +1,5 @@
+import { MonitoringSystemAddComponent } from './pages/monitoring-system/monitoring-system-add/monitoring-system-add.component';
+import { MonitoringSystemService } from '../shared/services/monitoring-system.service';
 import { VehicleListComponent } from './pages/vehicle/vehicle-list/vehicle-list.component';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
@@ -37,7 +39,6 @@ import { VehicleDetailsComponent } from './pages/vehicle/vehicle-details/vehicle
 import { VehicleUpdateComponent } from './pages/vehicle/vehicle-update/vehicle-update.component';
 import { MonitoringSystemListComponent } from './pages/monitoring-system/monitoring-system-list/monitoring-system-list.component';
 import { MonitoringSystemDetailsComponent } from './pages/monitoring-system/monitoring-system-details/monitoring-system-details.component';
-import {MonitoringSystemService} from "../shared/services/monitoring-system.service";
 import { MonitoringSystemVehicleAssignationComponent } from './pages/monitoring-system/monitoring-system-vehicle-assignation/monitoring-system-vehicle-assignation.component';
 import { MonitoringSystemAssignationComponent } from './pages/vehicle/monitoring-system-assignation/monitoring-system-assignation.component';
 
@@ -63,7 +64,9 @@ import { MonitoringSystemAssignationComponent } from './pages/vehicle/monitoring
     VehicleUpdateComponent,
     MonitoringSystemListComponent,
     MonitoringSystemVehicleAssignationComponent,
-    MonitoringSystemAssignationComponent
+    MonitoringSystemAssignationComponent,
+    MonitoringSystemListComponent,
+    MonitoringSystemAddComponent
 
    ],
   imports: [
