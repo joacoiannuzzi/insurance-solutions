@@ -41,7 +41,7 @@ export class MonitoringSystemService {
         });
       }),
       catchError(() => {
-        this.snackBar.open("Hubo un error al guardar el cliente.", '', {
+        this.snackBar.open("Hubo un error al guardar el servicio de monitoreo.", '', {
           duration: 2000,
         });
         return this.monitoringSystems;
