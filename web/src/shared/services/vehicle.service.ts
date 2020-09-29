@@ -107,6 +107,20 @@ export class VehicleService {
   }
 
   deleteDrivingProfile(vehicleId: number, drivingProfileId: number) {
-    //put request
+    //back request
+  }
+
+  getMonitoringSystemLess() {
+    return this.http.get(this.vehiclesUrl + "/monitoringSystemLess").pipe(
+      map((res: any) => {
+        return res.map((vehicle) => Vehicle.fromJsonObject(vehicle));
+      }),
+      catchError(() => {
+        this.snackBar.open('Hubo un error al traer los vehículos.', '', {
+          duration: 2000,
+        });
+        return this.vehicles;
+      })
+    );
   }
 }
