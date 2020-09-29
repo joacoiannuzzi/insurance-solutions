@@ -55,7 +55,7 @@ export class ClientService {
         });
       }),
       catchError(() => {
-        this.snackBar.open('Hubo un error al guardar el clientes.', '', {
+        this.snackBar.open('Hubo un error al guardar el cliente.', '', {
           duration: 2000,
         });
         return this.clients;
