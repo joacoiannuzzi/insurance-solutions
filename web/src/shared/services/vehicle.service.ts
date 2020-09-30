@@ -4,6 +4,7 @@ import { Vehicle } from '../models/vehicle';
 import {Observable} from "rxjs";
 import {catchError, map} from "rxjs/operators";
 import {MatSnackBar} from "@angular/material/snack-bar";
+import {DrivingProfile} from "../models/drivingProfile";
 
 @Injectable()
 export class VehicleService {
@@ -107,6 +108,19 @@ export class VehicleService {
   }
 
   deleteDrivingProfile(vehicleId: number, drivingProfileId: number) {
-    //put request
+    return this.http.delete<DrivingProfile>(this.vehiclesUrl + "/" + vehicleId + "/delete-driving-profile/" + drivingProfileId).pipe(
+      map(() => {
+        this.findAll();//Reload the list of vehicles to account for changes
+        this.snackBar.open('El perfil de conducción fue eliminado con éxito.', '', {
+          duration: 2000,
+        });
+        return this.vehiclesList;
+      }), catchError( () => {
+          this.snackBar.open('Hubo un error al eliminar el perfil de conducción.', '', {
+            duration: 2000,
+          });
+          return this.vehicles;
+        })
+    );
   }
 }
