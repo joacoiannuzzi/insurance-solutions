@@ -31,8 +31,6 @@ export class MonitoringSystemService {
     );
   }
 
-  deleteMonitoringSystem() {
-    //Back not implemented yet
   deleteMonitoringSystem(monitoringSystemId: number) {
     return this.http.delete<Client>(this.monitoringSystemsUrl + "/delete/" + monitoringSystemId).pipe(
       map(() => {
@@ -77,6 +75,7 @@ export class MonitoringSystemService {
       })
     );*/
   }
+
   public save(moSys: MonitoringSystem) {
     return this.http.post(this.monitoringSystemsUrl + "/create", moSys).pipe(
       map((res: any) => {
