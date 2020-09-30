@@ -45,7 +45,7 @@ export class MonitoringSystemAssignationComponent implements OnInit {
 
   private _filter(value: string): MonitoringSystem[] {
     const filterValue = value.toLowerCase();
-    return this.options.filter(option => option.serviceName.toLowerCase().includes(filterValue));
+    return this.options.filter(option => option.name.toLowerCase().includes(filterValue));
   }
 
   get invalid() {
@@ -53,7 +53,7 @@ export class MonitoringSystemAssignationComponent implements OnInit {
   }
 
   displayOption(option: MonitoringSystem) {
-    return option.serviceName;
+    return option.name;
   }
 
   cancel() {

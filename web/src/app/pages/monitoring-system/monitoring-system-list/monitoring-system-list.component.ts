@@ -1,4 +1,3 @@
-import { MonitoringSystemService } from './../../../../shared/services/monitoring-system.service';
 import { MonitoringSystemAddComponent } from '../monitoring-system-add/monitoring-system-add.component';
 import { MonitoringSystemService } from '../../../../shared/services/monitoring-system.service';
 import { Component, OnInit, AfterViewInit, ViewChild } from '@angular/core';
