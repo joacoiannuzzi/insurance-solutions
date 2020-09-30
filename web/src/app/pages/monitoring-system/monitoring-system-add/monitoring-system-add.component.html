@@ -7,14 +7,14 @@
       <div class="item">
         <mat-form-field appearance="fill">
           <mat-label>Nombre del Servicio</mat-label>
-          <input matInput [formControl]="serviceName" placeholder="Vigilancia">
-          <mat-error *ngIf="serviceName.errors?.pattern && !serviceName.errors?.minlength && !serviceName.errors?.required">
+          <input matInput [formControl]="name" placeholder="Vigilancia">
+          <mat-error *ngIf="name.errors?.pattern && !name.errors?.minlength && !name.errors?.required">
             Solo caracteres válidos
           </mat-error>
-          <mat-error *ngIf="serviceName.errors?.minlength && !serviceName.errors?.required">
+          <mat-error *ngIf="name.errors?.minlength && !name.errors?.required">
             Tiene que tener un mínimo de 2 caracteres
           </mat-error>
-          <mat-error *ngIf="serviceName.errors?.required">
+          <mat-error *ngIf="name.errors?.required">
             Se <strong>requiere</strong> el nombre del servicio
           </mat-error>
         </mat-form-field>
@@ -39,10 +39,10 @@
       <div class="item">
         <mat-form-field appearance="fill">
           <mat-label>Empresa</mat-label>
-          <input matInput [formControl]="company" placeholder="Verisure">
-          <mat-error *ngIf="company.errors?.minlength && !company.errors?.required">
+          <input matInput [formControl]="monitoringCompany" placeholder="Verisure">
+          <mat-error *ngIf="monitoringCompany.errors?.minlength && !monitoringCompany.errors?.required">
           </mat-error>
-          <mat-error *ngIf="company.errors?.required">
+          <mat-error *ngIf="monitoringCompany.errors?.required">
             Se <strong>requiere</strong> el nombre de la empresa
           </mat-error>
         </mat-form-field>

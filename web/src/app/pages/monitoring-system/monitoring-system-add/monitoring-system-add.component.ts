@@ -22,7 +22,7 @@ export class MonitoringSystemAddComponent implements OnInit {
 
   ngOnInit() {
     this.monitoringSystemForm = new FormGroup({
-      serviceName: new FormControl('', [
+      name: new FormControl('', [
         Validators.required,
         Validators.minLength(2),
         Validators.pattern('^[a-zA-Z ]*$')
@@ -32,7 +32,7 @@ export class MonitoringSystemAddComponent implements OnInit {
         Validators.minLength(2),
         Validators.pattern('^[a-zA-Z ]*$')
       ]),
-      company: new FormControl('', [
+      monitoringCompany: new FormControl('', [
         Validators.required,
         Validators.minLength(2),
         Validators.pattern('^[a-zA-Z ]*$')
@@ -40,9 +40,9 @@ export class MonitoringSystemAddComponent implements OnInit {
 
     })
   }
-  get serviceName() { return this.monitoringSystemForm.get('serviceName');}
+  get name() { return this.monitoringSystemForm.get('name');}
   get sensor() { return this.monitoringSystemForm.get('sensor');}
-  get company() { return this.monitoringSystemForm.get('company');}
+  get monitoringCompany() { return this.monitoringSystemForm.get('monitoringCompany');}
   get invalid() { return this.monitoringSystemForm.invalid }
 
   close(): void {

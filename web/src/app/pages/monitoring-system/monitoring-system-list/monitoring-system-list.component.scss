@@ -17,4 +17,9 @@ table {
   span {
     flex: 1;
   }
+
+  .not-assigned {
+    color: green;
+    fill: green;
+  }
 }
