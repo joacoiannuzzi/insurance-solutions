@@ -27,7 +27,7 @@ export class MonitoringSystemDetailsComponent implements OnInit {
 
   deleteMonitoringSystem() {
     this.dialog.open(ConfirmDialogComponent, {
-      data: "¿Está seguro de que desea eliminar al servicio de monitoreo " + this.monitoringSystem.serviceName + "?"
+      data: "¿Está seguro de que desea eliminar al servicio de monitoreo " + this.monitoringSystem.name + "?"
     })
       .afterClosed()
       .subscribe((confirmed: boolean) => {
@@ -57,7 +57,7 @@ export class MonitoringSystemDetailsComponent implements OnInit {
 
   unassignMonitoringSystem() {
     this.dialog.open(ConfirmDialogComponent, {
-      data: "¿Está seguro de que desea desasignar al servicio de monitoreo " + this.monitoringSystem.serviceName + "?"
+      data: "¿Está seguro de que desea desasignar al servicio de monitoreo " + this.monitoringSystem.name + "?"
     })
       .afterClosed()
       .subscribe((confirmed: boolean) => {
