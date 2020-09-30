@@ -1,29 +1,29 @@
 export class MonitoringSystem {
   id: number;
-  serviceName: string;
+  name: string;
   sensor: string;
-  company: string;
-  isAssigned: boolean;
+  monitoringCompany: string;
+  assigned: boolean;
 
   constructor(
     id: number,
-    serviceName: string,
+    name: string,
     sensor: string,
-    company: string,
+    monitoringCompany: string,
     isAssigned: boolean
   ) {
-    this.serviceName = serviceName;
+    this.name = name;
     this.sensor = sensor;
-    this.company = company;
-    this.isAssigned = isAssigned;
+    this.monitoringCompany = monitoringCompany;
+    this.assigned = isAssigned;
   }
 
   static fromJsonObject(jsonObject: any): MonitoringSystem {
     return new MonitoringSystem(
       jsonObject.id,
-      jsonObject.serviceName,
+      jsonObject.name,
       jsonObject.sensor,
-      jsonObject.company,
+      jsonObject.monitoringCompany,
       jsonObject.isAssigned
     );
   }

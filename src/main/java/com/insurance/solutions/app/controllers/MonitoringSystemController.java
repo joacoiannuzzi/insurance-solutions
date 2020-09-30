@@ -38,4 +38,10 @@ public class MonitoringSystemController {
     public ResponseEntity<List<MonitoringSystem>> getAllMonitoringSystemsWithoutVehicle() {
         return ResponseEntity.ok(monitoringSystemService.getAllMonitoringSystemsWithoutVehicle());
     }
+
+    @DeleteMapping("/delete/{monitoringSystemId}")
+    public ResponseEntity<String> deleteMonitoringSystemId(@PathVariable Long monitoringSystemId) {
+        monitoringSystemService.deleteMonitoringSystemId(monitoringSystemId);
+        return new ResponseEntity<>("Monitoring system deleted", HttpStatus.OK);
+    }
 }

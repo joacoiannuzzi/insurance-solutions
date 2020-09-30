@@ -1,0 +1,25 @@
+
+table {
+  width: 100%;
+}
+
+.spinner {
+  margin: 25% auto 0;
+}
+
+.table-options {
+  display: flex;
+
+  mat-form-field {
+    margin-left: 16px;
+  }
+
+  span {
+    flex: 1;
+  }
+
+  .not-assigned {
+    color: green;
+    fill: green;
+  }
+}

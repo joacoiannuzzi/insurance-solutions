@@ -27,13 +27,13 @@ export class MonitoringSystemDetailsComponent implements OnInit {
 
   deleteMonitoringSystem() {
     this.dialog.open(ConfirmDialogComponent, {
-      data: "¿Está seguro de que desea eliminar al servicio de monitoreo " + this.monitoringSystem.serviceName + "?"
+      data: "¿Está seguro de que desea eliminar al servicio de monitoreo " + this.monitoringSystem.name + "?"
     })
       .afterClosed()
       .subscribe((confirmed: boolean) => {
         console.log(confirmed)
         if (confirmed) {
-          this.monitoringSystemService.deleteMonitoringSystem();
+          this.monitoringSystemService.deleteMonitoringSystem(this.monitoringSystem.id);
         }
       })
   }
@@ -53,5 +53,18 @@ export class MonitoringSystemDetailsComponent implements OnInit {
       data: this.monitoringSystem
     });
     dialogRef.afterClosed().subscribe();*/
+  }
+
+  unassignMonitoringSystem() {
+    this.dialog.open(ConfirmDialogComponent, {
+      data: "¿Está seguro de que desea desasignar al servicio de monitoreo " + this.monitoringSystem.name + "?"
+    })
+      .afterClosed()
+      .subscribe((confirmed: boolean) => {
+        console.log(confirmed)
+        if (confirmed) {
+          this.monitoringSystemService.unassignVehicle(this.monitoringSystem.id);
+        }
+      })
   }
 }
