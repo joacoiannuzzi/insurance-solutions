@@ -44,4 +44,9 @@ public class MonitoringSystemController {
         monitoringSystemService.deleteMonitoringSystemId(monitoringSystemId);
         return new ResponseEntity<>("Monitoring system deleted", HttpStatus.OK);
     }
+
+    @PutMapping("/update/{monitoringSystemId}")
+    public ResponseEntity<MonitoringSystem> updateMonitoringSystem(@PathVariable Long monitoringSystemId, @RequestBody MonitoringSystem monitoringSystem) {
+        return new ResponseEntity<>(monitoringSystemService.updateMonitoringSystem(monitoringSystemId, monitoringSystem), HttpStatus.OK);
+    }
 }

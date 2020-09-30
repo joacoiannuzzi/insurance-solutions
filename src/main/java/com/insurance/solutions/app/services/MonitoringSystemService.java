@@ -56,4 +56,15 @@ public class MonitoringSystemService {
 
         monitoringSystemRepository.deleteById(monitoringSystemId);
     }
+
+    public MonitoringSystem updateMonitoringSystem(Long monitoringSystemId, MonitoringSystem monitoringSystem) {
+        MonitoringSystem oldMonitoringSystem = monitoringSystemRepository.findById(monitoringSystemId)
+                .orElseThrow(() -> new ResourceNotFoundException("Monitoring system not found."));
+        MonitoringSystem newMonitoringSystem = new MonitoringSystem(monitoringSystem.getName(), monitoringSystem.getSensor(),
+                monitoringSystem.getMonitoringCompany());
+        newMonitoringSystem.setVehicle(oldMonitoringSystem.getVehicle());
+
+        newMonitoringSystem.setId(oldMonitoringSystem.getId());
+        return monitoringSystemRepository.save(newMonitoringSystem);
+    }
 }
