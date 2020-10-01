@@ -136,4 +136,23 @@ export class VehicleService {
       })
     );
   }
+
+  assignVehicle(vehicleId: number, monitoringSystemId: number) {
+    return this.http.put(this.vehiclesUrl + '/' + vehicleId + '/set-monitoring-system/' + monitoringSystemId, {}).pipe(
+      map((res: Vehicle) => {
+        let i = this.vehiclesList.findIndex(c => c.id === vehicleId);
+        this.vehiclesList[i] = res;
+        this.snackBar.open('El servicio de monitoreo fue asignado al vehículo con éxito.', '', {
+          duration: 2000,
+        });
+        return res;
+      }),
+      catchError(() => {
+        this.snackBar.open('Hubo un error al asignar el servicio de monitoreo al vehículo.', '', {
+          duration: 2000,
+        });
+        return this.vehicles;
+      })
+    );
+  }
 }

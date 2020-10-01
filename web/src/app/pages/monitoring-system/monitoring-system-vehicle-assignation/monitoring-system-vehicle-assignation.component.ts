@@ -63,7 +63,7 @@ export class MonitoringSystemVehicleAssignationComponent implements OnInit {
 
   assignVehicle() {
     if (this.myControl.valid) {
-      this.monitoringSystemService.assignVehicle(this.monitoringSystem.id, this.myControl.value?.id).subscribe(() => {
+      this.vehiclesService.assignVehicle(this.monitoringSystem.id, this.myControl.value?.id).subscribe(() => {
         this.dialogRef.close();
       });
     }
