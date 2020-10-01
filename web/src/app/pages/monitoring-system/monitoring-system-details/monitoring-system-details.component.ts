@@ -33,7 +33,9 @@ export class MonitoringSystemDetailsComponent implements OnInit {
       .subscribe((confirmed: boolean) => {
         console.log(confirmed)
         if (confirmed) {
-          this.monitoringSystemService.deleteMonitoringSystem(this.monitoringSystem.id);
+          this.monitoringSystemService.deleteMonitoringSystem(this.monitoringSystem.id).subscribe(()=>{
+            this.dialogRef.close();
+          })
         }
       })
   }
