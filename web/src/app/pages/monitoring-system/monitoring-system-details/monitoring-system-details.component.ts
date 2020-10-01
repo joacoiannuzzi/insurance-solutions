@@ -4,6 +4,7 @@ import {ConfirmDialogComponent} from "../../../components/confirm-dialog/confirm
 import {MonitoringSystem} from "../../../../shared/models/monitoringSystem";
 import {MonitoringSystemService} from "../../../../shared/services/monitoring-system.service";
 import {MonitoringSystemAssignationComponent} from "../../vehicle/monitoring-system-assignation/monitoring-system-assignation.component";
+import {VehicleService} from "../../../../shared/services/vehicle.service";
 
 @Component({
   selector: 'app-monitoring-system-details',
@@ -14,8 +15,9 @@ export class MonitoringSystemDetailsComponent implements OnInit {
 
   constructor(public dialogRef: MatDialogRef<MonitoringSystemDetailsComponent>,
               @Inject(MAT_DIALOG_DATA) public monitoringSystem: MonitoringSystem,
-              public dialog: MatDialog,
+              public vehicleService: VehicleService,
               public monitoringSystemService: MonitoringSystemService,
+              public dialog: MatDialog
   ) {
   }
 
@@ -32,11 +34,11 @@ export class MonitoringSystemDetailsComponent implements OnInit {
     })
       .afterClosed()
       .subscribe((confirmed: boolean) => {
-        if (confirmed) {
+        /*if (confirmed) {
           this.monitoringSystemService.deleteMonitoringSystem(this.monitoringSystem.id).subscribe(()=>{
             this.dialogRef.close();
           })
-        }
+        }*/
       })
   }
 
