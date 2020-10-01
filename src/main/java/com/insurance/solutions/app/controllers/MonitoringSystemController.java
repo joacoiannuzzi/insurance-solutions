@@ -39,4 +39,9 @@ public class MonitoringSystemController {
         monitoringSystemService.deleteMonitoringSystemId(monitoringSystemId);
         return new ResponseEntity<>("Monitoring system deleted", HttpStatus.OK);
     }
+
+    @GetMapping("without-vehicle")
+    public ResponseEntity<List<MonitoringSystem>> getAllMonitoringSystemsWithoutVehicle() {
+        return ResponseEntity.ok(monitoringSystemService.getAllMonitoringSystemsWithoutVehicle());
+    }
 }
