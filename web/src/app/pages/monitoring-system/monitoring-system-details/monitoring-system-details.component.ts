@@ -3,8 +3,8 @@ import {MAT_DIALOG_DATA, MatDialog, MatDialogRef} from "@angular/material/dialog
 import {ConfirmDialogComponent} from "../../../components/confirm-dialog/confirm-dialog.component";
 import {MonitoringSystem} from "../../../../shared/models/monitoringSystem";
 import {MonitoringSystemService} from "../../../../shared/services/monitoring-system.service";
-import {MonitoringSystemAssignationComponent} from "../../vehicle/monitoring-system-assignation/monitoring-system-assignation.component";
 import {VehicleService} from "../../../../shared/services/vehicle.service";
+import {MonitoringSystemVehicleAssignationComponent} from "../monitoring-system-vehicle-assignation/monitoring-system-vehicle-assignation.component";
 
 @Component({
   selector: 'app-monitoring-system-details',
@@ -51,7 +51,7 @@ export class MonitoringSystemDetailsComponent implements OnInit {
   }
 
   assignMonitoringSystem() {
-    const dialogRef = this.dialog.open(MonitoringSystemAssignationComponent, {
+    const dialogRef = this.dialog.open(MonitoringSystemVehicleAssignationComponent, {
       width: '800px',
       data: this.monitoringSystem
     });
