@@ -44,6 +44,19 @@ public class MonitoringSystemService {
         monitoringSystemRepository.deleteById(monitoringSystemId);
     }
 
+    public MonitoringSystem updateMonitoringSystem(Long monitoringSystemId, MonitoringSystem monitoringSystem) {
+        MonitoringSystem oldMonitoringSystem = monitoringSystemRepository.findById(monitoringSystemId)
+                .orElseThrow(() -> new ResourceNotFoundException("Monitoring system not found."));
+        MonitoringSystem newMonitoringSystem = new MonitoringSystem(monitoringSystem.getName(), monitoringSystem.getSensor(),
+                monitoringSystem.getMonitoringCompany());
+
+        newMonitoringSystem.setVehicle(oldMonitoringSystem.getVehicle());
+        newMonitoringSystem.setIsAssigned(oldMonitoringSystem.getIsAssigned());
+
+        newMonitoringSystem.setId(oldMonitoringSystem.getId());
+        return monitoringSystemRepository.save(newMonitoringSystem);
+    }
+
     public List<MonitoringSystem> getAllMonitoringSystemsWithoutVehicle() {
         return monitoringSystemRepository.findAllByIsAssignedIsFalse();
     }
@@ -51,7 +64,7 @@ public class MonitoringSystemService {
     public void deleteAll() {
         findAll().forEach(monitoringSystem -> {
             monitoringSystem.setVehicle(null);
-            monitoringSystem.setAssigned(false);
+            monitoringSystem.setIsAssigned(false);
             monitoringSystemRepository.save(monitoringSystem);
         });
         monitoringSystemRepository.deleteAll();
