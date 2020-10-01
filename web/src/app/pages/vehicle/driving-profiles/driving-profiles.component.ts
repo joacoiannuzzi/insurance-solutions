@@ -1,4 +1,4 @@
-import {Component, Inject, OnInit, ViewChild} from '@angular/core';
+import {AfterViewInit, Component, Inject, OnInit, ViewChild} from '@angular/core';
 import {ConfirmDialogComponent} from "../../../components/confirm-dialog/confirm-dialog.component";
 import {DrivingProfile} from "../../../../shared/models/drivingProfile";
 import {MatTableDataSource} from "@angular/material/table";
@@ -13,7 +13,7 @@ import {VehicleService} from "../../../../shared/services/vehicle.service";
   templateUrl: './driving-profiles.component.html',
   styleUrls: ['./driving-profiles.component.scss']
 })
-export class DrivingProfilesComponent implements OnInit {
+export class DrivingProfilesComponent implements OnInit, AfterViewInit {
 
   displayedColumns: string[] = ['drivingProfile', 'options'];
   drivingProfiles: DrivingProfile[];
@@ -51,8 +51,10 @@ export class DrivingProfilesComponent implements OnInit {
       .afterClosed()
       .subscribe((confirmed: Boolean) => {
         if (confirmed) {
-          //this.vehicleService.deleteDrivingProfile(this.vehicle.id, element.id);
-          //this.vehicle.drivingProfiles.splice(this.vehicle.drivingProfiles.findIndex(d => d.id === element.id), 1);
+          this.vehicleService.deleteDrivingProfile(this.vehicle.id, element.id).subscribe(()=>{
+            this.vehicle.drivingProfiles.splice(this.vehicle.drivingProfiles.findIndex(d => d.id === element.id), 1);
+            this.closeDrivingProfiles();
+          });
         }
       });
   }
@@ -67,6 +69,6 @@ export class DrivingProfilesComponent implements OnInit {
   }
 
   openDrivingProfileDetails(element: DrivingProfile) {
-
+    //Driving Profile Details not implemented yet.
   }
 }
