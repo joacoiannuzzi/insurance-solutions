@@ -10,6 +10,7 @@ import {VehicleAddComponent} from "../vehicle-add/vehicle-add.component";
 import {category} from "../../../../shared/models/category";
 import {VehicleDetailsComponent} from "../vehicle-details/vehicle-details.component";
 import {MonitoringSystem} from "../../../../shared/models/monitoringSystem";
+import {VehicleUpdateComponent} from "../vehicle-update/vehicle-update.component";
 
 @Component({
   selector: 'app-vehicle-list',
@@ -79,17 +80,17 @@ export class VehicleListComponent implements OnInit, AfterViewInit {
       })
   }
 
-// updateVehicle(vehicle: Vehicle){
-//     const dialogRef = this.dialog.open(VehicleUpdateComponent, {
-//       width: '800px',
-//       data: vehicle
-//     });
-//     dialogRef.afterClosed().subscribe((confirmed) => {
-//       if (confirmed) {
-//         this.getVehicles();
-//       }
-//     })
-//   }
+  updateVehicle(vehicle: Vehicle) {
+    const dialogRef = this.dialog.open(VehicleUpdateComponent, {
+      width: '800px',
+      data: vehicle
+    });
+    dialogRef.afterClosed().subscribe((confirmed) => {
+      if (confirmed) {
+        this.getVehicles();
+      }
+    })
+  }
 
   openVehicleDetails(element: Vehicle): void {
     this.dialog.open(VehicleDetailsComponent, {
