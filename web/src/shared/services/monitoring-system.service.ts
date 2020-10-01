@@ -31,7 +31,7 @@ export class MonitoringSystemService {
   }
 
   deleteMonitoringSystem(monitoringSystemId: number) {
-
+    //
   }
 
   get monitoringSystems(): Observable<MonitoringSystem[]> {
