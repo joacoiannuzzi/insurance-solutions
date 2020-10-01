@@ -24,7 +24,7 @@ export class MonitoringSystem {
       jsonObject.name,
       jsonObject.sensor,
       jsonObject.monitoringCompany,
-      jsonObject.isAssigned
+      jsonObject.assigned
     );
   }
 }

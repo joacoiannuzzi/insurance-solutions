@@ -73,7 +73,11 @@ export class MonitoringSystemListComponent implements OnInit, AfterViewInit {
   }
 
   updateMonitoringSystem(element: MonitoringSystem) {
-    //
+    /*const dialogRef = this.dialog.open(MonitoringSystemUpdateComponent, {
+      width: '800px',
+      data: this.monitoringSystem
+    });
+    dialogRef.afterClosed().subscribe();*/
   }
 
   deleteMonitoringSystem(element: MonitoringSystem) {
