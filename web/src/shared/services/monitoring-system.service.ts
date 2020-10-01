@@ -4,7 +4,6 @@ import {HttpClient} from '@angular/common/http';
 import {Observable} from "rxjs";
 import {catchError, map} from "rxjs/operators";
 import {MatSnackBar} from "@angular/material/snack-bar";
-import {Client} from "../models/client";
 
 @Injectable()
 export class MonitoringSystemService {
@@ -32,23 +31,7 @@ export class MonitoringSystemService {
   }
 
   deleteMonitoringSystem(monitoringSystemId: number) {
-    return this.http.delete<Client>(this.monitoringSystemsUrl + "/delete/" + monitoringSystemId).pipe(
-      map(() => {
-        let monitoringSystemList: MonitoringSystem[] = [...this.monitoringSystemsList];
-        monitoringSystemList.splice(this.monitoringSystemsList.findIndex(c => c.id === monitoringSystemId), 1);
-        this.monitoringSystemsList = [...monitoringSystemList];
-        this.snackBar.open('El sistema de monitoreo fué eliminado con éxito.', '', {
-          duration: 2000,
-        });
-        return this.monitoringSystemsList;
-      }),
-      catchError(() => {
-        this.snackBar.open('Hubo un error al eliminar el sistema de monitoreo.', '', {
-          duration: 2000,
-        });
-        return this.monitoringSystems;
-      })
-    )
+
   }
 
   get monitoringSystems(): Observable<MonitoringSystem[]> {
