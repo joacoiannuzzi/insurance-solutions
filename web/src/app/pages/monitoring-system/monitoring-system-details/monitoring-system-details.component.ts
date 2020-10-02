@@ -56,7 +56,9 @@ export class MonitoringSystemDetailsComponent implements OnInit {
       width: '800px',
       data: this.monitoringSystem
     });
-    dialogRef.afterClosed().subscribe();
+    dialogRef.afterClosed().subscribe(()=>{
+      this.closeDetails();
+    });
   }
 
   unassignMonitoringSystem() {

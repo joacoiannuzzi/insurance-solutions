@@ -58,16 +58,18 @@ export class MonitoringSystemListComponent implements OnInit, AfterViewInit {
       width: '300px',
       data: new MonitoringSystem(null, "", "", "", false)
     });
-
     dialogRef.afterClosed().subscribe(() => {
       this.getMonitoringSystems();
     });
   }
 
   openMonitoringSystemDetails(element: MonitoringSystem) {
-    this.dialog.open(MonitoringSystemDetailsComponent, {
+    const dialogRef = this.dialog.open(MonitoringSystemDetailsComponent, {
       width: '800px',
       data: element
+    });
+    dialogRef.afterClosed().subscribe(() => {
+      this.getMonitoringSystems();
     });
   }
 
