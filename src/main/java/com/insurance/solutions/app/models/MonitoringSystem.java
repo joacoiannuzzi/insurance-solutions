@@ -77,7 +77,11 @@ public class MonitoringSystem {
         return isAssigned;
     }
 
-    public void setAssigned(boolean assigned) {
+    public boolean getIsAssigned() {
+        return isAssigned;
+    }
+
+    public void setIsAssigned(boolean assigned) {
         isAssigned = assigned;
     }
 }

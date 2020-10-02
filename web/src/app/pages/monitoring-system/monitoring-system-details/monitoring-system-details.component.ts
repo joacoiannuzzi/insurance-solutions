@@ -34,11 +34,12 @@ export class MonitoringSystemDetailsComponent implements OnInit {
     })
       .afterClosed()
       .subscribe((confirmed: boolean) => {
-        /*if (confirmed) {
-          this.monitoringSystemService.deleteMonitoringSystem(this.monitoringSystem.id).subscribe(()=>{
+        console.log(confirmed)
+        if (confirmed) {
+          /*this.monitoringSystemService.deleteMonitoringSystem(this.monitoringSystem.id).subscribe(()=>{
             this.dialogRef.close();
-          })
-        }*/
+          })*/
+        }
       })
   }
 
