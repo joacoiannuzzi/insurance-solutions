@@ -3,10 +3,9 @@ import { MonitoringSystemService } from '../../../../shared/services/monitoring-
 import { Component, OnInit, AfterViewInit, ViewChild } from '@angular/core';
 import { MonitoringSystem } from '../../../../shared/models/monitoringSystem';
 import { MatTableDataSource } from '@angular/material/table';
-import { MatDialog, MatDialogRef } from '@angular/material/dialog';
+import { MatDialog} from '@angular/material/dialog';
 import { MatSort } from '@angular/material/sort';
 import { MatPaginator } from '@angular/material/paginator';
-import {ClientDetailsComponent} from "../../client/client-details/client-details.component";
 import {MonitoringSystemDetailsComponent} from "../monitoring-system-details/monitoring-system-details.component";
 
 @Component({

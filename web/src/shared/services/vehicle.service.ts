@@ -137,7 +137,7 @@ export class VehicleService {
     );
   }
 
-  assignVehicle(vehicleId: number, monitoringSystemId: number) {
+  assignVehicle(monitoringSystemId: number, vehicleId: number) {
     return this.http.put(this.vehiclesUrl + '/' + vehicleId + '/set-monitoring-system/' + monitoringSystemId, {}).pipe(
       map((res: Vehicle) => {
         let i = this.vehiclesList.findIndex(c => c.id === vehicleId);
