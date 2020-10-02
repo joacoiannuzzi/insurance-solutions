@@ -560,7 +560,7 @@ class VehicleControllerTest {
 
         Long vehicleId = vehicleService.createVehicle(vehicle).getId();
         final var savedMonitoringSystem = monitoringSystemService.createMonitoringSystem(monitoringSystem);
-        savedMonitoringSystem.setAssigned(true);
+        savedMonitoringSystem.setIsAssigned(true);
 
         mockMvc
                 .perform(

@@ -170,7 +170,7 @@ public class ClientControllerTest {
 
         assertEquals(toJson(newClient), response.getResponse().getContentAsString());
 
-        long mockID = 100L;
+        long mockID = 10056747576567L;
 
         Exception exception = assertThrows(ResourceNotFoundException.class, () -> clientService.getClientById(mockID));
         assertEquals("Client not found.", exception.getMessage());

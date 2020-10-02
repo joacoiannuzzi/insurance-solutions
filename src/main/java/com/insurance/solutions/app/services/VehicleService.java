@@ -107,7 +107,7 @@ public class VehicleService {
         final var monitoringSystem = monitoringSystemService.findById(monitoringSystemId);
 
         monitoringSystem.setVehicle(vehicle);
-        monitoringSystem.setAssigned(true);
+        monitoringSystem.setIsAssigned(true);
 
         vehicle.setMonitoringSystem(monitoringSystem);
 

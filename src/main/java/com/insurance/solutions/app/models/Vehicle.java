@@ -34,7 +34,8 @@ public class Vehicle {
             orphanRemoval = true)
     private final Set<DrivingProfile> drivingProfiles = new HashSet<>();
 
-    @OneToOne(mappedBy = "vehicle")
+    @OneToOne(mappedBy = "vehicle",
+            cascade = CascadeType.ALL)
     private MonitoringSystem monitoringSystem;
 
 
