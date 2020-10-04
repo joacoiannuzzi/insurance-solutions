@@ -29,17 +29,17 @@ export class MonitoringSystemUpdateComponent implements OnInit {
 
   ngOnInit() {
     this.monitoringSystemForm = new FormGroup({
-      name: new FormControl('', [
+      name: new FormControl(this.moSys.name, [
         Validators.required,
         Validators.minLength(2),
         Validators.pattern('^[a-zA-Z ]*$')
       ]),
-      sensor: new FormControl('', [
+      sensor: new FormControl(this.moSys.name, [
         Validators.required,
         Validators.minLength(2),
         Validators.pattern('^[a-zA-Z ]*$')
       ]),
-      monitoringCompany: new FormControl('', [
+      monitoringCompany: new FormControl(this.moSys.monitoringCompany, [
         Validators.required,
         Validators.minLength(2),
         Validators.pattern('^[a-zA-Z ]*$')
