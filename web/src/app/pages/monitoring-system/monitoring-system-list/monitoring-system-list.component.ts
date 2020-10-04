@@ -47,8 +47,6 @@ export class MonitoringSystemListComponent implements OnInit, AfterViewInit {
     this.loading = true;
     this.monitoringSystemService.monitoringSystems.subscribe((data) => {
       this.monitoringSystems = data;
-      console.log(data);
-      this.monitoringSystems = data;
       this.loading = false;
       this.dataSource.data = this.monitoringSystems;
     })
