@@ -60,7 +60,7 @@ export class MonitoringSystemService {
     return this.http.delete<MonitoringSystem>(this.monitoringSystemsUrl + "/delete/" + moSys.id).pipe(
       map(() => {
         let auxmoSysList: MonitoringSystem[] = [...this.monitoringSystemsList];
-        auxmoSysList.splice(this.monitoringSystemsList.findIndex(m => m.id == moSys.id), 1);
+        auxmoSysList.splice(this.monitoringSystemsList.findIndex(m => m.id === moSys.id), 1);
         this.monitoringSystemsList = [...auxmoSysList];
         this.snackBar.open('El servicio fue eliminado con éxito.', '', {
           duration: 2000,
