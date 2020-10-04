@@ -14,7 +14,7 @@ import { ConfirmDialogComponent } from '../../../components/confirm-dialog/confi
   styleUrls: ['./monitoring-system-list.component.scss']
 })
 export class MonitoringSystemListComponent implements OnInit, AfterViewInit {
-  displayedColumns: string[] = ["name", "sensor", "monitoringCompany", "assigned"];
+  displayedColumns: string[] = ["name", "sensor", "monitoringCompany", "assigned", "options"];
   monitoringSystems: MonitoringSystem[];
   dataSource: MatTableDataSource<MonitoringSystem> = new MatTableDataSource<MonitoringSystem>();
   loading: boolean = true;
@@ -26,7 +26,8 @@ export class MonitoringSystemListComponent implements OnInit, AfterViewInit {
 
   ngOnInit(): void {
     this.getMonitoringSystems();
-  }
+      this.paginator._intl.itemsPerPageLabel = 'Elementos por página';
+}
 
   ngAfterViewInit(): void {
     this.dataSource.sort = this.sort;

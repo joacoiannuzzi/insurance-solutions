@@ -57,7 +57,7 @@ export class MonitoringSystemService {
 
   }
   public delete(moSys: MonitoringSystem) {
-    return this.http.delete<MonitoringSystem>(this.monitoringSystemsUrl + ".delete/" + moSys.id).pipe(
+    return this.http.delete<MonitoringSystem>(this.monitoringSystemsUrl + "/delete/" + moSys.id).pipe(
       map(() => {
         let auxmoSysList: MonitoringSystem[] = [...this.monitoringSystemsList];
         auxmoSysList.splice(this.monitoringSystemsList.findIndex(m => m.id == moSys.id), 1);
