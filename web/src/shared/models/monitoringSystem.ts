@@ -1,17 +1,18 @@
 export class MonitoringSystem {
-    id: number;
+  id: number;
   name: string;
   sensor: string;
   monitoringCompany: string;
   assigned: boolean;
 
   constructor(
-      id: number,
+    id: number,
     name: string,
     sensor: string,
     monitoringCompany: string,
     isAssigned: boolean
   ) {
+    this.id = id;
     this.name = name;
     this.sensor = sensor;
     this.monitoringCompany = monitoringCompany;
@@ -24,7 +25,7 @@ export class MonitoringSystem {
       jsonObject.name,
       jsonObject.sensor,
       jsonObject.monitoringCompany,
-      jsonObject.isAssigned
+      jsonObject.assigned
     );
   }
 }

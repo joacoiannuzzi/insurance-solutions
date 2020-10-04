@@ -1,6 +1,5 @@
-import { MonitoringSystemUpdateComponent } from './pages/monitoring-system/monitoring-system-update/monitoring-system-update.component';
+import { MonitoringSystemService } from '../shared/services/monitoring-system.service';
 import { MonitoringSystemAddComponent } from './pages/monitoring-system/monitoring-system-add/monitoring-system-add.component';
-import { MonitoringSystemService } from './../shared/services/monitoring-system.service';
 import { VehicleListComponent } from './pages/vehicle/vehicle-list/vehicle-list.component';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
@@ -39,6 +38,9 @@ import { DrivingProfilesComponent } from './pages/vehicle/driving-profiles/drivi
 import { VehicleDetailsComponent } from './pages/vehicle/vehicle-details/vehicle-details.component';
 import { VehicleUpdateComponent } from './pages/vehicle/vehicle-update/vehicle-update.component';
 import { MonitoringSystemListComponent } from './pages/monitoring-system/monitoring-system-list/monitoring-system-list.component';
+import { MonitoringSystemDetailsComponent } from './pages/monitoring-system/monitoring-system-details/monitoring-system-details.component';
+import { MonitoringSystemVehicleAssignationComponent } from './pages/monitoring-system/monitoring-system-vehicle-assignation/monitoring-system-vehicle-assignation.component';
+import { MonitoringSystemAssignationComponent } from './pages/vehicle/monitoring-system-assignation/monitoring-system-assignation.component';
 
 @NgModule({
   declarations: [
@@ -60,7 +62,12 @@ import { MonitoringSystemListComponent } from './pages/monitoring-system/monitor
     VehicleUpdateComponent,
     MonitoringSystemListComponent,
     MonitoringSystemAddComponent,
-    MonitoringSystemUpdateComponent
+    MonitoringSystemDetailsComponent,
+    VehicleUpdateComponent,
+    MonitoringSystemListComponent,
+    MonitoringSystemVehicleAssignationComponent,
+    MonitoringSystemAssignationComponent,
+    MonitoringSystemListComponent
 
    ],
   imports: [
