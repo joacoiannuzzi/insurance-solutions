@@ -74,15 +74,15 @@ public class VehicleController {
         return new ResponseEntity<>("Driving profile deleted", HttpStatus.OK);
     }
 
-    @PutMapping("/{vehicleId}/set-monitoring-system/{monitoringSystemId}")
-    public ResponseEntity<MonitoringSystem> addMonitoringSystem(@PathVariable Long vehicleId, @PathVariable Long monitoringSystemId) {
-        return ResponseEntity.ok(vehicleService.setMonitoringSystem(vehicleId, monitoringSystemId));
-    }
+    // @PutMapping("/{vehicleId}/set-monitoring-system/{monitoringSystemId}")
+    // public ResponseEntity<MonitoringSystem> addMonitoringSystem(@PathVariable Long vehicleId, @PathVariable Long monitoringSystemId) {
+    //     return ResponseEntity.ok(vehicleService.setMonitoringSystem(vehicleId, monitoringSystemId));
+    // }
 
-    @GetMapping("without-monitoring-system")
-    public ResponseEntity<List<Vehicle>> getAllVehiclesWithoutMonitoringSystem() {
-        return ResponseEntity.ok(vehicleService.getAllVehiclesWithoutMonitoringSystem());
-    }
+    // @GetMapping("without-monitoring-system")
+    // public ResponseEntity<List<Vehicle>> getAllVehiclesWithoutMonitoringSystem() {
+    //     return ResponseEntity.ok(vehicleService.getAllVehiclesWithoutMonitoringSystem());
+    // }
 
     private  List<VehicleResource> makeVehicles(List<Vehicle> vehicles) {
         List<VehicleResource> vehicleResources = new ArrayList<>();
