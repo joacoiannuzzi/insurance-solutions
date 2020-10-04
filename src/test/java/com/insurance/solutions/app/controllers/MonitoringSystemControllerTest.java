@@ -7,6 +7,7 @@ import com.insurance.solutions.app.models.MonitoringSystem;
 import com.insurance.solutions.app.models.Vehicle;
 import com.insurance.solutions.app.repositories.MonitoringSystemRepository;
 import com.insurance.solutions.app.services.MonitoringSystemService;
+import com.insurance.solutions.app.services.VehicleService;
 import org.junit.Assert;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

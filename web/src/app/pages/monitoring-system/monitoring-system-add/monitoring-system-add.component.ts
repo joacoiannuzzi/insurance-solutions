@@ -60,21 +60,5 @@ export class MonitoringSystemAddComponent implements OnInit {
     }
   }
 
-  deleteMonitoringSystem(moSys: MonitoringSystem) {
-    this.dialogRef.open(ConfirmDialogComponent, {
-      data: "¿Está seguro que desea eliminar el servicio de monitoreo "
-        + moSys.name
-        + ", con el sensor " + moSys.sensor +
-        ", de la empresa " + moSys.monitoringCompany + "?"
-    })
-      .afterClosed()
-      .subscribe((confirmed: boolean) => {
-        if (confirmed) {
-          this.monitoringSystemService.delete(moSys).subscribe(() => {
-            this.saveMonitoringSystem();
-        })
-      }
-    })
-  }
 
 }

@@ -6,6 +6,7 @@ import { MatTableDataSource } from '@angular/material/table';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { MatSort } from '@angular/material/sort';
 import { MatPaginator } from '@angular/material/paginator';
+import { ConfirmDialogComponent } from '../../../components/confirm-dialog/confirm-dialog.component';
 
 @Component({
   selector: 'app-monitoring-system-list',
@@ -60,6 +61,20 @@ export class MonitoringSystemListComponent implements OnInit, AfterViewInit {
     dialogRef.afterClosed().subscribe(() => {
       this.getMonitoringSystems();
     });
+  }
+
+  deleteMonitoringSystem(moSys: MonitoringSystem) {
+    this.dialog.open(ConfirmDialogComponent, {
+      data: "¿Está seguro que desea eliminar el servicio " + moSys.name + "?"
+    })
+      .afterClosed()
+      .subscribe((confirmed: boolean) => {
+        if (confirmed) {
+          this.monitoringSystemService.delete(moSys).subscribe(() => {
+            this.getMonitoringSystems();
+          });
+        }
+      })
   }
 
 
