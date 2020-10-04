@@ -1,3 +1,5 @@
+import { MonitoringSystemUpdateComponent } from './../monitoring-system-update/monitoring-system-update.component';
+import { MonitoringSystem } from './../../../../shared/models/monitoringSystem';
 import { MonitoringSystemAddComponent } from './../monitoring-system-add/monitoring-system-add.component';
 import { MonitoringSystemService } from './../../../../shared/services/monitoring-system.service';
 import { Component, OnInit, AfterViewInit, ViewChild } from '@angular/core';
@@ -55,7 +57,7 @@ export class MonitoringSystemListComponent implements OnInit, AfterViewInit {
 
   openDialog(): void {
     const dialogRef = this.dialog.open(MonitoringSystemAddComponent, {
-      width: '300px',
+      width: '800px',
       data: new MonitoringSystem(null, "", "", "", false)
     });
 
@@ -77,6 +79,19 @@ export class MonitoringSystemListComponent implements OnInit, AfterViewInit {
         }
       })
   }
+
+  updateMonitoringSystem(moSys: MonitoringSystem) {
+    const dialogRef = this.dialog.open(MonitoringSystemUpdateComponent, {
+      width: '800px',
+      data: moSys
+    });
+    dialogRef.afterClosed().subscribe((confirmed) => {
+      if (confirmed) {
+        this.getMonitoringSystems();
+      }
+    })
+  }
+
 
 
 
