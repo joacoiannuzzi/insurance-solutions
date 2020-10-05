@@ -6,6 +6,7 @@ import { MatTableDataSource } from '@angular/material/table';
 import { MatDialog} from '@angular/material/dialog';
 import { MatSort } from '@angular/material/sort';
 import { MatPaginator } from '@angular/material/paginator';
+import { ConfirmDialogComponent } from '../../../components/confirm-dialog/confirm-dialog.component';
 import {MonitoringSystemDetailsComponent} from "../monitoring-system-details/monitoring-system-details.component";
 
 @Component({
@@ -14,7 +15,7 @@ import {MonitoringSystemDetailsComponent} from "../monitoring-system-details/mon
   styleUrls: ['./monitoring-system-list.component.scss']
 })
 export class MonitoringSystemListComponent implements OnInit, AfterViewInit {
-  
+
   displayedColumns: string[] = ["name", "sensor", "monitoringCompany", "assigned", "options"];
   monitoringSystems: MonitoringSystem[];
   dataSource: MatTableDataSource<MonitoringSystem> = new MatTableDataSource<MonitoringSystem>();
@@ -27,7 +28,8 @@ export class MonitoringSystemListComponent implements OnInit, AfterViewInit {
 
   ngOnInit(): void {
     this.getMonitoringSystems();
-  }
+      this.paginator._intl.itemsPerPageLabel = 'Elementos por página';
+}
 
   ngAfterViewInit(): void {
     this.dataSource.sort = this.sort;
@@ -46,7 +48,7 @@ export class MonitoringSystemListComponent implements OnInit, AfterViewInit {
   getMonitoringSystems() {
     this.loading = true;
     this.monitoringSystemService.monitoringSystems.subscribe((data) => {
-      this.monitoringSystems = data;
+      this.monitoringSystems = data; 
       this.loading = false;
       this.dataSource.data = this.monitoringSystems;
     })
@@ -62,6 +64,19 @@ export class MonitoringSystemListComponent implements OnInit, AfterViewInit {
     });
   }
 
+  deleteMonitoringSystem(moSys: MonitoringSystem) {
+    this.dialog.open(ConfirmDialogComponent, {
+      data: "¿Está seguro que desea eliminar el servicio " + moSys.name + "?"
+    })
+      .afterClosed()
+      .subscribe((confirmed: boolean) => {
+        if (confirmed) {
+          this.monitoringSystemService.delete(moSys).subscribe(() => {
+            this.getMonitoringSystems();
+          });
+        }
+      })
+  }
   openMonitoringSystemDetails(element: MonitoringSystem) {
     const dialogRef = this.dialog.open(MonitoringSystemDetailsComponent, {
       width: '800px',
@@ -78,9 +93,5 @@ export class MonitoringSystemListComponent implements OnInit, AfterViewInit {
       data: this.monitoringSystem
     });
     dialogRef.afterClosed().subscribe();*/
-  }
-
-  deleteMonitoringSystem(element: MonitoringSystem) {
-    //
   }
 }

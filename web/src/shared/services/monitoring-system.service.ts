@@ -29,10 +29,6 @@ export class MonitoringSystemService {
       })
     );
   }
-
-  deleteMonitoringSystem(monitoringSystemId: number) {
-    //
-  }
   
   get monitoringSystems(): Observable<MonitoringSystem[]> {
     return this.monitoringSystemsList
@@ -58,6 +54,26 @@ export class MonitoringSystemService {
       })
     )
 
+  }
+
+  public delete(moSys: MonitoringSystem) {
+    return this.http.delete<MonitoringSystem>(this.monitoringSystemsUrl + "/delete/" + moSys.id).pipe(
+      map(() => {
+        let auxmoSysList: MonitoringSystem[] = [...this.monitoringSystemsList];
+        auxmoSysList.splice(this.monitoringSystemsList.findIndex(m => m.id === moSys.id), 1);
+        this.monitoringSystemsList = [...auxmoSysList];
+        this.snackBar.open('El servicio fue eliminado con éxito.', '', {
+          duration: 2000,
+        });
+        return this.monitoringSystemsList;
+      }),
+      catchError(() => {
+        this.snackBar.open('Hubo un error al eliminar el servicio', '', {
+          duration: 2000,
+        });
+        return this.monitoringSystems;
+      })
+    )
   }
 
   getVehicleLess() {

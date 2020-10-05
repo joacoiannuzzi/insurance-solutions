@@ -277,7 +277,6 @@ class MonitoringSystemControllerTest {
 
         assertEquals("Size should be the same", before.size(), after.size());
     }
-
     @Test
     public void updateMonitoringSystem() throws Exception {
 
@@ -406,5 +405,4 @@ class MonitoringSystemControllerTest {
         assertEquals("Size should be the same", allMonitoringSystemsWithoutVehicle.size(), list2.size());
 
     }
-
 }

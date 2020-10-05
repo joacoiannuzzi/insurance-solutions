@@ -4,6 +4,7 @@ import { MonitoringSystemService } from './../../../../shared/services/monitorin
 import { FormGroup, FormControl } from '@angular/forms';
 import { Component, OnInit, Inject } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
+import { ConfirmDialogComponent } from '../../../components/confirm-dialog/confirm-dialog.component';
 
 @Component({
   selector: 'app-monitoring-system-add',
@@ -56,7 +57,6 @@ export class MonitoringSystemAddComponent implements OnInit {
         this.dialogRef.close(res);
         this.monitoringSystemService.monitoringSystems.subscribe();
       })
-}
+    }
   }
-
 }

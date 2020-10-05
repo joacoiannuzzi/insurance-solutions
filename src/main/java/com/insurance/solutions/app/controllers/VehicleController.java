@@ -158,4 +158,14 @@ public class VehicleController {
     public ResponseEntity<List<Vehicle>> getAllVehiclesWithoutMonitoringSystem() {
         return ResponseEntity.ok(vehicleService.getAllVehiclesWithoutMonitoringSystem());
     }
+
+    @PutMapping("/{vehicleId}/set-monitoring-system/{monitoringSystemId}")
+    public ResponseEntity<MonitoringSystem> addMonitoringSystem(@PathVariable Long vehicleId, @PathVariable Long monitoringSystemId) {
+        return ResponseEntity.ok(vehicleService.setMonitoringSystem(vehicleId, monitoringSystemId));
+    }
+
+    @GetMapping("without-monitoring-system")
+    public ResponseEntity<List<Vehicle>> getAllVehiclesWithoutMonitoringSystem() {
+        return ResponseEntity.ok(vehicleService.getAllVehiclesWithoutMonitoringSystem());
+    }
 }
