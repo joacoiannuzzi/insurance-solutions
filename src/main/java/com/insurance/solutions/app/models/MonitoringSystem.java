@@ -17,7 +17,7 @@ public class MonitoringSystem {
     private String monitoringCompany;
 
     @JsonIgnore
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne
     @JoinColumn(name = "vehicle_id", referencedColumnName = "id")
     private Vehicle vehicle;
 
@@ -77,7 +77,11 @@ public class MonitoringSystem {
         return isAssigned;
     }
 
-    public void setAssigned(boolean assigned) {
+    public boolean getIsAssigned() {
+        return isAssigned;
+    }
+
+    public void setIsAssigned(boolean assigned) {
         isAssigned = assigned;
     }
 }
