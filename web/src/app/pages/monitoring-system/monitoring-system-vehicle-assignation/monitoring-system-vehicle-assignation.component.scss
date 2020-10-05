@@ -1,0 +1,30 @@
+.example-form {
+  min-width: 150px;
+  max-width: 500px;
+  width: 100%;
+}
+
+.example-full-width {
+  width: 100%;
+}
+
+.vehicle-assignation-header {
+  display: flex;
+  flex-direction: row;
+
+  button {
+    margin-left: auto;
+  }
+}
+
+.vehicle-assignation-content {
+  text-align: -webkit-center;
+}
+
+.vehicle-assignation-actions {
+  display: flex;
+
+  button {
+    flex: 1;
+  }
+}

@@ -73,7 +73,7 @@ public class VehicleController {
         vehicleService.deleteDrivingProfile(vehicleId, drivingProfileId);
         return new ResponseEntity<>("Driving profile deleted", HttpStatus.OK);
     }
-
+    
     private  List<VehicleResource> makeVehicles(List<Vehicle> vehicles) {
         List<VehicleResource> vehicleResources = new ArrayList<>();
         for (Vehicle vehicle : vehicles) vehicleResources.add(makeVehicle(vehicle));
@@ -137,6 +137,17 @@ public class VehicleController {
                 client.getMail(),
                 client.getInsuranceCompany()
         );
+
+    }
+
+    @PutMapping("/{vehicleId}/set-monitoring-system/{monitoringSystemId}")
+    public ResponseEntity<MonitoringSystem> addMonitoringSystem(@PathVariable Long vehicleId, @PathVariable Long monitoringSystemId) {
+        return ResponseEntity.ok(vehicleService.setMonitoringSystem(vehicleId, monitoringSystemId));
+    }
+
+    @GetMapping("without-monitoring-system")
+    public ResponseEntity<List<Vehicle>> getAllVehiclesWithoutMonitoringSystem() {
+        return ResponseEntity.ok(vehicleService.getAllVehiclesWithoutMonitoringSystem());
     }
 
     @PutMapping("/{vehicleId}/set-monitoring-system/{monitoringSystemId}")

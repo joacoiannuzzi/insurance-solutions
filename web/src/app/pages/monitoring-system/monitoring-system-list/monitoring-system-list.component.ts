@@ -5,10 +5,11 @@ import { MonitoringSystemService } from './../../../../shared/services/monitorin
 import { Component, OnInit, AfterViewInit, ViewChild } from '@angular/core';
 import { MonitoringSystem } from '../../../../shared/models/monitoringSystem';
 import { MatTableDataSource } from '@angular/material/table';
-import { MatDialog, MatDialogRef } from '@angular/material/dialog';
+import { MatDialog} from '@angular/material/dialog';
 import { MatSort } from '@angular/material/sort';
 import { MatPaginator } from '@angular/material/paginator';
 import { ConfirmDialogComponent } from '../../../components/confirm-dialog/confirm-dialog.component';
+import {MonitoringSystemDetailsComponent} from "../monitoring-system-details/monitoring-system-details.component";
 
 @Component({
   selector: 'app-monitoring-system-list',
@@ -16,6 +17,7 @@ import { ConfirmDialogComponent } from '../../../components/confirm-dialog/confi
   styleUrls: ['./monitoring-system-list.component.scss']
 })
 export class MonitoringSystemListComponent implements OnInit, AfterViewInit {
+
   displayedColumns: string[] = ["name", "sensor", "monitoringCompany", "assigned", "options"];
   monitoringSystems: MonitoringSystem[];
   dataSource: MatTableDataSource<MonitoringSystem> = new MatTableDataSource<MonitoringSystem>();
@@ -48,7 +50,6 @@ export class MonitoringSystemListComponent implements OnInit, AfterViewInit {
   getMonitoringSystems() {
     this.loading = true;
     this.monitoringSystemService.monitoringSystems.subscribe((data) => {
-      console.log(data);
       this.monitoringSystems = data; 
       this.loading = false;
       this.dataSource.data = this.monitoringSystems;
@@ -60,7 +61,6 @@ export class MonitoringSystemListComponent implements OnInit, AfterViewInit {
       width: '800px',
       data: new MonitoringSystem(null, "", "", "", false)
     });
-
     dialogRef.afterClosed().subscribe(() => {
       this.getMonitoringSystems();
     });
@@ -79,6 +79,15 @@ export class MonitoringSystemListComponent implements OnInit, AfterViewInit {
         }
       })
   }
+  openMonitoringSystemDetails(element: MonitoringSystem) {
+    const dialogRef = this.dialog.open(MonitoringSystemDetailsComponent, {
+      width: '800px',
+      data: element
+    });
+    dialogRef.afterClosed().subscribe(() => {
+      this.getMonitoringSystems();
+    });
+  }
 
   updateMonitoringSystem(moSys: MonitoringSystem) {
     const dialogRef = this.dialog.open(MonitoringSystemUpdateComponent, {
@@ -91,8 +100,4 @@ export class MonitoringSystemListComponent implements OnInit, AfterViewInit {
       }
     })
   }
-
-
-
-
 }

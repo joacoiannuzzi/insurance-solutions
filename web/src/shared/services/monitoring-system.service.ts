@@ -30,8 +30,7 @@ export class MonitoringSystemService {
       })
     );
   }
- 
-
+  
   get monitoringSystems(): Observable<MonitoringSystem[]> {
     return this.monitoringSystemsList
       ? new Observable<MonitoringSystem[]>((subscriber) =>
@@ -57,11 +56,12 @@ export class MonitoringSystemService {
     )
 
   }
+
   public delete(moSys: MonitoringSystem) {
     return this.http.delete<MonitoringSystem>(this.monitoringSystemsUrl + "/delete/" + moSys.id).pipe(
       map(() => {
         let auxmoSysList: MonitoringSystem[] = [...this.monitoringSystemsList];
-        auxmoSysList.splice(this.monitoringSystemsList.findIndex(m => m.id == moSys.id), 1);
+        auxmoSysList.splice(this.monitoringSystemsList.findIndex(m => m.id === moSys.id), 1);
         this.monitoringSystemsList = [...auxmoSysList];
         this.snackBar.open('El servicio fue eliminado con éxito.', '', {
           duration: 2000,
@@ -96,5 +96,21 @@ export class MonitoringSystemService {
   }
 
 
-
+  getVehicleLess() {
+    return this.http.get(this.monitoringSystemsUrl + "/without-vehicle").pipe(
+      map((res: any) => {
+        return res.map((monitoringSystem) => MonitoringSystem.fromJsonObject(monitoringSystem));
+      }),
+      catchError(() => {
+        this.snackBar.open('Hubo un error al traer los sistemas de monitoreo.', '', {
+          duration: 2000,
+        });
+        return this.monitoringSystems;
+      })
+    );
+  }
+  
+  unassignVehicle(MonitoringSystemId: number) {
+    //Back not implemented yet
+  }
 }
