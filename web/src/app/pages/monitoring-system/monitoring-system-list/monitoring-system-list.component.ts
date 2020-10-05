@@ -1,9 +1,8 @@
-import { MonitoringSystemUpdateComponent } from './../monitoring-system-update/monitoring-system-update.component';
-import { MonitoringSystem } from './../../../../shared/models/monitoringSystem';
-import { MonitoringSystemAddComponent } from './../monitoring-system-add/monitoring-system-add.component';
-import { MonitoringSystemService } from './../../../../shared/services/monitoring-system.service';
-import { Component, OnInit, AfterViewInit, ViewChild } from '@angular/core';
+import { MonitoringSystemUpdateComponent } from '../monitoring-system-update/monitoring-system-update.component';
 import { MonitoringSystem } from '../../../../shared/models/monitoringSystem';
+import { MonitoringSystemAddComponent } from '../monitoring-system-add/monitoring-system-add.component';
+import { MonitoringSystemService } from '../../../../shared/services/monitoring-system.service';
+import { Component, OnInit, AfterViewInit, ViewChild } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatDialog} from '@angular/material/dialog';
 import { MatSort } from '@angular/material/sort';
@@ -50,7 +49,7 @@ export class MonitoringSystemListComponent implements OnInit, AfterViewInit {
   getMonitoringSystems() {
     this.loading = true;
     this.monitoringSystemService.monitoringSystems.subscribe((data) => {
-      this.monitoringSystems = data; 
+      this.monitoringSystems = data;
       this.loading = false;
       this.dataSource.data = this.monitoringSystems;
     })
