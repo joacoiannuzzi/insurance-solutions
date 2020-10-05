@@ -63,7 +63,7 @@ export class VehicleUpdateComponent implements OnInit {
 
   updateVehicle() {
     if (this.vehicleForm.valid) {
-      // Se mapea todos los values del form al objeto vehicle
+      // Maps all values from form to vehicle object
       Object.keys(this.vehicleForm.value).map((key) => this.vehicle[key] = this.vehicleForm.value[key]);
 
       this.vehicleService.update(this.vehicle).subscribe(res => {
