@@ -1,4 +1,5 @@
-import { MonitoringSystem } from '../models/monitoringSystem';
+import { MonitoringSystemAddComponent } from './../../app/pages/monitoring-system/monitoring-system-add/monitoring-system-add.component';
+import { MonitoringSystem } from './../models/monitoringSystem';
 import {Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {Observable} from "rxjs";
@@ -75,6 +76,25 @@ export class MonitoringSystemService {
       })
     )
   }
+  public update(moSys: MonitoringSystem) {
+    return this.http.put<MonitoringSystem>(this.monitoringSystemsUrl + "/update/" + moSys.id, moSys).pipe(
+      map((res: MonitoringSystem) => {
+        let i = this.monitoringSystemsList.findIndex(m => m.id === moSys.id);
+        this.monitoringSystemsList[i] = res;
+        this.snackBar.open('El servicio de monitoreo fue actualizado con éxito', '', {
+          duration: 2000,
+        });
+        return res;
+      }),
+      catchError(() => {
+        this.snackBar.open('Hubo un error al actualizar el servicio de monitoreo', '', {
+          duration: 2000,
+        });
+        return this.monitoringSystems;
+      })
+    );
+  }
+
 
   getVehicleLess() {
     return this.http.get(this.monitoringSystemsUrl + "/without-vehicle").pipe(

@@ -53,7 +53,8 @@ public class MonitoringSystemService {
         newMonitoringSystem.setVehicle(oldMonitoringSystem.getVehicle());
         newMonitoringSystem.setIsAssigned(oldMonitoringSystem.getIsAssigned());
 
-        monitoringSystemRepository.deleteById(monitoringSystemId);
+        newMonitoringSystem.setId(oldMonitoringSystem.getId());
+        return monitoringSystemRepository.save(newMonitoringSystem);
     }
 
     public List<MonitoringSystem> getAllMonitoringSystemsWithoutVehicle() {

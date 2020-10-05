@@ -1,4 +1,4 @@
-import { MonitoringSystemService } from '../shared/services/monitoring-system.service';
+import { MonitoringSystemUpdateComponent } from './pages/monitoring-system/monitoring-system-update/monitoring-system-update.component';
 import { MonitoringSystemAddComponent } from './pages/monitoring-system/monitoring-system-add/monitoring-system-add.component';
 import { MonitoringSystemService } from './../shared/services/monitoring-system.service';
 import { VehicleListComponent } from './pages/vehicle/vehicle-list/vehicle-list.component';
@@ -63,6 +63,7 @@ import { MonitoringSystemAssignationComponent } from './pages/vehicle/monitoring
     VehicleUpdateComponent,
     MonitoringSystemListComponent,
     MonitoringSystemAddComponent,
+    MonitoringSystemUpdateComponent
     MonitoringSystemDetailsComponent,
     VehicleUpdateComponent,
     MonitoringSystemListComponent,
