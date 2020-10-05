@@ -1,12 +1,12 @@
 export class MonitoringSystem {
-    id: number;
+  id: number;
   name: string;
   sensor: string;
   monitoringCompany: string;
   assigned: boolean;
 
   constructor(
-      id: number,
+    id: number,
     name: string,
     sensor: string,
     monitoringCompany: string,

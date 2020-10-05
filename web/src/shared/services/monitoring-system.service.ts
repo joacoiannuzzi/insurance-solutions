@@ -1,4 +1,4 @@
-import { MonitoringSystem } from './../models/monitoringSystem';
+import { MonitoringSystem } from '../models/monitoringSystem';
 import {Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {Observable} from "rxjs";
@@ -29,8 +29,11 @@ export class MonitoringSystemService {
       })
     );
   }
- 
 
+  deleteMonitoringSystem(monitoringSystemId: number) {
+    //
+  }
+  
   get monitoringSystems(): Observable<MonitoringSystem[]> {
     return this.monitoringSystemsList
       ? new Observable<MonitoringSystem[]>((subscriber) =>
@@ -57,5 +60,7 @@ export class MonitoringSystemService {
 
   }
 
-
+  unassignVehicle(MonitoringSystemId: number) {
+    //Back not implemented yet
+  }
 }

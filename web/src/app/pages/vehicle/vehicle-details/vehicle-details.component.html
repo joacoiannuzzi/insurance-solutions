@@ -9,7 +9,7 @@
   <p class="item">Categoria: {{vehicle.category}}</p>
   <p class="item">Modelo: {{vehicle.model}}</p>
   <p class="item">Marca: {{vehicle.brand}}</p>
-  <p class="item">Cliente: Nombre del Cliente</p>
+  <p class="item">Cliente: {{vehicle.client.firstName}} {{vehicle.client.lastName}}</p>
 </div>
 <div mat-dialog-actions class="vehicle-details-actions">
   <button mat-raised-button color="primary" (click)="seeProfiles()">Ver Perfiles</button>

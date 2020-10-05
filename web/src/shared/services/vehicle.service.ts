@@ -107,6 +107,19 @@ export class VehicleService {
   }
 
   deleteDrivingProfile(vehicleId: number, drivingProfileId: number) {
-    //put request
+    return this.http.delete(this.vehiclesUrl + "/" + vehicleId + "/delete-driving-profile/" + drivingProfileId).pipe(
+      map(() => {
+        this.findAll();//Reload the list of vehicles to account for changes
+        this.snackBar.open('El perfil de conducción fue eliminado con éxito.', '', {
+          duration: 2000,
+        });
+        return this.vehiclesList;
+      }), catchError( () => {
+          this.snackBar.open('Hubo un error al eliminar el perfil de conducción.', '', {
+            duration: 2000,
+          });
+          return this.vehicles;
+        })
+    );
   }
 }
