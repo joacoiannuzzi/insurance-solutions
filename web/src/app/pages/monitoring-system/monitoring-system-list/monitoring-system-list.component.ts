@@ -14,6 +14,7 @@ import {MonitoringSystemDetailsComponent} from "../monitoring-system-details/mon
   styleUrls: ['./monitoring-system-list.component.scss']
 })
 export class MonitoringSystemListComponent implements OnInit, AfterViewInit {
+  
   displayedColumns: string[] = ["name", "sensor", "monitoringCompany", "assigned", "options"];
   monitoringSystems: MonitoringSystem[];
   dataSource: MatTableDataSource<MonitoringSystem> = new MatTableDataSource<MonitoringSystem>();
@@ -45,8 +46,6 @@ export class MonitoringSystemListComponent implements OnInit, AfterViewInit {
   getMonitoringSystems() {
     this.loading = true;
     this.monitoringSystemService.monitoringSystems.subscribe((data) => {
-      this.monitoringSystems = data;
-      console.log(data);
       this.monitoringSystems = data;
       this.loading = false;
       this.dataSource.data = this.monitoringSystems;

@@ -33,7 +33,7 @@ export class MonitoringSystemService {
   deleteMonitoringSystem(monitoringSystemId: number) {
     //
   }
-
+  
   get monitoringSystems(): Observable<MonitoringSystem[]> {
     return this.monitoringSystemsList
       ? new Observable<MonitoringSystem[]>((subscriber) =>
@@ -73,7 +73,7 @@ export class MonitoringSystemService {
       })
     );
   }
-
+  
   unassignVehicle(MonitoringSystemId: number) {
     //Back not implemented yet
   }
