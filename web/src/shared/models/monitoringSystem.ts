@@ -12,6 +12,7 @@ export class MonitoringSystem {
     monitoringCompany: string,
     isAssigned: boolean
   ) {
+    this.id = id;
     this.name = name;
     this.sensor = sensor;
     this.monitoringCompany = monitoringCompany;

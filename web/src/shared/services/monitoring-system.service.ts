@@ -60,6 +60,20 @@ export class MonitoringSystemService {
 
   }
 
+  getVehicleLess() {
+    return this.http.get(this.monitoringSystemsUrl + "/without-vehicle").pipe(
+      map((res: any) => {
+        return res.map((monitoringSystem) => MonitoringSystem.fromJsonObject(monitoringSystem));
+      }),
+      catchError(() => {
+        this.snackBar.open('Hubo un error al traer los sistemas de monitoreo.', '', {
+          duration: 2000,
+        });
+        return this.monitoringSystems;
+      })
+    );
+  }
+  
   unassignVehicle(MonitoringSystemId: number) {
     //Back not implemented yet
   }
