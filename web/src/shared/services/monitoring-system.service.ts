@@ -1,10 +1,8 @@
 import { MonitoringSystem } from './../models/monitoringSystem';
 import {Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
-import {Client} from '../models/client';
 import {Observable} from "rxjs";
 import {catchError, map} from "rxjs/operators";
-import {Vehicle} from "../models/vehicle";
 import {MatSnackBar} from "@angular/material/snack-bar";
 
 @Injectable()
@@ -33,7 +31,6 @@ export class MonitoringSystemService {
   }
  
 
-  
   get monitoringSystems(): Observable<MonitoringSystem[]> {
     return this.monitoringSystemsList
       ? new Observable<MonitoringSystem[]>((subscriber) =>
@@ -42,6 +39,23 @@ export class MonitoringSystemService {
       : this.findAll();
   }
 
+  public save(moSys: MonitoringSystem) {
+    return this.http.post(this.monitoringSystemsUrl + "/create", moSys).pipe(
+      map((res: any) => {
+        this.monitoringSystemsList.push(MonitoringSystem.fromJsonObject(res));
+        this.snackBar.open('El servicio de monitoreo fue guardado con éxito.', '', {
+          duration: 2000,
+        });
+      }),
+      catchError(() => {
+        this.snackBar.open('Hubo un error al guardar el vehículo.', '', {
+          duration: 2000,
+        });
+        return [];
+      })
+    )
 
-  
+  }
+
+
 }

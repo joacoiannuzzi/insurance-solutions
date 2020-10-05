@@ -346,5 +346,65 @@ class MonitoringSystemControllerTest {
                 .andExpect(status().isNotFound());
     }
 
+    @Test
+    void getAllMonitoringSystemWithoutVehicles() throws Exception {
+
+        monitoringSystemService.deleteAll();
+
+        // empty list
+
+        final var emptyList = Collections.emptyList();
+
+        MvcResult mvcResult = mockMvc
+                .perform(
+                        get(urlBase + "/without-vehicle")
+                )
+                .andExpect(status().isOk())
+                .andExpect(content().contentType(APPLICATION_JSON))
+                .andExpect(content().json(toJson(emptyList)))
+                .andReturn();
+
+        List list = toClass(mvcResult, List.class);
+
+        assertEquals("Size should be the same", emptyList.size(), list.size());
+
+
+        // with 10 vehicles
+
+        final var vehicles = Stream.generate(new Random()::nextInt)
+                .limit(10)
+                .map(number -> new Vehicle("licensePlate_" + number, CAR, "brand_" + number, "model_" + number))
+                .map(vehicle -> vehicleService.createVehicle(vehicle))
+                .collect(Collectors.toList());
+
+        final var monitoringSystems = Stream.generate(new Random()::nextInt)
+                .limit(20)
+                .map(number -> new MonitoringSystem("name_" + number, "sensor_" + number, "monitoringCompany_" + number))
+                .map(monitoringSystem -> monitoringSystemService.createMonitoringSystem(monitoringSystem))
+                .collect(Collectors.toList());
+
+
+        FunctionUtils.zip(
+                vehicles.stream(),
+                monitoringSystems.stream(),
+                (vehicle, monitoringSystem) -> vehicleService.setMonitoringSystem(vehicle.getId(), monitoringSystem.getId())
+        );
+
+        final var allMonitoringSystemsWithoutVehicle = monitoringSystemService.getAllMonitoringSystemsWithoutVehicle();
+
+        MvcResult mvcResult2 = mockMvc
+                .perform(
+                        get(urlBase + "/without-vehicle")
+                )
+                .andExpect(status().isOk())
+                .andExpect(content().contentType(APPLICATION_JSON))
+                .andExpect(content().json(toJson(allMonitoringSystemsWithoutVehicle)))
+                .andReturn();
+
+        List list2 = toClass(mvcResult2, List.class);
+
+        assertEquals("Size should be the same", allMonitoringSystemsWithoutVehicle.size(), list2.size());
+
+    }
 
 }
