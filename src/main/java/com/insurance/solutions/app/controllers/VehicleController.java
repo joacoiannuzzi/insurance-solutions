@@ -63,17 +63,6 @@ public class VehicleController {
         return ResponseEntity.ok(vehicleService.getDrivingProfilesOfVehicle(vehicleId));
     }
 
-    @PutMapping("/{vehicleId}/add-driving-profile/{drivingProfileId}")
-    public ResponseEntity<DrivingProfile> addVehicle(@PathVariable Long vehicleId, @PathVariable Long drivingProfileId) {
-        return ResponseEntity.ok(vehicleService.addDrivingProfile(vehicleId, drivingProfileId));
-    }
-
-    @DeleteMapping("/{vehicleId}/delete-driving-profile/{drivingProfileId}")
-    public ResponseEntity<?> deleteDrivingProfile(@PathVariable Long vehicleId, @PathVariable Long drivingProfileId) {
-        vehicleService.deleteDrivingProfile(vehicleId, drivingProfileId);
-        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-    }
-
     private List<VehicleResource> makeVehicles(List<Vehicle> vehicles) {
         List<VehicleResource> vehicleResources = new ArrayList<>();
         for (Vehicle vehicle : vehicles) vehicleResources.add(makeVehicle(vehicle));

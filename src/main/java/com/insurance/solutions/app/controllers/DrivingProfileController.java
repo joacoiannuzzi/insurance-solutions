@@ -17,16 +17,19 @@ public class DrivingProfileController {
     @Autowired
     private DrivingProfileService drivingProfileService;
 
-    @PostMapping("/create")
-    public ResponseEntity<DrivingProfile> createVehicle(@Valid @RequestBody DrivingProfile drivingProfile) {
-        return new ResponseEntity<>(drivingProfileService.createDrivingProfile(drivingProfile), HttpStatus.CREATED);
+    @PostMapping("/create/{vehicleId}")
+    public ResponseEntity<DrivingProfile> createDrivingProfile(@PathVariable Long vehicleId, @Valid @RequestBody DrivingProfile drivingProfile) {
+        return new ResponseEntity(drivingProfileService.createDrivingProfile(drivingProfile, vehicleId), HttpStatus.CREATED);
     }
 
+    @DeleteMapping("/delete/{drivingProfileId}")
+    public ResponseEntity<?> deleteDrivingProfile(@PathVariable Long drivingProfileId) {
+        drivingProfileService.deleteDrivingProfile(drivingProfileId);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    }
 
     @GetMapping("{id}")
     public ResponseEntity<DrivingProfile> getDrivingProfileById(@PathVariable Long id) {
         return ResponseEntity.ok(drivingProfileService.findById(id));
     }
-
-
 }
