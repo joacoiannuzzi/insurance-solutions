@@ -4,7 +4,9 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.insurance.solutions.app.exceptions.ResourceNotFoundException;
 import com.insurance.solutions.app.models.DrivingProfile;
+import com.insurance.solutions.app.models.Vehicle;
 import com.insurance.solutions.app.services.DrivingProfileService;
+import com.insurance.solutions.app.services.VehicleService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -17,6 +19,7 @@ import java.io.UnsupportedEncodingException;
 import java.util.Date;
 import java.util.Random;
 
+import static com.insurance.solutions.app.models.ENUM_CATEGORY.CAR;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertThrows;
 import static org.springframework.http.MediaType.APPLICATION_JSON;
@@ -40,6 +43,9 @@ class DrivingProfileControllerTest {
 
     @Autowired
     private DrivingProfileService drivingProfileService;
+
+    @Autowired
+    private VehicleService vehicleService;
 
     private String toJson(Object o) throws JsonProcessingException {
         return objectMapper.writeValueAsString(o);
@@ -99,10 +105,12 @@ class DrivingProfileControllerTest {
 
     @Test
     public void getDrivingProfileById() throws Exception {
+        Vehicle vehicle = new Vehicle("72634123", CAR, "Test Brand", "Test Model");
+
+        long vehicleId = vehicleService.createVehicle(vehicle).getId();
 
         final var savedDrivingProfile = drivingProfileService.createDrivingProfile(
-                createRandomDrivingProfile()
-        );
+                createRandomDrivingProfile(), vehicleId);
 
         // valid
 

@@ -283,59 +283,6 @@ class VehicleControllerTest {
     }
 
     @Test
-    void addDrivingProfileToVehicle() throws Exception {
-        Vehicle vehicle = new Vehicle("72634", CAR, "brand", "model");
-
-        DrivingProfile drivingProfile = new DrivingProfile(130, 150, 50,
-                3423, 2423, new Date(), new Date());
-
-        Long vehicleId = vehicleService.createVehicle(vehicle).getId();
-        DrivingProfile savedDrivingProfile = drivingProfileService.createDrivingProfile(drivingProfile);
-
-        mockMvc
-                .perform(
-                        put(urlBase + "/" + vehicleId + "/add-driving-profile/" + savedDrivingProfile.getId())
-                )
-                .andExpect(status().isOk())
-                .andExpect(content().contentType(APPLICATION_JSON))
-                .andExpect(content().json(toJson(savedDrivingProfile)));
-
-        // add existing driving profile to not existing vehicle
-        long vehicleMockId = 1000L;
-
-        Exception exception1 = assertThrows(ResourceNotFoundException.class, () -> vehicleService.addDrivingProfile(vehicleMockId, savedDrivingProfile.getId()));
-        assertEquals("Vehicle not found.", exception1.getMessage());
-
-        mockMvc
-                .perform(
-                        put(urlBase + "/" + vehicleMockId + "/add-driving-profile/" + savedDrivingProfile.getId())
-                )
-                .andExpect(status().isNotFound());
-
-        // add not existing driving profile to existing vehicle
-        long drivingProfileMockID = 1000L;
-
-        Exception exception2 = assertThrows(ResourceNotFoundException.class, () -> vehicleService.addDrivingProfile(vehicleId, drivingProfileMockID));
-        assertEquals("Driving profile not found.", exception2.getMessage());
-
-        mockMvc
-                .perform(
-                        put(urlBase + "/" + vehicleId + "/add-driving-profile/" + drivingProfileMockID)
-                )
-                .andExpect(status().isNotFound());
-
-        // add not existing driving profile to not existing vehicle
-        Exception exception3 = assertThrows(ResourceNotFoundException.class, () -> vehicleService.addDrivingProfile(vehicleMockId, drivingProfileMockID));
-        assertEquals("Vehicle not found.", exception3.getMessage());
-
-        mockMvc
-                .perform(
-                        put(urlBase + "/" + vehicleMockId + "/add-driving-profile/" + drivingProfileMockID)
-                )
-                .andExpect(status().isNotFound());
-    }
-
-    @Test
     void deleteDrivingProfileFromClient() throws Exception {
 
         Vehicle vehicle = new Vehicle("72634", CAR, "brand", "model");
@@ -350,9 +297,7 @@ class VehicleControllerTest {
 
         long vehicleId = vehicleService.createVehicle(vehicle).getId();
 
-        DrivingProfile savedDrivingProfile = drivingProfileService.createDrivingProfile(drivingProfile);
-
-        vehicleService.addDrivingProfile(vehicleId, savedDrivingProfile.getId());
+        DrivingProfile savedDrivingProfile = drivingProfileService.createDrivingProfile(drivingProfile, vehicleId);
 
         List<DrivingProfile> beforeVehicleDrivingProfiles = vehicleService.getDrivingProfilesOfVehicle(vehicleId);
 
@@ -368,7 +313,7 @@ class VehicleControllerTest {
 
         // Delete existing drivingProfile in not existing vehicle
 
-        DrivingProfile savedDrivingProfile2 = drivingProfileService.createDrivingProfile(drivingProfile);
+        DrivingProfile savedDrivingProfile2 = drivingProfileService.createDrivingProfile(drivingProfile, vehicleId);
 
         Exception exception1 = assertThrows(BadRequestException.class, () -> vehicleService.deleteDrivingProfile(vehicleMockID, savedDrivingProfile2.getId()));
         assertEquals("Driving profile does not belong to vehicle.", exception1.getMessage());
@@ -417,13 +362,9 @@ class VehicleControllerTest {
                 456, 345, new Date(), new Date());
 
         Long vehicleId = vehicleService.createVehicle(vehicle).getId();
-        DrivingProfile savedDrivingProfile1 = drivingProfileService.createDrivingProfile(drivingProfile1);
-        DrivingProfile savedDrivingProfile2 = drivingProfileService.createDrivingProfile(drivingProfile2);
-        DrivingProfile savedDrivingProfile3 = drivingProfileService.createDrivingProfile(drivingProfile3);
-
-        vehicleService.addDrivingProfile(vehicleId, savedDrivingProfile1.getId());
-        vehicleService.addDrivingProfile(vehicleId, savedDrivingProfile2.getId());
-        vehicleService.addDrivingProfile(vehicleId, savedDrivingProfile3.getId());
+        DrivingProfile savedDrivingProfile1 = drivingProfileService.createDrivingProfile(drivingProfile1, vehicleId);
+        DrivingProfile savedDrivingProfile2 = drivingProfileService.createDrivingProfile(drivingProfile2, vehicleId);
+        DrivingProfile savedDrivingProfile3 = drivingProfileService.createDrivingProfile(drivingProfile3, vehicleId);
 
         List<DrivingProfile> drivingProfiles = List.of(savedDrivingProfile1, savedDrivingProfile2, savedDrivingProfile3);
 

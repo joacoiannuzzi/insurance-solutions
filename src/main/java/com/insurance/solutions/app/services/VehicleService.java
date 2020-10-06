@@ -64,19 +64,6 @@ public class VehicleService {
         return new ArrayList<>(vehicle.getDrivingProfiles());
     }
 
-
-    public DrivingProfile addDrivingProfile(Long vehicleId, Long drivingProfileId) {
-        Vehicle vehicle = findById(vehicleId);
-        DrivingProfile drivingProfile = drivingProfileRepository.findById(drivingProfileId)
-                .orElseThrow(() -> new ResourceNotFoundException("Driving profile not found."));
-
-        drivingProfile.setVehicle(vehicle);
-        vehicle.addDrivingProfile(drivingProfile);
-
-        vehicleRepository.save(vehicle);
-        return drivingProfile;
-    }
-
     public void deleteDrivingProfile(Long vehicleId, Long drivingProfileId) {
         DrivingProfile drivingProfile = drivingProfileRepository.findById(drivingProfileId)
                 .orElseThrow(() -> new ResourceNotFoundException("Driving profile not found."));
