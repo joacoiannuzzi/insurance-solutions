@@ -1,10 +1,9 @@
-import { MonitoringSystem } from './../../../../shared/models/monitoringSystem';
+import { MonitoringSystem } from '../../../../shared/models/monitoringSystem';
 import { Validators } from '@angular/forms';
-import { MonitoringSystemService } from './../../../../shared/services/monitoring-system.service';
+import { MonitoringSystemService } from '../../../../shared/services/monitoring-system.service';
 import { FormGroup, FormControl } from '@angular/forms';
 import { Component, OnInit, Inject } from '@angular/core';
-import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
-import { ConfirmDialogComponent } from '../../../components/confirm-dialog/confirm-dialog.component';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-monitoring-system-add',
@@ -55,7 +54,7 @@ export class MonitoringSystemAddComponent implements OnInit {
       Object.keys(this.monitoringSystemForm.value).map((key) => this.data[key] = this.monitoringSystemForm.value[key]);
       this.monitoringSystemService.save(this.data).subscribe(res => {
         this.dialogRef.close(res);
-      })
+      });
     }
   }
 }
