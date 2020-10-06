@@ -5,6 +5,7 @@ import {VehicleService} from "../../../../shared/services/vehicle.service";
 import {ConfirmDialogComponent} from "../../../components/confirm-dialog/confirm-dialog.component";
 import {DrivingProfilesComponent} from "../driving-profiles/driving-profiles.component";
 import {VehicleUpdateComponent} from "../vehicle-update/vehicle-update.component";
+import {MonitoringSystemAssignationComponent} from "../monitoring-system-assignation/monitoring-system-assignation.component";
 
 @Component({
   selector: 'app-vehicle-details',
@@ -40,7 +41,7 @@ export class VehicleDetailsComponent implements OnInit {
 
   deleteVehicle() {
     this.dialog.open(ConfirmDialogComponent, {
-      data: "¿Está seguro de que desea eliminar al vehículo de patente" + this.vehicle.licensePlate + "?"
+      data: "¿Está seguro de que desea eliminar al vehículo de patente" + this.vehicle?.licensePlate + "?"
     })
       .afterClosed()
       .subscribe((confirmed: boolean) => {
@@ -58,4 +59,17 @@ export class VehicleDetailsComponent implements OnInit {
     dialogRef.afterClosed().subscribe();
   }
 
+  assignMonitoringSystem() {
+    const dialogRef = this.dialog.open(MonitoringSystemAssignationComponent, {
+      width: '800px',
+      data: this.vehicle
+    });
+    dialogRef.afterClosed().subscribe((result)=>{
+      this.vehicle.monitoringSystems = result;
+    });
+  }
+
+  unassignMonitoringSystem() {
+
+  }
 }

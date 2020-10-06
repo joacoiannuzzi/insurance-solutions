@@ -6,6 +6,8 @@ import {MonitoringSystem} from "../../../../shared/models/monitoringSystem";
 import {map, startWith} from "rxjs/operators";
 import {Vehicle} from "../../../../shared/models/vehicle";
 import {MonitoringSystemService} from "../../../../shared/services/monitoring-system.service";
+import {VehicleService} from "../../../../shared/services/vehicle.service";
+import {VehicleDetailsComponent} from "../vehicle-details/vehicle-details.component";
 
 @Component({
   selector: 'app-monitoring-system-assignation',
@@ -18,8 +20,8 @@ export class MonitoringSystemAssignationComponent implements OnInit {
   filteredOptions: Observable<MonitoringSystem[]>;
 
   constructor(public dialogRef: MatDialogRef<MonitoringSystemAssignationComponent>,
-              @Inject(MAT_DIALOG_DATA) public monitoringSystem: MonitoringSystem,
-              public vehicle: Vehicle,
+              @Inject(MAT_DIALOG_DATA) public vehicle: Vehicle,
+              public vehiceService: VehicleService,
               public monitoringSystemService: MonitoringSystemService,
               public dialog: MatDialog) {
   }
@@ -38,14 +40,18 @@ export class MonitoringSystemAssignationComponent implements OnInit {
       .pipe(
         startWith(''),
         map(value => {
-          return this._filter(value?.serviceName ? value.serviceName : value);
+          return this._filter(value?.name ? value.name : value);
         })
       );
   }
 
   private _filter(value: string): MonitoringSystem[] {
-    const filterValue = value.toLowerCase();
-    return this.options.filter(option => option.name.toLowerCase().includes(filterValue));
+    if(value){
+      const filterValue = value.toLowerCase();
+      return this.options.filter(option => option.name.toLowerCase().includes(filterValue));
+    } else {
+      return this.options;
+    }
   }
 
   get invalid() {
@@ -61,11 +67,11 @@ export class MonitoringSystemAssignationComponent implements OnInit {
   }
 
   assignMonitoringSystem() {
-    /*if (this.myControl.valid) {
-      this.monitoringSystemService.assignVehicle(this.monitoringSystem.id, this.myControl.value?.id).subscribe(() => {
-        this.dialogRef.close();
+    if (this.myControl.valid) {
+      this.vehiceService.assignVehicle(this.myControl.value?.id, this.vehicle.id).subscribe((res) => {
+        this.dialogRef.close(res);
       });
-    }*/
+    }
   }
 
   closeDetails() {
