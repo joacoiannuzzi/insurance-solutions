@@ -1,3 +1,4 @@
+import { MonitoringSystem } from './../models/monitoringSystem';
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Vehicle } from '../models/vehicle';
@@ -156,8 +157,22 @@ export class VehicleService {
     );
   }
 
-  unassignVehicle(monitoringSystemid: number, vehicleId: number) {
-    // Back aun no listo
+  unassignVehicle(vehicleId: number) {
+    return this.http.delete(this.vehiclesUrl + "/" + vehicleId + "/remove-monitoring-system").pipe(
+      map((res: Vehicle) => {
+        this.snackBar.open('El servicio de monitoreo fue desasignado del vehículo con éxito.', '', {
+          duration: 2000,
+        });
+        return res;
+      }),
+      catchError(() => {
+        this.snackBar.open('Hubo un error al desasignar el servicio de monitoreo del vehículo', '', {
+          duration: 2000,
+        });
+        return this.vehicles;
+      })
+    );
+    
   }
 
 }

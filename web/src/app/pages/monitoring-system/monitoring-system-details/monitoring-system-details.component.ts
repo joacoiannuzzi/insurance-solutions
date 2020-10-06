@@ -69,7 +69,10 @@ export class MonitoringSystemDetailsComponent implements OnInit {
       .subscribe((confirmed: boolean) => {
         console.log(confirmed)
         if (confirmed) {
-          this.monitoringSystemService.unassignVehicle(this.monitoringSystem.id);
+      this.vehicleService.vehicles.subscribe(res => {
+      const vehicle =res.find(v => v.monitoringSystems?.id === this.monitoringSystem.id);
+          this.vehicleService.unassignVehicle(vehicle.id);
+    }) 
         }
       })
   }
