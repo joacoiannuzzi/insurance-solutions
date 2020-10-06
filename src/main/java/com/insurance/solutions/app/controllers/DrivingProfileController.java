@@ -23,4 +23,10 @@ public class DrivingProfileController {
     }
 
 
+    @GetMapping("{id}")
+    public ResponseEntity<DrivingProfile> getDrivingProfileById(@PathVariable Long id) {
+        return ResponseEntity.ok(drivingProfileService.findById(id));
+    }
+
+
 }
