@@ -73,8 +73,8 @@ public class VehicleController {
         vehicleService.deleteDrivingProfile(vehicleId, drivingProfileId);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
-    
-    private  List<VehicleResource> makeVehicles(List<Vehicle> vehicles) {
+
+    private List<VehicleResource> makeVehicles(List<Vehicle> vehicles) {
         List<VehicleResource> vehicleResources = new ArrayList<>();
         for (Vehicle vehicle : vehicles) vehicleResources.add(makeVehicle(vehicle));
         return vehicleResources;
@@ -100,7 +100,8 @@ public class VehicleController {
 
     private List<DrivingProfileResource> makeDrivingProfiles(List<DrivingProfile> drivingProfiles) {
         List<DrivingProfileResource> drivingProfileResources = new ArrayList<>();
-        for (DrivingProfile drivingProfile : drivingProfiles) drivingProfileResources.add(makeDrivingProfile(drivingProfile));
+        for (DrivingProfile drivingProfile : drivingProfiles)
+            drivingProfileResources.add(makeDrivingProfile(drivingProfile));
         return drivingProfileResources;
     }
 
@@ -143,6 +144,12 @@ public class VehicleController {
     @PutMapping("/{vehicleId}/set-monitoring-system/{monitoringSystemId}")
     public ResponseEntity<MonitoringSystem> addMonitoringSystem(@PathVariable Long vehicleId, @PathVariable Long monitoringSystemId) {
         return ResponseEntity.ok(vehicleService.setMonitoringSystem(vehicleId, monitoringSystemId));
+    }
+
+    @DeleteMapping("/{vehicleId}/remove-monitoring-system")
+    public ResponseEntity<?> deleteMonitoringSystem(@PathVariable Long vehicleId) {
+        vehicleService.removeMonitoringSystem(vehicleId);
+        return ResponseEntity.noContent().build();
     }
 
     @GetMapping("without-monitoring-system")
