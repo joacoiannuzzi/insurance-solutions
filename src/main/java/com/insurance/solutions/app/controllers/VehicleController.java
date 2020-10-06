@@ -63,12 +63,6 @@ public class VehicleController {
         return ResponseEntity.ok(vehicleService.getDrivingProfilesOfVehicle(vehicleId));
     }
 
-    @DeleteMapping("/{vehicleId}/delete-driving-profile/{drivingProfileId}")
-    public ResponseEntity<?> deleteDrivingProfile(@PathVariable Long vehicleId, @PathVariable Long drivingProfileId) {
-        vehicleService.deleteDrivingProfile(vehicleId, drivingProfileId);
-        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-    }
-
     private List<VehicleResource> makeVehicles(List<Vehicle> vehicles) {
         List<VehicleResource> vehicleResources = new ArrayList<>();
         for (Vehicle vehicle : vehicles) vehicleResources.add(makeVehicle(vehicle));

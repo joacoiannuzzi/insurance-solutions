@@ -26,6 +26,17 @@ public class DrivingProfileService {
         return drivingProfileRepository.save(drivingProfile);
     }
 
+    public void deleteDrivingProfile(Long drivingProfileId) {
+        DrivingProfile drivingProfile = drivingProfileRepository.findById(drivingProfileId)
+                .orElseThrow(() -> new ResourceNotFoundException("Driving profile not found."));
+
+        Vehicle vehicle = drivingProfile.getVehicle();
+
+        vehicle.removeDrivingProfile(drivingProfile);
+        vehicleRepository.save(vehicle);
+    }
+
+
     public DrivingProfile findById(Long id) {
         return drivingProfileRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Driving profile not found."));

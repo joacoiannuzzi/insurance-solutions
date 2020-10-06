@@ -17,12 +17,13 @@ import org.springframework.test.web.servlet.MvcResult;
 
 import java.io.UnsupportedEncodingException;
 import java.util.Date;
+import java.util.List;
 import java.util.Random;
 
 import static com.insurance.solutions.app.models.ENUM_CATEGORY.CAR;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertThrows;
+import static org.junit.Assert.*;
 import static org.springframework.http.MediaType.APPLICATION_JSON;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -102,6 +103,44 @@ class DrivingProfileControllerTest {
 //        assertEquals(size, monitoringSystemService.findAll().size());
 //
 //    }
+
+    @Test
+    void deleteDrivingProfile() throws Exception {
+
+        Vehicle vehicle = new Vehicle("99999", CAR, "brand999", "model999");
+
+
+        DrivingProfile drivingProfile = createRandomDrivingProfile();
+
+        long drivingProfileMockID = 1000L;
+
+        long vehicleId = vehicleService.createVehicle(vehicle).getId();
+
+        DrivingProfile savedDrivingProfile = drivingProfileService.createDrivingProfile(drivingProfile, vehicleId);
+
+        List<DrivingProfile> beforeVehicleDrivingProfiles = vehicleService.getDrivingProfilesOfVehicle(vehicleId);
+
+        mockMvc
+                .perform(
+                        delete(urlBase + "/delete/" + savedDrivingProfile.getId())
+                )
+                .andExpect(status().isNoContent());
+
+        List<DrivingProfile> afterVehicleDrivingProfiles = vehicleService.getDrivingProfilesOfVehicle(vehicleId);
+
+        assertNotEquals("Size should not be the same", beforeVehicleDrivingProfiles.size(), afterVehicleDrivingProfiles.size());
+
+        // Delete not existing drivingProfile
+
+        Exception exception2 = assertThrows(ResourceNotFoundException.class, () -> drivingProfileService.deleteDrivingProfile(drivingProfileMockID));
+        assertEquals("Driving profile not found.", exception2.getMessage());
+
+        mockMvc
+                .perform(
+                        delete(urlBase + "/delete/" + drivingProfileMockID)
+                )
+                .andExpect(status().isNotFound());
+    }
 
     @Test
     public void getDrivingProfileById() throws Exception {
