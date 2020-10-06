@@ -59,6 +59,4 @@ export class MonitoringSystemAddComponent implements OnInit {
       })
     }
   }
-
-
 }

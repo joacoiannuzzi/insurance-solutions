@@ -1,4 +1,5 @@
-import { MonitoringSystem } from '../models/monitoringSystem';
+import { MonitoringSystemAddComponent } from './../../app/pages/monitoring-system/monitoring-system-add/monitoring-system-add.component';
+import { MonitoringSystem } from './../models/monitoringSystem';
 import {Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {Observable} from "rxjs";
@@ -29,11 +30,7 @@ export class MonitoringSystemService {
       })
     );
   }
-
-  deleteMonitoringSystem(monitoringSystemId: number) {
-    //
-  }
-
+  
   get monitoringSystems(): Observable<MonitoringSystem[]> {
     return this.monitoringSystemsList
       ? new Observable<MonitoringSystem[]>((subscriber) =>
@@ -59,11 +56,12 @@ export class MonitoringSystemService {
     )
 
   }
+
   public delete(moSys: MonitoringSystem) {
     return this.http.delete<MonitoringSystem>(this.monitoringSystemsUrl + "/delete/" + moSys.id).pipe(
       map(() => {
         let auxmoSysList: MonitoringSystem[] = [...this.monitoringSystemsList];
-        auxmoSysList.splice(this.monitoringSystemsList.findIndex(m => m.id == moSys.id), 1);
+        auxmoSysList.splice(this.monitoringSystemsList.findIndex(m => m.id === moSys.id), 1);
         this.monitoringSystemsList = [...auxmoSysList];
         this.snackBar.open('El servicio fue eliminado con éxito.', '', {
           duration: 2000,
@@ -111,7 +109,7 @@ export class MonitoringSystemService {
       })
     );
   }
-
+  
   unassignVehicle(MonitoringSystemId: number) {
     //Back not implemented yet
   }
