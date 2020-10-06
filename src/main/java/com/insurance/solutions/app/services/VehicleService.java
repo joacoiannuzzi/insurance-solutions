@@ -113,10 +113,24 @@ public class VehicleService {
 
         vehicleRepository.save(vehicle);
         return monitoringSystem;
-
     }
 
     public List<Vehicle> getAllVehiclesWithoutMonitoringSystem() {
         return vehicleRepository.findAllByMonitoringSystemIsNull();
+    }
+
+    public void removeMonitoringSystem(Long vehicleId) {
+        final var vehicle = findById(vehicleId);
+        final var monitoringSystem = vehicle.getMonitoringSystem();
+
+        if (monitoringSystem == null)
+            throw new BadRequestException("Vehicle does not have a monitoring system.");
+
+        monitoringSystem.setIsAssigned(false);
+        monitoringSystem.setVehicle(null);
+
+        vehicle.setMonitoringSystem(null);
+        vehicleRepository.save(vehicle);
+
     }
 }

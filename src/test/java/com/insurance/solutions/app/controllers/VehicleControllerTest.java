@@ -6,7 +6,6 @@ import com.insurance.solutions.app.exceptions.BadRequestException;
 import com.insurance.solutions.app.exceptions.ResourceNotFoundException;
 import com.insurance.solutions.app.models.*;
 import com.insurance.solutions.app.repositories.ClientRepository;
-import com.insurance.solutions.app.repositories.DrivingProfileRepository;
 import com.insurance.solutions.app.repositories.VehicleRepository;
 import com.insurance.solutions.app.services.ClientService;
 import com.insurance.solutions.app.services.DrivingProfileService;
@@ -34,8 +33,6 @@ import static com.insurance.solutions.app.models.ENUM_CATEGORY.*;
 import static org.junit.Assert.*;
 import static org.springframework.http.MediaType.APPLICATION_JSON;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 
@@ -578,7 +575,7 @@ class VehicleControllerTest {
 
         mockMvc
                 .perform(
-                        put(urlBase + "/" + vehicleMockId + "/set-monitoring-system//" + savedMonitoringSystem.getId())
+                        put(urlBase + "/" + vehicleMockId + "/set-monitoring-system/" + savedMonitoringSystem.getId())
                 )
                 .andExpect(status().isNotFound());
 
@@ -603,6 +600,57 @@ class VehicleControllerTest {
                         put(urlBase + "/" + vehicleMockId + "/set-monitoring-system/" + monitoringSystemMockId)
                 )
                 .andExpect(status().isNotFound());
+    }
+
+
+    @Test
+    void removeMonitoringSystemToVehicle() throws Exception {
+        final var vehicle = new Vehicle("81v45 13v84", CAR,
+                "c1p4 r1y2 8", "c12rt 378 ctv8");
+        final var monitoringSystem = new MonitoringSystem("1bc478t178ct07",
+                "iucie9pqb3n8 y", "1c9b4y1b98981c  ce");
+
+        final var vehicleId = vehicleService.createVehicle(vehicle).getId();
+        final var monitoringSystemId = monitoringSystemService.createMonitoringSystem(monitoringSystem).getId();
+        final var savedMonitoringSystem = vehicleService.setMonitoringSystem(vehicleId, monitoringSystemId);
+
+        mockMvc
+                .perform(
+                        delete(urlBase + "/" + vehicleId + "/remove-monitoring-system")
+                )
+                .andExpect(status().isNoContent());
+
+        assertNull(vehicleService.findById(vehicleId).getMonitoringSystem());
+
+
+        // remove monitoring system from non existing vehicle
+        long vehicleMockId = 1000L;
+
+        final var exception1 = assertThrows(ResourceNotFoundException.class,
+                () -> vehicleService.removeMonitoringSystem(vehicleMockId)
+        );
+
+        assertEquals("Vehicle not found.", exception1.getMessage());
+
+        mockMvc
+                .perform(
+                        delete(urlBase + "/" + vehicleMockId + "/remove-monitoring-system/")
+                )
+                .andExpect(status().isNotFound());
+
+        // remove non existing monitoring system from existing vehicle
+
+        Exception exception2 = assertThrows(BadRequestException.class,
+                () -> vehicleService.removeMonitoringSystem(vehicleId)
+        );
+        assertEquals("Vehicle does not have a monitoring system.", exception2.getMessage());
+
+        mockMvc
+                .perform(
+                        delete(urlBase + "/" + vehicleId + "/remove-monitoring-system/")
+                )
+                .andExpect(status().isBadRequest());
+
     }
 
     @Test

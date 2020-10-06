@@ -1,5 +1,6 @@
 package com.insurance.solutions.app.services;
 
+import com.insurance.solutions.app.exceptions.ResourceNotFoundException;
 import com.insurance.solutions.app.models.DrivingProfile;
 import com.insurance.solutions.app.repositories.DrivingProfileRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,5 +15,10 @@ public class DrivingProfileService {
 
     public DrivingProfile createDrivingProfile(DrivingProfile drivingProfile) {
         return drivingProfileRepository.save(drivingProfile);
+    }
+
+    public DrivingProfile findById(Long id) {
+        return drivingProfileRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Driving profile not found."));
     }
 }
