@@ -55,7 +55,6 @@ export class MonitoringSystemAddComponent implements OnInit {
       Object.keys(this.monitoringSystemForm.value).map((key) => this.data[key] = this.monitoringSystemForm.value[key]);
       this.monitoringSystemService.save(this.data).subscribe(res => {
         this.dialogRef.close(res);
-        this.monitoringSystemService.monitoringSystems.subscribe();
       })
     }
   }

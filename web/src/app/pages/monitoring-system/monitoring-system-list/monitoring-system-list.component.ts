@@ -37,7 +37,6 @@ export class MonitoringSystemListComponent implements OnInit, AfterViewInit {
     this.dataSource.paginator = this.paginator;
   }
 
-
   applyFilter(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;
     this.dataSource.filter = filterValue.trim().toLowerCase();
@@ -46,6 +45,7 @@ export class MonitoringSystemListComponent implements OnInit, AfterViewInit {
       this.dataSource.paginator.firstPage();
     }
   }
+
   getMonitoringSystems() {
     this.loading = true;
     this.monitoringSystemService.monitoringSystems.subscribe((data) => {
@@ -60,8 +60,10 @@ export class MonitoringSystemListComponent implements OnInit, AfterViewInit {
       width: '800px',
       data: new MonitoringSystem(null, "", "", "", false)
     });
-    dialogRef.afterClosed().subscribe(() => {
-      this.getMonitoringSystems();
+    dialogRef.afterClosed().subscribe((res) => {
+      if (res) {
+        this.getMonitoringSystems();
+      }
     });
   }
 

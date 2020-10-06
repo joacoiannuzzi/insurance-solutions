@@ -57,6 +57,8 @@ export class ClientDetailsComponent implements OnInit {
       width: '800px',
       data: this.client
     });
-    dialogRef.afterClosed().subscribe();
+    dialogRef.afterClosed().subscribe((res)=>{
+      this.client = res;
+    });
   }
 }

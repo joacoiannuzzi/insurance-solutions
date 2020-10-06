@@ -85,17 +85,20 @@ export class ClientListComponent implements OnInit, AfterViewInit  {
       width: '800px',
       data: client
     });
-    dialogRef.afterClosed().subscribe((confirmed) => {
-      if (confirmed) {
+    dialogRef.afterClosed().subscribe((res) => {
+      if (res) {
         this.getClients();
       }
     })
   }
 
   openClientDetails(element: Client): void {
-    this.dialog.open(ClientDetailsComponent, {
+    const dialogRef = this.dialog.open(ClientDetailsComponent, {
       width: '800px',
       data: element
     });
+    dialogRef.afterClosed().subscribe(() => {
+      this.getClients();
+    })
   }
 }
