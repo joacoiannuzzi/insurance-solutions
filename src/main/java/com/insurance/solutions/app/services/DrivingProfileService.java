@@ -8,6 +8,8 @@ import com.insurance.solutions.app.repositories.VehicleRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class DrivingProfileService {
 
@@ -40,5 +42,9 @@ public class DrivingProfileService {
     public DrivingProfile findById(Long id) {
         return drivingProfileRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Driving profile not found."));
+    }
+
+    public List<DrivingProfile> findAll() {
+        return (List<DrivingProfile>) drivingProfileRepository.findAll();
     }
 }

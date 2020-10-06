@@ -16,17 +16,15 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 
 import java.io.UnsupportedEncodingException;
-import java.util.Date;
 import java.util.List;
-import java.util.Random;
 
 import static com.insurance.solutions.app.models.ENUM_CATEGORY.CAR;
+import static com.insurance.solutions.app.utils.TestUtil.createRandomDrivingProfile;
+import static com.insurance.solutions.app.utils.TestUtil.createRandomVehicle;
 import static org.junit.Assert.*;
 import static org.springframework.http.MediaType.APPLICATION_JSON;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 
 @SpringBootTest
@@ -56,53 +54,56 @@ class DrivingProfileControllerTest {
         return objectMapper.readValue(response.getResponse().getContentAsString(), type);
     }
 
-    private DrivingProfile createRandomDrivingProfile() {
-        final var random = new Random();
 
-        return new DrivingProfile(random.nextDouble(), random.nextDouble(), random.nextDouble(),
-                random.nextDouble(), random.nextDouble(), new Date(random.nextInt()), new Date(random.nextInt()));
+    @Test
+    public void createDrivingProfile() throws Exception {
+        final var vehicle = createRandomVehicle();
+        final var drivingProfile = createRandomDrivingProfile();
+
+        final var vehicleId = vehicleService.createVehicle(vehicle).getId();
+
+
+        // valid
+        MvcResult mvcResult = mockMvc
+                .perform(
+                        post(urlBase + "/create/" + vehicleId)
+                                .contentType(APPLICATION_JSON)
+                                .accept(APPLICATION_JSON)
+                                .content(toJson(drivingProfile))
+                )
+                .andExpect(status().isCreated())
+                .andExpect(content().contentType(APPLICATION_JSON))
+                .andExpect(jsonPath("$.id").isNumber())
+                .andReturn();
+
+        final var id = toClass(mvcResult, DrivingProfile.class).getId();
+        drivingProfile.setId(id);
+
+        assertEquals(toJson(drivingProfile), toJson(drivingProfileService.findById(id)));
+
+
+        // invalid
+
+        final var vehicleMockId = 32476577577834L;
+
+        final var exception = assertThrows(ResourceNotFoundException.class,
+                () -> drivingProfileService.createDrivingProfile(drivingProfile, vehicleMockId));
+        assertEquals("Vehicle not found.", exception.getMessage());
+
+        final var size = drivingProfileService.findAll().size();
+
+        mockMvc
+                .perform(
+                        post(urlBase + "/create/" + vehicleMockId)
+                                .contentType(APPLICATION_JSON)
+                                .accept(APPLICATION_JSON)
+                                .content(toJson(drivingProfile))
+                )
+                .andExpect(status().isNotFound());
+
+        assertEquals(size, drivingProfileService.findAll().size());
+
     }
-
-
-//    @Test
-//    public void createMonitoringSystem() throws Exception {
-//        final var monitoringSystem = new MonitoringSystem("name1", "sensor1", "monitoringCompany1");
-//
-//
-//        // valid
-//        MvcResult mvcResult = mockMvc
-//                .perform(
-//                        post(urlBase + "/create")
-//                                .contentType(APPLICATION_JSON)
-//                                .accept(APPLICATION_JSON)
-//                                .content(toJson(monitoringSystem))
-//                )
-//                .andExpect(status().isCreated())
-//                .andExpect(content().contentType(APPLICATION_JSON))
-//                .andExpect(jsonPath("$.id").isNumber())
-//                .andReturn();
-//
-//        final var id = toClass(mvcResult, MonitoringSystem.class).getId();
-//        monitoringSystem.setId(id);
-//
-//        assertEquals(toJson(monitoringSystem), toJson(monitoringSystemService.findById(id)));
-//
-//
-//        // invalid
-//        final int size = monitoringSystemService.findAll().size();
-//
-//        mockMvc
-//                .perform(
-//                        post(urlBase + "/create")
-//                                .contentType(APPLICATION_JSON)
-//                                .accept(APPLICATION_JSON)
-//                                .content(toJson(monitoringSystem))
-//                )
-//                .andExpect(status().isBadRequest());
-//
-//        assertEquals(size, monitoringSystemService.findAll().size());
-//
-//    }
 
     @Test
     void deleteDrivingProfile() throws Exception {
@@ -161,7 +162,8 @@ class DrivingProfileControllerTest {
         // invalid
         long mockID = 10000L;
 
-        Exception exception = assertThrows(ResourceNotFoundException.class, () -> drivingProfileService.findById(mockID));
+        Exception exception = assertThrows(ResourceNotFoundException.class,
+                () -> drivingProfileService.findById(mockID));
         assertEquals("Driving profile not found.", exception.getMessage());
 
         mockMvc

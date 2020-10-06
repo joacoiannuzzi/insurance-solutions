@@ -19,7 +19,7 @@ public class DrivingProfileController {
 
     @PostMapping("/create/{vehicleId}")
     public ResponseEntity<DrivingProfile> createDrivingProfile(@PathVariable Long vehicleId, @Valid @RequestBody DrivingProfile drivingProfile) {
-        return ResponseEntity.ok(drivingProfileService.createDrivingProfile(drivingProfile, vehicleId));
+        return new ResponseEntity(drivingProfileService.createDrivingProfile(drivingProfile, vehicleId), HttpStatus.CREATED);
     }
 
     @DeleteMapping("/delete/{drivingProfileId}")
