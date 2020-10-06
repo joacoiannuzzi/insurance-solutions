@@ -53,9 +53,9 @@ public class VehicleController {
     }
 
     @DeleteMapping("/delete/{vehicleId}")
-    public ResponseEntity<String> deleteVehicle(@PathVariable Long vehicleId) {
+    public ResponseEntity<?> deleteVehicle(@PathVariable Long vehicleId) {
         vehicleService.deleteVehicle(vehicleId);
-        return new ResponseEntity<>("Vehicle deleted", HttpStatus.OK);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
     @GetMapping("/driving-profile/{vehicleId}")
@@ -69,9 +69,9 @@ public class VehicleController {
     }
 
     @DeleteMapping("/{vehicleId}/delete-driving-profile/{drivingProfileId}")
-    public ResponseEntity<String> deleteDrivingProfile(@PathVariable Long vehicleId, @PathVariable Long drivingProfileId) {
+    public ResponseEntity<?> deleteDrivingProfile(@PathVariable Long vehicleId, @PathVariable Long drivingProfileId) {
         vehicleService.deleteDrivingProfile(vehicleId, drivingProfileId);
-        return new ResponseEntity<>("Driving profile deleted", HttpStatus.OK);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
     
     private  List<VehicleResource> makeVehicles(List<Vehicle> vehicles) {
