@@ -5,13 +5,15 @@
   </button>
 </div>
 <div mat-dialog-content class="vehicle-details-content">
-  <p class="item">Patente: {{vehicle.licensePlate}}</p>
-  <p class="item">Categoria: {{vehicle.category}}</p>
-  <p class="item">Modelo: {{vehicle.model}}</p>
-  <p class="item">Marca: {{vehicle.brand}}</p>
-  <p class="item">Cliente: {{vehicle.client.firstName}} {{vehicle.client.lastName}}</p>
+  <p class="item">Patente: {{vehicle?.licensePlate}}</p>
+  <p class="item">Categoria: {{vehicle?.category}}</p>
+  <p class="item">Modelo: {{vehicle?.model}}</p>
+  <p class="item">Marca: {{vehicle?.brand}}</p>
+  <p class="item">Cliente: {{vehicle?.client.firstName}} {{vehicle?.client.lastName}}</p>
 </div>
 <div mat-dialog-actions class="vehicle-details-actions">
+  <button mat-raised-button color="primary" *ngIf="!vehicle?.monitoringSystems?.id" (click)="assignMonitoringSystem()">Asignar Servicio de Monitoreo</button>
+  <button mat-raised-button color="primary" *ngIf="vehicle?.monitoringSystems?.id" (click)="unassignMonitoringSystem()">Desasignar Servicio de Monitoreo</button>
   <button mat-raised-button color="primary" (click)="seeProfiles()">Ver Perfiles</button>
   <button mat-raised-button color="primary" (click)="updateVehicle()">Editar</button>
   <button mat-raised-button color="warn" (click)="deleteVehicle()">Eliminar</button>

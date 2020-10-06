@@ -15,7 +15,7 @@
              [matAutocomplete]="auto">
       <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayOption">
         <mat-option *ngFor="let option of filteredOptions | async" [value]="option">
-          {{option.serviceName}}
+          {{option.name}}
         </mat-option>
       </mat-autocomplete>
       <mat-error *ngIf="myControl.errors?.required">
