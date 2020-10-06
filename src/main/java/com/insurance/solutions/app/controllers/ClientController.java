@@ -37,7 +37,7 @@ public class ClientController {
     @DeleteMapping("{id}")
     public ResponseEntity<?> deleteClientById(@PathVariable Long id) {
         clientService.deleteClientById(id);
-        return new ResponseEntity(HttpStatus.NO_CONTENT);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
     @PutMapping("/update/{clientId}")
