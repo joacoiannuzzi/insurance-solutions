@@ -110,7 +110,6 @@ export class MonitoringSystemService {
     );
   }
   
-  unassignVehicle(MonitoringSystemId: number) {
-    //Back not implemented yet
-  }
+
+ 
 }

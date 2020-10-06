@@ -12,6 +12,7 @@
   <p class="item" *ngIf="!monitoringSystem.assigned">Asignado: No</p>
 </div>
 <div mat-dialog-actions class="monitoring-system-details-actions">
+  <button *ngIf="!monitoringSystem.assigned" mat-raised-button className="perfcon" color="primary" (click)="assignMonitoringSystem()">Generar Perfil de Conducción</button>
   <button *ngIf="!monitoringSystem.assigned" mat-raised-button color="primary" (click)="assignMonitoringSystem()">Asignar</button>
   <button *ngIf="monitoringSystem.assigned" mat-raised-button color="primary" (click)="unassignMonitoringSystem()">Desasignar</button>
   <button mat-raised-button color="primary" (click)="updateMonitoringSystem()">Editar</button>

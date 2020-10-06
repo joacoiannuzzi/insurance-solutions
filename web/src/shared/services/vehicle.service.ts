@@ -155,4 +155,9 @@ export class VehicleService {
       })
     );
   }
+
+  unassignVehicle(monitoringSystemid: number, vehicleId: number) {
+    // Back aun no listo
+  }
+
 }
