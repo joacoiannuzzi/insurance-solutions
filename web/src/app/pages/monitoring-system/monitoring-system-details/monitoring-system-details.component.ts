@@ -5,6 +5,7 @@ import {MonitoringSystem} from "../../../../shared/models/monitoringSystem";
 import {MonitoringSystemService} from "../../../../shared/services/monitoring-system.service";
 import {VehicleService} from "../../../../shared/services/vehicle.service";
 import {MonitoringSystemVehicleAssignationComponent} from "../monitoring-system-vehicle-assignation/monitoring-system-vehicle-assignation.component";
+import {MonitoringSystemUpdateComponent} from "../monitoring-system-update/monitoring-system-update.component";
 
 @Component({
   selector: 'app-monitoring-system-details',
@@ -36,19 +37,21 @@ export class MonitoringSystemDetailsComponent implements OnInit {
       .subscribe((confirmed: boolean) => {
         console.log(confirmed)
         if (confirmed) {
-          /*this.monitoringSystemService.deleteMonitoringSystem(this.monitoringSystem.id).subscribe(()=>{
+          this.monitoringSystemService.delete(this.monitoringSystem).subscribe(()=>{
             this.dialogRef.close();
-          })*/
+          })
         }
       })
   }
 
   updateMonitoringSystem() {
-    /*const dialogRef = this.dialog.open(MonitoringSystemUpdateComponent, {
+    const dialogRef = this.dialog.open(MonitoringSystemUpdateComponent, {
       width: '800px',
       data: this.monitoringSystem
     });
-    dialogRef.afterClosed().subscribe();*/
+    dialogRef.afterClosed().subscribe((res) => {
+      this.monitoringSystem = res;
+    });
   }
 
   assignMonitoringSystem() {
