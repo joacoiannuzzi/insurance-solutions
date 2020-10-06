@@ -396,7 +396,7 @@ class VehicleControllerTest {
                 .perform(
                         delete(urlBase + "/delete/" + vehicleId)
                 )
-                .andExpect(status().isOk());
+                .andExpect(status().isNoContent());
 
         Exception exception = Assert.assertThrows(ResourceNotFoundException.class, () -> vehicleService.findById(vehicleId));
         Assert.assertEquals("Vehicle not found.", exception.getMessage());
