@@ -7,7 +7,6 @@ import {VehicleAssignationComponent} from "../vehicle-assignation/vehicle-assign
 import {MatTableDataSource} from "@angular/material/table";
 import {MatSort} from "@angular/material/sort";
 import {ClientService} from "../../../../shared/services/client.service";
-import {VehicleService} from "../../../../shared/services/vehicle.service";
 import {MatPaginator} from "@angular/material/paginator";
 
 @Component({
@@ -28,7 +27,6 @@ export class ClientVehiclesComponent implements OnInit, AfterViewInit {
               @Inject(MAT_DIALOG_DATA) public client: Client,
               public dialog: MatDialog,
               private clientService: ClientService,
-              private vehicleService: VehicleService,
   ) {
   }
 
@@ -44,7 +42,7 @@ export class ClientVehiclesComponent implements OnInit, AfterViewInit {
 
   getVehicles() {
     this.loading = true;
-    this.clientService.vehicles(this.client).subscribe((data ) => {
+    this.clientService.vehicles(this.client).subscribe((data) => {
       this.vehicles = data;
       this.loading = false;
       this.dataSource.data = this.vehicles;
@@ -60,24 +58,25 @@ export class ClientVehiclesComponent implements OnInit, AfterViewInit {
       width: '800px',
       data: this.client
     });
-
-    addVehicleRef.afterClosed().subscribe(() => {
-      this.vehicleService.vehicles;
-      this.getVehicles()
+    addVehicleRef.afterClosed().subscribe((res) => {
+      if (res) {
+        this.getVehicles()
+      }
     });
   }
 
   deleteVehicle(element: Vehicle) {
     this.dialog.open(ConfirmDialogComponent, {
       width: '800px',
-      data: "¿Esta seguro de que desea eliminar el vehiculo dominio " + element.licensePlate + " del cliente " + this.client.firstName + " " + this.client.lastName + "?"
+      data: "¿Esta seguro de que desea eliminar el vehículo dominio " + element.licensePlate + " del cliente " + this.client.firstName + " " + this.client.lastName + "?"
     })
       .afterClosed()
       .subscribe((confirmed: Boolean) => {
         if (confirmed) {
-          this.clientService.deleteVehicle(this.client.id, element.id).subscribe(() => {
-            this.vehicleService.vehicles;
-            this.getVehicles();
+          this.clientService.deleteVehicle(this.client.id, element.id).subscribe((res) => {
+            if (res) {
+              this.getVehicles();
+            }
           })
         }
       });
