@@ -10,6 +10,7 @@
   <p class="item">Modelo: {{vehicle?.model}}</p>
   <p class="item">Marca: {{vehicle?.brand}}</p>
   <p class="item">Cliente: {{vehicle?.client.firstName}} {{vehicle?.client.lastName}}</p>
+  <p class="item" *ngIf="vehicle?.monitoringSystems?.id">Servicio de Monitoreo: {{vehicle?.monitoringSystems?.name}}</p>
 </div>
 <div mat-dialog-actions class="vehicle-details-actions">
   <button mat-raised-button color="primary" *ngIf="!vehicle?.monitoringSystems?.id" (click)="assignMonitoringSystem()">Asignar Servicio de Monitoreo</button>

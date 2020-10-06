@@ -64,10 +64,8 @@ export class VehicleDetailsComponent implements OnInit {
       width: '800px',
       data: this.vehicle
     });
-    dialogRef.afterClosed().subscribe(()=>{
-      this.vehicleService.vehicles.subscribe((res)=>{
-        this.vehicle = res[res.findIndex(c => c.id === this.vehicle.id)];
-      })
+    dialogRef.afterClosed().subscribe((result)=>{
+      this.vehicle.monitoringSystems = result;
     });
   }
 
