@@ -3,6 +3,7 @@ package com.insurance.solutions.app.controllers;
 import com.insurance.solutions.app.models.MonitoringSystem;
 import com.insurance.solutions.app.services.MonitoringSystemService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -35,9 +36,9 @@ public class MonitoringSystemController {
     }
 
     @DeleteMapping("/delete/{monitoringSystemId}")
-    public ResponseEntity<String> deleteMonitoringSystemId(@PathVariable Long monitoringSystemId) {
+    public ResponseEntity<?> deleteMonitoringSystemId(@PathVariable Long monitoringSystemId) {
         monitoringSystemService.deleteMonitoringSystemId(monitoringSystemId);
-        return new ResponseEntity<>("Monitoring system deleted", HttpStatus.OK);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
     @GetMapping("without-vehicle")
