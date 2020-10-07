@@ -95,9 +95,14 @@ export class VehicleListComponent implements OnInit, AfterViewInit {
   }
 
   openVehicleDetails(element: Vehicle): void {
-    this.dialog.open(VehicleDetailsComponent, {
+    const dialogRef = this.dialog.open(VehicleDetailsComponent, {
       width: '1000px',
       data: element
     });
+    dialogRef.afterClosed().subscribe((res)=>{
+      if (res) {
+        this.getVehicles();
+      }
+    })
   }
 }

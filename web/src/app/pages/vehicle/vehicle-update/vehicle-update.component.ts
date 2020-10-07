@@ -13,7 +13,7 @@ import {category} from "../../../../shared/models/category";
 })
 export class VehicleUpdateComponent implements OnInit {
   vehicleForm: FormGroup;
-  categories: category[] = [category.CAR,category.TRUCK,category.VAN,category.MOTORCYCLE];
+  categories: category[] = [category.CAR, category.TRUCK, category.VAN, category.MOTORCYCLE];
   categoryLabels: string[] = ['Automóvil', 'Camión', 'Camioneta', 'Moto'];
 
   constructor(
@@ -25,37 +25,47 @@ export class VehicleUpdateComponent implements OnInit {
 
   ngOnInit(): void {
     this.vehicleForm = new FormGroup({
-      licensePlate: new FormControl('', [
+      licensePlate: new FormControl(this.vehicle.licensePlate, [
         Validators.required,
         Validators.minLength(6),
         //  To accept license plates from 1994-2016 (argentine format) and 2016-present (mercosur format).
         Validators.pattern('(([A-Z]){2}([0-9]){3}([A-Z]){2})|(([A-Z]){3}([0-9]){3})|(([a-z]){3}([0-9]){3})')
       ]),
-      brand: new FormControl('', [
+      brand: new FormControl(this.vehicle.brand, [
         Validators.required,
         Validators.minLength(1),
         Validators.pattern('([A-Z,a-z, ,-,_,0-9])\\w+')
       ]),
-      model: new FormControl('', [
+      model: new FormControl(this.vehicle.model, [
         Validators.required,
         Validators.minLength(1),
         Validators.pattern('([A-Z,a-z, ,-,_,0-9])\\w+')
       ]),
-      category: new FormControl('', [
+      category: new FormControl(this.vehicle.category, [
         Validators.required
       ]),
     });
   }
 
-  get licensePlate() { return this.vehicleForm.get('licensePlate'); }
+  get licensePlate() {
+    return this.vehicleForm.get('licensePlate');
+  }
 
-  get category() { return this.vehicleForm.get('category'); }
+  get category() {
+    return this.vehicleForm.get('category');
+  }
 
-  get brand() { return this.vehicleForm.get('brand'); }
+  get brand() {
+    return this.vehicleForm.get('brand');
+  }
 
-  get model() { return this.vehicleForm.get('model'); }
+  get model() {
+    return this.vehicleForm.get('model');
+  }
 
-  get invalid() { return this.vehicleForm.invalid }
+  get invalid() {
+    return this.vehicleForm.invalid
+  }
 
   close(): void {
     this.dialogRef.close();

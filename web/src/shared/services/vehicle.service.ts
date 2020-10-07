@@ -89,10 +89,10 @@ export class VehicleService {
       : this.findAll();
   }
 
-  public delete(user: Vehicle) {
-    return this.http.delete<Vehicle>(this.vehiclesUrl + "/" + user.id).pipe(
+  public delete(vehicle: Vehicle) {
+    return this.http.delete<Vehicle>(this.vehiclesUrl + "/delete/" + vehicle.id).pipe(
       map(() => {
-        this.vehiclesList.splice(this.vehiclesList.findIndex(c => c.id === user.id))
+        this.vehiclesList.splice(this.vehiclesList.findIndex(c => c.id === vehicle.id))
         this.snackBar.open('El vehículo fue eliminado con éxito.', '', {
           duration: 2000,
         });

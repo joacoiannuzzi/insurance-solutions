@@ -46,7 +46,9 @@ export class VehicleDetailsComponent implements OnInit {
       .afterClosed()
       .subscribe((confirmed: boolean) => {
         if (confirmed) {
-          this.vehicleService.delete(this.vehicle).subscribe();
+          this.vehicleService.delete(this.vehicle).subscribe((res)=>{
+            this.dialogRef.close(res);
+          });
         }
       })
   }
