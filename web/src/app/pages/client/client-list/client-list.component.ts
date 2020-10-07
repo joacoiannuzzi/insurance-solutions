@@ -29,12 +29,12 @@ export class ClientListComponent implements OnInit, AfterViewInit  {
 
   ngOnInit(): void {
     this.getClients();
-    this.paginator._intl.itemsPerPageLabel = 'Elementos por página';
   }
 
   ngAfterViewInit(): void {
     this.dataSource.sort = this.sort;
     this.dataSource.paginator = this.paginator;
+    this.paginator._intl.itemsPerPageLabel = 'Elementos por página';
   }
 
   getClients() {
