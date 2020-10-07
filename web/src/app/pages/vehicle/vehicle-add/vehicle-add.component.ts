@@ -4,7 +4,7 @@ import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
 import {VehicleService} from "../../../../shared/services/vehicle.service";
 import {Vehicle} from "../../../../shared/models/vehicle";
 import {ClientService} from "../../../../shared/services/client.service";
-import {category} from "../../../../shared/models/category";
+import {Category} from "../../../../shared/models/category";
 import {Client} from "../../../../shared/models/client";
 import {Observable} from "rxjs";
 import {map, startWith} from "rxjs/operators";
@@ -16,7 +16,7 @@ import {map, startWith} from "rxjs/operators";
 })
 export class VehicleAddComponent implements OnInit {
   vehicleForm: FormGroup;
-  categories: category[] = [category.CAR,category.TRUCK,category.VAN,category.MOTORCYCLE];
+  categories: Category[] = [Category.CAR,Category.TRUCK,Category.VAN,Category.MOTORCYCLE];
   categoryLabels: string[] = ['Automóvil', 'Camión', 'Camioneta', 'Moto'];
   clients: Client[] = [];
   filteredOptions: Observable<Client[]>;

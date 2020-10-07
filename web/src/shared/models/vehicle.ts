@@ -1,4 +1,4 @@
-import {category} from "./category";
+import {Category} from "./category";
 import {DrivingProfile} from "./drivingProfile";
 import {Client} from "./client";
 import {MonitoringSystem} from "./monitoringSystem";
@@ -6,7 +6,7 @@ import {MonitoringSystem} from "./monitoringSystem";
 export class Vehicle {
   id: number;
   licensePlate: string;
-  category: category | string;
+  category: Category | string;
   brand: string;
   model: string;
   drivingProfiles: DrivingProfile[];
@@ -14,7 +14,7 @@ export class Vehicle {
   client: Client;
 
 
-  constructor(id: number, licensePlate: string, category: category, brand: string, model: string, drivingProfiles: DrivingProfile[], monitoringSystems: MonitoringSystem, client: Client) {
+  constructor(id: number, licensePlate: string, category: Category, brand: string, model: string, drivingProfiles: DrivingProfile[], monitoringSystems: MonitoringSystem, client: Client) {
     this.id = id;
     this.licensePlate = licensePlate;
     this.category = category;
@@ -44,7 +44,7 @@ export class Vehicle {
     }
   }
 
-  static categoryToInt(cat: category | string): number {
+  static categoryToInt(cat: Category | string): number {
     const c = typeof cat == 'string' ? cat : this.fromCategoryToString(cat)
     switch (c) {
       case "CAR":
@@ -60,15 +60,15 @@ export class Vehicle {
     }
   }
 
-  static fromCategoryToString(cat: category): string {
+  static fromCategoryToString(cat: Category): string {
     switch (cat) {
-      case category.CAR:
+      case Category.CAR:
         return "CAR";
-      case category.TRUCK:
+      case Category.TRUCK:
         return "TRUCK";
-      case category.VAN:
+      case Category.VAN:
         return "VAN";
-      case category.MOTORCYCLE:
+      case Category.MOTORCYCLE:
         return "MOTORCYCLE";
       default:
         return "Invalid";

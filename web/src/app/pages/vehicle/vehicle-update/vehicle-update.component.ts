@@ -3,7 +3,7 @@ import {FormControl, FormGroup, Validators} from "@angular/forms";
 import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
 import {Vehicle} from "../../../../shared/models/vehicle";
 import {VehicleService} from "../../../../shared/services/vehicle.service";
-import {category} from "../../../../shared/models/category";
+import {Category} from "../../../../shared/models/category";
 
 
 @Component({
@@ -13,7 +13,7 @@ import {category} from "../../../../shared/models/category";
 })
 export class VehicleUpdateComponent implements OnInit {
   vehicleForm: FormGroup;
-  categories: category[] = [category.CAR, category.TRUCK, category.VAN, category.MOTORCYCLE];
+  categories: Category[] = [Category.CAR, Category.TRUCK, Category.VAN, Category.MOTORCYCLE];
   categoryLabels: string[] = ['Automóvil', 'Camión', 'Camioneta', 'Moto'];
 
   constructor(
@@ -24,8 +24,6 @@ export class VehicleUpdateComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    let vaii = Vehicle.categoryToInt(this.vehicle.category)
-    let vari = this.categories[Vehicle.categoryToInt(this.vehicle.category)];
     this.vehicleForm = new FormGroup({
       licensePlate: new FormControl(this.vehicle.licensePlate, [
         Validators.required,
