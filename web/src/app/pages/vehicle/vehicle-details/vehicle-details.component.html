@@ -6,7 +6,7 @@
 </div>
 <div mat-dialog-content class="vehicle-details-content">
   <p class="item">Patente: {{vehicle?.licensePlate}}</p>
-  <p class="item">Categoria: {{vehicle?.category}}</p>
+  <p class="item">Categoria: {{categoryToString(vehicle?.category)}}</p>
   <p class="item">Modelo: {{vehicle?.model}}</p>
   <p class="item">Marca: {{vehicle?.brand}}</p>
   <p class="item">Cliente: {{vehicle?.client?.firstName}} {{vehicle?.client?.lastName}}</p>

@@ -105,4 +105,8 @@ export class VehicleListComponent implements OnInit, AfterViewInit {
       }
     })
   }
+
+  categoryToString(category: string) {
+    return Vehicle.categoryToString(category);
+  }
 }

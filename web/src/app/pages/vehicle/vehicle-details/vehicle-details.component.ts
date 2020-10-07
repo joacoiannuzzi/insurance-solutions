@@ -74,4 +74,8 @@ export class VehicleDetailsComponent implements OnInit {
   unassignMonitoringSystem() {
 
   }
+
+  categoryToString(category: string) {
+    return Vehicle.categoryToString(category);
+  }
 }

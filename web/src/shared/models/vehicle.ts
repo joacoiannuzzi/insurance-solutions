@@ -28,4 +28,19 @@ export class Vehicle {
   static fromJsonObject(jsonObject: any): Vehicle {
     return new Vehicle(jsonObject.id, jsonObject.licensePlate, jsonObject.category, jsonObject.brand, jsonObject.model, jsonObject.drivingProfiles, jsonObject.monitoringSystems, jsonObject.client);
   }
+
+  static categoryToString(cat: string): string {
+    switch (cat) {
+      case "CAR":
+        return 'Automóvil';
+      case "TRUCK":
+        return 'Camión';
+      case "VAN":
+        return 'Camioneta';
+      case "MOTORCYCLE":
+        return 'Moto';
+      default:
+        return 'Invalid option in categoryToString';
+    }
+  }
 }
