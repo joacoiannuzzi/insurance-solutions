@@ -24,6 +24,8 @@ export class VehicleUpdateComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    let vaii = Vehicle.categoryToInt(this.vehicle.category)
+    let vari = this.categories[Vehicle.categoryToInt(this.vehicle.category)];
     this.vehicleForm = new FormGroup({
       licensePlate: new FormControl(this.vehicle.licensePlate, [
         Validators.required,
@@ -41,7 +43,7 @@ export class VehicleUpdateComponent implements OnInit {
         Validators.minLength(1),
         Validators.pattern('([A-Z,a-z, ,-,_,0-9])\\w+')
       ]),
-      category: new FormControl(this.vehicle.category, [
+      category: new FormControl(this.categories[Vehicle.categoryToInt(this.vehicle.category)], [
         Validators.required
       ]),
     });

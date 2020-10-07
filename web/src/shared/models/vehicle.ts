@@ -6,7 +6,7 @@ import {MonitoringSystem} from "./monitoringSystem";
 export class Vehicle {
   id: number;
   licensePlate: string;
-  category: category;
+  category: category | string;
   brand: string;
   model: string;
   drivingProfiles: DrivingProfile[];
@@ -41,6 +41,37 @@ export class Vehicle {
         return 'Moto';
       default:
         return 'Invalid option in categoryToString';
+    }
+  }
+
+  static categoryToInt(cat: category | string): number {
+    const c = typeof cat == 'string' ? cat : this.fromCategoryToString(cat)
+    switch (c) {
+      case "CAR":
+        return 0;
+      case "TRUCK":
+        return 1;
+      case "VAN":
+        return 2;
+      case "MOTORCYCLE":
+        return 3;
+      default:
+        return -1;
+    }
+  }
+
+  static fromCategoryToString(cat: category): string {
+    switch (cat) {
+      case category.CAR:
+        return "CAR";
+      case category.TRUCK:
+        return "TRUCK";
+      case category.VAN:
+        return "VAN";
+      case category.MOTORCYCLE:
+        return "MOTORCYCLE";
+      default:
+        return "Invalid";
     }
   }
 }
