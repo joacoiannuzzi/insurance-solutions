@@ -72,15 +72,19 @@ public class VehicleService {
         }
 
         MonitoringSystem monitoringSystem = vehicle.getMonitoringSystem();
-        monitoringSystem.setVehicle(null);
-        monitoringSystem.setIsAssigned(false);
-        vehicle.setMonitoringSystem(null);
-        monitoringSystemRepository.save(monitoringSystem);
+        if (monitoringSystem != null) {
+            monitoringSystem.setVehicle(null);
+            monitoringSystem.setIsAssigned(false);
+            vehicle.setMonitoringSystem(null);
+            monitoringSystemRepository.save(monitoringSystem);
+        }
 
         Client client = vehicle.getClient();
-        client.removeVehicle(vehicle);
-        vehicle.setClient(null);
-        clientRepository.save(client);
+        if (client != null) {
+            client.removeVehicle(vehicle);
+            vehicle.setClient(null);
+            clientRepository.save(client);
+        }
 
         vehicleRepository.save(vehicle);
         vehicleRepository.delete(vehicle);

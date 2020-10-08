@@ -46,10 +46,12 @@ public class MonitoringSystemService {
 
         if (monitoringSystem.getIsAssigned()) {
             Vehicle vehicle = monitoringSystem.getVehicle();
-            vehicle.setMonitoringSystem(null);
-            monitoringSystem.setVehicle(null);
-            monitoringSystem.setIsAssigned(false);
-            vehicleRepository.save(vehicle);
+            if (vehicle != null) {
+                vehicle.setMonitoringSystem(null);
+                monitoringSystem.setVehicle(null);
+                monitoringSystem.setIsAssigned(false);
+                vehicleRepository.save(vehicle);
+            }
         }
         monitoringSystemRepository.save(monitoringSystem);
         monitoringSystemRepository.deleteById(monitoringSystemId);
