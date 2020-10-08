@@ -6,15 +6,20 @@
 </div>
 <div mat-dialog-content class="vehicle-details-content">
   <p class="item">Patente: {{vehicle?.licensePlate}}</p>
-  <p class="item">Categoria: {{vehicle?.category}}</p>
+  <p class="item">Categoria: {{categoryToString(vehicle?.category)}}</p>
   <p class="item">Modelo: {{vehicle?.model}}</p>
   <p class="item">Marca: {{vehicle?.brand}}</p>
-  <p class="item">Cliente: {{vehicle?.client.firstName}} {{vehicle?.client.lastName}}</p>
-  <p class="item" *ngIf="vehicle?.monitoringSystems?.id">Servicio de Monitoreo: {{vehicle?.monitoringSystems?.name}}</p>
+  <p class="item" *ngIf="vehicle?.client?.id">Cliente: {{vehicle?.client?.firstName}} {{vehicle?.client?.lastName}}</p>
+  <p class="item" *ngIf="!vehicle?.client?.id">Cliente: Sin Asignar</p>
+  <p class="item" *ngIf="vehicle?.monitoringSystem?.id">Servicio de Monitoreo: {{vehicle?.monitoringSystem?.name}}</p>
 </div>
 <div mat-dialog-actions class="vehicle-details-actions">
-  <button mat-raised-button color="primary" *ngIf="!vehicle?.monitoringSystems?.id" (click)="assignMonitoringSystem()">Asignar Servicio de Monitoreo</button>
-  <button mat-raised-button color="primary" *ngIf="vehicle?.monitoringSystems?.id" (click)="unassignMonitoringSystem()">Desasignar Servicio de Monitoreo</button>
+  <button mat-raised-button color="primary" *ngIf="!vehicle?.monitoringSystem?.id" (click)="assignMonitoringSystem()">
+    Asignar Servicio de Monitoreo
+  </button>
+  <button mat-raised-button color="primary" *ngIf="vehicle?.monitoringSystem?.id" (click)="unassignMonitoringSystem()">
+    Desasignar Servicio de Monitoreo
+  </button>
   <button mat-raised-button color="primary" (click)="seeProfiles()">Ver Perfiles</button>
   <button mat-raised-button color="primary" (click)="updateVehicle()">Editar</button>
   <button mat-raised-button color="warn" (click)="deleteVehicle()">Eliminar</button>

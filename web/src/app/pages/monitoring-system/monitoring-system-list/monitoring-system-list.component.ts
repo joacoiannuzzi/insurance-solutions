@@ -1,13 +1,13 @@
-import { MonitoringSystemUpdateComponent } from '../monitoring-system-update/monitoring-system-update.component';
-import { MonitoringSystem } from '../../../../shared/models/monitoringSystem';
-import { MonitoringSystemAddComponent } from '../monitoring-system-add/monitoring-system-add.component';
-import { MonitoringSystemService } from '../../../../shared/services/monitoring-system.service';
-import { Component, OnInit, AfterViewInit, ViewChild } from '@angular/core';
-import { MatTableDataSource } from '@angular/material/table';
-import { MatDialog} from '@angular/material/dialog';
-import { MatSort } from '@angular/material/sort';
-import { MatPaginator } from '@angular/material/paginator';
-import { ConfirmDialogComponent } from '../../../components/confirm-dialog/confirm-dialog.component';
+import {MonitoringSystemUpdateComponent} from '../monitoring-system-update/monitoring-system-update.component';
+import {MonitoringSystem} from '../../../../shared/models/monitoringSystem';
+import {MonitoringSystemAddComponent} from '../monitoring-system-add/monitoring-system-add.component';
+import {MonitoringSystemService} from '../../../../shared/services/monitoring-system.service';
+import {Component, OnInit, AfterViewInit, ViewChild} from '@angular/core';
+import {MatTableDataSource} from '@angular/material/table';
+import {MatDialog} from '@angular/material/dialog';
+import {MatSort} from '@angular/material/sort';
+import {MatPaginator} from '@angular/material/paginator';
+import {ConfirmDialogComponent} from '../../../components/confirm-dialog/confirm-dialog.component';
 import {MonitoringSystemDetailsComponent} from "../monitoring-system-details/monitoring-system-details.component";
 
 @Component({
@@ -22,21 +22,21 @@ export class MonitoringSystemListComponent implements OnInit, AfterViewInit {
   dataSource: MatTableDataSource<MonitoringSystem> = new MatTableDataSource<MonitoringSystem>();
   loading: boolean = true;
 
-  constructor(private monitoringSystemService: MonitoringSystemService, public dialog: MatDialog) { }
+  constructor(private monitoringSystemService: MonitoringSystemService, public dialog: MatDialog) {
+  }
 
   @ViewChild(MatSort) sort: MatSort;
   @ViewChild(MatPaginator) paginator: MatPaginator;
 
   ngOnInit(): void {
     this.getMonitoringSystems();
-      this.paginator._intl.itemsPerPageLabel = 'Elementos por página';
-}
+  }
 
   ngAfterViewInit(): void {
     this.dataSource.sort = this.sort;
     this.dataSource.paginator = this.paginator;
+    this.paginator._intl.itemsPerPageLabel = 'Elementos por página';
   }
-
 
   applyFilter(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;
@@ -46,6 +46,7 @@ export class MonitoringSystemListComponent implements OnInit, AfterViewInit {
       this.dataSource.paginator.firstPage();
     }
   }
+
   getMonitoringSystems() {
     this.loading = true;
     this.monitoringSystemService.monitoringSystems.subscribe((data) => {
@@ -60,8 +61,10 @@ export class MonitoringSystemListComponent implements OnInit, AfterViewInit {
       width: '800px',
       data: new MonitoringSystem(null, "", "", "", false)
     });
-    dialogRef.afterClosed().subscribe(() => {
-      this.getMonitoringSystems();
+    dialogRef.afterClosed().subscribe((res) => {
+      if (res) {
+        this.getMonitoringSystems();
+      }
     });
   }
 
@@ -78,13 +81,16 @@ export class MonitoringSystemListComponent implements OnInit, AfterViewInit {
         }
       })
   }
+
   openMonitoringSystemDetails(element: MonitoringSystem) {
     const dialogRef = this.dialog.open(MonitoringSystemDetailsComponent, {
       width: '800px',
       data: element
     });
-    dialogRef.afterClosed().subscribe(() => {
-      this.getMonitoringSystems();
+    dialogRef.afterClosed().subscribe((res) => {
+      if (res) {
+        this.getMonitoringSystems();
+      }
     });
   }
 

@@ -1,5 +1,4 @@
-import { MonitoringSystemAddComponent } from './../../app/pages/monitoring-system/monitoring-system-add/monitoring-system-add.component';
-import { MonitoringSystem } from './../models/monitoringSystem';
+import { MonitoringSystem } from '../models/monitoringSystem';
 import {Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {Observable} from "rxjs";
@@ -30,7 +29,7 @@ export class MonitoringSystemService {
       })
     );
   }
-  
+
   get monitoringSystems(): Observable<MonitoringSystem[]> {
     return this.monitoringSystemsList
       ? new Observable<MonitoringSystem[]>((subscriber) =>
@@ -46,6 +45,7 @@ export class MonitoringSystemService {
         this.snackBar.open('El servicio de monitoreo fue guardado con éxito.', '', {
           duration: 2000,
         });
+        return res;
       }),
       catchError(() => {
         this.snackBar.open('Hubo un error al guardar el vehículo.', '', {
@@ -109,7 +109,7 @@ export class MonitoringSystemService {
       })
     );
   }
-  
+
   unassignVehicle(MonitoringSystemId: number) {
     //Back not implemented yet
   }

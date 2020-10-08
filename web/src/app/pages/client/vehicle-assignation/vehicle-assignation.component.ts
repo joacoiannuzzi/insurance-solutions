@@ -57,17 +57,10 @@ export class VehicleAssignationComponent implements OnInit {
     return option.licensePlate;
   }
 
-  cancel() {
-    this.dialogRef.close();
-  }
-
   assignVehicle() {
     if (this.myControl.valid) {
-      this.clientService.assignVehicle(this.client.id, this.myControl.value?.id).subscribe(() => {
-        this.dialogRef.close();
-        this.clientService.vehicles(this.client).subscribe(() => {
-          this.getVehicles();
-        });
+      this.clientService.assignVehicle(this.client.id, this.myControl.value?.id).subscribe((res) => {
+        this.dialogRef.close(res);
       });
     }
   }

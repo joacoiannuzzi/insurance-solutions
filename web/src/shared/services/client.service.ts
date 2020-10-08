@@ -11,7 +11,6 @@ export class ClientService {
 
   private readonly clientsUrl: string;
   private clientsList: Client[];
-  private vehicleList: Vehicle[];
 
   constructor(private http: HttpClient, private snackBar: MatSnackBar) {
     this.clientsUrl = 'http://localhost:8080/clients';
@@ -66,10 +65,11 @@ export class ClientService {
   assignVehicle(clientId: number, vehicleId: number) {
     return this.http.put<Client>(`${this.clientsUrl}/${clientId}/add-vehicle/${vehicleId}`, {}).pipe(
       map((res: any) => {
-        this.vehicleList = [...this.vehicleList, Vehicle.fromJsonObject(res)];
-        this.snackBar.open('El cliente fué actualizado con éxito.', '', {
+        this.clientsList.find(c => c.id === clientId).vehicles.push(Vehicle.fromJsonObject(res));
+        this.snackBar.open('El cliente fue actualizado con éxito.', '', {
           duration: 2000,
         });
+        return res;
       }),
       catchError(() => {
         this.snackBar.open('Hubo un error al actualizar el cliente.', '', {
@@ -82,14 +82,13 @@ export class ClientService {
 
   deleteVehicle(clientId: number, vehicleId: number) {
     return this.http.put<Client>(`${this.clientsUrl}/${clientId}/delete-vehicle/${vehicleId}`, {}).pipe(
-      map(() => {
-        let auxVehicleList: Vehicle[] = [...this.vehicleList];
-        auxVehicleList.splice(this.vehicleList.findIndex(c => c.id === vehicleId), 1);
-        this.vehicleList = [...auxVehicleList];
-        this.snackBar.open('El cliente fué actualizado con éxito.', '', {
+      map((res) => {
+        let vehicles = this.clientsList.find(c => c.id === clientId).vehicles;
+        vehicles.splice(vehicles.findIndex(v => v.id === vehicleId), 1);
+        this.snackBar.open('El cliente fue actualizado con éxito.', '', {
           duration: 2000,
         });
-        return this.vehicleList;
+        return res;
       }),
       catchError(() => {
         this.snackBar.open('Hubo un error al eliminar el cliente.', '', {

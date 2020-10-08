@@ -5,15 +5,15 @@
   </button>
 </div>
 <div mat-dialog-content class="monitoring-system-details-content">
-  <p class="item">Nombre: {{monitoringSystem.name}}</p>
-  <p class="item">Sensor: {{monitoringSystem.sensor}}</p>
-  <p class="item">Empresa: {{monitoringSystem.monitoringCompany}}</p>
-  <p class="item" *ngIf="monitoringSystem.assigned">Asignado: Sí</p>
-  <p class="item" *ngIf="!monitoringSystem.assigned">Asignado: No</p>
+  <p class="item">Nombre: {{monitoringSystem?.name}}</p>
+  <p class="item">Sensor: {{monitoringSystem?.sensor}}</p>
+  <p class="item">Empresa: {{monitoringSystem?.monitoringCompany}}</p>
+  <p class="item" *ngIf="monitoringSystem?.assigned">Asignado: Sí</p>
+  <p class="item" *ngIf="!monitoringSystem?.assigned">Asignado: No</p>
 </div>
 <div mat-dialog-actions class="monitoring-system-details-actions">
-  <button *ngIf="!monitoringSystem.assigned" mat-raised-button color="primary" (click)="assignMonitoringSystem()">Asignar</button>
-  <button *ngIf="monitoringSystem.assigned" mat-raised-button color="primary" (click)="unassignMonitoringSystem()">Desasignar</button>
+  <button *ngIf="!monitoringSystem?.assigned" mat-raised-button color="primary" (click)="assignMonitoringSystem()">Asignar</button>
+  <button *ngIf="monitoringSystem?.assigned" mat-raised-button color="primary" (click)="unassignMonitoringSystem()">Desasignar</button>
   <button mat-raised-button color="primary" (click)="updateMonitoringSystem()">Editar</button>
-  <button mat-raised-button color="primary" (click)="deleteMonitoringSystem()">Eliminar</button>
+  <button mat-raised-button color="warn" (click)="deleteMonitoringSystem()">Eliminar</button>
 </div>

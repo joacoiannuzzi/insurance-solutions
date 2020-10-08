@@ -1,5 +1,5 @@
-import { MonitoringSystemService } from './../../../../shared/services/monitoring-system.service';
-import { MonitoringSystem } from './../../../../shared/models/monitoringSystem';
+import { MonitoringSystemService } from '../../../../shared/services/monitoring-system.service';
+import { MonitoringSystem } from '../../../../shared/models/monitoringSystem';
 import {Component, Inject, OnInit} from '@angular/core';
 import {
   MatDialogRef,
@@ -34,7 +34,7 @@ export class MonitoringSystemUpdateComponent implements OnInit {
         Validators.minLength(2),
         Validators.pattern('^[a-zA-Z ]*$')
       ]),
-      sensor: new FormControl(this.moSys.name, [
+      sensor: new FormControl(this.moSys.sensor, [
         Validators.required,
         Validators.minLength(2),
         Validators.pattern('^[a-zA-Z ]*$')
@@ -59,9 +59,8 @@ export class MonitoringSystemUpdateComponent implements OnInit {
   updateMonitoringSystem() {
     if (this.monitoringSystemForm.valid){
       Object.keys(this.monitoringSystemForm.value).map((key) => this.data[key] = this.monitoringSystemForm.value[key]);
-      this.monitoringSystemService.save(this.data).subscribe(res => {
+      this.monitoringSystemService.update(this.data).subscribe(res => {
         this.dialogRef.close(res);
-        this.monitoringSystemService.monitoringSystems.subscribe();
       })
     }
   }

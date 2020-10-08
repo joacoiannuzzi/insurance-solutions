@@ -7,7 +7,6 @@ import {map, startWith} from "rxjs/operators";
 import {Vehicle} from "../../../../shared/models/vehicle";
 import {MonitoringSystemService} from "../../../../shared/services/monitoring-system.service";
 import {VehicleService} from "../../../../shared/services/vehicle.service";
-import {VehicleDetailsComponent} from "../vehicle-details/vehicle-details.component";
 
 @Component({
   selector: 'app-monitoring-system-assignation',
@@ -21,7 +20,7 @@ export class MonitoringSystemAssignationComponent implements OnInit {
 
   constructor(public dialogRef: MatDialogRef<MonitoringSystemAssignationComponent>,
               @Inject(MAT_DIALOG_DATA) public vehicle: Vehicle,
-              public vehiceService: VehicleService,
+              public vehicleService: VehicleService,
               public monitoringSystemService: MonitoringSystemService,
               public dialog: MatDialog) {
   }
@@ -68,7 +67,7 @@ export class MonitoringSystemAssignationComponent implements OnInit {
 
   assignMonitoringSystem() {
     if (this.myControl.valid) {
-      this.vehiceService.assignVehicle(this.myControl.value?.id, this.vehicle.id).subscribe((res) => {
+      this.vehicleService.assignMonitoringSystem(this.myControl.value?.id, this.vehicle.id).subscribe((res) => {
         this.dialogRef.close(res);
       });
     }
