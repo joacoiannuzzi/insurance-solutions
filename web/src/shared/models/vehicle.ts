@@ -10,7 +10,7 @@ export class Vehicle {
   brand: string;
   model: string;
   drivingProfiles: DrivingProfile[];
-  monitoringSystems: MonitoringSystem;
+  monitoringSystem: MonitoringSystem;
   client: Client;
 
 
@@ -21,7 +21,7 @@ export class Vehicle {
     this.brand = brand;
     this.model = model;
     this.drivingProfiles = drivingProfiles;
-    this.monitoringSystems = monitoringSystems;
+    this.monitoringSystem = monitoringSystems;
     this.client = client;
   }
 

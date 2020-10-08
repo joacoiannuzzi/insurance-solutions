@@ -60,7 +60,7 @@ export class VehicleListComponent implements OnInit, AfterViewInit {
   openDialog(): void {
     const dialogRef = this.dialog.open(VehicleAddComponent, {
       width: '800px',
-      data: new Vehicle(0,"",Category.CAR, "","", [],new MonitoringSystem(0,'','','',false), new Client(0,'','','','','',[]))
+      data: new Vehicle(0,"",Category.CAR, "","", [],new MonitoringSystem(0,'','','',false), new Client(-1,'','','','','',[]))
     });
 
     dialogRef.afterClosed().subscribe(() => {

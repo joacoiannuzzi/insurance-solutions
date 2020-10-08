@@ -52,6 +52,7 @@ export class VehicleService {
         this.snackBar.open('El vehículo fue guardado con éxito.', '', {
           duration: 2000,
         });
+        return res;
       }),
       catchError(() => {
         this.snackBar.open('Hubo un error al guardar el vehículo.', '', {
@@ -137,11 +138,12 @@ export class VehicleService {
     );
   }
 
-  assignVehicle(monitoringSystemId: number, vehicleId: number) {
+  assignMonitoringSystem(monitoringSystemId: number, vehicleId: number) {
     return this.http.put(this.vehiclesUrl + '/' + vehicleId + '/set-monitoring-system/' + monitoringSystemId, {}).pipe(
-      map((res: Vehicle) => {
-        let i = this.vehiclesList.findIndex(c => c.id === vehicleId);
-        this.vehiclesList[i] = res;
+      map((res) => {
+        this.vehicles.subscribe((res)=>{
+          this.vehiclesList = res;
+        });
         this.snackBar.open('El servicio de monitoreo fue asignado al vehículo con éxito.', '', {
           duration: 2000,
         });

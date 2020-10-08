@@ -67,7 +67,7 @@ export class VehicleDetailsComponent implements OnInit {
       data: this.vehicle
     });
     dialogRef.afterClosed().subscribe((result)=>{
-      this.vehicle.monitoringSystems = result;
+      this.vehicle.monitoringSystem = result;
     });
   }
 

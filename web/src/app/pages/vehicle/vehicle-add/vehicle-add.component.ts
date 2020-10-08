@@ -50,13 +50,7 @@ export class VehicleAddComponent implements OnInit {
       category: new FormControl('', [
         Validators.required
       ]),
-      client: new FormControl('', [(control: FormControl) => {
-        if (this.clients.findIndex(c => c.id === control.value.id)) {
-        return {'exists': true};
-        }
-        return null;
-      }
-      ])
+      client: new FormControl('', [])
     });
     this.getClients();
   }
@@ -83,9 +77,16 @@ export class VehicleAddComponent implements OnInit {
       Object.keys(this.vehicleForm.value).map((key) => this.data[key] = this.vehicleForm.value[key]);
 
       this.vehicleService.save(this.data).subscribe(res => {
-        this.dialogRef.close(res);
-        this.vehicleService.vehicles.subscribe();
-      })
+        //The 'empty' Client passed in constructor has an id of -1.
+        // So if that Client has not been modified, it doesn't execute the following if statement.
+        if (res && this.data.client?.id !== -1 && this.data.client?.id !== undefined) {
+          this.clientService.assignVehicle(this.data.client.id, res.id).subscribe(()=>{
+            this.dialogRef.close(res);
+          })
+        } else {
+          this.dialogRef.close(res);
+        }
+      });
     }
   }
 
