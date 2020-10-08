@@ -18,7 +18,8 @@ export class VehicleDetailsComponent implements OnInit {
               @Inject(MAT_DIALOG_DATA) public vehicle: Vehicle,
               public dialog: MatDialog,
               public vehicleService: VehicleService
-  ) {}
+  ) {
+  }
 
   ngOnInit(): void {
   }
@@ -46,7 +47,7 @@ export class VehicleDetailsComponent implements OnInit {
       .afterClosed()
       .subscribe((confirmed: boolean) => {
         if (confirmed) {
-          this.vehicleService.delete(this.vehicle).subscribe((res)=>{
+          this.vehicleService.delete(this.vehicle).subscribe((res) => {
             this.dialogRef.close(res);
           });
         }
@@ -66,7 +67,7 @@ export class VehicleDetailsComponent implements OnInit {
       width: '800px',
       data: this.vehicle
     });
-    dialogRef.afterClosed().subscribe((result)=>{
+    dialogRef.afterClosed().subscribe((result) => {
       this.vehicle.monitoringSystem = result;
     });
   }

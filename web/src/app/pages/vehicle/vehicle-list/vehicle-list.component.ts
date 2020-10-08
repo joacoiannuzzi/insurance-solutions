@@ -24,7 +24,8 @@ export class VehicleListComponent implements OnInit, AfterViewInit {
   dataSource: MatTableDataSource<Vehicle> = new MatTableDataSource<Vehicle>();
   loading: boolean = true;
 
-  constructor(private vehicleService: VehicleService, public dialog: MatDialog) { }
+  constructor(private vehicleService: VehicleService, public dialog: MatDialog) {
+  }
 
   @ViewChild(MatSort) sort: MatSort;
   @ViewChild(MatPaginator) paginator: MatPaginator;
@@ -60,7 +61,7 @@ export class VehicleListComponent implements OnInit, AfterViewInit {
   openDialog(): void {
     const dialogRef = this.dialog.open(VehicleAddComponent, {
       width: '800px',
-      data: new Vehicle(0,"",Category.CAR, "","", [],new MonitoringSystem(0,'','','',false), new Client(-1,'','','','','',[]))
+      data: new Vehicle(0, "", Category.CAR, "", "", [], new MonitoringSystem(0, '', '', '', false), new Client(-1, '', '', '', '', '', []))
     });
 
     dialogRef.afterClosed().subscribe(() => {
@@ -99,7 +100,7 @@ export class VehicleListComponent implements OnInit, AfterViewInit {
       width: '1000px',
       data: element
     });
-    dialogRef.afterClosed().subscribe((res)=>{
+    dialogRef.afterClosed().subscribe((res) => {
       if (res) {
         this.getVehicles();
       }

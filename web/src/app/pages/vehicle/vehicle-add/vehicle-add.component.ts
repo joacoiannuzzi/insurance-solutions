@@ -16,7 +16,7 @@ import {map, startWith} from "rxjs/operators";
 })
 export class VehicleAddComponent implements OnInit {
   vehicleForm: FormGroup;
-  categories: Category[] = [Category.CAR,Category.TRUCK,Category.VAN,Category.MOTORCYCLE];
+  categories: Category[] = [Category.CAR, Category.TRUCK, Category.VAN, Category.MOTORCYCLE];
   categoryLabels: string[] = ['Automóvil', 'Camión', 'Camioneta', 'Moto'];
   clients: Client[] = [];
   filteredOptions: Observable<Client[]>;
@@ -26,7 +26,8 @@ export class VehicleAddComponent implements OnInit {
     @Inject(MAT_DIALOG_DATA) public data: Vehicle,
     public vehicleService: VehicleService,
     public clientService: ClientService
-  ) {}
+  ) {
+  }
 
   ngOnInit(): void {
 
@@ -55,17 +56,29 @@ export class VehicleAddComponent implements OnInit {
     this.getClients();
   }
 
-  get licensePlate() { return this.vehicleForm.get('licensePlate'); }
+  get licensePlate() {
+    return this.vehicleForm.get('licensePlate');
+  }
 
-  get category() { return this.vehicleForm.get('category'); }
+  get category() {
+    return this.vehicleForm.get('category');
+  }
 
-  get brand() { return this.vehicleForm.get('brand'); }
+  get brand() {
+    return this.vehicleForm.get('brand');
+  }
 
-  get model() { return this.vehicleForm.get('model'); }
+  get model() {
+    return this.vehicleForm.get('model');
+  }
 
-  get client() { return this.vehicleForm.get('client'); }
+  get client() {
+    return this.vehicleForm.get('client');
+  }
 
-  get invalid() { return this.vehicleForm.invalid }
+  get invalid() {
+    return this.vehicleForm.invalid
+  }
 
   close(): void {
     this.dialogRef.close();
@@ -80,7 +93,7 @@ export class VehicleAddComponent implements OnInit {
         //The 'empty' Client passed in constructor has an id of -1.
         // So if that Client has not been modified, it doesn't execute the following if statement.
         if (res && this.data.client?.id !== -1 && this.data.client?.id !== undefined) {
-          this.clientService.assignVehicle(this.data.client.id, res.id).subscribe(()=>{
+          this.clientService.assignVehicle(this.data.client.id, res.id).subscribe(() => {
             this.dialogRef.close(res);
           })
         } else {

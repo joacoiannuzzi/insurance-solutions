@@ -14,8 +14,12 @@
   <p class="item" *ngIf="vehicle?.monitoringSystem?.id">Servicio de Monitoreo: {{vehicle?.monitoringSystem?.name}}</p>
 </div>
 <div mat-dialog-actions class="vehicle-details-actions">
-  <button mat-raised-button color="primary" *ngIf="!vehicle?.monitoringSystem?.id" (click)="assignMonitoringSystem()">Asignar Servicio de Monitoreo</button>
-  <button mat-raised-button color="primary" *ngIf="vehicle?.monitoringSystem?.id" (click)="unassignMonitoringSystem()">Desasignar Servicio de Monitoreo</button>
+  <button mat-raised-button color="primary" *ngIf="!vehicle?.monitoringSystem?.id" (click)="assignMonitoringSystem()">
+    Asignar Servicio de Monitoreo
+  </button>
+  <button mat-raised-button color="primary" *ngIf="vehicle?.monitoringSystem?.id" (click)="unassignMonitoringSystem()">
+    Desasignar Servicio de Monitoreo
+  </button>
   <button mat-raised-button color="primary" (click)="seeProfiles()">Ver Perfiles</button>
   <button mat-raised-button color="primary" (click)="updateVehicle()">Editar</button>
   <button mat-raised-button color="warn" (click)="deleteVehicle()">Eliminar</button>

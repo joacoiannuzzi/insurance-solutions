@@ -1,6 +1,6 @@
-import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { Vehicle } from '../models/vehicle';
+import {Injectable} from '@angular/core';
+import {HttpClient} from '@angular/common/http';
+import {Vehicle} from '../models/vehicle';
 import {Observable} from "rxjs";
 import {catchError, map} from "rxjs/operators";
 import {MatSnackBar} from "@angular/material/snack-bar";
@@ -46,7 +46,6 @@ export class VehicleService {
 
   public save(vehicle: Vehicle) {
     return this.http.post<Vehicle>(this.vehiclesUrl + "/create", vehicle).pipe(
-
       map((res: any) => {
         this.vehiclesList.push(Vehicle.fromJsonObject(res));
         this.snackBar.open('El vehículo fue guardado con éxito.', '', {
@@ -64,7 +63,7 @@ export class VehicleService {
   }
 
   public update(vehicle: Vehicle) {
-    return this.http.put<Vehicle>(this.vehiclesUrl + "/update/" + vehicle.id , vehicle).pipe(
+    return this.http.put<Vehicle>(this.vehiclesUrl + "/update/" + vehicle.id, vehicle).pipe(
       map((res: Vehicle) => {
         let i = this.vehiclesList.findIndex(c => c.id === vehicle.id);
         this.vehiclesList[i] = res;
@@ -98,13 +97,13 @@ export class VehicleService {
           duration: 2000,
         });
         return this.vehiclesList;
-      }), catchError( () => {
-        this.snackBar.open('Hubo un error al eliminar el vehículo.', '', {
-          duration: 2000,
-        });
-        return this.vehicles;
-      }
-    ))
+      }), catchError(() => {
+          this.snackBar.open('Hubo un error al eliminar el vehículo.', '', {
+            duration: 2000,
+          });
+          return this.vehicles;
+        }
+      ))
   }
 
   deleteDrivingProfile(vehicleId: number, drivingProfileId: number) {
@@ -115,12 +114,12 @@ export class VehicleService {
           duration: 2000,
         });
         return this.vehiclesList;
-      }), catchError( () => {
-          this.snackBar.open('Hubo un error al eliminar el perfil de conducción.', '', {
-            duration: 2000,
-          });
-          return this.vehicles;
-        })
+      }), catchError(() => {
+        this.snackBar.open('Hubo un error al eliminar el perfil de conducción.', '', {
+          duration: 2000,
+        });
+        return this.vehicles;
+      })
     );
   }
 
@@ -141,7 +140,7 @@ export class VehicleService {
   assignMonitoringSystem(monitoringSystemId: number, vehicleId: number) {
     return this.http.put(this.vehiclesUrl + '/' + vehicleId + '/set-monitoring-system/' + monitoringSystemId, {}).pipe(
       map((res) => {
-        this.vehicles.subscribe((res)=>{
+        this.vehicles.subscribe((res) => {
           this.vehiclesList = res;
         });
         this.snackBar.open('El servicio de monitoreo fue asignado al vehículo con éxito.', '', {
