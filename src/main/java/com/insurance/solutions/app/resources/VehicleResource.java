@@ -34,4 +34,36 @@ public class VehicleResource {
         this.monitoringSystem = monitoringSystem;
         this.client = client;
     }
+
+    public Long getId() {
+        return id;
+    }
+
+    public String getLicensePlate() {
+        return licensePlate;
+    }
+
+    public ENUM_CATEGORY getCategory() {
+        return category;
+    }
+
+    public String getBrand() {
+        return brand;
+    }
+
+    public String getModel() {
+        return model;
+    }
+
+    public List<DrivingProfileResource> getDrivingProfiles() {
+        return drivingProfiles;
+    }
+
+    public MonitoringSystemResource getMonitoringSystem() {
+        return monitoringSystem;
+    }
+
+    public ClientResource getClient() {
+        return client;
+    }
 }

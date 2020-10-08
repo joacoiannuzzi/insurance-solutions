@@ -2,6 +2,8 @@ package com.insurance.solutions.app.controllers;
 
 import com.insurance.solutions.app.models.Client;
 import com.insurance.solutions.app.models.Vehicle;
+import com.insurance.solutions.app.resources.ClientResource;
+import com.insurance.solutions.app.resources.VehicleResource;
 import com.insurance.solutions.app.services.ClientService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -10,6 +12,11 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
+
+import static com.insurance.solutions.app.utils.ClientUtils.makeClient;
+import static com.insurance.solutions.app.utils.ClientUtils.makeClients;
+import static com.insurance.solutions.app.utils.VehicleUtils.makeVehicle;
+import static com.insurance.solutions.app.utils.VehicleUtils.makeVehicles;
 
 @RestController
 @RequestMapping("/clients")
@@ -20,18 +27,18 @@ public class ClientController {
     private ClientService clientService;
 
     @PostMapping("/create")
-    public ResponseEntity<Client> createClient(@Valid @RequestBody Client client) {
-        return new ResponseEntity<>(clientService.createClient(client), HttpStatus.CREATED);
+    public ResponseEntity<ClientResource> createClient(@Valid @RequestBody Client client) {
+        return new ResponseEntity<>(makeClient(clientService.createClient(client), true), HttpStatus.CREATED);
     }
 
     @GetMapping("get/{clientId}")
-    public ResponseEntity<Client> getClientById(@PathVariable Long clientId) {
-        return new ResponseEntity<>(clientService.getClientById(clientId), HttpStatus.OK);
+    public ResponseEntity<ClientResource> getClientById(@PathVariable Long clientId) {
+        return new ResponseEntity<>(makeClient(clientService.getClientById(clientId), true), HttpStatus.OK);
     }
 
     @GetMapping
-    public ResponseEntity<List<Client>> findAll() {
-        return new ResponseEntity<>(clientService.findAll(), HttpStatus.OK);
+    public ResponseEntity<List<ClientResource>> findAll() {
+        return new ResponseEntity<>(makeClients(clientService.findAll(), true), HttpStatus.OK);
     }
 
     @DeleteMapping("{id}")
@@ -41,28 +48,28 @@ public class ClientController {
     }
 
     @PutMapping("/update/{clientId}")
-    public ResponseEntity<Client> updateClient(@PathVariable Long clientId, @RequestBody Client client) {
-        return new ResponseEntity<>(clientService.updateClient(clientId, client), HttpStatus.OK);
+    public ResponseEntity<ClientResource> updateClient(@PathVariable Long clientId, @RequestBody Client client) {
+        return new ResponseEntity<>(makeClient(clientService.updateClient(clientId, client), true), HttpStatus.OK);
     }
 
     @GetMapping("/vehicles/{clientId}")
-    public ResponseEntity<List<Vehicle>> getClientVehicles(@PathVariable Long clientId) {
-        return new ResponseEntity<>(clientService.getClientVehicles(clientId), HttpStatus.OK);
+    public ResponseEntity<List<VehicleResource>> getClientVehicles(@PathVariable Long clientId) {
+        return new ResponseEntity<>(makeVehicles(clientService.getClientVehicles(clientId), true), HttpStatus.OK);
     }
 
     @PutMapping("/{clientId}/add-vehicle/{vehicleId}")
-    public ResponseEntity<Vehicle> addVehicle(@PathVariable Long vehicleId, @PathVariable Long clientId) {
-        return new ResponseEntity<>(clientService.addVehicle(vehicleId, clientId), HttpStatus.OK);
+    public ResponseEntity<VehicleResource> addVehicle(@PathVariable Long vehicleId, @PathVariable Long clientId) {
+        return new ResponseEntity<>(makeVehicle(clientService.addVehicle(vehicleId, clientId), true), HttpStatus.OK);
     }
 
     @PutMapping("/{clientId}/delete-vehicle/{vehicleId}")
-    public ResponseEntity<Vehicle> deleteVehicle(@PathVariable Long vehicleId, @PathVariable Long clientId) {
-        return new ResponseEntity<>(clientService.deleteVehicle(vehicleId, clientId), HttpStatus.OK);
+    public ResponseEntity<VehicleResource> deleteVehicle(@PathVariable Long vehicleId, @PathVariable Long clientId) {
+        return new ResponseEntity<>(makeVehicle(clientService.deleteVehicle(vehicleId, clientId), true), HttpStatus.OK);
     }
 
     @GetMapping("/vehicles-without-client")
-    public ResponseEntity<List<Vehicle>> getVehiclesWithoutClient() {
-        return new ResponseEntity<>(clientService.getVehiclesWithoutClient(), HttpStatus.OK);
+    public ResponseEntity<List<VehicleResource>> getVehiclesWithoutClient() {
+        return new ResponseEntity<>(makeVehicles(clientService.getVehiclesWithoutClient(), true), HttpStatus.OK);
     }
 
 }
