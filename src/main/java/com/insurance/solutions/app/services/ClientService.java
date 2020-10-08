@@ -38,7 +38,13 @@ public class ClientService {
     }
 
     public void deleteClientById(Long id) {
-        getClientById(id);
+        Client client = getClientById(id);
+        for (Vehicle vehicle : client.getVehicles()) {
+            vehicle.setClient(null);
+            client.removeVehicle(vehicle);
+            vehicleRepository.save(vehicle);
+        }
+        clientRepository.save(client);
         clientRepository.deleteById(id);
     }
 
