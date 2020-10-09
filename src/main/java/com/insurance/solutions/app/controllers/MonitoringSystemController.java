@@ -1,6 +1,7 @@
 package com.insurance.solutions.app.controllers;
 
 import com.insurance.solutions.app.models.MonitoringSystem;
+import com.insurance.solutions.app.resources.MonitoringSystemResource;
 import com.insurance.solutions.app.services.MonitoringSystemService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
@@ -10,6 +11,9 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
+
+import static com.insurance.solutions.app.utils.MonitoringSystemUtils.makeMonitoringSystem;
+import static com.insurance.solutions.app.utils.MonitoringSystemUtils.makeMonitoringSystems;
 
 @RestController
 @RequestMapping("monitoring-systems")
@@ -21,18 +25,21 @@ public class MonitoringSystemController {
 
 
     @PostMapping("create")
-    public ResponseEntity<MonitoringSystem> createMonitoringSystem(@Valid @RequestBody MonitoringSystem monitoringSystem) {
-        return new ResponseEntity<>(monitoringSystemService.createMonitoringSystem(monitoringSystem), HttpStatus.CREATED);
+    public ResponseEntity<MonitoringSystemResource> createMonitoringSystem(@Valid @RequestBody MonitoringSystem monitoringSystem) {
+        return new ResponseEntity<>(
+                makeMonitoringSystem(monitoringSystemService.createMonitoringSystem(monitoringSystem), true),
+                HttpStatus.CREATED
+        );
     }
 
     @GetMapping("{id}")
-    public ResponseEntity<MonitoringSystem> getMonitoringSystemById(@PathVariable Long id) {
-        return ResponseEntity.ok(monitoringSystemService.findById(id));
+    public ResponseEntity<MonitoringSystemResource> getMonitoringSystemById(@PathVariable Long id) {
+        return ResponseEntity.ok(makeMonitoringSystem(monitoringSystemService.findById(id), true));
     }
 
     @GetMapping("get-all")
-    public ResponseEntity<List<MonitoringSystem>> getAllMonitoringSystems() {
-        return ResponseEntity.ok(monitoringSystemService.getAllMonitoringSystems());
+    public ResponseEntity<List<MonitoringSystemResource>> getAllMonitoringSystems() {
+        return ResponseEntity.ok(makeMonitoringSystems(monitoringSystemService.getAllMonitoringSystems(), true));
     }
 
     @DeleteMapping("/delete/{monitoringSystemId}")
@@ -42,12 +49,17 @@ public class MonitoringSystemController {
     }
 
     @GetMapping("without-vehicle")
-    public ResponseEntity<List<MonitoringSystem>> getAllMonitoringSystemsWithoutVehicle() {
-        return ResponseEntity.ok(monitoringSystemService.getAllMonitoringSystemsWithoutVehicle());
+    public ResponseEntity<List<MonitoringSystemResource>> getAllMonitoringSystemsWithoutVehicle() {
+        return ResponseEntity.ok(
+                makeMonitoringSystems(monitoringSystemService.getAllMonitoringSystemsWithoutVehicle(), true)
+        );
     }
 
     @PutMapping("/update/{monitoringSystemId}")
-    public ResponseEntity<MonitoringSystem> updateMonitoringSystem(@PathVariable Long monitoringSystemId, @RequestBody MonitoringSystem monitoringSystem) {
-        return new ResponseEntity<>(monitoringSystemService.updateMonitoringSystem(monitoringSystemId, monitoringSystem), HttpStatus.OK);
+    public ResponseEntity<MonitoringSystemResource> updateMonitoringSystem(@PathVariable Long monitoringSystemId, @RequestBody MonitoringSystem monitoringSystem) {
+        return new ResponseEntity<>(
+                makeMonitoringSystem(monitoringSystemService.updateMonitoringSystem(monitoringSystemId, monitoringSystem), true),
+                HttpStatus.OK
+        );
     }
 }

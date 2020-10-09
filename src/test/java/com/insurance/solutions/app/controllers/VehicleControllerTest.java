@@ -30,6 +30,8 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import static com.insurance.solutions.app.models.ENUM_CATEGORY.*;
+import static com.insurance.solutions.app.utils.MonitoringSystemUtils.makeMonitoringSystem;
+import static com.insurance.solutions.app.utils.VehicleUtils.makeVehicle;
 import static org.junit.Assert.*;
 import static org.springframework.http.MediaType.APPLICATION_JSON;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
@@ -267,10 +269,10 @@ class VehicleControllerTest {
                 .perform(get(urlBase + "/" + savedVehicle.getId()))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(APPLICATION_JSON))
-                .andExpect(content().string(toJson(savedVehicle)))
+                .andExpect(content().string(toJson(makeVehicle(savedVehicle, true))))
                 .andReturn();
 
-        assertEquals(toJson(savedVehicle), response.getResponse().getContentAsString());
+        assertEquals(toJson(makeVehicle(savedVehicle, true)), response.getResponse().getContentAsString());
 
         long mockID = 100L;
 
@@ -428,11 +430,11 @@ class VehicleControllerTest {
 
     @Test
     void setMonitoringSystemToVehicle() throws Exception {
-        final var vehicle = new Vehicle("345345345", CAR, "brand", "model");
-        final var monitoringSystem = new MonitoringSystem("name_34524234", "sensor_4592704729034", "monitoringCompany_4598458345");
+        final Vehicle vehicle = new Vehicle("345345345", CAR, "brand", "model");
+        final MonitoringSystem monitoringSystem = new MonitoringSystem("name_34524234", "sensor_4592704729034", "monitoringCompany_4598458345");
 
         Long vehicleId = vehicleService.createVehicle(vehicle).getId();
-        final var savedMonitoringSystem = monitoringSystemService.createMonitoringSystem(monitoringSystem);
+        final MonitoringSystem savedMonitoringSystem = monitoringSystemService.createMonitoringSystem(monitoringSystem);
         savedMonitoringSystem.setIsAssigned(true);
 
         mockMvc

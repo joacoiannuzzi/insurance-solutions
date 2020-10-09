@@ -17,6 +17,9 @@ public class MonitoringSystemService {
     @Autowired
     private MonitoringSystemRepository monitoringSystemRepository;
 
+    @Autowired
+    private VehicleRepository vehicleRepository;
+
     public MonitoringSystem createMonitoringSystem(MonitoringSystem monitoringSystem) {
         if (monitoringSystemRepository.existsByNameAndSensorAndMonitoringCompany(monitoringSystem.getName(), monitoringSystem.getSensor(), monitoringSystem.getMonitoringCompany()))
             throw new BadRequestException("Monitoring system already exists.");
@@ -38,9 +41,19 @@ public class MonitoringSystemService {
     }
 
     public void deleteMonitoringSystemId(Long monitoringSystemId) {
-        monitoringSystemRepository.findById(monitoringSystemId)
+        MonitoringSystem monitoringSystem = monitoringSystemRepository.findById(monitoringSystemId)
                 .orElseThrow(() -> new ResourceNotFoundException("Monitoring system not found."));
 
+        if (monitoringSystem.getIsAssigned()) {
+            Vehicle vehicle = monitoringSystem.getVehicle();
+            if (vehicle != null) {
+                vehicle.setMonitoringSystem(null);
+                monitoringSystem.setVehicle(null);
+                monitoringSystem.setIsAssigned(false);
+                vehicleRepository.save(vehicle);
+            }
+        }
+        monitoringSystemRepository.save(monitoringSystem);
         monitoringSystemRepository.deleteById(monitoringSystemId);
     }
 

@@ -3,10 +3,13 @@ package com.insurance.solutions.app.services;
 
 import com.insurance.solutions.app.exceptions.BadRequestException;
 import com.insurance.solutions.app.exceptions.ResourceNotFoundException;
+import com.insurance.solutions.app.models.Client;
 import com.insurance.solutions.app.models.DrivingProfile;
 import com.insurance.solutions.app.models.MonitoringSystem;
 import com.insurance.solutions.app.models.Vehicle;
+import com.insurance.solutions.app.repositories.ClientRepository;
 import com.insurance.solutions.app.repositories.DrivingProfileRepository;
+import com.insurance.solutions.app.repositories.MonitoringSystemRepository;
 import com.insurance.solutions.app.repositories.VehicleRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -25,6 +28,12 @@ public class VehicleService {
 
     @Autowired
     private MonitoringSystemService monitoringSystemService;
+
+    @Autowired
+    private MonitoringSystemRepository monitoringSystemRepository;
+
+    @Autowired
+    private ClientRepository clientRepository;
 
     public Vehicle createVehicle(Vehicle vehicle) {
         if (vehicleRepository.existsByLicensePlate(vehicle.getLicensePlate()))
@@ -56,6 +65,28 @@ public class VehicleService {
 
     public void deleteVehicle(Long vehicleId) {
         Vehicle vehicle = vehicleRepository.findById(vehicleId).orElseThrow(() -> new ResourceNotFoundException("Vehicle not found."));
+        for (DrivingProfile drivingProfile : vehicle.getDrivingProfiles()) {
+            vehicle.removeDrivingProfile(drivingProfile);
+            drivingProfile.setVehicle(null);
+            drivingProfileRepository.save(drivingProfile);
+        }
+
+        MonitoringSystem monitoringSystem = vehicle.getMonitoringSystem();
+        if (monitoringSystem != null) {
+            monitoringSystem.setVehicle(null);
+            monitoringSystem.setIsAssigned(false);
+            vehicle.setMonitoringSystem(null);
+            monitoringSystemRepository.save(monitoringSystem);
+        }
+
+        Client client = vehicle.getClient();
+        if (client != null) {
+            client.removeVehicle(vehicle);
+            vehicle.setClient(null);
+            clientRepository.save(client);
+        }
+
+        vehicleRepository.save(vehicle);
         vehicleRepository.delete(vehicle);
     }
 

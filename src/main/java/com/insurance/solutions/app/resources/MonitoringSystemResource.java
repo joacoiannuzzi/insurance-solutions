@@ -10,16 +10,43 @@ public class MonitoringSystemResource {
     private final String sensor;
     private final String monitoringCompany;
     private final boolean isAssigned;
+    private final VehicleResource vehicle;
 
     public MonitoringSystemResource(@JsonProperty("id") Long id,
                                     @JsonProperty("name") String name,
                                     @JsonProperty("sensor") String sensor,
                                     @JsonProperty("monitoringCompany") String monitoringCompany,
-                                    @JsonProperty("isAssigned") boolean isAssigned) {
+                                    @JsonProperty("isAssigned") boolean isAssigned,
+                                    @JsonProperty("vehicle") VehicleResource vehicle) {
         this.id = id;
         this.name = name;
         this.sensor = sensor;
         this.monitoringCompany = monitoringCompany;
         this.isAssigned = isAssigned;
+        this.vehicle = vehicle;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public String getSensor() {
+        return sensor;
+    }
+
+    public String getMonitoringCompany() {
+        return monitoringCompany;
+    }
+
+    public boolean isAssigned() {
+        return isAssigned;
+    }
+
+    public VehicleResource getVehicle() {
+        return vehicle;
     }
 }
