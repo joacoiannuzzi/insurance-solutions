@@ -10,13 +10,13 @@ export class MonitoringSystem {
     name: string,
     sensor: string,
     monitoringCompany: string,
-    isAssigned: boolean
+    assigned: boolean
   ) {
     this.id = id;
     this.name = name;
     this.sensor = sensor;
     this.monitoringCompany = monitoringCompany;
-    this.assigned = isAssigned;
+    this.assigned = assigned;
   }
 
   static fromJsonObject(jsonObject: any): MonitoringSystem {
@@ -25,7 +25,7 @@ export class MonitoringSystem {
       jsonObject.name,
       jsonObject.sensor,
       jsonObject.monitoringCompany,
-      jsonObject.isAssigned
+      jsonObject.assigned
     );
   }
 }
