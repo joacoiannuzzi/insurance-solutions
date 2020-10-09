@@ -1,3 +1,5 @@
+import { DrivingProfileService } from './../shared/services/driving-profile.service';
+import { DrivingProfileAddComponent } from './pages/vehicle/driving-profile-add/driving-profile-add.component';
 import { MonitoringSystemUpdateComponent } from './pages/monitoring-system/monitoring-system-update/monitoring-system-update.component';
 import { MonitoringSystemAddComponent } from './pages/monitoring-system/monitoring-system-add/monitoring-system-add.component';
 import { MonitoringSystemService } from '../shared/services/monitoring-system.service';
@@ -42,6 +44,7 @@ import { MonitoringSystemListComponent } from './pages/monitoring-system/monitor
 import { MonitoringSystemDetailsComponent } from './pages/monitoring-system/monitoring-system-details/monitoring-system-details.component';
 import { MonitoringSystemVehicleAssignationComponent } from './pages/monitoring-system/monitoring-system-vehicle-assignation/monitoring-system-vehicle-assignation.component';
 import { MonitoringSystemAssignationComponent } from './pages/vehicle/monitoring-system-assignation/monitoring-system-assignation.component';
+import {MatTooltipModule} from '@angular/material/tooltip'; 
 
 @NgModule({
   declarations: [
@@ -66,7 +69,8 @@ import { MonitoringSystemAssignationComponent } from './pages/vehicle/monitoring
     MonitoringSystemDetailsComponent,
     MonitoringSystemVehicleAssignationComponent,
     MonitoringSystemAssignationComponent,
-    MonitoringSystemAddComponent
+    MonitoringSystemAddComponent,
+    DrivingProfileAddComponent
    ],
   imports: [
     BrowserModule,
@@ -88,9 +92,11 @@ import { MonitoringSystemAssignationComponent } from './pages/vehicle/monitoring
     MatPaginatorModule,
     MatGridListModule,
     MatSnackBarModule,
-    MatSelectModule
+    MatSelectModule,
+    MatTooltipModule
+
   ],
-  providers: [ClientService, VehicleService, MonitoringSystemService],
+  providers: [ClientService, VehicleService, MonitoringSystemService, DrivingProfileService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
