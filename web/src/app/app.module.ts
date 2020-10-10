@@ -45,6 +45,7 @@ import { MonitoringSystemDetailsComponent } from './pages/monitoring-system/moni
 import { MonitoringSystemVehicleAssignationComponent } from './pages/monitoring-system/monitoring-system-vehicle-assignation/monitoring-system-vehicle-assignation.component';
 import { MonitoringSystemAssignationComponent } from './pages/vehicle/monitoring-system-assignation/monitoring-system-assignation.component';
 import {MatTooltipModule} from '@angular/material/tooltip'; 
+import {MatDatepickerModule} from '@angular/material/datepicker'; 
 
 @NgModule({
   declarations: [
@@ -93,7 +94,8 @@ import {MatTooltipModule} from '@angular/material/tooltip';
     MatGridListModule,
     MatSnackBarModule,
     MatSelectModule,
-    MatTooltipModule
+    MatTooltipModule,
+    MatDatepickerModule
 
   ],
   providers: [ClientService, VehicleService, MonitoringSystemService, DrivingProfileService],
