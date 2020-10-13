@@ -9,10 +9,12 @@ import {MatSnackBar} from "@angular/material/snack-bar";
 export class VehicleService {
 
   private readonly vehiclesUrl: string;
+  private readonly drivingProfiles: string;
   private vehiclesList: Vehicle[];
 
   constructor(private http: HttpClient, private snackBar: MatSnackBar) {
     this.vehiclesUrl = 'http://localhost:8080/vehicles';
+    this.drivingProfiles = 'http://localhost:8080/driving-profiles';
   }
 
   public getClientLess(): Observable<Vehicle[]> {
@@ -107,7 +109,7 @@ export class VehicleService {
   }
 
   deleteDrivingProfile(vehicleId: number, drivingProfileId: number) {
-    return this.http.delete(this.vehiclesUrl + "/" + vehicleId + "/delete-driving-profile/" + drivingProfileId).pipe(
+    return this.http.delete(this.drivingProfiles + "/delete/" + drivingProfileId).pipe(
       map(() => {
         this.findAll();//Reload the list of vehicles to account for changes
         this.snackBar.open('El perfil de conducción fue eliminado con éxito.', '', {
