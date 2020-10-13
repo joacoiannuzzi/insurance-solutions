@@ -44,6 +44,7 @@ import { MonitoringSystemVehicleAssignationComponent } from './pages/monitoring-
 import { MonitoringSystemAssignationComponent } from './pages/vehicle/monitoring-system-assignation/monitoring-system-assignation.component';
 import { InsuranceCompanyListComponent } from './pages/insurance-company/insurance-company-list/insurance-company-list.component';
 import { InsuranceCompanyAddComponent } from './pages/insurance-company/insurance-company-add/insurance-company-add.component';
+import {InsuranceCompanyService} from "../shared/services/insurance-company.service";
 
 @NgModule({
   declarations: [
@@ -94,7 +95,7 @@ import { InsuranceCompanyAddComponent } from './pages/insurance-company/insuranc
     MatSnackBarModule,
     MatSelectModule
   ],
-  providers: [ClientService, VehicleService, MonitoringSystemService],
+  providers: [ClientService, VehicleService, MonitoringSystemService, InsuranceCompanyService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

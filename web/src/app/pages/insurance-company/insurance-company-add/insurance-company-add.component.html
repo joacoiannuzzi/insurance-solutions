@@ -7,7 +7,7 @@
       <div class="item">
         <mat-form-field appearance="fill">
           <mat-label>Nombre</mat-label>
-          <input matInput [formControl]="name" placeholder="Ingrese el nombre de la empresa">
+          <input matInput [formControl]="name" placeholder="Nombre de la empresa" required>
           <mat-error *ngIf="name.errors?.required">
             Se <strong>requiere</strong> nombre
           </mat-error>

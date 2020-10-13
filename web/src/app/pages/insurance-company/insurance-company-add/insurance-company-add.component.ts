@@ -35,14 +35,14 @@ export class InsuranceCompanyAddComponent implements OnInit {
   }
 
   saveInsuranceCompany() {
-    /*if (this.insuranceCompanyForm.valid) {
+    if (this.insuranceCompanyForm.valid) {
       // Se mapea todos los values del form al objeto client
       Object.keys(this.insuranceCompanyForm.value).map((key) => this.data[key] = this.insuranceCompanyForm.value[key]);
 
-      this.insuranceCompanyService.save(this.data).subscribe(res => {
-        if (res) this.dialogRef.close(res);
+      this.insuranceCompanyService.save(this.data).subscribe(() => {
+        this.dialogRef.close();
       })
-    }*/
+    }
   }
 
 }

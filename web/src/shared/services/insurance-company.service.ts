@@ -3,21 +3,23 @@ import {InsuranceCompany} from "../models/insuranceCompany";
 import {HttpClient} from "@angular/common/http";
 import {MatSnackBar} from "@angular/material/snack-bar";
 import {environment} from "../../environments/environment";
-import {catchError, map} from "rxjs/operators";
 import {Observable} from "rxjs";
 
 @Injectable()
 export class InsuranceCompanyService {
 
   private readonly insuranceCompaniesUrl: string;
-  private insuranceCompaniesList: InsuranceCompany[];
+  private insuranceCompaniesList: InsuranceCompany[] = [new InsuranceCompany(99,'company1'),new InsuranceCompany(100, 'company2')];
 
   constructor(private http: HttpClient, private snackBar: MatSnackBar) {
     this.insuranceCompaniesUrl = environment.url + '/insurance-companies';
   }
 
   private findAll(): Observable<InsuranceCompany[]> {
-    return this.http.get(this.insuranceCompaniesUrl).pipe(
+    //Implement when there is back-end
+
+
+    /*return this.http.get(this.insuranceCompaniesUrl).pipe(
       map((res: any) => {
         this.insuranceCompaniesList = res.map((insuranceCompany) => InsuranceCompany.fromJsonObject(insuranceCompany));
         return this.insuranceCompaniesList;
@@ -28,11 +30,17 @@ export class InsuranceCompanyService {
         });
         return this.insuranceCompanies;
       })
-    );
+    );*/
+    return new Observable<InsuranceCompany[]>((subscriber) =>
+      subscriber.next(this.insuranceCompaniesList)
+    )
   }
 
   delete(insuranceCompany: InsuranceCompany) {
-    return this.http.delete<InsuranceCompany>(this.insuranceCompaniesUrl + "/" + insuranceCompany.id).pipe(
+    //Implement when there is back-end
+
+
+    /*return this.http.delete<InsuranceCompany>(this.insuranceCompaniesUrl + "/" + insuranceCompany.id).pipe(
       map(() => {
         let auxInsuranceCompaniesList: InsuranceCompany[] = [...this.insuranceCompaniesList];
         auxInsuranceCompaniesList.splice(this.insuranceCompaniesList.findIndex(c => c.id === insuranceCompany.id), 1);
@@ -48,7 +56,7 @@ export class InsuranceCompanyService {
         });
         return this.insuranceCompanies;
       })
-    )
+    )*/
   }
 
   get insuranceCompanies(): Observable<InsuranceCompany[]> {
@@ -60,6 +68,12 @@ export class InsuranceCompanyService {
   }
 
   public save(insuranceCompany: InsuranceCompany) {
-    //Implement when we have back-end
+    //Implement when there is back-end
+
+
+    this.insuranceCompaniesList.push(insuranceCompany);
+    return new Observable<InsuranceCompany>((subscriber) =>
+      subscriber.next(insuranceCompany)
+    )
   }
 }
