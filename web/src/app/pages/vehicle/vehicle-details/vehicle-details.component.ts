@@ -7,6 +7,7 @@ import {DrivingProfilesComponent} from "../driving-profiles/driving-profiles.com
 import {VehicleUpdateComponent} from "../vehicle-update/vehicle-update.component";
 import {MonitoringSystemAssignationComponent} from "../monitoring-system-assignation/monitoring-system-assignation.component";
 import {Category} from "../../../../shared/models/category";
+import {MonitoringSystemService} from "../../../../shared/services/monitoring-system.service";
 
 @Component({
   selector: 'app-vehicle-details',
@@ -18,7 +19,8 @@ export class VehicleDetailsComponent implements OnInit {
   constructor(public dialogRef: MatDialogRef<VehicleDetailsComponent>,
               @Inject(MAT_DIALOG_DATA) public vehicle: Vehicle,
               public dialog: MatDialog,
-              public vehicleService: VehicleService
+              public vehicleService: VehicleService,
+              public monitoringService: MonitoringSystemService
   ) {
   }
 
@@ -82,6 +84,7 @@ export class VehicleDetailsComponent implements OnInit {
         if (confirmed) {
           this.vehicleService.unassignMonitoringSystem(this.vehicle.id).subscribe(res => {
             this.vehicle.monitoringSystem = undefined;
+            this.monitoringService.findAll().subscribe();
           });
         }
       })
