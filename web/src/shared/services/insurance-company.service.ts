@@ -58,4 +58,8 @@ export class InsuranceCompanyService {
       )
       : this.findAll();
   }
+
+  public save(insuranceCompany: InsuranceCompany) {
+    //Implement when we have back-end
+  }
 }

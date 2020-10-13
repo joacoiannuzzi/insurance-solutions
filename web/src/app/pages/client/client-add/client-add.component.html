@@ -3,16 +3,16 @@
 
   <form [formGroup]="clientForm">
     <div class="form-container">
-      
+
       <div class="item">
         <mat-form-field appearance="fill">
           <mat-label>Nombre</mat-label>
           <input matInput [formControl]="firstName" placeholder="Juan">
           <mat-error *ngIf="firstName.errors?.pattern && !firstName.errors?.minlength && !firstName.errors?.required">
-            Solo caracteres validos
+            Solo caractéres válidos
           </mat-error>
           <mat-error *ngIf="firstName.errors?.minlength && !firstName.errors?.required">
-            Tiene que tener un mínimo de 2 caracteres
+            Tiene que tener un mínimo de 2 caractéres
           </mat-error>
           <mat-error *ngIf="firstName.errors?.required">
             Se <strong>requiere</strong> nombre

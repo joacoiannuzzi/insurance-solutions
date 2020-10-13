@@ -19,7 +19,7 @@ export class ClientAddComponent implements OnInit {
   constructor(
     public dialogRef: MatDialogRef<ClientAddComponent>,
     @Inject(MAT_DIALOG_DATA) public data: Client,
-    public clientService: ClientService,
+    public clientService: ClientService
   ) {
   }
 
