@@ -71,7 +71,7 @@ export class VehicleListComponent implements OnInit, AfterViewInit {
 
   deleteVehicle(vehicle: Vehicle) {
     this.dialog.open(ConfirmDialogComponent, {
-      data: "¿Está seguro de que desea eliminar al vehículo de marca " + vehicle.brand + " y modelo " + vehicle.model + ", con placa" + vehicle.licensePlate + "?"
+      data: "¿Está seguro de que desea eliminar al vehículo de marca " + vehicle.brand + " y modelo " + vehicle.model + ", con patente " + vehicle.licensePlate + "?"
     })
       .afterClosed()
       .subscribe((confirmed: boolean) => {
