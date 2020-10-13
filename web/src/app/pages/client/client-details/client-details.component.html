@@ -10,6 +10,7 @@
   <p class="item">DNI: {{client.dni}}</p>
   <p class="item">Telefono: {{client.phoneNumber}}</p>
   <p class="item">Mail: {{client.mail}}</p>
+  <p class="item" *ngIf="client.insuranceCompany">Empresa Aseguradora: {{client.insuranceCompany.name}}</p>
 </div>
 <div mat-dialog-actions class="client-details-actions">
   <button mat-raised-button color="primary" (click)="seeVehicles()">Ver Vehiculos</button>
