@@ -42,6 +42,7 @@ import { MonitoringSystemListComponent } from './pages/monitoring-system/monitor
 import { MonitoringSystemDetailsComponent } from './pages/monitoring-system/monitoring-system-details/monitoring-system-details.component';
 import { MonitoringSystemVehicleAssignationComponent } from './pages/monitoring-system/monitoring-system-vehicle-assignation/monitoring-system-vehicle-assignation.component';
 import { MonitoringSystemAssignationComponent } from './pages/vehicle/monitoring-system-assignation/monitoring-system-assignation.component';
+import { InsuranceCompanyListComponent } from './pages/insurance-company/insurance-company-list/insurance-company-list.component';
 
 @NgModule({
   declarations: [
@@ -66,7 +67,8 @@ import { MonitoringSystemAssignationComponent } from './pages/vehicle/monitoring
     MonitoringSystemDetailsComponent,
     MonitoringSystemVehicleAssignationComponent,
     MonitoringSystemAssignationComponent,
-    MonitoringSystemAddComponent
+    MonitoringSystemAddComponent,
+    InsuranceCompanyListComponent
    ],
   imports: [
     BrowserModule,
