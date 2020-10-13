@@ -12,8 +12,18 @@
   <p class="item" *ngIf="!monitoringSystem?.assigned">Asignado: No</p>
 </div>
 <div mat-dialog-actions class="monitoring-system-details-actions">
-  <button *ngIf="!monitoringSystem?.assigned" mat-raised-button color="primary" (click)="assignMonitoringSystem()">Asignar</button>
-  <button *ngIf="monitoringSystem?.assigned" mat-raised-button color="primary" (click)="unassignMonitoringSystem()">Desasignar</button>
+  <button *ngIf="!monitoringSystem.assigned"
+  mat-raised-button 
+  disabled
+  color="primary" 
+  matTooltip="Se tiene que asignar el servicio a un vehículo para poder generar un perfil de conducción"
+  aria-label="Button that displays a tooltip when focused or hovered over"
+  (click)="assignMonitoringSystem()">
+  Generar Perfil de Conducción
+</button>
+  <button *ngIf="monitoringSystem.assigned" mat-raised-button  color="primary" (click)="createDrivingProfile()">Generar Perfil de Conducción</button>
+  <button *ngIf="!monitoringSystem.assigned" mat-raised-button color="primary" (click)="assignMonitoringSystem()">Asignar</button>
+  <button *ngIf="monitoringSystem.assigned" mat-raised-button color="primary" (click)="unassignMonitoringSystem()">Desasignar</button>
   <button mat-raised-button color="primary" (click)="updateMonitoringSystem()">Editar</button>
   <button mat-raised-button color="warn" (click)="deleteMonitoringSystem()">Eliminar</button>
 </div>
