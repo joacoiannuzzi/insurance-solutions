@@ -17,7 +17,7 @@
   <button mat-raised-button color="primary" *ngIf="!vehicle?.monitoringSystem?.id" (click)="assignMonitoringSystem()">
     Asignar Servicio de Monitoreo
   </button>
-  <button mat-raised-button color="primary" *ngIf="vehicle?.monitoringSystem?.id" (click)="unassignMonitoringSystem()">
+  <button class="long-text" mat-raised-button color="primary" *ngIf="vehicle?.monitoringSystem?.id" (click)="unassignMonitoringSystem()">
     Desasignar Servicio de Monitoreo
   </button>
   <button mat-raised-button color="primary" (click)="seeProfiles()">Ver Perfiles</button>

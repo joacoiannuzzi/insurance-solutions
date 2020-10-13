@@ -8,6 +8,7 @@ import {MatTableDataSource} from "@angular/material/table";
 import {MatSort} from "@angular/material/sort";
 import {ClientService} from "../../../../shared/services/client.service";
 import {MatPaginator} from "@angular/material/paginator";
+import {VehicleService} from "../../../../shared/services/vehicle.service";
 
 @Component({
   selector: 'app-client-vehicles',
@@ -27,6 +28,7 @@ export class ClientVehiclesComponent implements OnInit, AfterViewInit {
               @Inject(MAT_DIALOG_DATA) public client: Client,
               public dialog: MatDialog,
               private clientService: ClientService,
+              private vehiclesService: VehicleService,
   ) {
   }
 
@@ -76,6 +78,7 @@ export class ClientVehiclesComponent implements OnInit, AfterViewInit {
           this.clientService.deleteVehicle(this.client.id, element.id).subscribe((res) => {
             if (res) {
               this.getVehicles();
+              this.vehiclesService.findAll().subscribe();
             }
           })
         }
