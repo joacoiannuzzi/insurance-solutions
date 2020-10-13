@@ -21,7 +21,7 @@
       </div>
 
       <div class="item">
-        <mat-form-field appearance="fill"3dsas>
+        <mat-form-field appearance="fill">
           <mat-label>Nombre del Sensor</mat-label>
           <input matInput [formControl]="sensor" placeholder="Cámara">
           <mat-error *ngIf="sensor.errors?.pattern && !sensor.errors?.minlength && !sensor.errors?.required">
