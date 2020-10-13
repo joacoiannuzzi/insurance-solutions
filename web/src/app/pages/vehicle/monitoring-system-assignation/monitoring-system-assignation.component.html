@@ -7,9 +7,9 @@
 <div  mat-dialog-content class="monitoring-system-assignation-content">
   <form class="example-form">
     <mat-form-field class="example-full-width">
-      <mat-label>Ingrese Dominio</mat-label>
+      <mat-label>Ingrese Nombre del Servicio</mat-label>
       <input type="text"
-             placeholder="Ingrese Dominio"
+             placeholder="Ingrese Nombre"
              matInput
              [formControl]="myControl"
              [matAutocomplete]="auto">
@@ -19,7 +19,7 @@
         </mat-option>
       </mat-autocomplete>
       <mat-error *ngIf="myControl.errors?.required">
-        Se <strong>requiere</strong> dominio
+        Se <strong>requiere</strong> nombre
       </mat-error>
     </mat-form-field>
   </form>

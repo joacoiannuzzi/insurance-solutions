@@ -6,6 +6,7 @@ import {MonitoringSystem} from "../../../../shared/models/monitoringSystem";
 import {MonitoringSystemService} from "../../../../shared/services/monitoring-system.service";
 import {VehicleService} from "../../../../shared/services/vehicle.service";
 import {MonitoringSystemVehicleAssignationComponent} from "../monitoring-system-vehicle-assignation/monitoring-system-vehicle-assignation.component";
+import {MonitoringSystemUpdateComponent} from "../monitoring-system-update/monitoring-system-update.component";
 import { DrivingProfile } from 'src/shared/models/drivingProfile';
 
 @Component({
@@ -38,19 +39,21 @@ export class MonitoringSystemDetailsComponent implements OnInit {
       .subscribe((confirmed: boolean) => {
         console.log(confirmed)
         if (confirmed) {
-          /*this.monitoringSystemService.deleteMonitoringSystem(this.monitoringSystem.id).subscribe(()=>{
+          this.monitoringSystemService.delete(this.monitoringSystem).subscribe(()=>{
             this.dialogRef.close();
-          })*/
+          })
         }
       })
   }
 
   updateMonitoringSystem() {
-    /*const dialogRef = this.dialog.open(MonitoringSystemUpdateComponent, {
+    const dialogRef = this.dialog.open(MonitoringSystemUpdateComponent, {
       width: '800px',
       data: this.monitoringSystem
     });
-    dialogRef.afterClosed().subscribe();*/
+    dialogRef.afterClosed().subscribe((res) => {
+      this.monitoringSystem = res;
+    });
   }
 
   assignMonitoringSystem() {
@@ -58,8 +61,8 @@ export class MonitoringSystemDetailsComponent implements OnInit {
       width: '1000px',
       data: this.monitoringSystem
     });
-    dialogRef.afterClosed().subscribe(() => {
-      this.closeDetails();
+    dialogRef.afterClosed().subscribe((res)=>{
+      this.dialogRef.close(res);
     });
   }
 
@@ -79,12 +82,14 @@ export class MonitoringSystemDetailsComponent implements OnInit {
     })
       .afterClosed()
       .subscribe((confirmed: boolean) => {
-        console.log(confirmed)
         if (confirmed) {
-      this.vehicleService.vehicles.subscribe(res => {
-      const vehicle =res.find(v => v.monitoringSystems?.id === this.monitoringSystem.id);
-          this.vehicleService.unassignVehicle(vehicle.id);
-    }) 
+          this.vehicleService.vehicles.subscribe(res => {
+            const vehicle = res.find(v => v.monitoringSystem?.id === this.monitoringSystem.id);
+            vehicle && this.vehicleService.unassignMonitoringSystem(vehicle.id).subscribe(() => {
+              this.monitoringSystemService.findAll().subscribe();
+              this.monitoringSystem.assigned = false;
+            });
+          })
         }
       })
   }

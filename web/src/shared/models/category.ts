@@ -1,3 +1,3 @@
-export enum category {
+export enum Category {
   CAR, TRUCK, VAN, MOTORCYCLE
 }

@@ -6,6 +6,8 @@ import {ConfirmDialogComponent} from "../../../components/confirm-dialog/confirm
 import {DrivingProfilesComponent} from "../driving-profiles/driving-profiles.component";
 import {VehicleUpdateComponent} from "../vehicle-update/vehicle-update.component";
 import {MonitoringSystemAssignationComponent} from "../monitoring-system-assignation/monitoring-system-assignation.component";
+import {Category} from "../../../../shared/models/category";
+import {MonitoringSystemService} from "../../../../shared/services/monitoring-system.service";
 
 @Component({
   selector: 'app-vehicle-details',
@@ -17,8 +19,10 @@ export class VehicleDetailsComponent implements OnInit {
   constructor(public dialogRef: MatDialogRef<VehicleDetailsComponent>,
               @Inject(MAT_DIALOG_DATA) public vehicle: Vehicle,
               public dialog: MatDialog,
-              public vehicleService: VehicleService
-  ) {}
+              public vehicleService: VehicleService,
+              public monitoringService: MonitoringSystemService
+  ) {
+  }
 
   ngOnInit(): void {
   }
@@ -46,7 +50,9 @@ export class VehicleDetailsComponent implements OnInit {
       .afterClosed()
       .subscribe((confirmed: boolean) => {
         if (confirmed) {
-          this.vehicleService.delete(this.vehicle).subscribe();
+          this.vehicleService.delete(this.vehicle).subscribe((res) => {
+            this.dialogRef.close(res);
+          });
         }
       })
   }
@@ -64,12 +70,27 @@ export class VehicleDetailsComponent implements OnInit {
       width: '800px',
       data: this.vehicle
     });
-    dialogRef.afterClosed().subscribe((result)=>{
-      this.vehicle.monitoringSystems = result;
+    dialogRef.afterClosed().subscribe((result) => {
+      this.vehicle.monitoringSystem = result;
     });
   }
 
   unassignMonitoringSystem() {
+    this.dialog.open(ConfirmDialogComponent, {
+      data: "¿Está seguro de que desea desasignar al servicio de monitoreo " + this.vehicle.monitoringSystem.name + "?"
+    })
+      .afterClosed()
+      .subscribe((confirmed: boolean) => {
+        if (confirmed) {
+          this.vehicleService.unassignMonitoringSystem(this.vehicle.id).subscribe(res => {
+            this.vehicle.monitoringSystem = undefined;
+            this.monitoringService.findAll().subscribe();
+          });
+        }
+      })
+  }
 
+  categoryToString(category: string | Category) {
+    return Vehicle.categoryToString(category);
   }
 }

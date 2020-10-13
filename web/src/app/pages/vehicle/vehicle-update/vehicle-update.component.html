@@ -5,9 +5,10 @@
 
     <div class="item">
       <mat-form-field appearance="fill">
-        <mat-label>Patente: </mat-label>
+        <mat-label>Patente:</mat-label>
         <input matInput [formControl]="licensePlate" placeholder="">
-        <mat-error *ngIf="licensePlate.errors?.pattern && !licensePlate.errors?.minlength && !licensePlate.errors?.required">
+        <mat-error
+          *ngIf="licensePlate.errors?.pattern && !licensePlate.errors?.minlength && !licensePlate.errors?.required">
           No cumple el formato de patente admitida.
         </mat-error>
         <mat-error *ngIf="licensePlate.errors?.minlength && !licensePlate.errors?.required">
@@ -21,7 +22,7 @@
 
     <div class="item">
       <mat-form-field appearance="fill">
-        <mat-label>Categoría: </mat-label>
+        <mat-label>Categoría:</mat-label>
         <mat-select [formControl]="category">
           <mat-option *ngFor="let cat of categories" [value]="cat">{{categoryLabels[cat]}}</mat-option>
         </mat-select>
@@ -30,7 +31,7 @@
 
     <div class="item">
       <mat-form-field appearance="fill">
-        <mat-label>Modelo: </mat-label>
+        <mat-label>Modelo:</mat-label>
         <input matInput [formControl]="model" placeholder="modelo">
         <mat-error *ngIf="model.errors?.pattern && !model.errors?.minlength && !model.errors?.required">
           Sólo caractéres válidos.
@@ -46,7 +47,7 @@
 
     <div class="item">
       <mat-form-field appearance="fill">
-        <mat-label>Marca: </mat-label>
+        <mat-label>Marca:</mat-label>
         <input matInput [formControl]="brand" placeholder="marca">
         <mat-error *ngIf="brand.errors?.pattern && !brand.errors?.minlength && !brand.errors?.required">
           Sólo caractéres válidos

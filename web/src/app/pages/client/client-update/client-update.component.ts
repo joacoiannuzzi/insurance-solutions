@@ -12,7 +12,7 @@ import {FormControl, FormGroup, Validators} from "@angular/forms";
   templateUrl: 'client-update.component.html',
   styleUrls: ['./client-update.component.scss']
 })
-export class ClientUpdateComponent implements OnInit{
+export class ClientUpdateComponent implements OnInit {
   client: Client;
   clientForm: FormGroup;
 
@@ -53,17 +53,29 @@ export class ClientUpdateComponent implements OnInit{
     });
   }
 
-  get firstName() { return this.clientForm.get('firstName'); }
+  get firstName() {
+    return this.clientForm.get('firstName');
+  }
 
-  get lastName() { return this.clientForm.get('lastName'); }
+  get lastName() {
+    return this.clientForm.get('lastName');
+  }
 
-  get dni() { return this.clientForm.get('dni'); }
+  get dni() {
+    return this.clientForm.get('dni');
+  }
 
-  get phoneNumber() { return this.clientForm.get('phoneNumber'); }
+  get phoneNumber() {
+    return this.clientForm.get('phoneNumber');
+  }
 
-  get mail() { return this.clientForm.get('mail'); }
+  get mail() {
+    return this.clientForm.get('mail');
+  }
 
-  get invalid() { return this.clientForm.invalid }
+  get invalid() {
+    return this.clientForm.invalid
+  }
 
   close(): void {
     this.dialogRef.close();

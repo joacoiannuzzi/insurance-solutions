@@ -248,7 +248,7 @@ class MonitoringSystemControllerTest {
                 .perform(
                         delete(urlBase + "/delete/" + monitoringSystemId)
                 )
-                .andExpect(status().isOk());
+                .andExpect(status().isNoContent());
 
         Exception exception = Assert.assertThrows(ResourceNotFoundException.class, () -> monitoringSystemService.findById(monitoringSystemId));
         Assert.assertEquals("Monitoring system not found.", exception.getMessage());

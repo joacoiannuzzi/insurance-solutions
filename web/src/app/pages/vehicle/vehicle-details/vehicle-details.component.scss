@@ -27,5 +27,9 @@
 
   button {
     flex: 1;
+
+    &.long-text {
+      padding-left: 8px;
+    }
   }
 }

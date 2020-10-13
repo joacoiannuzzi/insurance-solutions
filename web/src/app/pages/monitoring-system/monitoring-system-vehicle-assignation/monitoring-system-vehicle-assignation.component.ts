@@ -57,14 +57,12 @@ export class MonitoringSystemVehicleAssignationComponent implements OnInit {
     return option.licensePlate;
   }
 
-  cancel() {
-    this.dialogRef.close();
-  }
-
   assignVehicle() {
     if (this.myControl.valid) {
-      this.vehiclesService.assignVehicle(this.monitoringSystem.id, this.myControl.value?.id).subscribe(() => {
-        this.dialogRef.close();
+      this.vehiclesService.assignMonitoringSystem(this.monitoringSystem.id, this.myControl.value?.id).subscribe(() => {
+        this.monitoringSystem.assigned = true;
+        this.dialogRef.close(this.monitoringSystem);
+        this.vehiclesService.findAll().subscribe();
       });
     }
   }

@@ -1,10 +1,6 @@
 package com.insurance.solutions.app.controllers;
 
-import com.insurance.solutions.app.models.Client;
-import com.insurance.solutions.app.models.DrivingProfile;
-import com.insurance.solutions.app.models.MonitoringSystem;
 import com.insurance.solutions.app.models.Vehicle;
-import com.insurance.solutions.app.resources.ClientResource;
 import com.insurance.solutions.app.resources.DrivingProfileResource;
 import com.insurance.solutions.app.resources.MonitoringSystemResource;
 import com.insurance.solutions.app.resources.VehicleResource;
@@ -15,8 +11,12 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.util.ArrayList;
 import java.util.List;
+
+import static com.insurance.solutions.app.utils.DrivingProfileUtils.makeDrivingProfiles;
+import static com.insurance.solutions.app.utils.MonitoringSystemUtils.makeMonitoringSystem;
+import static com.insurance.solutions.app.utils.VehicleUtils.makeVehicle;
+import static com.insurance.solutions.app.utils.VehicleUtils.makeVehicles;
 
 
 @RestController
@@ -28,28 +28,34 @@ public class VehicleController {
     private VehicleService vehicleService;
 
     @PostMapping("/create")
-    public ResponseEntity<Vehicle> createVehicle(@Valid @RequestBody Vehicle vehicle) {
-        return new ResponseEntity<>(vehicleService.createVehicle(vehicle), HttpStatus.CREATED);
+    public ResponseEntity<VehicleResource> createVehicle(@Valid @RequestBody Vehicle vehicle) {
+        return new ResponseEntity<>(
+                makeVehicle(vehicleService.createVehicle(vehicle), true),
+                HttpStatus.CREATED
+        );
     }
 
     @GetMapping
     public ResponseEntity<List<VehicleResource>> getAllVehicles() {
-        return ResponseEntity.ok(makeVehicles(vehicleService.findAll()));
+        return ResponseEntity.ok(makeVehicles(vehicleService.findAll(), true));
     }
 
     @GetMapping("clientless")
     public ResponseEntity<List<VehicleResource>> getAllVehiclesWithoutClients() {
-        return ResponseEntity.ok(makeVehicles(vehicleService.getAllVehiclesWithoutClient()));
+        return ResponseEntity.ok(makeVehicles(vehicleService.getAllVehiclesWithoutClient(), true));
     }
 
     @GetMapping("{id}")
     public ResponseEntity<VehicleResource> getVehicleById(@PathVariable Long id) {
-        return ResponseEntity.ok(makeVehicle(vehicleService.findById(id)));
+        return ResponseEntity.ok(makeVehicle(vehicleService.findById(id), true));
     }
 
     @PutMapping("/update/{vehicleId}")
-    public ResponseEntity<Vehicle> updateVehicle(@PathVariable Long vehicleId, @RequestBody Vehicle vehicle) {
-        return new ResponseEntity<>(vehicleService.updateVehicle(vehicleId, vehicle), HttpStatus.OK);
+    public ResponseEntity<VehicleResource> updateVehicle(@PathVariable Long vehicleId, @RequestBody Vehicle vehicle) {
+        return new ResponseEntity<>(
+                makeVehicle(vehicleService.updateVehicle(vehicleId, vehicle), true),
+                HttpStatus.OK
+        );
     }
 
     @DeleteMapping("/delete/{vehicleId}")
@@ -59,91 +65,17 @@ public class VehicleController {
     }
 
     @GetMapping("/driving-profile/{vehicleId}")
-    public ResponseEntity<List<DrivingProfile>> getClientVehicles(@PathVariable Long vehicleId) {
-        return ResponseEntity.ok(vehicleService.getDrivingProfilesOfVehicle(vehicleId));
-    }
-
-    @PutMapping("/{vehicleId}/add-driving-profile/{drivingProfileId}")
-    public ResponseEntity<DrivingProfile> addVehicle(@PathVariable Long vehicleId, @PathVariable Long drivingProfileId) {
-        return ResponseEntity.ok(vehicleService.addDrivingProfile(vehicleId, drivingProfileId));
-    }
-
-    @DeleteMapping("/{vehicleId}/delete-driving-profile/{drivingProfileId}")
-    public ResponseEntity<?> deleteDrivingProfile(@PathVariable Long vehicleId, @PathVariable Long drivingProfileId) {
-        vehicleService.deleteDrivingProfile(vehicleId, drivingProfileId);
-        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-    }
-
-    private List<VehicleResource> makeVehicles(List<Vehicle> vehicles) {
-        List<VehicleResource> vehicleResources = new ArrayList<>();
-        for (Vehicle vehicle : vehicles) vehicleResources.add(makeVehicle(vehicle));
-        return vehicleResources;
-    }
-
-    private VehicleResource makeVehicle(Vehicle vehicle) {
-        List<DrivingProfileResource> drivingProfileResources = makeDrivingProfiles(new ArrayList<>(vehicle.getDrivingProfiles()));
-        MonitoringSystemResource monitoringSystemResource =
-                vehicle.getMonitoringSystem() != null ? makeMonitoringSystem(vehicle.getMonitoringSystem()) : null;
-        ClientResource clientResource = vehicle.getClient() != null ? makeClient(vehicle.getClient()) : null;
-
-        return new VehicleResource(
-                vehicle.getId(),
-                vehicle.getLicensePlate(),
-                vehicle.getCategory(),
-                vehicle.getBrand(),
-                vehicle.getModel(),
-                drivingProfileResources,
-                monitoringSystemResource,
-                clientResource
+    public ResponseEntity<List<DrivingProfileResource>> getClientVehicles(@PathVariable Long vehicleId) {
+        return ResponseEntity.ok(
+                makeDrivingProfiles(vehicleService.getDrivingProfilesOfVehicle(vehicleId), true)
         );
-    }
-
-    private List<DrivingProfileResource> makeDrivingProfiles(List<DrivingProfile> drivingProfiles) {
-        List<DrivingProfileResource> drivingProfileResources = new ArrayList<>();
-        for (DrivingProfile drivingProfile : drivingProfiles)
-            drivingProfileResources.add(makeDrivingProfile(drivingProfile));
-        return drivingProfileResources;
-    }
-
-    private DrivingProfileResource makeDrivingProfile(DrivingProfile drivingProfile) {
-        return new DrivingProfileResource(
-                drivingProfile.getId(),
-                drivingProfile.getAvgSpeed(),
-                drivingProfile.getMaxSpeed(),
-                drivingProfile.getMinSpeed(),
-                drivingProfile.getTotalDrivingTime(),
-                drivingProfile.getAvgDailyDrivingTime(),
-                drivingProfile.getStartDate(),
-                drivingProfile.getFinishDate()
-        );
-    }
-
-    private MonitoringSystemResource makeMonitoringSystem(MonitoringSystem monitoringSystem) {
-        return new MonitoringSystemResource(
-                monitoringSystem.getId(),
-                monitoringSystem.getName(),
-                monitoringSystem.getSensor(),
-                monitoringSystem.getMonitoringCompany(),
-                monitoringSystem.getIsAssigned()
-        );
-    }
-
-    private ClientResource makeClient(Client client) {
-        return new ClientResource(
-                client.getId(),
-                client.getDni(),
-                client.getFirstName(),
-                client.getLastName(),
-                client.getPhoneNumber(),
-                client.getMail(),
-                client.getInsuranceCompany()
-        );
-
     }
 
     @PutMapping("/{vehicleId}/set-monitoring-system/{monitoringSystemId}")
-    public ResponseEntity<MonitoringSystem> addMonitoringSystem(@PathVariable Long vehicleId, @PathVariable Long monitoringSystemId) {
-        return ResponseEntity.ok(vehicleService.setMonitoringSystem(vehicleId, monitoringSystemId));
+    public ResponseEntity<MonitoringSystemResource> addMonitoringSystem(@PathVariable Long vehicleId, @PathVariable Long monitoringSystemId) {
+        return ResponseEntity.ok(
+                makeMonitoringSystem(vehicleService.setMonitoringSystem(vehicleId, monitoringSystemId), true)
+        );
     }
 
     @DeleteMapping("/{vehicleId}/remove-monitoring-system")
@@ -153,7 +85,7 @@ public class VehicleController {
     }
 
     @GetMapping("without-monitoring-system")
-    public ResponseEntity<List<Vehicle>> getAllVehiclesWithoutMonitoringSystem() {
-        return ResponseEntity.ok(vehicleService.getAllVehiclesWithoutMonitoringSystem());
+    public ResponseEntity<List<VehicleResource>> getAllVehiclesWithoutMonitoringSystem() {
+        return ResponseEntity.ok(makeVehicles(vehicleService.getAllVehiclesWithoutMonitoringSystem(), true));
     }
 }

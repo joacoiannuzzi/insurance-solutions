@@ -1,19 +1,21 @@
-import { MonitoringSystem } from './../models/monitoringSystem';
-import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { Vehicle } from '../models/vehicle';
+import {Injectable} from '@angular/core';
+import {HttpClient} from '@angular/common/http';
+import {Vehicle} from '../models/vehicle';
 import {Observable} from "rxjs";
 import {catchError, map} from "rxjs/operators";
 import {MatSnackBar} from "@angular/material/snack-bar";
+import {environment} from "../../environments/environment";
 
 @Injectable()
 export class VehicleService {
 
   private readonly vehiclesUrl: string;
+  private readonly drivingProfiles: string;
   private vehiclesList: Vehicle[];
 
   constructor(private http: HttpClient, private snackBar: MatSnackBar) {
-    this.vehiclesUrl = 'http://localhost:8080/vehicles';
+    this.vehiclesUrl = environment.url + '/vehicles';
+    this.drivingProfiles = environment.url + '/driving-profiles';
   }
 
   public getClientLess(): Observable<Vehicle[]> {
@@ -47,12 +49,12 @@ export class VehicleService {
 
   public save(vehicle: Vehicle) {
     return this.http.post<Vehicle>(this.vehiclesUrl + "/create", vehicle).pipe(
-
       map((res: any) => {
         this.vehiclesList.push(Vehicle.fromJsonObject(res));
         this.snackBar.open('El vehículo fue guardado con éxito.', '', {
           duration: 2000,
         });
+        return res;
       }),
       catchError(() => {
         this.snackBar.open('Hubo un error al guardar el vehículo.', '', {
@@ -64,7 +66,7 @@ export class VehicleService {
   }
 
   public update(vehicle: Vehicle) {
-    return this.http.put<Vehicle>(this.vehiclesUrl + "/update/" + vehicle.id , vehicle).pipe(
+    return this.http.put<Vehicle>(this.vehiclesUrl + "/update/" + vehicle.id, vehicle).pipe(
       map((res: Vehicle) => {
         let i = this.vehiclesList.findIndex(c => c.id === vehicle.id);
         this.vehiclesList[i] = res;
@@ -90,37 +92,39 @@ export class VehicleService {
       : this.findAll();
   }
 
-  public delete(user: Vehicle) {
-    return this.http.delete<Vehicle>(this.vehiclesUrl + "/" + user.id).pipe(
+  public delete(vehicle: Vehicle) {
+    return this.http.delete<Vehicle>(this.vehiclesUrl + "/delete/" + vehicle.id).pipe(
       map(() => {
-        this.vehiclesList.splice(this.vehiclesList.findIndex(c => c.id === user.id))
+        let auxVehiclesList: Vehicle[] = [...this.vehiclesList];
+        auxVehiclesList.splice(this.vehiclesList.findIndex(c => c.id === vehicle.id), 1);
+        this.vehiclesList = [...auxVehiclesList];
         this.snackBar.open('El vehículo fue eliminado con éxito.', '', {
           duration: 2000,
         });
         return this.vehiclesList;
-      }), catchError( () => {
-        this.snackBar.open('Hubo un error al eliminar el vehículo.', '', {
-          duration: 2000,
-        });
-        return this.vehicles;
-      }
-    ))
+      }), catchError(() => {
+          this.snackBar.open('Hubo un error al eliminar el vehículo.', '', {
+            duration: 2000,
+          });
+          return this.vehicles;
+        }
+      ))
   }
 
   deleteDrivingProfile(vehicleId: number, drivingProfileId: number) {
-    return this.http.delete(this.vehiclesUrl + "/" + vehicleId + "/delete-driving-profile/" + drivingProfileId).pipe(
+    return this.http.delete(this.drivingProfiles + "/delete/" + drivingProfileId).pipe(
       map(() => {
         this.findAll();//Reload the list of vehicles to account for changes
         this.snackBar.open('El perfil de conducción fue eliminado con éxito.', '', {
           duration: 2000,
         });
         return this.vehiclesList;
-      }), catchError( () => {
-          this.snackBar.open('Hubo un error al eliminar el perfil de conducción.', '', {
-            duration: 2000,
-          });
-          return this.vehicles;
-        })
+      }), catchError(() => {
+        this.snackBar.open('Hubo un error al eliminar el perfil de conducción.', '', {
+          duration: 2000,
+        });
+        return this.vehicles;
+      })
     );
   }
 
@@ -138,11 +142,12 @@ export class VehicleService {
     );
   }
 
-  assignVehicle(monitoringSystemId: number, vehicleId: number) {
+  assignMonitoringSystem(monitoringSystemId: number, vehicleId: number) {
     return this.http.put(this.vehiclesUrl + '/' + vehicleId + '/set-monitoring-system/' + monitoringSystemId, {}).pipe(
-      map((res: Vehicle) => {
-        let i = this.vehiclesList.findIndex(c => c.id === vehicleId);
-        this.vehiclesList[i] = res;
+      map((res) => {
+        this.vehicles.subscribe((res) => {
+          this.vehiclesList = res;
+        });
         this.snackBar.open('El servicio de monitoreo fue asignado al vehículo con éxito.', '', {
           duration: 2000,
         });
@@ -157,22 +162,21 @@ export class VehicleService {
     );
   }
 
-  unassignVehicle(vehicleId: number) {
-    return this.http.delete(this.vehiclesUrl + "/" + vehicleId + "/remove-monitoring-system").pipe(
-      map((res: Vehicle) => {
+  unassignMonitoringSystem(vehicleId: number) {
+    return this.http.delete(this.vehiclesUrl + '/' + vehicleId + '/remove-monitoring-system').pipe(
+      map(() => {
+        this.findAll().subscribe();
         this.snackBar.open('El servicio de monitoreo fue desasignado del vehículo con éxito.', '', {
           duration: 2000,
         });
-        return res;
+        return true;
       }),
       catchError(() => {
-        this.snackBar.open('Hubo un error al desasignar el servicio de monitoreo del vehículo', '', {
+        this.snackBar.open('Hubo un error al desasignar el servicio de monitoreo del vehículo.', '', {
           duration: 2000,
         });
-        return this.vehicles;
+        return undefined;
       })
     );
-    
   }
-
 }

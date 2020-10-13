@@ -4,7 +4,7 @@ import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
 import {VehicleService} from "../../../../shared/services/vehicle.service";
 import {Vehicle} from "../../../../shared/models/vehicle";
 import {ClientService} from "../../../../shared/services/client.service";
-import {category} from "../../../../shared/models/category";
+import {Category} from "../../../../shared/models/category";
 import {Client} from "../../../../shared/models/client";
 import {Observable} from "rxjs";
 import {map, startWith} from "rxjs/operators";
@@ -16,7 +16,7 @@ import {map, startWith} from "rxjs/operators";
 })
 export class VehicleAddComponent implements OnInit {
   vehicleForm: FormGroup;
-  categories: category[] = [category.CAR,category.TRUCK,category.VAN,category.MOTORCYCLE];
+  categories: Category[] = [Category.CAR, Category.TRUCK, Category.VAN, Category.MOTORCYCLE];
   categoryLabels: string[] = ['Automóvil', 'Camión', 'Camioneta', 'Moto'];
   clients: Client[] = [];
   filteredOptions: Observable<Client[]>;
@@ -26,7 +26,8 @@ export class VehicleAddComponent implements OnInit {
     @Inject(MAT_DIALOG_DATA) public data: Vehicle,
     public vehicleService: VehicleService,
     public clientService: ClientService
-  ) {}
+  ) {
+  }
 
   ngOnInit(): void {
 
@@ -50,28 +51,34 @@ export class VehicleAddComponent implements OnInit {
       category: new FormControl('', [
         Validators.required
       ]),
-      client: new FormControl('', [(control: FormControl) => {
-        if (this.clients.findIndex(c => c.id === control.value.id)) {
-        return {'exists': true};
-        }
-        return null;
-      }
-      ])
+      client: new FormControl('', [])
     });
     this.getClients();
   }
 
-  get licensePlate() { return this.vehicleForm.get('licensePlate'); }
+  get licensePlate() {
+    return this.vehicleForm.get('licensePlate');
+  }
 
-  get category() { return this.vehicleForm.get('category'); }
+  get category() {
+    return this.vehicleForm.get('category');
+  }
 
-  get brand() { return this.vehicleForm.get('brand'); }
+  get brand() {
+    return this.vehicleForm.get('brand');
+  }
 
-  get model() { return this.vehicleForm.get('model'); }
+  get model() {
+    return this.vehicleForm.get('model');
+  }
 
-  get client() { return this.vehicleForm.get('client'); }
+  get client() {
+    return this.vehicleForm.get('client');
+  }
 
-  get invalid() { return this.vehicleForm.invalid }
+  get invalid() {
+    return this.vehicleForm.invalid
+  }
 
   close(): void {
     this.dialogRef.close();
@@ -83,9 +90,16 @@ export class VehicleAddComponent implements OnInit {
       Object.keys(this.vehicleForm.value).map((key) => this.data[key] = this.vehicleForm.value[key]);
 
       this.vehicleService.save(this.data).subscribe(res => {
-        this.dialogRef.close(res);
-        this.vehicleService.vehicles.subscribe();
-      })
+        //The 'empty' Client passed in constructor has an id of -1.
+        // So if that Client has not been modified, it doesn't execute the following if statement.
+        if (res && this.data.client?.id !== -1 && this.data.client?.id !== undefined) {
+          this.clientService.assignVehicle(this.data.client.id, res.id).subscribe(() => {
+            this.dialogRef.close(res);
+          })
+        } else {
+          this.dialogRef.close(res);
+        }
+      });
     }
   }
 

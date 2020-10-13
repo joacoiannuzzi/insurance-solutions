@@ -1,10 +1,10 @@
-import { MonitoringSystemAddComponent } from './../../app/pages/monitoring-system/monitoring-system-add/monitoring-system-add.component';
-import { MonitoringSystem } from './../models/monitoringSystem';
+import { MonitoringSystem } from '../models/monitoringSystem';
 import {Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {Observable} from "rxjs";
 import {catchError, map} from "rxjs/operators";
 import {MatSnackBar} from "@angular/material/snack-bar";
+import {environment} from "../../environments/environment";
 
 @Injectable()
 export class MonitoringSystemService {
@@ -13,10 +13,10 @@ export class MonitoringSystemService {
   private monitoringSystemsList: MonitoringSystem[];
 
   constructor(private http: HttpClient, private snackBar: MatSnackBar) {
-    this.monitoringSystemsUrl = 'http://localhost:8080/monitoring-systems';
+    this.monitoringSystemsUrl = environment.url + '/monitoring-systems';
   }
 
-  private findAll(): Observable<MonitoringSystem[]> {
+  public findAll(): Observable<MonitoringSystem[]> {
     return this.http.get(this.monitoringSystemsUrl + "/get-all").pipe(
       map((res: any) => {
         this.monitoringSystemsList = res.map((monitoringSystem) => MonitoringSystem.fromJsonObject(monitoringSystem));
@@ -30,7 +30,7 @@ export class MonitoringSystemService {
       })
     );
   }
-  
+
   get monitoringSystems(): Observable<MonitoringSystem[]> {
     return this.monitoringSystemsList
       ? new Observable<MonitoringSystem[]>((subscriber) =>
@@ -46,6 +46,7 @@ export class MonitoringSystemService {
         this.snackBar.open('El servicio de monitoreo fue guardado con éxito.', '', {
           duration: 2000,
         });
+        return res;
       }),
       catchError(() => {
         this.snackBar.open('Hubo un error al guardar el vehículo.', '', {
@@ -109,7 +110,4 @@ export class MonitoringSystemService {
       })
     );
   }
-  
-
- 
 }

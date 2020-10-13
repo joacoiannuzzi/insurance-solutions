@@ -191,7 +191,7 @@ public class BookControllerTest {
         */
         mockMvc
                 .perform(delete("/books/delete/" + id))
-                .andExpect(status().isOk());
+                .andExpect(status().isNoContent());
 
         /*
         Compruebo que no exista el libro con ese ID en la db

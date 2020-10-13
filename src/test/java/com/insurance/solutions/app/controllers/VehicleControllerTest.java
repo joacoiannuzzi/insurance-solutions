@@ -30,6 +30,8 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import static com.insurance.solutions.app.models.ENUM_CATEGORY.*;
+import static com.insurance.solutions.app.utils.MonitoringSystemUtils.makeMonitoringSystem;
+import static com.insurance.solutions.app.utils.VehicleUtils.makeVehicle;
 import static org.junit.Assert.*;
 import static org.springframework.http.MediaType.APPLICATION_JSON;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
@@ -267,10 +269,10 @@ class VehicleControllerTest {
                 .perform(get(urlBase + "/" + savedVehicle.getId()))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(APPLICATION_JSON))
-                .andExpect(content().string(toJson(savedVehicle)))
+                .andExpect(content().string(toJson(makeVehicle(savedVehicle, true))))
                 .andReturn();
 
-        assertEquals(toJson(savedVehicle), response.getResponse().getContentAsString());
+        assertEquals(toJson(makeVehicle(savedVehicle, true)), response.getResponse().getContentAsString());
 
         long mockID = 100L;
 
@@ -279,126 +281,6 @@ class VehicleControllerTest {
 
         mockMvc
                 .perform(get(urlBase + "/" + mockID))
-                .andExpect(status().isNotFound());
-    }
-
-    @Test
-    void addDrivingProfileToVehicle() throws Exception {
-        Vehicle vehicle = new Vehicle("72634", CAR, "brand", "model");
-
-        DrivingProfile drivingProfile = new DrivingProfile(130, 150, 50,
-                3423, 2423, new Date(), new Date());
-
-        Long vehicleId = vehicleService.createVehicle(vehicle).getId();
-        DrivingProfile savedDrivingProfile = drivingProfileService.createDrivingProfile(drivingProfile);
-
-        mockMvc
-                .perform(
-                        put(urlBase + "/" + vehicleId + "/add-driving-profile/" + savedDrivingProfile.getId())
-                )
-                .andExpect(status().isOk())
-                .andExpect(content().contentType(APPLICATION_JSON))
-                .andExpect(content().json(toJson(savedDrivingProfile)));
-
-        // add existing driving profile to not existing vehicle
-        long vehicleMockId = 1000L;
-
-        Exception exception1 = assertThrows(ResourceNotFoundException.class, () -> vehicleService.addDrivingProfile(vehicleMockId, savedDrivingProfile.getId()));
-        assertEquals("Vehicle not found.", exception1.getMessage());
-
-        mockMvc
-                .perform(
-                        put(urlBase + "/" + vehicleMockId + "/add-driving-profile/" + savedDrivingProfile.getId())
-                )
-                .andExpect(status().isNotFound());
-
-        // add not existing driving profile to existing vehicle
-        long drivingProfileMockID = 1000L;
-
-        Exception exception2 = assertThrows(ResourceNotFoundException.class, () -> vehicleService.addDrivingProfile(vehicleId, drivingProfileMockID));
-        assertEquals("Driving profile not found.", exception2.getMessage());
-
-        mockMvc
-                .perform(
-                        put(urlBase + "/" + vehicleId + "/add-driving-profile/" + drivingProfileMockID)
-                )
-                .andExpect(status().isNotFound());
-
-        // add not existing driving profile to not existing vehicle
-        Exception exception3 = assertThrows(ResourceNotFoundException.class, () -> vehicleService.addDrivingProfile(vehicleMockId, drivingProfileMockID));
-        assertEquals("Vehicle not found.", exception3.getMessage());
-
-        mockMvc
-                .perform(
-                        put(urlBase + "/" + vehicleMockId + "/add-driving-profile/" + drivingProfileMockID)
-                )
-                .andExpect(status().isNotFound());
-    }
-
-    @Test
-    void deleteDrivingProfileFromClient() throws Exception {
-
-        Vehicle vehicle = new Vehicle("72634", CAR, "brand", "model");
-
-        DrivingProfile drivingProfile = new DrivingProfile(130, 150, 50,
-                3423, 2423, new Date(), new Date());
-
-
-        long drivingProfileMockID = 1000L;
-
-        long vehicleMockID = 1000L;
-
-        long vehicleId = vehicleService.createVehicle(vehicle).getId();
-
-        DrivingProfile savedDrivingProfile = drivingProfileService.createDrivingProfile(drivingProfile);
-
-        vehicleService.addDrivingProfile(vehicleId, savedDrivingProfile.getId());
-
-        List<DrivingProfile> beforeVehicleDrivingProfiles = vehicleService.getDrivingProfilesOfVehicle(vehicleId);
-
-        mockMvc
-                .perform(
-                        delete(urlBase + "/" + vehicleId + "/delete-driving-profile/" + savedDrivingProfile.getId())
-                )
-                .andExpect(status().isOk());
-
-        List<DrivingProfile> afterVehicleDrivingProfiles = vehicleService.getDrivingProfilesOfVehicle(vehicleId);
-
-        assertNotEquals("Size should not be the same", beforeVehicleDrivingProfiles.size(), afterVehicleDrivingProfiles.size());
-
-        // Delete existing drivingProfile in not existing vehicle
-
-        DrivingProfile savedDrivingProfile2 = drivingProfileService.createDrivingProfile(drivingProfile);
-
-        Exception exception1 = assertThrows(BadRequestException.class, () -> vehicleService.deleteDrivingProfile(vehicleMockID, savedDrivingProfile2.getId()));
-        assertEquals("Driving profile does not belong to vehicle.", exception1.getMessage());
-
-        mockMvc
-                .perform(
-                        delete(urlBase + "/" + vehicleMockID + "/delete-driving-profile/" + savedDrivingProfile2.getId())
-                )
-                .andExpect(status().isBadRequest());
-
-        // Delete not existing drivingProfile in existing vehicle
-
-        Exception exception2 = assertThrows(ResourceNotFoundException.class, () -> vehicleService.deleteDrivingProfile(vehicleId, drivingProfileMockID));
-        assertEquals("Driving profile not found.", exception2.getMessage());
-
-        mockMvc
-                .perform(
-                        delete(urlBase + "/" + vehicleId + "/delete-driving-profile/" + drivingProfileMockID)
-                )
-                .andExpect(status().isNotFound());
-
-        // Delete not existing drivingProfile in not existing vehicle
-
-        Exception exception3 = assertThrows(ResourceNotFoundException.class, () -> vehicleService.deleteDrivingProfile(vehicleMockID, drivingProfileMockID));
-        assertEquals("Driving profile not found.", exception3.getMessage());
-
-        mockMvc
-                .perform(
-                        delete(urlBase + "/" + vehicleMockID + "/delete-driving-profile/" + drivingProfileMockID)
-                )
                 .andExpect(status().isNotFound());
     }
 
@@ -417,13 +299,9 @@ class VehicleControllerTest {
                 456, 345, new Date(), new Date());
 
         Long vehicleId = vehicleService.createVehicle(vehicle).getId();
-        DrivingProfile savedDrivingProfile1 = drivingProfileService.createDrivingProfile(drivingProfile1);
-        DrivingProfile savedDrivingProfile2 = drivingProfileService.createDrivingProfile(drivingProfile2);
-        DrivingProfile savedDrivingProfile3 = drivingProfileService.createDrivingProfile(drivingProfile3);
-
-        vehicleService.addDrivingProfile(vehicleId, savedDrivingProfile1.getId());
-        vehicleService.addDrivingProfile(vehicleId, savedDrivingProfile2.getId());
-        vehicleService.addDrivingProfile(vehicleId, savedDrivingProfile3.getId());
+        DrivingProfile savedDrivingProfile1 = drivingProfileService.createDrivingProfile(drivingProfile1, vehicleId);
+        DrivingProfile savedDrivingProfile2 = drivingProfileService.createDrivingProfile(drivingProfile2, vehicleId);
+        DrivingProfile savedDrivingProfile3 = drivingProfileService.createDrivingProfile(drivingProfile3, vehicleId);
 
         List<DrivingProfile> drivingProfiles = List.of(savedDrivingProfile1, savedDrivingProfile2, savedDrivingProfile3);
 
@@ -520,7 +398,7 @@ class VehicleControllerTest {
                 .perform(
                         delete(urlBase + "/delete/" + vehicleId)
                 )
-                .andExpect(status().isOk());
+                .andExpect(status().isNoContent());
 
         Exception exception = Assert.assertThrows(ResourceNotFoundException.class, () -> vehicleService.findById(vehicleId));
         Assert.assertEquals("Vehicle not found.", exception.getMessage());
@@ -552,11 +430,11 @@ class VehicleControllerTest {
 
     @Test
     void setMonitoringSystemToVehicle() throws Exception {
-        final var vehicle = new Vehicle("345345345", CAR, "brand", "model");
-        final var monitoringSystem = new MonitoringSystem("name_34524234", "sensor_4592704729034", "monitoringCompany_4598458345");
+        final Vehicle vehicle = new Vehicle("345345345", CAR, "brand", "model");
+        final MonitoringSystem monitoringSystem = new MonitoringSystem("name_34524234", "sensor_4592704729034", "monitoringCompany_4598458345");
 
         Long vehicleId = vehicleService.createVehicle(vehicle).getId();
-        final var savedMonitoringSystem = monitoringSystemService.createMonitoringSystem(monitoringSystem);
+        final MonitoringSystem savedMonitoringSystem = monitoringSystemService.createMonitoringSystem(monitoringSystem);
         savedMonitoringSystem.setIsAssigned(true);
 
         mockMvc
