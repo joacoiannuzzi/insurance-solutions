@@ -4,6 +4,7 @@ import {Vehicle} from '../models/vehicle';
 import {Observable} from "rxjs";
 import {catchError, map} from "rxjs/operators";
 import {MatSnackBar} from "@angular/material/snack-bar";
+import {environment} from "../../environments/environment";
 
 @Injectable()
 export class VehicleService {
@@ -13,8 +14,8 @@ export class VehicleService {
   private vehiclesList: Vehicle[];
 
   constructor(private http: HttpClient, private snackBar: MatSnackBar) {
-    this.vehiclesUrl = 'http://localhost:8080/vehicles';
-    this.drivingProfiles = 'http://localhost:8080/driving-profiles';
+    this.vehiclesUrl = environment.url + '/vehicles';
+    this.drivingProfiles = environment.url + '/driving-profiles';
   }
 
   public getClientLess(): Observable<Vehicle[]> {
@@ -155,6 +156,24 @@ export class VehicleService {
           duration: 2000,
         });
         return this.vehicles;
+      })
+    );
+  }
+
+  unassignMonitoringSystem(vehicleId: number) {
+    return this.http.delete(this.vehiclesUrl + '/' + vehicleId + '/remove-monitoring-system').pipe(
+      map(() => {
+        this.findAll().subscribe();
+        this.snackBar.open('El servicio de monitoreo fue desasignado del vehículo con éxito.', '', {
+          duration: 2000,
+        });
+        return true;
+      }),
+      catchError(() => {
+        this.snackBar.open('Hubo un error al desasignar el servicio de monitoreo del vehículo.', '', {
+          duration: 2000,
+        });
+        return undefined;
       })
     );
   }

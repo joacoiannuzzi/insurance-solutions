@@ -5,6 +5,7 @@ import {Observable} from "rxjs";
 import {catchError, map} from "rxjs/operators";
 import {Vehicle} from "../models/vehicle";
 import {MatSnackBar} from "@angular/material/snack-bar";
+import {environment} from "../../environments/environment";
 
 @Injectable()
 export class ClientService {
@@ -13,7 +14,7 @@ export class ClientService {
   private clientsList: Client[];
 
   constructor(private http: HttpClient, private snackBar: MatSnackBar) {
-    this.clientsUrl = 'http://localhost:8080/clients';
+    this.clientsUrl = environment.url + '/clients';
   }
 
   private findAll(): Observable<Client[]> {

@@ -4,6 +4,7 @@ import {HttpClient} from '@angular/common/http';
 import {Observable} from "rxjs";
 import {catchError, map} from "rxjs/operators";
 import {MatSnackBar} from "@angular/material/snack-bar";
+import {environment} from "../../environments/environment";
 
 @Injectable()
 export class MonitoringSystemService {
@@ -12,7 +13,7 @@ export class MonitoringSystemService {
   private monitoringSystemsList: MonitoringSystem[];
 
   constructor(private http: HttpClient, private snackBar: MatSnackBar) {
-    this.monitoringSystemsUrl = 'http://localhost:8080/monitoring-systems';
+    this.monitoringSystemsUrl = environment.url + '/monitoring-systems';
   }
 
   public findAll(): Observable<MonitoringSystem[]> {
@@ -108,9 +109,5 @@ export class MonitoringSystemService {
         return this.monitoringSystems;
       })
     );
-  }
-
-  unassignVehicle(MonitoringSystemId: number) {
-    //Back not implemented yet
   }
 }

@@ -26,10 +26,10 @@ export class Vehicle {
   }
 
   static fromJsonObject(jsonObject: any): Vehicle {
-    return new Vehicle(jsonObject.id, jsonObject.licensePlate, jsonObject.category, jsonObject.brand, jsonObject.model, jsonObject.drivingProfiles, jsonObject.monitoringSystems, jsonObject.client);
+    return new Vehicle(jsonObject.id, jsonObject.licensePlate, jsonObject.category, jsonObject.brand, jsonObject.model, jsonObject.drivingProfiles, jsonObject.monitoringSystem, jsonObject.client);
   }
 
-  static categoryToString(cat: string): string {
+  static categoryToString(cat: string | Category): string {
     switch (cat) {
       case "CAR":
         return 'Automóvil';

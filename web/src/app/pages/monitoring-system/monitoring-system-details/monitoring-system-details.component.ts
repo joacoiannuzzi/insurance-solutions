@@ -71,7 +71,8 @@ export class MonitoringSystemDetailsComponent implements OnInit {
       .afterClosed()
       .subscribe((confirmed: boolean) => {
         if (confirmed) {
-          this.monitoringSystemService.unassignVehicle(this.monitoringSystem.id);
+          this.vehicleService.unassignMonitoringSystem(this.monitoringSystem.id);
+          this.monitoringSystemService.findAll().subscribe();
         }
       })
   }

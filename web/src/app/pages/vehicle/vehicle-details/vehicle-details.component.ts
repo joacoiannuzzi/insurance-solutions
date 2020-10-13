@@ -6,6 +6,7 @@ import {ConfirmDialogComponent} from "../../../components/confirm-dialog/confirm
 import {DrivingProfilesComponent} from "../driving-profiles/driving-profiles.component";
 import {VehicleUpdateComponent} from "../vehicle-update/vehicle-update.component";
 import {MonitoringSystemAssignationComponent} from "../monitoring-system-assignation/monitoring-system-assignation.component";
+import {Category} from "../../../../shared/models/category";
 
 @Component({
   selector: 'app-vehicle-details',
@@ -73,10 +74,18 @@ export class VehicleDetailsComponent implements OnInit {
   }
 
   unassignMonitoringSystem() {
-
+    this.dialog.open(ConfirmDialogComponent, {
+      data: "¿Está seguro de que desea desasignar al servicio de monitoreo " + this.vehicle.monitoringSystem.name + "?"
+    })
+      .afterClosed()
+      .subscribe((confirmed: boolean) => {
+        if (confirmed) {
+          this.vehicleService.unassignMonitoringSystem(this.vehicle.id);
+        }
+      })
   }
 
-  categoryToString(category: string) {
+  categoryToString(category: string | Category) {
     return Vehicle.categoryToString(category);
   }
 }
