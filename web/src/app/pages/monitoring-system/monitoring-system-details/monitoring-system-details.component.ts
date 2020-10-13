@@ -67,9 +67,11 @@ export class MonitoringSystemDetailsComponent implements OnInit {
   }
 
   createDrivingProfile(): void {
+     const driPro =  new DrivingProfile(0, 0, 0, "", 0, 0, '', 0)
+     driPro.monitoringSystemId = this.monitoringSystem.id
     const dialogRef = this.dialog.open(DrivingProfileAddComponent, {
+      data: driPro,
       width: '1000px',
-      data: new DrivingProfile(0, 0, 0, "", 0, 0, '', 0,)
     });
     dialogRef.afterClosed().subscribe(() => {
       this.closeDetails();
