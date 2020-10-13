@@ -80,7 +80,9 @@ export class VehicleDetailsComponent implements OnInit {
       .afterClosed()
       .subscribe((confirmed: boolean) => {
         if (confirmed) {
-          this.vehicleService.unassignMonitoringSystem(this.vehicle.id);
+          this.vehicleService.unassignMonitoringSystem(this.vehicle.id).subscribe(res => {
+            this.vehicle.monitoringSystem = undefined;
+          });
         }
       })
   }
