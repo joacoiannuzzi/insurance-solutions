@@ -1,6 +1,5 @@
 <div *ngIf="loading">
-  <mat-spinner class="spinner"
-               mode="indeterminate"></mat-spinner>
+  <mat-spinner class="spinner" mode="indeterminate"></mat-spinner>
 </div>
 <mat-card [hidden]="!loading" class="mat-card my-5">
   <mat-card-header>
@@ -9,7 +8,7 @@
   <mat-card-content class="table-options">
     <mat-form-field>
       <mat-label>Buscar...</mat-label>
-      <input matInput (keyup)="applyFilter($event)" #input>
+      <input matInput (keyup)="applyFilter($event)" #input />
     </mat-form-field>
     <span></span>
     <button (click)="openDialog()" mat-mini-fab color="primary" aria-label="Example icon button with a delete icon">
@@ -18,7 +17,6 @@
   </mat-card-content>
   <mat-card-content class="mat-elevation-z8">
     <table mat-table [dataSource]="dataSource" matSort>
-
       <!--- Note that these columns can be defined in any order.
             The actual rendered columns are set as a property on the row definition" -->
 
@@ -58,20 +56,35 @@
       <ng-container matColumnDef="options">
         <th mat-header-cell *matHeaderCellDef> Opciones</th>
         <td mat-cell *matCellDef="let element">
-          <button mat-mini-fab color="primary" type="button" (click)="openVehicleDetails(element)">
+          <button
+            mat-mini-fab
+            color="primary"
+            type="button"
+            (click)="openVehicleDetails(element)"
+          >
             <mat-icon>remove_red_eye</mat-icon>
           </button>
-          <button mat-mini-fab color="primary" type="button" (click)="updateVehicle(element)">
+          <button
+            mat-mini-fab
+            color="primary"
+            type="button"
+            (click)="updateVehicle(element)"
+          >
             <mat-icon>edit</mat-icon>
           </button>
-          <button mat-mini-fab color="warn" type="button" (click)="deleteVehicle(element)">
+          <button
+            mat-mini-fab
+            color="warn"
+            type="button"
+            (click)="deleteVehicle(element)"
+          >
             <mat-icon>delete</mat-icon>
           </button>
         </td>
       </ng-container>
 
       <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
 
       <!-- Row shown when there is no matching data. -->
       <tr class="mat-row" *matNoDataRow>
@@ -80,6 +93,5 @@
     </table>
 
     <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]"></mat-paginator>
-
   </mat-card-content>
 </mat-card>

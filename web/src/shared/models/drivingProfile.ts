@@ -7,6 +7,7 @@ export class DrivingProfile {
   minSpeed: number;
   startDate: string;
   totalDrivingTime: number;
+  monitoringSystemId?: number;
 
   constructor(
     id: number,

@@ -30,7 +30,7 @@ export class ClientDetailsComponent implements OnInit {
 
   private openVehicles(client: Client): void {
     this.dialog.open(ClientVehiclesComponent, {
-      width: '800px',
+      width: '1000px',
       data: client
     });
   }
@@ -54,7 +54,7 @@ export class ClientDetailsComponent implements OnInit {
 
   updateClient() {
     const dialogRef = this.dialog.open(ClientUpdateComponent, {
-      width: '800px',
+      width: '1000px',
       data: this.client
     });
     dialogRef.afterClosed().subscribe((res)=>{

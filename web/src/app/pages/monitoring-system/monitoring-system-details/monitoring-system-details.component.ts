@@ -1,3 +1,4 @@
+import { DrivingProfileAddComponent } from './../../vehicle/driving-profile-add/driving-profile-add.component';
 import {Component, Inject, OnInit} from '@angular/core';
 import {MAT_DIALOG_DATA, MatDialog, MatDialogRef} from "@angular/material/dialog";
 import {ConfirmDialogComponent} from "../../../components/confirm-dialog/confirm-dialog.component";
@@ -6,6 +7,7 @@ import {MonitoringSystemService} from "../../../../shared/services/monitoring-sy
 import {VehicleService} from "../../../../shared/services/vehicle.service";
 import {MonitoringSystemVehicleAssignationComponent} from "../monitoring-system-vehicle-assignation/monitoring-system-vehicle-assignation.component";
 import {MonitoringSystemUpdateComponent} from "../monitoring-system-update/monitoring-system-update.component";
+import { DrivingProfile } from 'src/shared/models/drivingProfile';
 
 @Component({
   selector: 'app-monitoring-system-details',
@@ -15,10 +17,10 @@ import {MonitoringSystemUpdateComponent} from "../monitoring-system-update/monit
 export class MonitoringSystemDetailsComponent implements OnInit {
 
   constructor(public dialogRef: MatDialogRef<MonitoringSystemDetailsComponent>,
-              @Inject(MAT_DIALOG_DATA) public monitoringSystem: MonitoringSystem,
-              public vehicleService: VehicleService,
-              public monitoringSystemService: MonitoringSystemService,
-              public dialog: MatDialog
+    @Inject(MAT_DIALOG_DATA) public monitoringSystem: MonitoringSystem,
+    public vehicleService: VehicleService,
+    public monitoringSystemService: MonitoringSystemService,
+    public dialog: MatDialog
   ) {
   }
 
@@ -56,12 +58,24 @@ export class MonitoringSystemDetailsComponent implements OnInit {
 
   assignMonitoringSystem() {
     const dialogRef = this.dialog.open(MonitoringSystemVehicleAssignationComponent, {
-      width: '800px',
+      width: '1000px',
       data: this.monitoringSystem
     });
     dialogRef.afterClosed().subscribe((res)=>{
       this.dialogRef.close(res);
     });
+  }
+
+  createDrivingProfile(): void {
+     const driPro =  new DrivingProfile(0, 0, 0, "", 0, 0, '', 0)
+     driPro.monitoringSystemId = this.monitoringSystem.id
+    const dialogRef = this.dialog.open(DrivingProfileAddComponent, {
+      data: driPro,
+      width: '1000px',
+    });
+    dialogRef.afterClosed().subscribe(() => {
+      this.closeDetails();
+    })
   }
 
   unassignMonitoringSystem() {

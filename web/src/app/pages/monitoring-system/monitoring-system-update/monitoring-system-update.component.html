@@ -5,7 +5,7 @@
       <div class="item">
         <mat-form-field appearance="fill">
           <mat-label>Nombre del Servicio</mat-label>
-          <input matInput [formControl]="name" placeholder="Vigilancia">
+          <input matInput [formControl]="name" placeholder="Vigilancia" required>
           <mat-error *ngIf="name.errors?.pattern && !name.errors?.minlength && !name.errors?.required">
             Solo caracteres válidos
           </mat-error>
@@ -21,7 +21,7 @@
       <div class="item">
         <mat-form-field appearance="fill">
           <mat-label>Nombre del Sensor</mat-label>
-          <input matInput [formControl]="sensor" placeholder="Cámara">
+          <input matInput [formControl]="sensor" placeholder="Cámara" required>
           <mat-error *ngIf="sensor.errors?.pattern && !sensor.errors?.minlength && !sensor.errors?.required">
             Solo caracteres válidos
           </mat-error>
@@ -37,7 +37,7 @@
       <div class="item">
         <mat-form-field appearance="fill">
           <mat-label>Empresa</mat-label>
-          <input matInput [formControl]="monitoringCompany" placeholder="Verisure">
+          <input matInput [formControl]="monitoringCompany" placeholder="Verisure" required>
           <mat-error *ngIf="monitoringCompany.errors?.minlength && !monitoringCompany.errors?.required">
           </mat-error>
           <mat-error *ngIf="monitoringCompany.errors?.required">

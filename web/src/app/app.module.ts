@@ -1,3 +1,5 @@
+import { DrivingProfileService } from './../shared/services/driving-profile.service';
+import { DrivingProfileAddComponent } from './pages/vehicle/driving-profile-add/driving-profile-add.component';
 import { MonitoringSystemUpdateComponent } from './pages/monitoring-system/monitoring-system-update/monitoring-system-update.component';
 import { MonitoringSystemAddComponent } from './pages/monitoring-system/monitoring-system-add/monitoring-system-add.component';
 import { MonitoringSystemService } from '../shared/services/monitoring-system.service';
@@ -45,6 +47,8 @@ import { MonitoringSystemAssignationComponent } from './pages/vehicle/monitoring
 import { InsuranceCompanyListComponent } from './pages/insurance-company/insurance-company-list/insurance-company-list.component';
 import { InsuranceCompanyAddComponent } from './pages/insurance-company/insurance-company-add/insurance-company-add.component';
 import {InsuranceCompanyService} from "../shared/services/insurance-company.service";
+import {MatTooltipModule} from '@angular/material/tooltip';
+import {MatDatepickerModule} from '@angular/material/datepicker';
 
 @NgModule({
   declarations: [
@@ -71,7 +75,9 @@ import {InsuranceCompanyService} from "../shared/services/insurance-company.serv
     MonitoringSystemAssignationComponent,
     MonitoringSystemAddComponent,
     InsuranceCompanyListComponent,
-    InsuranceCompanyAddComponent
+    InsuranceCompanyAddComponent,
+    MonitoringSystemAddComponent,
+    DrivingProfileAddComponent
    ],
   imports: [
     BrowserModule,
@@ -93,9 +99,12 @@ import {InsuranceCompanyService} from "../shared/services/insurance-company.serv
     MatPaginatorModule,
     MatGridListModule,
     MatSnackBarModule,
-    MatSelectModule
+    MatSelectModule,
+    MatTooltipModule,
+    MatDatepickerModule
+
   ],
-  providers: [ClientService, VehicleService, MonitoringSystemService, InsuranceCompanyService],
+  providers: [ClientService, VehicleService, MonitoringSystemService, InsuranceCompanyService, DrivingProfileService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
