@@ -95,7 +95,9 @@ export class VehicleService {
   public delete(vehicle: Vehicle) {
     return this.http.delete<Vehicle>(this.vehiclesUrl + "/delete/" + vehicle.id).pipe(
       map(() => {
-        this.vehiclesList.splice(this.vehiclesList.findIndex(c => c.id === vehicle.id))
+        let auxVehiclesList: Vehicle[] = [...this.vehiclesList];
+        auxVehiclesList.splice(this.vehiclesList.findIndex(c => c.id === vehicle.id), 1);
+        this.vehiclesList = [...auxVehiclesList];
         this.snackBar.open('El vehículo fue eliminado con éxito.', '', {
           duration: 2000,
         });

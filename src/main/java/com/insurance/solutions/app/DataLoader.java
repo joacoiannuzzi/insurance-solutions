@@ -56,7 +56,12 @@ public class DataLoader implements ApplicationRunner {
 
         List<Vehicle> vehicles = new ArrayList<>();
         Stream.of("Ka", "Fiesta", "EcoSport", "Puma", "Focus", "Mustang", "Taos", "Amarok", "Polo", "Gol", "T_Cross", "Vento")
-                .forEach(name -> vehicles.add(new Vehicle("AA-" + name + "-AA" , CAR, "Ford", name)));
+                .forEach(name -> {
+                    String number = "";
+                    if (vehicles.size() > 9) number = "0" + vehicles.size();
+                    else number = "00" + vehicles.size();
+                    vehicles.add(new Vehicle("AA" + number + "AA", CAR, "Ford", name));
+                });
 
         List<MonitoringSystem> monitoringSystems = new ArrayList<>();
         for (int i = 1; i < 9; i++)
