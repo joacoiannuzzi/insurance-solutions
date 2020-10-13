@@ -53,6 +53,7 @@ export class ClientService {
         this.snackBar.open('El cliente fué guardado con éxito.', '', {
           duration: 2000,
         });
+        return res;
       }),
       catchError(() => {
         this.snackBar.open('Hubo un error al guardar el cliente.', '', {
@@ -139,7 +140,7 @@ export class ClientService {
         let auxClientsList: Client[] = [...this.clientsList];
         auxClientsList.splice(this.clientsList.findIndex(c => c.id === user.id), 1);
         this.clientsList = [...auxClientsList];
-        this.snackBar.open('El cliente fué eliminado con éxito.', '', {
+        this.snackBar.open('El cliente fue eliminado con éxito.', '', {
           duration: 2000,
         });
         return this.clientsList;

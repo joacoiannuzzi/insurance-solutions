@@ -19,7 +19,7 @@ export class ClientAddComponent implements OnInit {
   constructor(
     public dialogRef: MatDialogRef<ClientAddComponent>,
     @Inject(MAT_DIALOG_DATA) public data: Client,
-    public clientService: ClientService,
+    public clientService: ClientService
   ) {
   }
 
@@ -73,9 +73,8 @@ export class ClientAddComponent implements OnInit {
       // Se mapea todos los values del form al objeto client
       Object.keys(this.clientForm.value).map((key) => this.data[key] = this.clientForm.value[key]);
 
-      this.clientService.save(this.data).subscribe(res => {
-        if (!res) this.dialogRef.close(res);
-        this.clientService.clients.subscribe();
+      this.clientService.save(this.data).subscribe(() => {
+        this.dialogRef.close();
       })
     }
   }

@@ -4,9 +4,9 @@
 </div>
 <mat-card [class.hidden]="loading" class="mat-card my-5">
   <mat-card-header>
-    <mat-card-title><h2>Servicios de Monitoreo</h2></mat-card-title>
+    <mat-card-title><h2>Empresas Aseguradoras</h2></mat-card-title>
   </mat-card-header>
-     <mat-card-content class="table-options">
+  <mat-card-content class="table-options">
     <mat-form-field>
       <mat-label>Buscar...</mat-label>
       <input matInput (keyup)="applyFilter($event)" #input>
@@ -17,45 +17,28 @@
     </button>
   </mat-card-content>
   <mat-card-content class="mat-elevation-z8">
-    <table mat-table [dataSource]="dataSource" matSort>
+    <table mat-table matSort [dataSource]="this.dataSource">
 
       <!--- Note that these columns can be defined in any order.
             The actual rendered columns are set as a property on the row definition" -->
 
+      <!-- name Column -->
       <ng-container matColumnDef="name">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header> Servicio </th>
-        <td mat-cell *matCellDef="let element"> {{element?.name}} </td>
-      </ng-container>
-
-      <ng-container matColumnDef="sensor">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header> Sensor </th>
-        <td mat-cell *matCellDef="let element"> {{element?.sensor}} </td>
-      </ng-container>
-
-      <ng-container matColumnDef="monitoringCompany">
         <th mat-header-cell *matHeaderCellDef mat-sort-header> Empresa </th>
-        <td mat-cell *matCellDef="let element"> {{element?.monitoringCompany}} </td>
-      </ng-container>
-
-      <ng-container matColumnDef="assigned">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header> Asignado </th>
-        <td mat-cell *matCellDef="let element">
-          <mat-icon color="warn" *ngIf="!element?.assigned">block</mat-icon>
-          <mat-icon *ngIf="element?.assigned">done_outline</mat-icon>
-        </td>
+        <td mat-cell *matCellDef="let element"> {{element.name}} </td>
       </ng-container>
 
       <!-- options Column -->
-      <ng-container matColumnDef="options">
+      <ng-container matColumnDef="options" class="options">
         <th mat-header-cell *matHeaderCellDef> Opciones </th>
         <td mat-cell *matCellDef="let element">
-          <button mat-mini-fab color="primary" type="button" (click)="openMonitoringSystemDetails(element)">
+          <button mat-mini-fab color="primary" type="button" (click)="openInsuranceCompanyDetails(element)">
             <mat-icon>remove_red_eye</mat-icon>
           </button>
-          <button mat-mini-fab color="primary" type="button" (click)="updateMonitoringSystem(element)">
+          <button mat-mini-fab color="primary" type="button" (click)="updateInsuranceCompany(element)">
             <mat-icon>edit</mat-icon>
           </button>
-          <button mat-mini-fab color="warn" type="button" (click)="deleteMonitoringSystem(element)">
+          <button mat-mini-fab color="warn" type="button" (click)="deleteInsuranceCompany(element)">
             <mat-icon>delete</mat-icon>
           </button>
         </td>
@@ -66,11 +49,11 @@
 
       <!-- Row shown when there is no matching data. -->
       <tr class="mat-row" *matNoDataRow>
-        <td class="mat-cell" colspan="4">No hay servicios de monitoreo.</td>
+        <td class="mat-cell" colspan="4">No hay empresas aseguradoras.</td>
       </tr>
     </table>
 
-   <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]"></mat-paginator>
+    <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]"></mat-paginator>
 
   </mat-card-content>
 </mat-card>

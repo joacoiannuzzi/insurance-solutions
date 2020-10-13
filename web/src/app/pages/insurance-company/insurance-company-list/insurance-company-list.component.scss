@@ -1,4 +1,3 @@
-
 table {
   width: 100%;
 }
@@ -17,11 +16,10 @@ table {
   span {
     flex: 1;
   }
+}
 
-  .not-assigned {
-    color: green;
-    fill: green;
-  }
+.mat-column-name {
+  width: 75%;
 }
 
 .hidden {

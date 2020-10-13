@@ -44,8 +44,11 @@ import { MonitoringSystemListComponent } from './pages/monitoring-system/monitor
 import { MonitoringSystemDetailsComponent } from './pages/monitoring-system/monitoring-system-details/monitoring-system-details.component';
 import { MonitoringSystemVehicleAssignationComponent } from './pages/monitoring-system/monitoring-system-vehicle-assignation/monitoring-system-vehicle-assignation.component';
 import { MonitoringSystemAssignationComponent } from './pages/vehicle/monitoring-system-assignation/monitoring-system-assignation.component';
-import {MatTooltipModule} from '@angular/material/tooltip'; 
-import {MatDatepickerModule} from '@angular/material/datepicker'; 
+import { InsuranceCompanyListComponent } from './pages/insurance-company/insurance-company-list/insurance-company-list.component';
+import { InsuranceCompanyAddComponent } from './pages/insurance-company/insurance-company-add/insurance-company-add.component';
+import {InsuranceCompanyService} from "../shared/services/insurance-company.service";
+import {MatTooltipModule} from '@angular/material/tooltip';
+import {MatDatepickerModule} from '@angular/material/datepicker';
 
 @NgModule({
   declarations: [
@@ -70,6 +73,9 @@ import {MatDatepickerModule} from '@angular/material/datepicker';
     MonitoringSystemDetailsComponent,
     MonitoringSystemVehicleAssignationComponent,
     MonitoringSystemAssignationComponent,
+    MonitoringSystemAddComponent,
+    InsuranceCompanyListComponent,
+    InsuranceCompanyAddComponent,
     MonitoringSystemAddComponent,
     DrivingProfileAddComponent
    ],
@@ -98,7 +104,7 @@ import {MatDatepickerModule} from '@angular/material/datepicker';
     MatDatepickerModule
 
   ],
-  providers: [ClientService, VehicleService, MonitoringSystemService, DrivingProfileService],
+  providers: [ClientService, VehicleService, MonitoringSystemService, InsuranceCompanyService, DrivingProfileService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

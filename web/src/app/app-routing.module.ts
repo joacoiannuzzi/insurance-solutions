@@ -3,6 +3,7 @@ import { VehicleListComponent } from './pages/vehicle/vehicle-list/vehicle-list.
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import {ClientListComponent} from "./pages/client/client-list/client-list.component";
+import {InsuranceCompanyListComponent} from "./pages/insurance-company/insurance-company-list/insurance-company-list.component";
 
 const routes: Routes = [
   { path: 'clients', children: [
@@ -17,6 +18,11 @@ const routes: Routes = [
   {
     path: 'monitoring-systems', children: [
       { path: '', component: MonitoringSystemListComponent}
+    ]
+  },
+  {
+    path: 'insurance-companies', children: [
+      { path: '', component: InsuranceCompanyListComponent}
     ]
   }
 ];
