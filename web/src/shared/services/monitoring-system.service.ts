@@ -15,7 +15,7 @@ export class MonitoringSystemService {
     this.monitoringSystemsUrl = 'http://localhost:8080/monitoring-systems';
   }
 
-  private findAll(): Observable<MonitoringSystem[]> {
+  public findAll(): Observable<MonitoringSystem[]> {
     return this.http.get(this.monitoringSystemsUrl + "/get-all").pipe(
       map((res: any) => {
         this.monitoringSystemsList = res.map((monitoringSystem) => MonitoringSystem.fromJsonObject(monitoringSystem));

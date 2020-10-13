@@ -70,7 +70,6 @@ export class MonitoringSystemDetailsComponent implements OnInit {
     })
       .afterClosed()
       .subscribe((confirmed: boolean) => {
-        console.log(confirmed)
         if (confirmed) {
           this.monitoringSystemService.unassignVehicle(this.monitoringSystem.id);
         }

@@ -61,6 +61,7 @@ export class VehicleAssignationComponent implements OnInit {
     if (this.myControl.valid) {
       this.clientService.assignVehicle(this.client.id, this.myControl.value?.id).subscribe((res) => {
         this.dialogRef.close(res);
+        this.vehiclesService.findAll().subscribe();
       });
     }
   }
