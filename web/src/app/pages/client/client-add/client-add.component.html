@@ -3,11 +3,11 @@
 
   <form [formGroup]="clientForm">
     <div class="form-container">
-      
+
       <div class="item">
         <mat-form-field appearance="fill">
           <mat-label>Nombre</mat-label>
-          <input matInput [formControl]="firstName" placeholder="Juan">
+          <input matInput [formControl]="firstName" placeholder="Juan" required>
           <mat-error *ngIf="firstName.errors?.pattern && !firstName.errors?.minlength && !firstName.errors?.required">
             Solo caracteres validos
           </mat-error>
@@ -23,7 +23,7 @@
       <div class="item">
         <mat-form-field appearance="fill">
           <mat-label>Apellido</mat-label>
-          <input matInput [formControl]="lastName" placeholder="Perez">
+          <input matInput [formControl]="lastName" placeholder="Perez" required>
           <mat-error *ngIf="lastName.errors?.pattern && !lastName.errors?.minlength && !lastName.errors?.required">
             Solo caracteres validos
           </mat-error>
@@ -39,7 +39,7 @@
       <div class="item">
         <mat-form-field appearance="fill">
           <mat-label>DNI</mat-label>
-          <input matInput [formControl]="dni" placeholder="12345678">
+          <input matInput [formControl]="dni" placeholder="12345678" required>
           <mat-error *ngIf="dni.errors?.maxlength && !dni.errors?.required">
             Tiene que tener un máximo de 9 caracteres
           </mat-error>
@@ -55,7 +55,7 @@
       <div class="item">
         <mat-form-field appearance="fill">
           <mat-label>Teléfono</mat-label>
-          <input matInput [formControl]="phoneNumber" placeholder="1234567890">
+          <input matInput [formControl]="phoneNumber" placeholder="1234567890" required>
           <mat-error *ngIf="phoneNumber.errors?.required">
             Se <strong>requiere</strong> teléfono
           </mat-error>
@@ -65,7 +65,7 @@
       <div class="item">
         <mat-form-field appearance="fill">
           <mat-label>Email </mat-label>
-          <input matInput [formControl]="mail" placeholder="example@mail.com">
+          <input matInput [formControl]="mail" placeholder="example@mail.com" required>
           <mat-error *ngIf="mail.errors?.email && !mail.errors?.required">
             Ingresar una dirección de email valida
           </mat-error>
