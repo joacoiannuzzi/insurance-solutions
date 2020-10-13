@@ -5,6 +5,7 @@ import {MatDialog} from "@angular/material/dialog";
 import {InsuranceCompanyService} from "../../../../shared/services/insurance-company.service";
 import {MatTableDataSource} from "@angular/material/table";
 import {InsuranceCompany} from "../../../../shared/models/insuranceCompany";
+import {InsuranceCompanyAddComponent} from "../insurance-company-add/insurance-company-add.component";
 
 @Component({
   selector: 'app-insurance-company-list',
@@ -52,14 +53,14 @@ export class InsuranceCompanyListComponent implements OnInit, AfterViewInit {
   }
 
   openDialog(): void {
-    /*const dialogRef = this.dialog.open(InsuranceCompanyAddComponent, {
+    const dialogRef = this.dialog.open(InsuranceCompanyAddComponent, {
       width: '800px',
-      data: new InsuranceCompany(null, "")
+      data: new InsuranceCompany(-1, "")
     });
 
     dialogRef.afterClosed().subscribe(() => {
       this.getInsuranceCompanies();
-    });*/
+    });
   }
 
   deleteInsuranceCompany(insuranceCompany: InsuranceCompany) {

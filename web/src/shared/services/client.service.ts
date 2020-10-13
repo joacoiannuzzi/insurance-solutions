@@ -53,6 +53,7 @@ export class ClientService {
         this.snackBar.open('El cliente fué guardado con éxito.', '', {
           duration: 2000,
         });
+        return res;
       }),
       catchError(() => {
         this.snackBar.open('Hubo un error al guardar el cliente.', '', {
