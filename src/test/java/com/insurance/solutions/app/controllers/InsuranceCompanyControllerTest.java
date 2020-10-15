@@ -13,13 +13,16 @@ import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 
+import java.io.UnsupportedEncodingException;
+import java.util.Collections;
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
 import static org.springframework.http.MediaType.APPLICATION_JSON;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @SpringBootTest
 @AutoConfigureMockMvc
@@ -43,6 +46,11 @@ public class InsuranceCompanyControllerTest {
     private String toJson(Object o) throws JsonProcessingException {
         return objectMapper.writeValueAsString(o);
     }
+
+    private <T> T toClass(MvcResult response, Class<T> type) throws JsonProcessingException, UnsupportedEncodingException {
+        return objectMapper.readValue(response.getResponse().getContentAsString(), type);
+    }
+
 
     @Test
     void createValidInsuranceCompany() throws Exception {
@@ -95,6 +103,49 @@ public class InsuranceCompanyControllerTest {
         int sizeAfter = insuranceCompaniesAfter.size();
 
         assertEquals(sizeBefore, sizeAfter);
+
+    }
+
+
+    @Test
+    void getAllInsuranceCompanies() throws Exception {
+
+        final var all = insuranceCompanyService.getAllInsuranceCompanies();
+
+        MvcResult mvcResult = mockMvc
+                .perform(
+                        get(urlBase + "/get-all")
+                )
+                .andExpect(status().isOk())
+                .andExpect(content().contentType(APPLICATION_JSON))
+                .andExpect(content().json(toJson(all)))
+                .andReturn();
+
+        List list = toClass(mvcResult, List.class);
+
+        assertEquals("Size should be the same", all.size(), list.size());
+
+    }
+
+    @Test
+    void getEmptyAllInsuranceCompanies() throws Exception {
+
+        insuranceCompanyRepository.deleteAll();
+
+        final var emptyList = Collections.emptyList();
+
+        MvcResult mvcResult = mockMvc
+                .perform(
+                        get(urlBase + "/get-all")
+                )
+                .andExpect(status().isOk())
+                .andExpect(content().contentType(APPLICATION_JSON))
+                .andExpect(content().json(toJson(emptyList)))
+                .andReturn();
+
+        List list = toClass(mvcResult, List.class);
+
+        assertEquals("Size should be the same", emptyList.size(), list.size());
 
     }
 }

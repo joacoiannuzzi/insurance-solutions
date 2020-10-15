@@ -133,6 +133,7 @@ class MonitoringSystemControllerTest {
                 .andExpect(status().isNotFound());
     }
 
+    @Test
     void getAllMonitoringSystem() throws Exception {
 
         List<MonitoringSystem> all = monitoringSystemService.getAllMonitoringSystems();

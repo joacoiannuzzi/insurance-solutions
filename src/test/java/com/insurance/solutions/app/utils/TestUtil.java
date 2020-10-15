@@ -26,4 +26,6 @@ public class TestUtil {
         return new Vehicle(String.valueOf(random.nextLong()), randomVehicleCategory(),
                 String.valueOf(random.nextLong()), String.valueOf(random.nextLong()));
     }
+
+
 }

@@ -6,6 +6,8 @@ import com.insurance.solutions.app.repositories.InsuranceCompanyRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class InsuranceCompanyService {
 
@@ -19,4 +21,7 @@ public class InsuranceCompanyService {
         return insuranceCompanyRepository.save(insuranceCompany);
     }
 
+    public List<InsuranceCompany> getAllInsuranceCompanies() {
+        return (List<InsuranceCompany>) insuranceCompanyRepository.findAll();
+    }
 }

@@ -9,9 +9,10 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-
+import static com.insurance.solutions.app.utils.InsuranceCompanyUtils.makeInsuranceCompanies;
 import static com.insurance.solutions.app.utils.InsuranceCompanyUtils.makeInsuranceCompany;
 
+import java.util.List;
 
 @RestController
 @RequestMapping("/insurance-companies")
@@ -25,5 +26,10 @@ public class InsuranceCompanyController {
     public ResponseEntity<InsuranceCompanyResource> createInsuranceCompany(@Valid @RequestBody InsuranceCompany insuranceCompany) {
         return new ResponseEntity<>(makeInsuranceCompany(insuranceCompanyService.createInsuranceCompany(insuranceCompany),
                  true), HttpStatus.CREATED);
+    }
+
+    @GetMapping("get-all")
+    public ResponseEntity<List<InsuranceCompanyResource>> getAllInsuranceCompanies() {
+        return ResponseEntity.ok(makeInsuranceCompanies(insuranceCompanyService.getAllInsuranceCompanies(), true));
     }
 }

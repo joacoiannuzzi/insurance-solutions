@@ -19,7 +19,7 @@ public class InsuranceCompany {
     @OneToMany(mappedBy = "insuranceCompany",
             fetch = FetchType.EAGER,
             cascade = CascadeType.ALL)
-    private final Set<Client> clients  = new HashSet<>();
+    private final Set<Client> clients = new HashSet<>();
 
     public InsuranceCompany() {
     }
