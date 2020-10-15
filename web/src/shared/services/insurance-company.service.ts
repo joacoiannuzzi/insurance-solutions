@@ -1,25 +1,23 @@
-import { Injectable } from '@angular/core';
+import {Injectable} from '@angular/core';
 import {InsuranceCompany} from "../models/insuranceCompany";
 import {HttpClient} from "@angular/common/http";
 import {MatSnackBar} from "@angular/material/snack-bar";
 import {environment} from "../../environments/environment";
 import {Observable} from "rxjs";
+import {catchError, map} from "rxjs/operators";
 
 @Injectable()
 export class InsuranceCompanyService {
 
   private readonly insuranceCompaniesUrl: string;
-  private insuranceCompaniesList: InsuranceCompany[] = [new InsuranceCompany(99,'company1'),new InsuranceCompany(100, 'company2')];
+  private insuranceCompaniesList: InsuranceCompany[];
 
   constructor(private http: HttpClient, private snackBar: MatSnackBar) {
     this.insuranceCompaniesUrl = environment.url + '/insurance-companies';
   }
 
   private findAll(): Observable<InsuranceCompany[]> {
-    //Implement when there is back-end
-
-
-    /*return this.http.get(this.insuranceCompaniesUrl).pipe(
+    return this.http.get(this.insuranceCompaniesUrl).pipe(
       map((res: any) => {
         this.insuranceCompaniesList = res.map((insuranceCompany) => InsuranceCompany.fromJsonObject(insuranceCompany));
         return this.insuranceCompaniesList;
@@ -30,10 +28,7 @@ export class InsuranceCompanyService {
         });
         return this.insuranceCompanies;
       })
-    );*/
-    return new Observable<InsuranceCompany[]>((subscriber) =>
-      subscriber.next(this.insuranceCompaniesList)
-    )
+    );
   }
 
   delete(insuranceCompany: InsuranceCompany) {
@@ -68,12 +63,20 @@ export class InsuranceCompanyService {
   }
 
   public save(insuranceCompany: InsuranceCompany) {
-    //Implement when there is back-end
-
-
-    this.insuranceCompaniesList.push(insuranceCompany);
-    return new Observable<InsuranceCompany>((subscriber) =>
-      subscriber.next(insuranceCompany)
-    )
+    return this.http.post<InsuranceCompany>(this.insuranceCompaniesUrl + "/create", insuranceCompany).pipe(
+      map((res: any) => {
+        this.insuranceCompaniesList = [...this.insuranceCompaniesList, InsuranceCompany.fromJsonObject(res)]
+        this.snackBar.open('La compañia fué guardada con éxito.', '', {
+          duration: 2000,
+        });
+        return res;
+      }),
+      catchError(() => {
+        this.snackBar.open('Hubo un error al guardar el cliente.', '', {
+          duration: 2000,
+        });
+        return this.insuranceCompaniesList;
+      })
+    );
   }
 }
