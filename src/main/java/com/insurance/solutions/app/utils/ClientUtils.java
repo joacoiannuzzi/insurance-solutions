@@ -1,11 +1,13 @@
 package com.insurance.solutions.app.utils;
 
 import com.insurance.solutions.app.models.Client;
+import com.insurance.solutions.app.models.InsuranceCompany;
 import com.insurance.solutions.app.resources.ClientResource;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.insurance.solutions.app.utils.InsuranceCompanyUtils.makeInsuranceCompany;
 import static com.insurance.solutions.app.utils.VehicleUtils.makeVehicles;
 
 public class ClientUtils {
@@ -18,6 +20,8 @@ public class ClientUtils {
     public static ClientResource makeClient(Client client, boolean relationship) {
         if (client == null) return null;
 
+        InsuranceCompany insuranceCompany = client.getInsuranceCompany();
+
         return new ClientResource(
                 client.getId(),
                 client.getDni(),
@@ -25,7 +29,7 @@ public class ClientUtils {
                 client.getLastName(),
                 client.getPhoneNumber(),
                 client.getMail(),
-                client.getInsuranceCompany(),
+                relationship && insuranceCompany != null ? makeInsuranceCompany(insuranceCompany, false) : null,
                 relationship ? makeVehicles(new ArrayList<>(client.getVehicles()), false) : new ArrayList<>()
         );
     }

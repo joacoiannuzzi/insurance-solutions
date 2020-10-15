@@ -49,8 +49,7 @@ public class DataLoader implements ApplicationRunner {
                             "Client" + i,
                             "Lastname",
                             "123456789" + i,
-                            "client" + i + "@gmail.com",
-                            "company"
+                            "client" + i + "@gmail.com"
                     )
             );
 

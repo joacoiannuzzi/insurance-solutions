@@ -42,6 +42,7 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
                         VEHICLE,
                         DRIVING_PROFILE,
                         MONITORING_SYSTEM,
+                        INSURANCE_COMPANY,
 
                         // Example
                         CRUD_BOOKS,

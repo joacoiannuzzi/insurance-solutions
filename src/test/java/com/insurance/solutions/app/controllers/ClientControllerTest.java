@@ -24,6 +24,7 @@ import java.io.UnsupportedEncodingException;
 import java.util.Collections;
 import java.util.List;
 
+import static com.insurance.solutions.app.utils.ClientUtils.makeClient;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertThrows;
 import static org.springframework.http.MediaType.APPLICATION_JSON;
@@ -65,16 +66,16 @@ public class ClientControllerTest {
         clientRepository.saveAll(
                 List.of(
                         new Client("4564564", "Annie", "Sims", "(006)-902-3913",
-                                "annie.sims@example.com", "segur car"),
+                                "annie.sims@example.com"),
 
                         new Client("342342", "Leo", "Lucas", "(304)-520-6733",
-                                "leo.lucas@example.com", "osde"),
+                                "leo.lucas@example.com"),
 
                         new Client("5252342", "Olivia", "Pena", "(097)-119-2103",
-                                "olivia.pena@example.com", "LA CUEVA MOTOS"),
+                                "olivia.pena@example.com"),
 
                         new Client("345345343", "Clayton", "Murphy", "(237)-281-4159",
-                                "clayton.murphy@example.com", "Seguros Russo / Taller Felix")
+                                "clayton.murphy@example.com")
 
                 )
         );
@@ -84,7 +85,7 @@ public class ClientControllerTest {
     @Test
     void createValidClient() throws Exception {
         Client client = new Client("1", "Juan", "Perez", "123",
-                "juanperez@mail.com", "Seguro");
+                "juanperez@mail.com");
         client.setId(100L);
 
         MvcResult response = mockMvc
@@ -129,7 +130,7 @@ public class ClientControllerTest {
     @Test
     void createExistingClient() throws Exception {
         Client client = new Client("2", "Juan", "Perez", "123",
-                "juanperez@mail.com", "Seguro 2");
+                "juanperez@mail.com");
 
         mockMvc
                 .perform(
@@ -157,7 +158,7 @@ public class ClientControllerTest {
     @Test
     void getClientById() throws Exception {
         Client client = new Client("3", "Juan", "Perez", "123",
-                "juanperez@mail.com", "Seguro 3");
+                "juanperez@mail.com");
 
         Client newClient = clientService.createClient(client);
 
@@ -165,10 +166,10 @@ public class ClientControllerTest {
                 .perform(get("/clients/get/" + newClient.getId()))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(APPLICATION_JSON))
-                .andExpect(content().string(toJson(client)))
+                .andExpect(content().string(toJson(makeClient(newClient, true))))
                 .andReturn();
 
-        assertEquals(toJson(newClient), response.getResponse().getContentAsString());
+        assertEquals(toJson(makeClient(newClient, true)), response.getResponse().getContentAsString());
 
         long mockID = 10056747576567L;
 
@@ -260,9 +261,9 @@ public class ClientControllerTest {
     @Test
     public void updateClients() throws Exception {
         Client client = new Client("4", "Juan", "Perez", "123",
-                "juanperez@mail.com", "Seguro 4");
+                "juanperez@mail.com");
         Client updatedClient = new Client("5", "Juan", "Perez", "123",
-                "juanperez@mail.com", "Seguro 5");
+                "juanperez@mail.com");
 
         Long id = clientService.createClient(client).getId();
 
@@ -297,7 +298,7 @@ public class ClientControllerTest {
     void addVehicleToClient() throws Exception {
 
         Client client = new Client("1000", "name", "last name", "123",
-                "mail@mail.com", "company");
+                "mail@mail.com");
 
 
         Vehicle vehicle = new Vehicle("1", ENUM_CATEGORY.CAR,
@@ -354,7 +355,7 @@ public class ClientControllerTest {
     void deleteVehicleFromClient() throws Exception {
 
         Client client = new Client("11", "name1", "last name 2", "1234",
-                "mail2@mail.com", "company2");
+                "mail2@mail.com");
 
 
         Vehicle vehicle = new Vehicle("2", ENUM_CATEGORY.CAR,

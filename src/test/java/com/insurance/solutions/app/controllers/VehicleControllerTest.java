@@ -178,7 +178,7 @@ class VehicleControllerTest {
         clientRepository.deleteAll();
 
         Client client = new Client("1", "Juan", "Perez", "123",
-                "juanperez@mail.com", "Seguro");
+                "juanperez@mail.com");
         Client savedClient = clientService.createClient(client);
 
         Vehicle vehicle = new Vehicle("86899789", CAR,
@@ -188,7 +188,7 @@ class VehicleControllerTest {
         clientService.addVehicle(savedVehicle.getId(), savedClient.getId());
 
         Client client2 = new Client("3345", "Jorge", "Perez", "3453453",
-                "jorgeperez@mail.com", "SEcure");
+                "jorgeperez@mail.com");
         Client savedClient2 = clientService.createClient(client2);
 
         Vehicle vehicle2 = new Vehicle("34634334", MOTORCYCLE,
@@ -219,7 +219,7 @@ class VehicleControllerTest {
         clientRepository.deleteAll();
 
         Client client = new Client("1", "Juan", "Perez", "123",
-                "juanperez@mail.com", "Seguro");
+                "juanperez@mail.com");
         Client savedClient = clientService.createClient(client);
 
         Vehicle vehicle = new Vehicle("86899789", CAR,
@@ -229,7 +229,7 @@ class VehicleControllerTest {
         clientService.addVehicle(savedVehicle.getId(), savedClient.getId());
 
         Client client2 = new Client("3345", "Jorge", "Perez", "3453453",
-                "jorgeperez@mail.com", "SEcure");
+                "jorgeperez@mail.com");
         Client savedClient2 = clientService.createClient(client2);
 
         Vehicle vehicle2 = new Vehicle("34634334", MOTORCYCLE,

@@ -13,7 +13,7 @@ public class ClientResource {
     private final String lastName;
     private final String phoneNumber;
     private final String mail;
-    private final String insuranceCompany;
+    private final InsuranceCompanyResource insuranceCompany;
     private final List<VehicleResource> vehicles;
 
     public ClientResource(@JsonProperty("id") Long id,
@@ -22,7 +22,7 @@ public class ClientResource {
                           @JsonProperty("lastName") String lastName,
                           @JsonProperty("phoneNumber") String phoneNumber,
                           @JsonProperty("mail") String mail,
-                          @JsonProperty("insuranceCompany") String insuranceCompany,
+                          @JsonProperty("insuranceCompany") InsuranceCompanyResource insuranceCompany,
                           @JsonProperty("vehicles") List<VehicleResource> vehicles) {
         this.id = id;
         this.dni = dni;
@@ -58,7 +58,7 @@ public class ClientResource {
         return mail;
     }
 
-    public String getInsuranceCompany() {
+    public InsuranceCompanyResource getInsuranceCompany() {
         return insuranceCompany;
     }
 

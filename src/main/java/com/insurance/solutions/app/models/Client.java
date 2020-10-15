@@ -1,5 +1,7 @@
 package com.insurance.solutions.app.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import java.util.HashSet;
@@ -28,8 +30,10 @@ public class Client {
     @NotBlank(message = "Mail can not be blank")
     private String mail;
 
-    @NotBlank(message = "Insurance company can not be blank")
-    private String insuranceCompany;
+    @JsonIgnore
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "insurance_company_id")
+    private InsuranceCompany insuranceCompany;
 
     @OneToMany(mappedBy = "client",
             fetch = FetchType.EAGER,
@@ -40,13 +44,12 @@ public class Client {
     public Client() {
     }
 
-    public Client(String dni, String firstName, String lastName, String phoneNumber, String mail, String insuranceCompany) {
+    public Client(String dni, String firstName, String lastName, String phoneNumber, String mail) {
         this.dni = dni;
         this.firstName = firstName;
         this.lastName = lastName;
         this.phoneNumber = phoneNumber;
         this.mail = mail;
-        this.insuranceCompany = insuranceCompany;
     }
 
     public void addVehicle(Vehicle vehicle) {
@@ -105,11 +108,11 @@ public class Client {
         this.mail = mail;
     }
 
-    public String getInsuranceCompany() {
+    public InsuranceCompany getInsuranceCompany() {
         return insuranceCompany;
     }
 
-    public void setInsuranceCompany(String insuranceCompany) {
+    public void setInsuranceCompany(InsuranceCompany insuranceCompany) {
         this.insuranceCompany = insuranceCompany;
     }
 
