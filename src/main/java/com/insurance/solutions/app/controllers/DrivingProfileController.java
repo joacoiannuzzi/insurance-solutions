@@ -38,4 +38,13 @@ public class DrivingProfileController {
     public ResponseEntity<DrivingProfileResource> getDrivingProfileById(@PathVariable Long id) {
         return ResponseEntity.ok(makeDrivingProfile(drivingProfileService.findById(id), true));
     }
+
+    @PutMapping("update/{drivingProfileId}")
+    public ResponseEntity<DrivingProfileResource> updateDrivingProfile(@PathVariable Long drivingProfileId, @RequestBody DrivingProfile drivingProfile) {
+        return ResponseEntity.ok(
+                makeDrivingProfile(drivingProfileService.updateDrivingProfile(drivingProfileId, drivingProfile), true)
+        );
+    }
+
+
 }

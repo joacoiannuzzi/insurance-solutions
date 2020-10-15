@@ -111,4 +111,5 @@ public class DrivingProfile {
     public void setVehicle(Vehicle vehicle) {
         this.vehicle = vehicle;
     }
+
 }

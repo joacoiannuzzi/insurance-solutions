@@ -47,4 +47,19 @@ public class DrivingProfileService {
     public List<DrivingProfile> findAll() {
         return (List<DrivingProfile>) drivingProfileRepository.findAll();
     }
+
+    public DrivingProfile updateDrivingProfile(Long drivingProfileId, DrivingProfile drivingProfile) {
+        final var oldDrivingProfile = findById(drivingProfileId);
+        final var newDrivingProfile = new DrivingProfile(drivingProfile.getAvgSpeed(),
+                drivingProfile.getMaxSpeed(),
+                drivingProfile.getMinSpeed(),
+                drivingProfile.getTotalDrivingTime(),
+                drivingProfile.getAvgDailyDrivingTime(),
+                drivingProfile.getStartDate(),
+                drivingProfile.getFinishDate()
+        );
+
+        newDrivingProfile.setId(oldDrivingProfile.getId());
+        return drivingProfileRepository.save(newDrivingProfile);
+    }
 }

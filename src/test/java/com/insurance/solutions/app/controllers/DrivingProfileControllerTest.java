@@ -171,4 +171,43 @@ class DrivingProfileControllerTest {
                 .andExpect(status().isNotFound());
     }
 
+    @Test
+    public void updateDrivingProfile() throws Exception {
+        final var vehicle = createRandomVehicle();
+        final var savedVehicle = vehicleService.createVehicle(vehicle);
+
+        final var drivingProfile = createRandomDrivingProfile();
+
+        final var drivingProfileUpdated = createRandomDrivingProfile();
+
+        final var id = drivingProfileService.createDrivingProfile(drivingProfile, savedVehicle.getId()).getId();
+
+        assertEquals(toJson(drivingProfile), toJson(drivingProfileService.findById(id)));
+
+        mockMvc
+                .perform(
+                        put(urlBase + "/update/" + id)
+                                .contentType(APPLICATION_JSON)
+                                .content(toJson(drivingProfileUpdated))
+                )
+                .andExpect(status().isOk());
+
+        drivingProfileUpdated.setId(id);
+        assertEquals(toJson(drivingProfileUpdated), toJson(drivingProfileService.findById(id)));
+
+        long mockID = 1000L;
+
+        Exception exception = assertThrows(ResourceNotFoundException.class, () -> drivingProfileService.updateDrivingProfile(mockID, drivingProfileUpdated));
+        assertEquals("Driving profile not found.", exception.getMessage());
+
+        mockMvc
+                .perform(
+                        put(urlBase + "/update/" + mockID)
+                                .contentType(APPLICATION_JSON)
+                                .content(toJson(drivingProfileUpdated))
+                )
+                .andExpect(status().isNotFound());
+    }
+
+
 }
