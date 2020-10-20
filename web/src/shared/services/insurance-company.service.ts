@@ -84,9 +84,7 @@ export class InsuranceCompanyService {
     return this.http.put<InsuranceCompany>(this.insuranceCompaniesUrl + "/update/" + insuranceCompany.id, insuranceCompany).pipe(
       map((res: InsuranceCompany) => {
         let i = this.insuranceCompaniesList.findIndex(c => c.id === insuranceCompany.id);
-        let auxInsuranceCompaniesList: InsuranceCompany[] = [...this.insuranceCompaniesList];
-        auxInsuranceCompaniesList[i] = res;
-        this.insuranceCompaniesList = [...auxInsuranceCompaniesList];
+        this.insuranceCompaniesList[i] = res;
         this.snackBar.open('La empresa aseguradora fué actualizada con éxito.', '', {
           duration: 2000,
         });
