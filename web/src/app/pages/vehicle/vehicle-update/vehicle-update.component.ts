@@ -1,5 +1,5 @@
 import {Component, Inject, OnInit} from '@angular/core';
-import {FormControl, FormGroup, Validators} from "@angular/forms";
+import {AbstractControl, FormControl, FormGroup, ValidatorFn, Validators} from "@angular/forms";
 import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
 import {Vehicle} from "../../../../shared/models/vehicle";
 import {VehicleService} from "../../../../shared/services/vehicle.service";
@@ -15,6 +15,7 @@ export class VehicleUpdateComponent implements OnInit {
   vehicleForm: FormGroup;
   categories: Category[] = [Category.CAR, Category.TRUCK, Category.VAN, Category.MOTORCYCLE];
   categoryLabels: string[] = ['Automóvil', 'Camión', 'Camioneta', 'Moto'];
+  vehicleLicensePlates = [];
 
   constructor(
     private dialogRef: MatDialogRef<VehicleUpdateComponent>,
@@ -24,12 +25,25 @@ export class VehicleUpdateComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.getLicensePlates();
+
+    function validateNotExists(plate: String, plates: Vehicle[]): ValidatorFn {
+      return (control: AbstractControl): {[key: string]: any} | null => {
+        let forbidden = false;
+        if(plates.filter((l)=>{plate == l.licensePlate}).length) {
+          forbidden = true;
+        }
+        return forbidden ? {forbiddenName: {value: control.value}} : null;
+      };
+    }
+
     this.vehicleForm = new FormGroup({
       licensePlate: new FormControl(this.vehicle.licensePlate, [
         Validators.required,
         Validators.minLength(6),
         //  To accept license plates from 1994-2016 (argentine format) and 2016-present (mercosur format).
-        Validators.pattern('(([A-Z]){2}([0-9]){3}([A-Z]){2})|(([A-Z]){3}([0-9]){3})|(([a-z]){3}([0-9]){3})')
+        Validators.pattern('(([A-Z]){2}([0-9]){3}([A-Z]){2})|(([A-Z]){3}([0-9]){3})|(([a-z]){3}([0-9]){3})'),
+        validateNotExists(this.vehicle.licensePlate, this.vehicleLicensePlates)
       ]),
       brand: new FormControl(this.vehicle.brand, [
         Validators.required,
@@ -45,6 +59,12 @@ export class VehicleUpdateComponent implements OnInit {
         Validators.required
       ]),
     });
+  }
+
+  private getLicensePlates() {
+    this.vehicleService.vehicles.subscribe((res) => {
+      this.vehicleLicensePlates = res;
+    })
   }
 
   get licensePlate() {
