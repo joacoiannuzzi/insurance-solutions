@@ -71,7 +71,7 @@ public class MonitoringSystemService {
     }
 
     public List<MonitoringSystem> getAllMonitoringSystemsWithoutVehicle() {
-        return monitoringSystemRepository.findAllByIsAssignedIsFalse();
+        return monitoringSystemRepository.findAllByVehicleIsNull();
     }
 
     public void deleteAll() {
