@@ -22,10 +22,7 @@ public class ClientService {
     private VehicleRepository vehicleRepository;
 
     public Client createClient(Client client) {
-        if (clientRepository.existsByDniAndInsuranceCompany(client.getDni(), client.getInsuranceCompany()))
-            throw new BadRequestException("El cliente con DNI: " + client.getDni() + " y perteneciente a la compania " +
-                    client.getInsuranceCompany() + " ya existe.");
-
+        validateClient(client);
         return clientRepository.save(client);
     }
 
@@ -50,7 +47,10 @@ public class ClientService {
 
     public Client updateClient(Long clientId, Client client) {
         Client oldClient = clientRepository.findById(clientId).orElseThrow(() -> new ResourceNotFoundException("Client not found."));
+
         Client newClient = new Client(client.getDni(), client.getFirstName(), client.getLastName(), client.getPhoneNumber(), client.getMail());
+        newClient.setInsuranceCompany(oldClient.getInsuranceCompany());
+        validateClient(newClient);
 
         newClient.setId(oldClient.getId());
         return clientRepository.save(newClient);
@@ -82,5 +82,19 @@ public class ClientService {
 
     public List<Vehicle> getVehiclesWithoutClient() {
         return vehicleRepository.findAllByClientIsNull();
+    }
+
+    private void validateClient(Client client) {
+        if (clientRepository.existsByDniAndInsuranceCompany(client.getDni(), client.getInsuranceCompany())) {
+            String exceptionMessage = "El cliente con DNI: " + client.getDni();
+
+            if (client.getInsuranceCompany() != null) exceptionMessage += " y perteneciente a la compania " + client.getInsuranceCompany().getName();
+            else exceptionMessage += " que no pertence a una compania";
+
+            exceptionMessage += " ya existe";
+
+            throw new BadRequestException(exceptionMessage);
+        }
+
     }
 }
