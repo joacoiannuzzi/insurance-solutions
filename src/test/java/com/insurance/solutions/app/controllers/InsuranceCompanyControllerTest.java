@@ -2,8 +2,10 @@ package com.insurance.solutions.app.controllers;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.insurance.solutions.app.exceptions.ResourceNotFoundException;
 import com.insurance.solutions.app.models.InsuranceCompany;
 import com.insurance.solutions.app.repositories.InsuranceCompanyRepository;
+import com.insurance.solutions.app.services.ClientService;
 import com.insurance.solutions.app.services.InsuranceCompanyService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,11 +19,11 @@ import java.io.UnsupportedEncodingException;
 import java.util.Collections;
 import java.util.List;
 
+import static com.insurance.solutions.app.utils.TestUtil.createRandomInsuranceCompany;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertThrows;
 import static org.springframework.http.MediaType.APPLICATION_JSON;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @SpringBootTest
@@ -42,6 +44,9 @@ public class InsuranceCompanyControllerTest {
 
     @Autowired
     private InsuranceCompanyService insuranceCompanyService;
+
+    @Autowired
+    private ClientService clientService;
 
     private String toJson(Object o) throws JsonProcessingException {
         return objectMapper.writeValueAsString(o);
@@ -106,11 +111,10 @@ public class InsuranceCompanyControllerTest {
 
     }
 
-
     @Test
     void getAllInsuranceCompanies() throws Exception {
 
-        final var all = insuranceCompanyService.getAllInsuranceCompanies();
+        final var all = insuranceCompanyService.findAll();
 
         MvcResult mvcResult = mockMvc
                 .perform(
@@ -147,5 +151,92 @@ public class InsuranceCompanyControllerTest {
 
         assertEquals("Size should be the same", emptyList.size(), list.size());
 
+    }
+
+    @Test
+    void deleteInsuranceCompany() throws Exception {
+        final var insuranceCompany = createRandomInsuranceCompany();
+        final var savedInsuranceCompany = insuranceCompanyService.createInsuranceCompany(insuranceCompany);
+
+        mockMvc
+                .perform(
+                        delete(urlBase + "/delete/" + savedInsuranceCompany.getId())
+                )
+                .andExpect(status().isNoContent());
+
+        final var exception = assertThrows(ResourceNotFoundException.class,
+                () -> insuranceCompanyService.findById(savedInsuranceCompany.getId())
+        );
+        assertEquals("Insurance company not found.", exception.getMessage());
+
+        mockMvc
+                .perform(
+                        delete(urlBase + "/delete/" + savedInsuranceCompany.getId())
+                )
+                .andExpect(status().isNotFound());
+
+        // Delete non existing insurance company
+
+        final var insuranceCompanyMockID = 1000L;
+
+        final var before = insuranceCompanyService.findAll();
+
+        final var exception2 = assertThrows(ResourceNotFoundException.class,
+                () -> insuranceCompanyService.deleteInsuranceCompanyById(insuranceCompanyMockID)
+        );
+        assertEquals("Insurance company not found.", exception2.getMessage());
+
+        mockMvc
+                .perform(
+                        delete(urlBase + "/delete/" + insuranceCompanyMockID)
+                )
+                .andExpect(status().isNotFound());
+        final var after = insuranceCompanyService.findAll();
+
+        assertEquals("Size should be the same", before.size(), after.size());
+
+
+    }
+
+    @Test
+    public void updateInsuranceCompany() throws Exception {
+        final var insuranceCompany = createRandomInsuranceCompany();
+        final var insuranceCompanyUpdated = createRandomInsuranceCompany();
+
+        final var id = insuranceCompanyService.createInsuranceCompany(insuranceCompany).getId();
+
+        assertEquals(toJson(insuranceCompany), toJson(insuranceCompanyService.findById(id)));
+
+        mockMvc
+                .perform(
+                        put(urlBase + "/update/" + id)
+                                .contentType(APPLICATION_JSON)
+                                .content(toJson(insuranceCompanyUpdated))
+                )
+                .andExpect(status().isOk());
+
+        insuranceCompanyUpdated.setId(id);
+        assertEquals(toJson(insuranceCompanyUpdated), toJson(insuranceCompanyService.findById(id)));
+
+        long mockID = 1000L;
+
+        final var before = insuranceCompanyService.findAll();
+
+        Exception exception = assertThrows(ResourceNotFoundException.class,
+                () -> insuranceCompanyService.updateInsuranceCompany(mockID, insuranceCompanyUpdated)
+        );
+        assertEquals("Insurance company not found.", exception.getMessage());
+
+        mockMvc
+                .perform(
+                        put(urlBase + "/update/" + mockID)
+                                .contentType(APPLICATION_JSON)
+                                .content(toJson(insuranceCompanyUpdated))
+                )
+                .andExpect(status().isNotFound());
+
+        final var after = insuranceCompanyService.findAll();
+
+        assertEquals("Size should be the same", before.size(), after.size());
     }
 }

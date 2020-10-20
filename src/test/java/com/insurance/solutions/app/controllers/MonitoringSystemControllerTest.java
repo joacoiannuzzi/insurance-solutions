@@ -7,9 +7,10 @@ import com.insurance.solutions.app.models.MonitoringSystem;
 import com.insurance.solutions.app.models.Vehicle;
 import com.insurance.solutions.app.repositories.MonitoringSystemRepository;
 import com.insurance.solutions.app.services.MonitoringSystemService;
-import org.junit.Assert;
 import com.insurance.solutions.app.services.VehicleService;
 import com.insurance.solutions.app.utils.FunctionUtils;
+import com.insurance.solutions.app.utils.TestUtil;
+import org.junit.Assert;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -21,7 +22,6 @@ import org.springframework.test.web.servlet.MvcResult;
 import java.io.UnsupportedEncodingException;
 import java.util.Collections;
 import java.util.List;
-import java.util.Random;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -30,9 +30,6 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertThrows;
 import static org.springframework.http.MediaType.APPLICATION_JSON;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @SpringBootTest
@@ -200,16 +197,14 @@ class MonitoringSystemControllerTest {
 
         // with 10 vehicles
 
-        final var vehicles = Stream.generate(new Random()::nextInt)
+        final var vehicles = Stream.generate(TestUtil::createRandomVehicle)
                 .limit(10)
-                .map(number -> new Vehicle("licensePlate_" + number, CAR, "brand_" + number, "model_" + number))
-                .map(vehicle -> vehicleService.createVehicle(vehicle))
+                .map(vehicleService::createVehicle)
                 .collect(Collectors.toList());
 
-        final var monitoringSystems = Stream.generate(new Random()::nextInt)
+        final var monitoringSystems = Stream.generate(TestUtil::createRandomMonitoringSystem)
                 .limit(20)
-                .map(number -> new MonitoringSystem("name_" + number, "sensor_" + number, "monitoringCompany_" + number))
-                .map(monitoringSystem -> monitoringSystemService.createMonitoringSystem(monitoringSystem))
+                .map(monitoringSystemService::createMonitoringSystem)
                 .collect(Collectors.toList());
 
 
