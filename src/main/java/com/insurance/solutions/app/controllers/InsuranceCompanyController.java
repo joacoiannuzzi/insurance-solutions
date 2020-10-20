@@ -25,7 +25,7 @@ public class InsuranceCompanyController {
     @PostMapping("/create")
     public ResponseEntity<InsuranceCompanyResource> createInsuranceCompany(@Valid @RequestBody InsuranceCompany insuranceCompany) {
         return new ResponseEntity<>(makeInsuranceCompany(insuranceCompanyService.createInsuranceCompany(insuranceCompany),
-                 true), HttpStatus.CREATED);
+                true), HttpStatus.CREATED);
     }
 
     @GetMapping
@@ -37,5 +37,15 @@ public class InsuranceCompanyController {
     public ResponseEntity<?> deleteInsuranceCompany(@PathVariable Long id) {
         insuranceCompanyService.deleteInsuranceCompanyById(id);
         return ResponseEntity.noContent().build();
+    }
+
+    @PutMapping("/update/{id}")
+    public ResponseEntity<InsuranceCompanyResource> updateVehicle(@PathVariable Long id, @RequestBody InsuranceCompany insuranceCompany) {
+        return ResponseEntity.ok(
+                makeInsuranceCompany(
+                        insuranceCompanyService.updateInsuranceCompany(id, insuranceCompany),
+                        true
+                )
+        );
     }
 }
