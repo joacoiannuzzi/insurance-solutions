@@ -21,8 +21,7 @@ public class MonitoringSystemService {
     private VehicleRepository vehicleRepository;
 
     public MonitoringSystem createMonitoringSystem(MonitoringSystem monitoringSystem) {
-        if (monitoringSystemRepository.existsByNameAndSensorAndMonitoringCompany(monitoringSystem.getName(), monitoringSystem.getSensor(), monitoringSystem.getMonitoringCompany()))
-            throw new BadRequestException("Monitoring system already exists.");
+        validateMonitoringSystem(monitoringSystem);
 
         return monitoringSystemRepository.save(monitoringSystem);
     }
@@ -60,11 +59,13 @@ public class MonitoringSystemService {
     public MonitoringSystem updateMonitoringSystem(Long monitoringSystemId, MonitoringSystem monitoringSystem) {
         MonitoringSystem oldMonitoringSystem = monitoringSystemRepository.findById(monitoringSystemId)
                 .orElseThrow(() -> new ResourceNotFoundException("Monitoring system not found."));
+
         MonitoringSystem newMonitoringSystem = new MonitoringSystem(monitoringSystem.getName(), monitoringSystem.getSensor(),
                 monitoringSystem.getMonitoringCompany());
-
         newMonitoringSystem.setVehicle(oldMonitoringSystem.getVehicle());
         newMonitoringSystem.setIsAssigned(oldMonitoringSystem.getIsAssigned());
+
+        if (!monitoringSystem.getName().equals(oldMonitoringSystem.getName())) validateMonitoringSystem(newMonitoringSystem);
 
         newMonitoringSystem.setId(oldMonitoringSystem.getId());
         return monitoringSystemRepository.save(newMonitoringSystem);
@@ -81,5 +82,10 @@ public class MonitoringSystemService {
             monitoringSystemRepository.save(monitoringSystem);
         });
         monitoringSystemRepository.deleteAll();
+    }
+
+    private void validateMonitoringSystem(MonitoringSystem monitoringSystem) {
+        if (monitoringSystemRepository.existsByName(monitoringSystem.getName()))
+            throw new BadRequestException("Monitoring system with name: " + monitoringSystem.getName() + " already exists.");
     }
 }
