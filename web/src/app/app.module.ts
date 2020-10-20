@@ -1,4 +1,4 @@
-import { DrivingProfileService } from './../shared/services/driving-profile.service';
+import { DrivingProfileService } from '../shared/services/driving-profile.service';
 import { DrivingProfileAddComponent } from './pages/vehicle/driving-profile-add/driving-profile-add.component';
 import { MonitoringSystemUpdateComponent } from './pages/monitoring-system/monitoring-system-update/monitoring-system-update.component';
 import { MonitoringSystemAddComponent } from './pages/monitoring-system/monitoring-system-add/monitoring-system-add.component';
@@ -49,6 +49,7 @@ import { InsuranceCompanyAddComponent } from './pages/insurance-company/insuranc
 import {InsuranceCompanyService} from "../shared/services/insurance-company.service";
 import {MatTooltipModule} from '@angular/material/tooltip';
 import {MatDatepickerModule} from '@angular/material/datepicker';
+import { InsuranceCompanyUpdateComponent } from './pages/insurance-company/insurance-company-update/insurance-company-update.component';
 
 @NgModule({
   declarations: [
@@ -77,7 +78,8 @@ import {MatDatepickerModule} from '@angular/material/datepicker';
     InsuranceCompanyListComponent,
     InsuranceCompanyAddComponent,
     MonitoringSystemAddComponent,
-    DrivingProfileAddComponent
+    DrivingProfileAddComponent,
+    InsuranceCompanyUpdateComponent
    ],
   imports: [
     BrowserModule,

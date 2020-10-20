@@ -6,6 +6,7 @@ import {
 import {Client} from '../../../../shared/models/client'
 import {ClientService} from '../../../../shared/services/client.service';
 import {FormControl, FormGroup, Validators} from "@angular/forms";
+import {alreadyExistsValidator} from "../../../../shared/directives/alreadyExistsValidator.directive";
 
 @Component({
   selector: 'client-add',
@@ -15,6 +16,7 @@ import {FormControl, FormGroup, Validators} from "@angular/forms";
 
 export class ClientAddComponent implements OnInit {
   clientForm: FormGroup;
+  clientList: Client[] = [];
 
   constructor(
     public dialogRef: MatDialogRef<ClientAddComponent>,
@@ -24,6 +26,8 @@ export class ClientAddComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.getClients();
+
     this.clientForm = new FormGroup({
       firstName: new FormControl('', [
         Validators.required,
@@ -40,7 +44,8 @@ export class ClientAddComponent implements OnInit {
       dni: new FormControl('', [
         Validators.required,
         Validators.maxLength(9),
-        Validators.minLength(7)
+        Validators.minLength(7),
+        alreadyExistsValidator(this.clientList, 'dni')
       ]),
       phoneNumber: new FormControl('', [
         Validators.required,
@@ -50,6 +55,12 @@ export class ClientAddComponent implements OnInit {
         Validators.email,
       ]),
     });
+  }
+
+  private getClients() {
+    this.clientService.clients.subscribe((res) => {
+      this.clientList = res;
+    })
   }
 
   get firstName() { return this.clientForm.get('firstName'); }
@@ -78,5 +89,4 @@ export class ClientAddComponent implements OnInit {
       })
     }
   }
-
 }

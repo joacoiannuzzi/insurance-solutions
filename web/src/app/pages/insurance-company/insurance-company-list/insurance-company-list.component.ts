@@ -6,6 +6,7 @@ import {InsuranceCompanyService} from "../../../../shared/services/insurance-com
 import {MatTableDataSource} from "@angular/material/table";
 import {InsuranceCompany} from "../../../../shared/models/insuranceCompany";
 import {InsuranceCompanyAddComponent} from "../insurance-company-add/insurance-company-add.component";
+import {InsuranceCompanyUpdateComponent} from "../insurance-company-update/insurance-company-update.component";
 
 @Component({
   selector: 'app-insurance-company-list',
@@ -78,7 +79,7 @@ export class InsuranceCompanyListComponent implements OnInit, AfterViewInit {
   }
 
   updateInsuranceCompany(insuranceCompany: InsuranceCompany) {
-    /*const dialogRef = this.dialog.open(InsuranceCompanyUpdateComponent, {
+    const dialogRef = this.dialog.open(InsuranceCompanyUpdateComponent, {
       width: '800px',
       data: insuranceCompany
     });
@@ -86,7 +87,7 @@ export class InsuranceCompanyListComponent implements OnInit, AfterViewInit {
       if (res) {
         this.getInsuranceCompanies();
       }
-    })*/
+    })
   }
 
   openInsuranceCompanyDetails(element: InsuranceCompany): void {

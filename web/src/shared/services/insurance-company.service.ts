@@ -17,7 +17,7 @@ export class InsuranceCompanyService {
   }
 
   private findAll(): Observable<InsuranceCompany[]> {
-    return this.http.get(this.insuranceCompaniesUrl).pipe(
+    return this.http.get(this.insuranceCompaniesUrl + "/get-all").pipe(
       map((res: any) => {
         this.insuranceCompaniesList = res.map((insuranceCompany) => InsuranceCompany.fromJsonObject(insuranceCompany));
         return this.insuranceCompaniesList;
@@ -76,6 +76,25 @@ export class InsuranceCompanyService {
           duration: 2000,
         });
         return this.insuranceCompaniesList;
+      })
+    );
+  }
+
+  update(insuranceCompany: InsuranceCompany) {
+    return this.http.put<InsuranceCompany>(this.insuranceCompaniesUrl + "/update/" + insuranceCompany.id, insuranceCompany).pipe(
+      map((res: InsuranceCompany) => {
+        let i = this.insuranceCompaniesList.findIndex(c => c.id === insuranceCompany.id);
+        this.insuranceCompaniesList[i] = res;
+        this.snackBar.open('La empresa aseguradora fué actualizada con éxito.', '', {
+          duration: 2000,
+        });
+        return res;
+      }),
+      catchError((response) => {
+        this.snackBar.open('Hubo un error al actualizar la empresa aseguradora.', '', {
+          duration: 2000,
+        });
+        return this.insuranceCompanies;
       })
     );
   }
