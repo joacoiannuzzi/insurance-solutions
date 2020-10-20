@@ -1,8 +1,6 @@
 package com.insurance.solutions.app.utils;
 
-import com.insurance.solutions.app.models.DrivingProfile;
-import com.insurance.solutions.app.models.ENUM_CATEGORY;
-import com.insurance.solutions.app.models.Vehicle;
+import com.insurance.solutions.app.models.*;
 
 import java.util.Date;
 import java.util.Random;
@@ -22,9 +20,23 @@ public class TestUtil {
 
     }
 
+    public static Client createRandomClient() {
+        return new Client(
+                String.valueOf(random.nextInt()),
+                String.valueOf(random.nextInt()),
+                String.valueOf(random.nextInt()),
+                String.valueOf(random.nextInt()),
+                String.valueOf(random.nextInt())
+        );
+    }
+
     public static Vehicle createRandomVehicle() {
         return new Vehicle(String.valueOf(random.nextLong()), randomVehicleCategory(),
                 String.valueOf(random.nextLong()), String.valueOf(random.nextLong()));
+    }
+
+    public static InsuranceCompany createRandomInsuranceCompany() {
+        return new InsuranceCompany(String.valueOf(random.nextInt()));
     }
 
 
