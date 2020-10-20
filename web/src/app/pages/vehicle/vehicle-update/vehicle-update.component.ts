@@ -15,7 +15,7 @@ export class VehicleUpdateComponent implements OnInit {
   vehicleForm: FormGroup;
   categories: Category[] = [Category.CAR, Category.TRUCK, Category.VAN, Category.MOTORCYCLE];
   categoryLabels: string[] = ['Automóvil', 'Camión', 'Camioneta', 'Moto'];
-  vehicleLicensePlates = [];
+  vehicleLicensePlates: Vehicle[] = [];
 
   constructor(
     private dialogRef: MatDialogRef<VehicleUpdateComponent>,
