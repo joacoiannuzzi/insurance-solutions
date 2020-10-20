@@ -220,6 +220,8 @@ public class InsuranceCompanyControllerTest {
 
         long mockID = 1000L;
 
+        final var before = insuranceCompanyService.findAll();
+
         Exception exception = assertThrows(ResourceNotFoundException.class,
                 () -> insuranceCompanyService.updateInsuranceCompany(mockID, insuranceCompanyUpdated)
         );
@@ -232,5 +234,9 @@ public class InsuranceCompanyControllerTest {
                                 .content(toJson(insuranceCompanyUpdated))
                 )
                 .andExpect(status().isNotFound());
+
+        final var after = insuranceCompanyService.findAll();
+
+        assertEquals("Size should be the same", before.size(), after.size());
     }
 }
