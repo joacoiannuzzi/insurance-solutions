@@ -52,4 +52,11 @@ public class InsuranceCompanyService {
         insuranceCompanyRepository.deleteById(id);
 
     }
+
+    public InsuranceCompany updateInsuranceCompany(Long id, InsuranceCompany insuranceCompany) {
+        final var oldInsuranceCompany = findById(id);
+        final var newInsuranceCompany = new InsuranceCompany(insuranceCompany.getName());
+        newInsuranceCompany.setId(oldInsuranceCompany.getId());
+        return insuranceCompanyRepository.save(newInsuranceCompany);
+    }
 }

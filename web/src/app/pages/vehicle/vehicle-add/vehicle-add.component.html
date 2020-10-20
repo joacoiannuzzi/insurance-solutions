@@ -9,6 +9,10 @@
           <mat-label>Patente:</mat-label>
           <input matInput [formControl]="licensePlate" placeholder="" required>
           <mat-error
+            *ngIf="licensePlate.errors?.alreadyExistsValidator && !licensePlate.errors?.pattern && !licensePlate.errors?.minlength && !licensePlate.errors?.required">
+            La patente ingresada ya existe
+          </mat-error>
+          <mat-error
             *ngIf="licensePlate.errors?.pattern && !licensePlate.errors?.minlength && !licensePlate.errors?.required">
             No cumple el formato de patente admitida
           </mat-error>

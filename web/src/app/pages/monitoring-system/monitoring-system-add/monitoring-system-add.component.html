@@ -8,8 +8,9 @@
         <mat-form-field appearance="fill">
           <mat-label>Nombre del Servicio</mat-label>
           <input matInput [formControl]="name" placeholder="Vigilancia" required>
-          <mat-error *ngIf="name.errors?.pattern && !name.errors?.minlength && !name.errors?.required">
-            Solo caracteres válidos
+          <mat-error
+            *ngIf="name.errors?.alreadyExistsValidator && !name.errors?.minlength && !name.errors?.required">
+            El nombre ingresado ya existe
           </mat-error>
           <mat-error *ngIf="name.errors?.minlength && !name.errors?.required">
             Tiene que tener un mínimo de 2 caracteres

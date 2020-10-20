@@ -197,4 +197,46 @@ public class InsuranceCompanyControllerTest {
 
 
     }
+
+    @Test
+    public void updateInsuranceCompany() throws Exception {
+        final var insuranceCompany = createRandomInsuranceCompany();
+        final var insuranceCompanyUpdated = createRandomInsuranceCompany();
+
+        final var id = insuranceCompanyService.createInsuranceCompany(insuranceCompany).getId();
+
+        assertEquals(toJson(insuranceCompany), toJson(insuranceCompanyService.findById(id)));
+
+        mockMvc
+                .perform(
+                        put(urlBase + "/update/" + id)
+                                .contentType(APPLICATION_JSON)
+                                .content(toJson(insuranceCompanyUpdated))
+                )
+                .andExpect(status().isOk());
+
+        insuranceCompanyUpdated.setId(id);
+        assertEquals(toJson(insuranceCompanyUpdated), toJson(insuranceCompanyService.findById(id)));
+
+        long mockID = 1000L;
+
+        final var before = insuranceCompanyService.findAll();
+
+        Exception exception = assertThrows(ResourceNotFoundException.class,
+                () -> insuranceCompanyService.updateInsuranceCompany(mockID, insuranceCompanyUpdated)
+        );
+        assertEquals("Insurance company not found.", exception.getMessage());
+
+        mockMvc
+                .perform(
+                        put(urlBase + "/update/" + mockID)
+                                .contentType(APPLICATION_JSON)
+                                .content(toJson(insuranceCompanyUpdated))
+                )
+                .andExpect(status().isNotFound());
+
+        final var after = insuranceCompanyService.findAll();
+
+        assertEquals("Size should be the same", before.size(), after.size());
+    }
 }

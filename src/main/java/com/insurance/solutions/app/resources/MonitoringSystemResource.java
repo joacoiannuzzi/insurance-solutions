@@ -42,7 +42,7 @@ public class MonitoringSystemResource {
         return monitoringCompany;
     }
 
-    public boolean isAssigned() {
+    public boolean getIsAssigned() {
         return isAssigned;
     }
 
