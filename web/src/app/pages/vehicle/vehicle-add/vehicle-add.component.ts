@@ -1,5 +1,5 @@
 import {Component, Inject, OnInit} from '@angular/core';
-import {FormControl, FormGroup, Validators} from "@angular/forms";
+import {AbstractControl, FormControl, FormGroup, ValidatorFn, Validators} from "@angular/forms";
 import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
 import {VehicleService} from "../../../../shared/services/vehicle.service";
 import {Vehicle} from "../../../../shared/models/vehicle";
@@ -20,6 +20,7 @@ export class VehicleAddComponent implements OnInit {
   categoryLabels: string[] = ['Automóvil', 'Camión', 'Camioneta', 'Moto'];
   clients: Client[] = [];
   filteredOptions: Observable<Client[]>;
+  vehicleLicensePlates = [];
 
   constructor(
     public dialogRef: MatDialogRef<VehicleAddComponent>,
@@ -30,13 +31,24 @@ export class VehicleAddComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.getLicensePlates();
+
+    function plateExistsValidator(plates: Vehicle[]): ValidatorFn {
+      return (control: AbstractControl): {[key: string]: any} | null => {
+        if(plates.find(l => control.value === l.licensePlate)) {
+          return {'plateExistsValidator': {value: control.value}}
+        }
+        return null;
+      };
+    }
 
     this.vehicleForm = new FormGroup({
       licensePlate: new FormControl('', [
         Validators.required,
         Validators.minLength(6),
         //  To accept license plates from 1994-2016 (argentine format) and 2016-present (mercosur format).
-        Validators.pattern('(([A-Z]){2}([0-9]){3}([A-Z]){2})|(([A-Z]){3}([0-9]){3})|(([a-z]){3}([0-9]){3})')
+        Validators.pattern('(([A-Z]){2}([0-9]){3}([A-Z]){2})|(([A-Z]){3}([0-9]){3})|(([a-z]){3}([0-9]){3})'),
+        plateExistsValidator(this.vehicleLicensePlates)
       ]),
       brand: new FormControl('', [
         Validators.required,
@@ -54,6 +66,12 @@ export class VehicleAddComponent implements OnInit {
       client: new FormControl('', [])
     });
     this.getClients();
+  }
+
+  private getLicensePlates() {
+    this.vehicleService.vehicles.subscribe((res) => {
+      this.vehicleLicensePlates = res;
+    })
   }
 
   get licensePlate() {
