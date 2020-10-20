@@ -6,6 +6,7 @@ import {InsuranceCompanyService} from "../../../../shared/services/insurance-com
 import {MatTableDataSource} from "@angular/material/table";
 import {InsuranceCompany} from "../../../../shared/models/insuranceCompany";
 import {InsuranceCompanyAddComponent} from "../insurance-company-add/insurance-company-add.component";
+import {ConfirmDialogComponent} from "../../../components/confirm-dialog/confirm-dialog.component";
 import {InsuranceCompanyUpdateComponent} from "../insurance-company-update/insurance-company-update.component";
 
 @Component({
@@ -65,7 +66,7 @@ export class InsuranceCompanyListComponent implements OnInit, AfterViewInit {
   }
 
   deleteInsuranceCompany(insuranceCompany: InsuranceCompany) {
-    /*this.dialog.open(ConfirmDialogComponent, {
+    this.dialog.open(ConfirmDialogComponent, {
       data: "¿Está seguro de que desea eliminar a la empresa aseguradora " + insuranceCompany.name + "?"
     })
       .afterClosed()
@@ -75,7 +76,7 @@ export class InsuranceCompanyListComponent implements OnInit, AfterViewInit {
             this.getInsuranceCompanies();
           });
         }
-      })*/
+      })
   }
 
   updateInsuranceCompany(insuranceCompany: InsuranceCompany) {
