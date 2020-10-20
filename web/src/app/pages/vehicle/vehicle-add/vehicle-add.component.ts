@@ -8,6 +8,7 @@ import {Category} from "../../../../shared/models/category";
 import {Client} from "../../../../shared/models/client";
 import {Observable} from "rxjs";
 import {map, startWith} from "rxjs/operators";
+import {alreadyExistsValidator} from "../../../../shared/directives/alreadyExistsValidator.directive";
 
 @Component({
   selector: 'app-vehicle-add',
@@ -20,7 +21,7 @@ export class VehicleAddComponent implements OnInit {
   categoryLabels: string[] = ['Automóvil', 'Camión', 'Camioneta', 'Moto'];
   clients: Client[] = [];
   filteredOptions: Observable<Client[]>;
-  vehicleLicensePlates = [];
+  vehicleList = [];
 
   constructor(
     public dialogRef: MatDialogRef<VehicleAddComponent>,
@@ -31,16 +32,7 @@ export class VehicleAddComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.getLicensePlates();
-
-    function plateExistsValidator(plates: Vehicle[]): ValidatorFn {
-      return (control: AbstractControl): {[key: string]: any} | null => {
-        if(plates.find(l => control.value === l.licensePlate)) {
-          return {'plateExistsValidator': {value: control.value}}
-        }
-        return null;
-      };
-    }
+    this.getVehicles();
 
     this.vehicleForm = new FormGroup({
       licensePlate: new FormControl('', [
@@ -48,7 +40,7 @@ export class VehicleAddComponent implements OnInit {
         Validators.minLength(6),
         //  To accept license plates from 1994-2016 (argentine format) and 2016-present (mercosur format).
         Validators.pattern('(([A-Z]){2}([0-9]){3}([A-Z]){2})|(([A-Z]){3}([0-9]){3})|(([a-z]){3}([0-9]){3})'),
-        plateExistsValidator(this.vehicleLicensePlates)
+        alreadyExistsValidator(this.vehicleList, 'licensePlate')
       ]),
       brand: new FormControl('', [
         Validators.required,
@@ -68,9 +60,9 @@ export class VehicleAddComponent implements OnInit {
     this.getClients();
   }
 
-  private getLicensePlates() {
+  private getVehicles() {
     this.vehicleService.vehicles.subscribe((res) => {
-      this.vehicleLicensePlates = res;
+      this.vehicleList = res;
     })
   }
 

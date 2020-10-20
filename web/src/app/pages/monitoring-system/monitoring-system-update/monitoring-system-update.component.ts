@@ -6,6 +6,7 @@ import {
   MAT_DIALOG_DATA,
 } from '@angular/material/dialog';
 import {AbstractControl, FormControl, FormGroup, ValidatorFn, Validators} from "@angular/forms";
+import {alreadyExistsValidator} from "../../../../shared/directives/alreadyExistsValidator.directive";
 
 
 @Component({
@@ -17,7 +18,7 @@ import {AbstractControl, FormControl, FormGroup, ValidatorFn, Validators} from "
 export class MonitoringSystemUpdateComponent implements OnInit {
   moSys: MonitoringSystem;
   monitoringSystemForm: FormGroup;
-  monitoringSystemNames: MonitoringSystem[] = [];
+  monitoringSystemList: MonitoringSystem[] = [];
 
   constructor(
     public dialogRef: MatDialogRef<MonitoringSystemUpdateComponent>,
@@ -29,22 +30,13 @@ export class MonitoringSystemUpdateComponent implements OnInit {
 
 
   ngOnInit() {
-    this.getNames();
-
-    function nameExistsValidator(names: MonitoringSystem[]): ValidatorFn {
-      return (control: AbstractControl): { [key: string]: any } | null => {
-        if (names.find(l => control.value === l.name)) {
-          return {'nameExistsValidator': {value: control.value}}
-        }
-        return null;
-      };
-    }
+    this.getMonitoringSystems();
 
     this.monitoringSystemForm = new FormGroup({
       name: new FormControl(this.moSys.name, [
         Validators.required,
         Validators.minLength(2),
-        nameExistsValidator(this.monitoringSystemNames)
+        alreadyExistsValidator(this.monitoringSystemList, 'name')
       ]),
       sensor: new FormControl(this.moSys.sensor, [
         Validators.required,
@@ -60,9 +52,9 @@ export class MonitoringSystemUpdateComponent implements OnInit {
     })
   }
 
-  private getNames() {
+  private getMonitoringSystems() {
     this.monitoringSystemService.monitoringSystems.subscribe((res) => {
-      this.monitoringSystemNames = res;
+      this.monitoringSystemList = res;
     })
   }
 

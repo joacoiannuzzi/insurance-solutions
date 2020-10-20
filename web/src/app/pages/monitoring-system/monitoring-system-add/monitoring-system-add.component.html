@@ -9,7 +9,7 @@
           <mat-label>Nombre del Servicio</mat-label>
           <input matInput [formControl]="name" placeholder="Vigilancia" required>
           <mat-error
-            *ngIf="name.errors?.nameExistsValidator && !name.errors?.minlength && !name.errors?.required">
+            *ngIf="name.errors?.alreadyExistsValidator && !name.errors?.minlength && !name.errors?.required">
             El nombre ingresado ya existe
           </mat-error>
           <mat-error *ngIf="name.errors?.minlength && !name.errors?.required">
