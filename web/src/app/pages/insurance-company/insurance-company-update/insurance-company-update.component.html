@@ -1,0 +1,24 @@
+<h1 mat-dialog-title> Editar empresa aseguradora</h1>
+<div mat-dialog-content>
+
+  <div class="form-container">
+    <div class="item">
+      <mat-form-field appearance="fill">
+        <mat-label>Nombre</mat-label>
+        <input matInput [formControl]="name" placeholder="Nombre" required>
+        <mat-error *ngIf="name.errors?.required">
+          Se <strong>requiere</strong> nombre
+        </mat-error>
+      </mat-form-field>
+    </div>
+  </div>
+</div>
+<div mat-dialog-actions>
+  <div class="buttons-container">
+    <div class="item">
+      <button mat-raised-button (click)="close()">Cancelar</button>
+      <button mat-raised-button [disabled]="invalid" color="primary" (click)="updateInsuranceCompany()">Guardar</button>
+    </div>
+  </div>
+</div>
+
