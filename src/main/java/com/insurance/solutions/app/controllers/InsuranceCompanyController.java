@@ -28,7 +28,7 @@ public class InsuranceCompanyController {
                 true), HttpStatus.CREATED);
     }
 
-    @GetMapping
+    @GetMapping("get-all")
     public ResponseEntity<List<InsuranceCompanyResource>> getAllInsuranceCompanies() {
         return ResponseEntity.ok(makeInsuranceCompanies(insuranceCompanyService.findAll(), true));
     }

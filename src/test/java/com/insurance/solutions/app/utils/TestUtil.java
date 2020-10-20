@@ -14,6 +14,14 @@ public class TestUtil {
                 random.nextDouble(), random.nextDouble(), new Date(random.nextInt()), new Date(random.nextInt()));
     }
 
+    public static MonitoringSystem createRandomMonitoringSystem() {
+        return new MonitoringSystem(
+                String.valueOf(random.nextInt()),
+                String.valueOf(random.nextInt()),
+                String.valueOf(random.nextInt())
+        );
+    }
+
     private static ENUM_CATEGORY randomVehicleCategory() {
         final var values = ENUM_CATEGORY.values();
         return values[random.nextInt(values.length)];
