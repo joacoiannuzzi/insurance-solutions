@@ -9,10 +9,10 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.List;
+
 import static com.insurance.solutions.app.utils.InsuranceCompanyUtils.makeInsuranceCompanies;
 import static com.insurance.solutions.app.utils.InsuranceCompanyUtils.makeInsuranceCompany;
-
-import java.util.List;
 
 @RestController
 @RequestMapping("/insurance-companies")
@@ -25,11 +25,27 @@ public class InsuranceCompanyController {
     @PostMapping("/create")
     public ResponseEntity<InsuranceCompanyResource> createInsuranceCompany(@Valid @RequestBody InsuranceCompany insuranceCompany) {
         return new ResponseEntity<>(makeInsuranceCompany(insuranceCompanyService.createInsuranceCompany(insuranceCompany),
-                 true), HttpStatus.CREATED);
+                true), HttpStatus.CREATED);
     }
 
-    @GetMapping
+    @GetMapping("get-all")
     public ResponseEntity<List<InsuranceCompanyResource>> getAllInsuranceCompanies() {
-        return ResponseEntity.ok(makeInsuranceCompanies(insuranceCompanyService.getAllInsuranceCompanies(), true));
+        return ResponseEntity.ok(makeInsuranceCompanies(insuranceCompanyService.findAll(), true));
+    }
+
+    @DeleteMapping("delete/{id}")
+    public ResponseEntity<?> deleteInsuranceCompany(@PathVariable Long id) {
+        insuranceCompanyService.deleteInsuranceCompanyById(id);
+        return ResponseEntity.noContent().build();
+    }
+
+    @PutMapping("/update/{id}")
+    public ResponseEntity<InsuranceCompanyResource> updateVehicle(@PathVariable Long id, @RequestBody InsuranceCompany insuranceCompany) {
+        return ResponseEntity.ok(
+                makeInsuranceCompany(
+                        insuranceCompanyService.updateInsuranceCompany(id, insuranceCompany),
+                        true
+                )
+        );
     }
 }

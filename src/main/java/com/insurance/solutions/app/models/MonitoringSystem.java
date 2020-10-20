@@ -73,10 +73,6 @@ public class MonitoringSystem {
         this.vehicle = vehicle;
     }
 
-    public boolean isAssigned() {
-        return isAssigned;
-    }
-
     public boolean getIsAssigned() {
         return isAssigned;
     }
