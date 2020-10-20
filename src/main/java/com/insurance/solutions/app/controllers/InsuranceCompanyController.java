@@ -1,5 +1,6 @@
 package com.insurance.solutions.app.controllers;
 
+import com.insurance.solutions.app.models.Client;
 import com.insurance.solutions.app.models.InsuranceCompany;
 import com.insurance.solutions.app.resources.InsuranceCompanyResource;
 import com.insurance.solutions.app.services.InsuranceCompanyService;
@@ -47,5 +48,10 @@ public class InsuranceCompanyController {
                         true
                 )
         );
+    }
+
+    @GetMapping("/{insuranceCompanyId}/get-clients")
+    public ResponseEntity<List<Client>> getInsuranceCompanyClients(@PathVariable Long insuranceCompanyId) {
+        return new ResponseEntity<>(insuranceCompanyService.getInsuranceCompanyClients(insuranceCompanyId), HttpStatus.OK);
     }
 }

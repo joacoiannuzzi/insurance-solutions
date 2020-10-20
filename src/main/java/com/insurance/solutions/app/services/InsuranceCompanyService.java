@@ -2,12 +2,14 @@ package com.insurance.solutions.app.services;
 
 import com.insurance.solutions.app.exceptions.BadRequestException;
 import com.insurance.solutions.app.exceptions.ResourceNotFoundException;
+import com.insurance.solutions.app.models.Client;
 import com.insurance.solutions.app.models.InsuranceCompany;
 import com.insurance.solutions.app.repositories.ClientRepository;
 import com.insurance.solutions.app.repositories.InsuranceCompanyRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -58,5 +60,10 @@ public class InsuranceCompanyService {
         final var newInsuranceCompany = new InsuranceCompany(insuranceCompany.getName());
         newInsuranceCompany.setId(oldInsuranceCompany.getId());
         return insuranceCompanyRepository.save(newInsuranceCompany);
+    }
+
+    public List<Client> getInsuranceCompanyClients(Long insuranceCompanyId) {
+        InsuranceCompany insuranceCompany = insuranceCompanyRepository.findById(insuranceCompanyId).orElseThrow(() -> new ResourceNotFoundException("Insurance company not found."));
+        return new ArrayList<>(insuranceCompany.getClients());
     }
 }

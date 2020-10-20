@@ -3,10 +3,12 @@ package com.insurance.solutions.app.controllers;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.insurance.solutions.app.exceptions.ResourceNotFoundException;
+import com.insurance.solutions.app.models.Client;
 import com.insurance.solutions.app.models.InsuranceCompany;
 import com.insurance.solutions.app.repositories.InsuranceCompanyRepository;
 import com.insurance.solutions.app.services.ClientService;
 import com.insurance.solutions.app.services.InsuranceCompanyService;
+import org.junit.Assert;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -238,5 +240,31 @@ public class InsuranceCompanyControllerTest {
         final var after = insuranceCompanyService.findAll();
 
         assertEquals("Size should be the same", before.size(), after.size());
+    }
+
+    @Test
+    void getInsuranceCompanyClients() throws Exception {
+        InsuranceCompany insuranceCompany = createRandomInsuranceCompany();
+        long insuranceCompanyId = insuranceCompanyService.createInsuranceCompany(insuranceCompany).getId();
+        List<Client> clients = insuranceCompanyService.getInsuranceCompanyClients(insuranceCompanyId);
+        long insuranceCompanyMockId = 1000L;
+
+        MvcResult mvcResult = mockMvc
+                .perform(
+                        get(urlBase + "/" + insuranceCompanyId + "/get-clients")
+                )
+                .andExpect(status().isOk())
+                .andExpect(content().contentType(APPLICATION_JSON))
+                .andReturn();
+
+        List list = toClass(mvcResult, List.class);
+
+        Assert.assertEquals("Size should be the same", clients.size(), list.size());
+
+        mockMvc
+                .perform(
+                        get(urlBase + "/" + insuranceCompanyMockId + "/get-clients")
+                )
+                .andExpect(status().isNotFound());
     }
 }
