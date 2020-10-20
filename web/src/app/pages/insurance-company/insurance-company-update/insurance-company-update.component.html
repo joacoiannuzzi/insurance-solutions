@@ -6,6 +6,10 @@
       <mat-form-field appearance="fill">
         <mat-label>Nombre</mat-label>
         <input matInput [formControl]="name" placeholder="Nombre" required>
+        <mat-error
+          *ngIf="name.errors?.nameExistsValidator && !name.errors?.required">
+          El nombre ingresado ya existe
+        </mat-error>
         <mat-error *ngIf="name.errors?.required">
           Se <strong>requiere</strong> nombre
         </mat-error>
