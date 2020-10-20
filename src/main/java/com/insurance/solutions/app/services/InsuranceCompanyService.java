@@ -4,6 +4,7 @@ import com.insurance.solutions.app.exceptions.BadRequestException;
 import com.insurance.solutions.app.exceptions.ResourceNotFoundException;
 import com.insurance.solutions.app.models.Client;
 import com.insurance.solutions.app.models.InsuranceCompany;
+import com.insurance.solutions.app.repositories.ClientRepository;
 import com.insurance.solutions.app.repositories.InsuranceCompanyRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
