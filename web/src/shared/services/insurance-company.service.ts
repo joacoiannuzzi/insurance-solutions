@@ -32,10 +32,7 @@ export class InsuranceCompanyService {
   }
 
   delete(insuranceCompany: InsuranceCompany) {
-    //Implement when there is back-end
-
-
-    /*return this.http.delete<InsuranceCompany>(this.insuranceCompaniesUrl + "/" + insuranceCompany.id).pipe(
+    return this.http.delete<InsuranceCompany>(this.insuranceCompaniesUrl + "/delete/" + insuranceCompany.id).pipe(
       map(() => {
         let auxInsuranceCompaniesList: InsuranceCompany[] = [...this.insuranceCompaniesList];
         auxInsuranceCompaniesList.splice(this.insuranceCompaniesList.findIndex(c => c.id === insuranceCompany.id), 1);
@@ -51,7 +48,7 @@ export class InsuranceCompanyService {
         });
         return this.insuranceCompanies;
       })
-    )*/
+    )
   }
 
   get insuranceCompanies(): Observable<InsuranceCompany[]> {
