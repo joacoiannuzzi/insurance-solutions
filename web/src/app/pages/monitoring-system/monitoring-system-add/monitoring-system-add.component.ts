@@ -38,7 +38,6 @@ export class MonitoringSystemAddComponent implements OnInit {
       name: new FormControl('', [
         Validators.required,
         Validators.minLength(2),
-        Validators.pattern('^[a-zA-Z ]*$'),
         nameExistsValidator(this.monitoringSystemNames)
       ]),
       sensor: new FormControl('', [

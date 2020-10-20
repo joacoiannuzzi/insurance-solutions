@@ -44,7 +44,6 @@ export class MonitoringSystemUpdateComponent implements OnInit {
       name: new FormControl(this.moSys.name, [
         Validators.required,
         Validators.minLength(2),
-        Validators.pattern('^[a-zA-Z ]*$'),
         nameExistsValidator(this.monitoringSystemNames)
       ]),
       sensor: new FormControl(this.moSys.sensor, [
