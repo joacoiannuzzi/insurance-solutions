@@ -27,13 +27,12 @@ export class VehicleUpdateComponent implements OnInit {
   ngOnInit(): void {
     this.getLicensePlates();
 
-    function validateNotExists(plate: String, plates: Vehicle[]): ValidatorFn {
+    function plateExistsValidator(plate: String, plates: Vehicle[]): ValidatorFn {
       return (control: AbstractControl): {[key: string]: any} | null => {
-        let forbidden = false;
-        if(plates.filter((l)=>{plate == l.licensePlate}).length) {
-          forbidden = true;
+        if(plates.filter(l => plate == l.licensePlate).length) {
+          return {'plateExistsValidator': {value: control.value}}
         }
-        return forbidden ? {forbiddenName: {value: control.value}} : null;
+        return null;
       };
     }
 
@@ -43,7 +42,7 @@ export class VehicleUpdateComponent implements OnInit {
         Validators.minLength(6),
         //  To accept license plates from 1994-2016 (argentine format) and 2016-present (mercosur format).
         Validators.pattern('(([A-Z]){2}([0-9]){3}([A-Z]){2})|(([A-Z]){3}([0-9]){3})|(([a-z]){3}([0-9]){3})'),
-        validateNotExists(this.vehicle.licensePlate, this.vehicleLicensePlates)
+        plateExistsValidator(this.vehicle.licensePlate, this.vehicleLicensePlates)
       ]),
       brand: new FormControl(this.vehicle.brand, [
         Validators.required,
