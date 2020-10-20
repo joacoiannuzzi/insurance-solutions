@@ -7,7 +7,7 @@
         <mat-label>Nombre</mat-label>
         <input matInput [formControl]="name" placeholder="Nombre" required>
         <mat-error
-          *ngIf="name.errors?.nameExistsValidator && !name.errors?.required">
+          *ngIf="name.errors?.alreadyExistsValidator && !name.errors?.required">
           El nombre ingresado ya existe
         </mat-error>
         <mat-error *ngIf="name.errors?.required">

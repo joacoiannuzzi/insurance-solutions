@@ -3,6 +3,7 @@ import {AbstractControl, FormControl, FormGroup, ValidatorFn, Validators} from "
 import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
 import {InsuranceCompany} from "../../../../shared/models/insuranceCompany";
 import {InsuranceCompanyService} from "../../../../shared/services/insurance-company.service";
+import {alreadyExistsValidator} from "../../../../shared/directives/alreadyExistsValidator.directive";
 
 @Component({
   selector: 'app-insurance-company-add',
@@ -11,7 +12,7 @@ import {InsuranceCompanyService} from "../../../../shared/services/insurance-com
 })
 export class InsuranceCompanyAddComponent implements OnInit {
   insuranceCompanyForm: FormGroup;
-  insuranceCompanyNames: InsuranceCompany[] = [];
+  insuranceCompanyList: InsuranceCompany[] = [];
 
   constructor(public dialogRef: MatDialogRef<InsuranceCompanyAddComponent>,
               @Inject(MAT_DIALOG_DATA) public data: InsuranceCompany,
@@ -20,28 +21,19 @@ export class InsuranceCompanyAddComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.getNames();
-
-    function nameExistsValidator(names: InsuranceCompany[]): ValidatorFn {
-      return (control: AbstractControl): {[key: string]: any} | null => {
-        if(names.find(l => control.value === l.name)) {
-          return {'nameExistsValidator': {value: control.value}}
-        }
-        return null;
-      };
-    }
+    this.getInsuranceCompanies();
 
     this.insuranceCompanyForm = new FormGroup({
       name: new FormControl('', [
         Validators.required,
-        nameExistsValidator(this.insuranceCompanyNames)
+        alreadyExistsValidator(this.insuranceCompanyList, 'name')
       ]),
     });
   }
 
-  private getNames() {
+  private getInsuranceCompanies() {
     this.insuranceCompanyService.insuranceCompanies.subscribe((res) => {
-      this.insuranceCompanyNames = res;
+      this.insuranceCompanyList = res;
     })
   }
 
