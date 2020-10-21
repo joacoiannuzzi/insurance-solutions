@@ -44,10 +44,7 @@ export class InsuranceCompanyClientsComponent implements OnInit, AfterViewInit {
   }
 
   refreshInsuranceCompany() {
-    this.insuranceCompanyService.insuranceCompanies.subscribe(data => {
-      this.insuranceCompany = data.find(is => is.id === this.insuranceCompany.id);
-      this.dataSource.data = this.insuranceCompany.clients;
-    })
+    this.insuranceCompanyService.findAll().subscribe();
   }
 
   deleteClient(element: Client) {
@@ -90,10 +87,8 @@ export class InsuranceCompanyClientsComponent implements OnInit, AfterViewInit {
       width: '800px',
       data: element
     });
-    dialogRef.afterClosed().subscribe((res) => {
-      if (res) {
-        this.refreshInsuranceCompany();
-      }
+    dialogRef.afterClosed().subscribe(() => {
+      this.refreshInsuranceCompany();
     })
   }
 }

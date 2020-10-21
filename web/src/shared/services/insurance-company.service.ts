@@ -16,7 +16,7 @@ export class InsuranceCompanyService {
     this.insuranceCompaniesUrl = environment.url + '/insurance-companies';
   }
 
-  private findAll(): Observable<InsuranceCompany[]> {
+  findAll(): Observable<InsuranceCompany[]> {
     return this.http.get(this.insuranceCompaniesUrl + "/get-all").pipe(
       map((res: any) => {
         this.insuranceCompaniesList = res.map((insuranceCompany) => InsuranceCompany.fromJsonObject(insuranceCompany));
