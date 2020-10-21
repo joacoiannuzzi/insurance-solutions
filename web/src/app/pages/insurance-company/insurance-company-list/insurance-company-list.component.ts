@@ -58,7 +58,7 @@ export class InsuranceCompanyListComponent implements OnInit, AfterViewInit {
   openDialog(): void {
     const dialogRef = this.dialog.open(InsuranceCompanyAddComponent, {
       width: '800px',
-      data: new InsuranceCompany(-1, "")
+      data: new InsuranceCompany(-1, "", [])
     });
 
     dialogRef.afterClosed().subscribe(() => {
@@ -97,8 +97,8 @@ export class InsuranceCompanyListComponent implements OnInit, AfterViewInit {
       width: '800px',
       data: element
     });
-    dialogRef.afterClosed().subscribe(() => {
-      this.getInsuranceCompanies();
+    dialogRef.afterClosed().subscribe((is) => {
+      this.insuranceCompanies[this.insuranceCompanies.findIndex(i => i.id === is.id)] = is;
     })
   }
 }

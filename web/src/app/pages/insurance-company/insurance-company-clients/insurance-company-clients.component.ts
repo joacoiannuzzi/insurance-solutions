@@ -40,12 +40,13 @@ export class InsuranceCompanyClientsComponent implements OnInit, AfterViewInit {
   }
 
   closeClients() {
-    this.dialogRef.close();
+    this.dialogRef.close(this.insuranceCompany);
   }
 
   refreshInsuranceCompany() {
     this.insuranceCompanyService.insuranceCompanies.subscribe(data => {
       this.insuranceCompany = data.find(is => is.id === this.insuranceCompany.id);
+      this.dataSource.data = this.insuranceCompany.clients;
     })
   }
 
@@ -58,11 +59,9 @@ export class InsuranceCompanyClientsComponent implements OnInit, AfterViewInit {
       .subscribe((confirmed: Boolean) => {
         if (confirmed) {
           this.insuranceCompany.clients.splice(this.insuranceCompany.clients.findIndex(c => c.dni === element.dni), 1);
-          this.insuranceCompanyService.update(this.insuranceCompany).subscribe((res) => {
-            if (res) {
-
-            }
-          })
+          this.insuranceCompanyService.update(this.insuranceCompany, 'El cliente fue desasignado de la empresa aseguradora con éxito.', 'Hubo un error al desasignar el cliente de la empresa aseguradora.').subscribe(
+            () => {this.dataSource.data = this.insuranceCompany.clients},//res
+            () => {this.refreshInsuranceCompany()})//err
         }
       });
   }
