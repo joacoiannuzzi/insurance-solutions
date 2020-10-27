@@ -28,7 +28,8 @@ export class UserAddComponent implements OnInit {
   constructor(public dialogRef: MatDialogRef<UserAddComponent>,
               @Inject(MAT_DIALOG_DATA) public data: User,
               public userService: UserService,
-              public insuranceCompanyService: InsuranceCompanyService) { }
+              public insuranceCompanyService: InsuranceCompanyService) {
+  }
 
   ngOnInit(): void {
     this.getUsers();
@@ -41,15 +42,25 @@ export class UserAddComponent implements OnInit {
     })
   }
 
-  get username() { return this.userForm.get('username'); }
+  get username() {
+    return this.userForm.get('username');
+  }
 
-  get password() { return this.userForm.get('password'); }
+  get password() {
+    return this.userForm.get('password');
+  }
 
-  get type() { return this.userForm.get('type'); }
+  get type() {
+    return this.userForm.get('type');
+  }
 
-  get insuranceCompany() { return this.userForm.get('insuranceCompany'); }
+  get insuranceCompany() {
+    return this.userForm.get('insuranceCompany');
+  }
 
-  get invalid() { return this.userForm.invalid }
+  get invalid() {
+    return this.userForm.invalid
+  }
 
   close(): void {
     this.dialogRef.close();
@@ -60,10 +71,14 @@ export class UserAddComponent implements OnInit {
       // Se mapea todos los values del form al objeto user
       Object.keys(this.userForm.value).map((key) => this.data[key] = this.userForm.value[key]);
 
-      //Aca habria que hacer un assign insuranceCompany al user. Depende de como lo manejen en el back
-
-      this.userService.save(this.data).subscribe(() => {
+      this.userService.save(this.data).subscribe(
+        (newUser) => {
+        //el save no asigna a la compañia. Hay que hacerlo en una ruta aparte.
+        this.userService.assignInsuranceCompany(newUser.id, this.userForm.value.insuranceCompany.id);
         this.dialogRef.close();
+      },
+      () => {
+        //Solo catchea el error. No hace nada mas ya que no quiero que cierre el dialogo en caso de error. El mismo service muestra la snackbar de error
       })
     }
   }
