@@ -51,6 +51,7 @@ import {MatTooltipModule} from '@angular/material/tooltip';
 import {MatDatepickerModule} from '@angular/material/datepicker';
 import { InsuranceCompanyUpdateComponent } from './pages/insurance-company/insurance-company-update/insurance-company-update.component';
 import { UserListComponent } from './pages/user/user-list/user-list.component';
+import { UserAddComponent } from './pages/user/user-add/user-add.component';
 
 @NgModule({
   declarations: [
@@ -81,7 +82,8 @@ import { UserListComponent } from './pages/user/user-list/user-list.component';
     MonitoringSystemAddComponent,
     DrivingProfileAddComponent,
     InsuranceCompanyUpdateComponent,
-    UserListComponent
+    UserListComponent,
+    UserAddComponent
    ],
   imports: [
     BrowserModule,

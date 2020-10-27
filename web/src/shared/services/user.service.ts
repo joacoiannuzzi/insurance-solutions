@@ -42,21 +42,21 @@ export class UserService {
   }
 
   public save(user: User) {
-    // return this.http.post<User>(this.usersUrl + "/create", user).pipe(
-    //   map((res: any) => {
-    //     this.usersList = [...this.usersList, User.fromJsonObject(res)];
-    //     this.snackBar.open('El usuario fue guardado con éxito.', '', {
-    //       duration: 2000,
-    //     });
-    //     return res;
-    //   }),
-    //   catchError(() => {
-    //     this.snackBar.open('Hubo un error al guardar el usuario.', '', {
-    //       duration: 2000,
-    //     });
-    //     return this.users;
-    //   })
-    // );
+    return this.http.post<User>(this.usersUrl + "/create", user).pipe(
+      map((res: any) => {
+        this.usersList = [...this.usersList, User.fromJsonObject(res)];
+        this.snackBar.open('El usuario fue guardado con éxito.', '', {
+          duration: 2000,
+        });
+        return res;
+      }),
+      catchError(() => {
+        this.snackBar.open('Hubo un error al guardar el usuario.', '', {
+          duration: 2000,
+        });
+        return this.users;
+      })
+    );
   }
 
   public update(user: User) {
