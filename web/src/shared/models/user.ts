@@ -16,7 +16,7 @@ export class User {
     this.company = company;
   }
 
-  static fromJsonToObject(jsonObject: any): User {
+  static fromJsonObject(jsonObject: any): User {
     return new User(jsonObject.id, jsonObject.username, jsonObject.password, jsonObject.type, jsonObject.insuranceCompany);
   }
 }
