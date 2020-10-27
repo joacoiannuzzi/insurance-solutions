@@ -74,7 +74,7 @@ export class UserAddComponent implements OnInit {
 
   saveUser() {
     if (this.userForm.valid) {
-      // Se mapea todos los values del form al objeto client
+      // Se mapea todos los values del form al objeto user
       Object.keys(this.userForm.value).map((key) => this.data[key] = this.userForm.value[key]);
 
       this.userService.save(this.data).subscribe(() => {
