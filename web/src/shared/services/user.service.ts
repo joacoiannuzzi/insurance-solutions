@@ -5,6 +5,7 @@ import {MatSnackBar} from "@angular/material/snack-bar";
 import {environment} from "../../environments/environment";
 import {Observable} from "rxjs";
 import {catchError, map} from "rxjs/operators";
+import {InsuranceCompany} from "../models/insuranceCompany";
 
 @Injectable({
   providedIn: 'root'
@@ -12,25 +13,28 @@ import {catchError, map} from "rxjs/operators";
 export class UserService {
 
   private readonly usersUrl: string;
-  private usersList: User[];
+  private usersList: User[] = [new User(1,'alejo','123','a', new InsuranceCompany(2, 'empresa'))];
 
   constructor(private http: HttpClient, private snackBar: MatSnackBar) {
     this.usersUrl = environment.url + '/users';
   }
 
   private findAll(): Observable<User[]> {
-    return this.http.get(this.usersUrl).pipe(
-      map((res: any) => {
-        this.usersList = res.map((user) => User.fromJsonObject(user));
-        return this.usersList;
-      }),
-      catchError(() => {
-        this.snackBar.open('Hubo un error al traer los usuarios.', '', {
-          duration: 2000,
-        });
-        return this.users;
-      })
-    );
+    // return this.http.get(this.usersUrl).pipe(
+    //   map((res: any) => {
+    //     this.usersList = res.map((user) => User.fromJsonObject(user));
+    //     return this.usersList;
+    //   }),
+    //   catchError(() => {
+    //     this.snackBar.open('Hubo un error al traer los usuarios.', '', {
+    //       duration: 2000,
+    //     });
+    //     return this.users;
+    //   })
+    // );
+    return new Observable<User[]>((subscriber => {
+      subscriber.next(this.usersList)
+    }))
   }
 
   get users(): Observable<User[]> {

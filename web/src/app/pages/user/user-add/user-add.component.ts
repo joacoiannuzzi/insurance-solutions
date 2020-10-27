@@ -43,7 +43,7 @@ export class UserAddComponent implements OnInit {
         Validators.required,
         Validators.minLength(8),
         //Minimum eight characters, at least one letter, one number and one special character
-        Validators.pattern('^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]*$')
+        Validators.pattern('^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).*$')
       ]),
       type: new FormControl('', [
         Validators.required
@@ -77,6 +77,8 @@ export class UserAddComponent implements OnInit {
     if (this.userForm.valid) {
       // Se mapea todos los values del form al objeto user
       Object.keys(this.userForm.value).map((key) => this.data[key] = this.userForm.value[key]);
+
+      //Aca habria que hacer un assign insuranceCompany al user. Depende de como lo manejen en el back
 
       this.userService.save(this.data).subscribe(() => {
         this.dialogRef.close();

@@ -5,6 +5,8 @@ import {MatSort} from "@angular/material/sort";
 import {MatPaginator} from "@angular/material/paginator";
 import {MatDialog} from "@angular/material/dialog";
 import {UserService} from "../../../../shared/services/user.service";
+import {UserAddComponent} from "../user-add/user-add.component";
+import {InsuranceCompany} from "../../../../shared/models/insuranceCompany";
 
 @Component({
   selector: 'app-user-list',
@@ -51,14 +53,14 @@ export class UserListComponent implements OnInit, AfterViewInit {
   }
 
   openDialog(): void {
-    // const dialogRef = this.dialog.open(UserAddComponent, {
-    //   width: '800px',
-    //   data: new User(-1, "", "", "", new InsuranceCompany(-2, ''));
-    // });
-    //
-    // dialogRef.afterClosed().subscribe(() => {
-    //   this.getUsers();
-    // });
+    const dialogRef = this.dialog.open(UserAddComponent, {
+      width: '800px',
+      data: new User(-1, "", "", "", new InsuranceCompany(-2, ''))
+    });
+
+    dialogRef.afterClosed().subscribe(() => {
+      this.getUsers();
+    });
   }
 
   deleteUser(user: User) {

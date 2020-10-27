@@ -5,8 +5,8 @@ export class User {
   id: number;
   username: string;
   password: string;
-  type: string;
-  company: InsuranceCompany;
+  type: Type | string;
+  insuranceCompany: InsuranceCompany;
 
 
   constructor(id: number, username: string, password: string, type: string, company: InsuranceCompany) {
@@ -14,7 +14,7 @@ export class User {
     this.username = username;
     this.password = password;
     this.type = type;
-    this.company = company;
+    this.insuranceCompany = company;
   }
 
   static fromJsonObject(jsonObject: any): User {
