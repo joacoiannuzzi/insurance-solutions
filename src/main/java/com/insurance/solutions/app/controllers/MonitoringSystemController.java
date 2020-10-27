@@ -56,7 +56,7 @@ public class MonitoringSystemController {
     }
 
     @PutMapping("/update/{monitoringSystemId}")
-    public ResponseEntity<MonitoringSystemResource> updateMonitoringSystem(@PathVariable Long monitoringSystemId, @RequestBody MonitoringSystem monitoringSystem) {
+    public ResponseEntity<MonitoringSystemResource> updateMonitoringSystem(@PathVariable Long monitoringSystemId, @Valid @RequestBody MonitoringSystem monitoringSystem) {
         return new ResponseEntity<>(
                 makeMonitoringSystem(monitoringSystemService.updateMonitoringSystem(monitoringSystemId, monitoringSystem), true),
                 HttpStatus.OK
