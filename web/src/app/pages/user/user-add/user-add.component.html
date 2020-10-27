@@ -11,7 +11,7 @@
 
       <div class="item">
         <mat-form-field appearance="fill">
-          <mat-label>Nombre:</mat-label>
+          <mat-label>Usuario:</mat-label>
           <input matInput [formControl]="username" placeholder="Juan" required>
           <mat-error *ngIf="username.errors?.alreadyExistsValidator && !username.errors?.minlength && !username.errors?.required">
             El usuario ingresado ya existe
