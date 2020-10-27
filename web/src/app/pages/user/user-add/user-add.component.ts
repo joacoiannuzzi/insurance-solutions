@@ -41,8 +41,9 @@ export class UserAddComponent implements OnInit {
       ]),
       password: new FormControl('', [
         Validators.required,
-        Validators.minLength(2),
-        Validators.pattern('^[a-zA-Z0-9]*$')
+        Validators.minLength(8),
+        //Minimum eight characters, at least one letter, one number and one special character
+        Validators.pattern('^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]*$')
       ]),
       type: new FormControl('', [
         Validators.required
