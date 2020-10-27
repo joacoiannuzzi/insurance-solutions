@@ -9,6 +9,7 @@ import {InsuranceCompanyService} from "../../../../shared/services/insurance-com
 import {Type} from "../../../../shared/models/type";
 import {map, startWith} from "rxjs/operators";
 import {InsuranceCompany} from "../../../../shared/models/insuranceCompany";
+import {checkExistsValidator} from "../../../../shared/directives/checkExistsValidator.directive";
 
 @Component({
   selector: 'app-user-add',
@@ -21,7 +22,8 @@ export class UserAddComponent implements OnInit {
   types: Type[] = [Type.BASE, Type.ADMIN];
   typeLabels: string[] = ['Base', 'Admin'];
   filteredOptions: Observable<InsuranceCompany[]>;
-  insuranceCompanyList = [];
+  insuranceCompanyList: InsuranceCompany[] = [];
+  loading = true;
 
   constructor(public dialogRef: MatDialogRef<UserAddComponent>,
               @Inject(MAT_DIALOG_DATA) public data: User,
@@ -30,26 +32,6 @@ export class UserAddComponent implements OnInit {
 
   ngOnInit(): void {
     this.getUsers();
-
-    this.userForm = new FormGroup({
-      username: new FormControl('', [
-        Validators.required,
-        Validators.maxLength(20),
-        Validators.minLength(2),
-        Validators.pattern('^[a-zA-Z0-9]*$'),
-        alreadyExistsValidator(this.userList, 'username')
-      ]),
-      password: new FormControl('', [
-        Validators.required,
-        Validators.minLength(8),
-        //Minimum eight characters, at least one letter, one number and one special character
-        Validators.pattern('^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).*$')
-      ]),
-      type: new FormControl('', [
-        Validators.required
-      ]),
-      insuranceCompany: new FormControl('', [])
-    });
     this.getInsuranceCompanies();
   }
 
@@ -89,7 +71,14 @@ export class UserAddComponent implements OnInit {
   getInsuranceCompanies() {
     this.insuranceCompanyService.insuranceCompanies.subscribe((res: InsuranceCompany[]) => {
       this.insuranceCompanyList = [...res];
+      this.createForm();
+      this.createFilteredOptions();
+      this.loading = false;
     })
+
+  }
+
+  private createFilteredOptions() {
     this.filteredOptions = this.insuranceCompany.valueChanges
       .pipe(
         startWith(''),
@@ -97,6 +86,30 @@ export class UserAddComponent implements OnInit {
           return this._filter(value?.name ? value.name : value);
         })
       );
+  }
+
+  private createForm() {
+    this.userForm = new FormGroup({
+      username: new FormControl('', [
+        Validators.required,
+        Validators.maxLength(20),
+        Validators.minLength(2),
+        Validators.pattern('^[a-zA-Z0-9]*$'),
+        alreadyExistsValidator(this.userList, 'username')
+      ]),
+      password: new FormControl('', [
+        Validators.required,
+        Validators.minLength(8),
+        //Minimum eight characters, at least one letter, one number and one special character
+        Validators.pattern('^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).*$')
+      ]),
+      type: new FormControl('', [
+        Validators.required
+      ]),
+      insuranceCompany: new FormControl('', [
+        checkExistsValidator(this.insuranceCompanyList, 'name')
+      ])
+    });
   }
 
   private _filter(value: string): InsuranceCompany[] {
