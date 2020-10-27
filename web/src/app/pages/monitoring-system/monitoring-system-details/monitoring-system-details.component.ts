@@ -8,6 +8,7 @@ import {VehicleService} from "../../../../shared/services/vehicle.service";
 import {MonitoringSystemVehicleAssignationComponent} from "../monitoring-system-vehicle-assignation/monitoring-system-vehicle-assignation.component";
 import {MonitoringSystemUpdateComponent} from "../monitoring-system-update/monitoring-system-update.component";
 import { DrivingProfile } from 'src/shared/models/drivingProfile';
+import { DrivingProfileService } from 'src/shared/services/driving-profile.service';
 
 @Component({
   selector: 'app-monitoring-system-details',
@@ -20,7 +21,8 @@ export class MonitoringSystemDetailsComponent implements OnInit {
     @Inject(MAT_DIALOG_DATA) public monitoringSystem: MonitoringSystem,
     public vehicleService: VehicleService,
     public monitoringSystemService: MonitoringSystemService,
-    public dialog: MatDialog
+    public dialog: MatDialog,
+    public drivingProfileService: DrivingProfileService
   ) {
   }
 
@@ -77,6 +79,7 @@ export class MonitoringSystemDetailsComponent implements OnInit {
       this.closeDetails();
     })
   }
+
 
   unassignMonitoringSystem() {
     this.dialog.open(ConfirmDialogComponent, {

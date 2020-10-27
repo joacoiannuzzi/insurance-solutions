@@ -1,22 +1,27 @@
+import { Vehicle } from './vehicle';
+
 export class MonitoringSystem {
   id: number;
   name: string;
   sensor: string;
   monitoringCompany: string;
   assigned: boolean;
+  vehicle: Vehicle
 
   constructor(
     id: number,
     name: string,
     sensor: string,
     monitoringCompany: string,
-    assigned: boolean
+    assigned: boolean,
+    vehicle: Vehicle
   ) {
     this.id = id;
     this.name = name;
     this.sensor = sensor;
     this.monitoringCompany = monitoringCompany;
     this.assigned = assigned;
+    this.vehicle = vehicle;
   }
 
   static fromJsonObject(jsonObject: any): MonitoringSystem {
@@ -25,7 +30,8 @@ export class MonitoringSystem {
       jsonObject.name,
       jsonObject.sensor,
       jsonObject.monitoringCompany,
-      jsonObject.assigned
+      jsonObject.assigned,
+      jsonObject.vehicle
     );
   }
 }
