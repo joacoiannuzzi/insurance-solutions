@@ -22,6 +22,7 @@
   Generar Perfil de Conducción
 </button>
   <button *ngIf="!monitoringSystem.assigned" mat-raised-button color="primary" (click)="assignMonitoringSystem()">Asignar</button>
+  <button *ngIf="monitoringSystem.assigned" mat-raised-button color="primary" (click)="createDrivingProfile()">Generar Perfil de Conducción</button>
   <button *ngIf="monitoringSystem.assigned" mat-raised-button color="primary" (click)="unassignMonitoringSystem()">Desasignar</button>
   <button mat-raised-button color="primary" (click)="updateMonitoringSystem()">Editar</button>
   <button mat-raised-button color="warn" (click)="deleteMonitoringSystem()">Eliminar</button>

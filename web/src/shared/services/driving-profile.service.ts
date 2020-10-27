@@ -40,7 +40,7 @@ export class DrivingProfileService {
                 let auxDriProList: DrivingProfile[] = [...this.drivingProfilesList];
                 auxDriProList.splice(this.drivingProfilesList.findIndex(d => d.id === driPro.id),1);
                 this.drivingProfilesList = [...auxDriProList];
-                this.snackBar.open("El cliente fue eliminado con éxito.", '', {
+                this.snackBar.open("El perfil de manejo fue eliminado con éxito.", '', {
                     duration: 2000,
                 });
                 return this.drivingProfilesList;
