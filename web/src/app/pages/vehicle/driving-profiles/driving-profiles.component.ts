@@ -69,6 +69,6 @@ export class DrivingProfilesComponent implements OnInit, AfterViewInit {
   }
 
   openDrivingProfileDetails(element: DrivingProfile) {
-    //Driving Profile Details not implemented yet.
+    
   }
 }

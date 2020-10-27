@@ -26,11 +26,11 @@ export class DrivingProfileAddComponent implements OnInit {
     this.drivingProfileForm = new FormGroup({
       avgDailyDrivingTime: new FormControl('', [
         Validators.required,
-        Validators.pattern("^[0-9]*$")
+        Validators.pattern('^[0-9]*$')
       ]),
       avgSpeed: new FormControl('', [
         Validators.required,
-        Validators.pattern("^[0-9]*$")
+        Validators.pattern('^[0-9]*$')
       ]),
 
       finishDate: new FormControl('', [
@@ -39,23 +39,23 @@ export class DrivingProfileAddComponent implements OnInit {
 
       maxSpeed: new FormControl('', [
         Validators.required,
-        Validators.pattern("^[0-9]*$")
+        Validators.pattern('^[0-9]*$')
       ]),
 
       minSpeed: new FormControl('', [
         Validators.required,
-        Validators.pattern("^[0-9]*$")
+        Validators.pattern('^[0-9]*$')
       ]),
       startDate: new FormControl('', [
         Validators.required,
       ]),
       totalDrivingTime: new FormControl('', [
         Validators.required,
-        Validators.pattern("^[0-9]*$")
+        Validators.pattern('^[0-9]*$')
       ]),
-    })
+    });
   }
-  
+
   get avgDailyDrivingTime() { return this.drivingProfileForm.get('avgDailyDrivingTime'); }
   get avgSpeed() { return this.drivingProfileForm.get('avgSpeed'); }
   get startDate() { return this.drivingProfileForm.get('startDate'); }
@@ -73,13 +73,13 @@ export class DrivingProfileAddComponent implements OnInit {
     if (this.drivingProfileForm.valid) {
       Object.keys(this.drivingProfileForm.value).map((key) =>
         this.data[key] = this.drivingProfileForm.value[key]);
-        this.vehicleService.vehicles.subscribe(res => {
-          const vehicle = res.find(v => v.monitoringSystem?.id === this.data.monitoringSystemId );
-      this.drivingProfileService.save(this.data, vehicle).subscribe(res => {
-        this.dialogRef.close(res);
-      })
-        }) 
-    
+      this.vehicleService.vehicles.subscribe(res => {
+        const vehicle = res.find(v => v.monitoringSystem?.id === this.data.monitoringSystemId);
+        this.drivingProfileService.save(this.data, vehicle).subscribe(res => {
+          this.dialogRef.close(res);
+        });
+      });
+
     }
   }
 }
