@@ -3,7 +3,7 @@ import {InsuranceCompany} from "../models/insuranceCompany";
 import {HttpClient} from "@angular/common/http";
 import {MatSnackBar} from "@angular/material/snack-bar";
 import {environment} from "../../environments/environment";
-import {Observable} from "rxjs";
+import {Observable, throwError} from "rxjs";
 import {catchError, map} from "rxjs/operators";
 
 @Injectable()
@@ -16,7 +16,7 @@ export class InsuranceCompanyService {
     this.insuranceCompaniesUrl = environment.url + '/insurance-companies';
   }
 
-  private findAll(): Observable<InsuranceCompany[]> {
+  findAll(): Observable<InsuranceCompany[]> {
     return this.http.get(this.insuranceCompaniesUrl + "/get-all").pipe(
       map((res: any) => {
         this.insuranceCompaniesList = res.map((insuranceCompany) => InsuranceCompany.fromJsonObject(insuranceCompany));
@@ -77,21 +77,21 @@ export class InsuranceCompanyService {
     );
   }
 
-  update(insuranceCompany: InsuranceCompany) {
+  update(insuranceCompany: InsuranceCompany, successText: string, errorText: string) {
     return this.http.put<InsuranceCompany>(this.insuranceCompaniesUrl + "/update/" + insuranceCompany.id, insuranceCompany).pipe(
       map((res: InsuranceCompany) => {
         let i = this.insuranceCompaniesList.findIndex(c => c.id === insuranceCompany.id);
         this.insuranceCompaniesList[i] = res;
-        this.snackBar.open('La empresa aseguradora fué actualizada con éxito.', '', {
+        this.snackBar.open(successText, '', {
           duration: 2000,
         });
         return res;
       }),
-      catchError((response) => {
-        this.snackBar.open('Hubo un error al actualizar la empresa aseguradora.', '', {
+      catchError((err) => {
+        this.snackBar.open(errorText, '', {
           duration: 2000,
         });
-        return this.insuranceCompanies;
+        return throwError(err);
       })
     );
   }
