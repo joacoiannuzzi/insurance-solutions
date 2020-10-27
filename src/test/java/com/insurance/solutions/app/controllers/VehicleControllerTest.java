@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.insurance.solutions.app.exceptions.BadRequestException;
 import com.insurance.solutions.app.exceptions.ResourceNotFoundException;
 import com.insurance.solutions.app.models.*;
+import com.insurance.solutions.app.models.enums.VehicleCategory;
 import com.insurance.solutions.app.repositories.ClientRepository;
 import com.insurance.solutions.app.repositories.VehicleRepository;
 import com.insurance.solutions.app.services.ClientService;
@@ -29,8 +30,7 @@ import java.util.Random;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import static com.insurance.solutions.app.models.ENUM_CATEGORY.*;
-import static com.insurance.solutions.app.utils.MonitoringSystemUtils.makeMonitoringSystem;
+import static com.insurance.solutions.app.models.enums.VehicleCategory.*;
 import static com.insurance.solutions.app.utils.VehicleUtils.makeVehicle;
 import static org.junit.Assert.*;
 import static org.springframework.http.MediaType.APPLICATION_JSON;
@@ -350,9 +350,9 @@ class VehicleControllerTest {
 
     @Test
     public void updateVehicle() throws Exception {
-        Vehicle aVehicle = new Vehicle("2", ENUM_CATEGORY.CAR,
+        Vehicle aVehicle = new Vehicle("2", VehicleCategory.CAR,
                 "brand2", "model2");
-        Vehicle vehicleUpdated = new Vehicle("3", ENUM_CATEGORY.CAR,
+        Vehicle vehicleUpdated = new Vehicle("3", VehicleCategory.CAR,
                 "brand3", "model3");
 
         Long id = vehicleService.createVehicle(aVehicle).getId();
@@ -386,7 +386,7 @@ class VehicleControllerTest {
 
     @Test
     public void deleteExistingVehicle() throws Exception {
-        Vehicle vehicle = new Vehicle("1", ENUM_CATEGORY.CAR,
+        Vehicle vehicle = new Vehicle("1", VehicleCategory.CAR,
                 "brand1", "model1");
 
         long vehicleId = vehicleService.createVehicle(vehicle).getId();

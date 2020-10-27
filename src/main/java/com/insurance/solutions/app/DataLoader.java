@@ -14,7 +14,7 @@ import java.util.List;
 import java.util.Random;
 import java.util.stream.Stream;
 
-import static com.insurance.solutions.app.models.ENUM_CATEGORY.CAR;
+import static com.insurance.solutions.app.models.enums.VehicleCategory.CAR;
 
 @Component
 public class DataLoader implements ApplicationRunner {
