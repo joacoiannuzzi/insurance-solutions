@@ -51,7 +51,7 @@ public class VehicleController {
     }
 
     @PutMapping("/update/{vehicleId}")
-    public ResponseEntity<VehicleResource> updateVehicle(@PathVariable Long vehicleId, @RequestBody Vehicle vehicle) {
+    public ResponseEntity<VehicleResource> updateVehicle(@PathVariable Long vehicleId, @Valid @RequestBody Vehicle vehicle) {
         return new ResponseEntity<>(
                 makeVehicle(vehicleService.updateVehicle(vehicleId, vehicle), true),
                 HttpStatus.OK
