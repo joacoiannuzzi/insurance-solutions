@@ -32,7 +32,7 @@ public class Vehicle {
             fetch = FetchType.EAGER,
             cascade = CascadeType.ALL,
             orphanRemoval = true)
-    private final Set<DrivingProfile> drivingProfiles = new HashSet<>();
+    private Set<DrivingProfile> drivingProfiles = new HashSet<>();
 
     @OneToOne(mappedBy = "vehicle",
             cascade = CascadeType.ALL)
@@ -54,13 +54,16 @@ public class Vehicle {
         this.model = model;
     }
 
-
     public void addDrivingProfile(DrivingProfile drivingProfile) {
         drivingProfiles.add(drivingProfile);
     }
 
     public void removeDrivingProfile(DrivingProfile drivingProfile) {
         drivingProfiles.remove(drivingProfile);
+    }
+
+    public void setDrivingProfiles(Set<DrivingProfile> drivingProfiles) {
+        this.drivingProfiles = drivingProfiles;
     }
 
     public Set<DrivingProfile> getDrivingProfiles() {

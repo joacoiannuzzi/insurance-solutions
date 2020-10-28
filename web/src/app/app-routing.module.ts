@@ -4,6 +4,7 @@ import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import {ClientListComponent} from "./pages/client/client-list/client-list.component";
 import {InsuranceCompanyListComponent} from "./pages/insurance-company/insurance-company-list/insurance-company-list.component";
+import {UserListComponent} from "./pages/user/user-list/user-list.component";
 
 const routes: Routes = [
   { path: 'clients', children: [
@@ -23,6 +24,11 @@ const routes: Routes = [
   {
     path: 'insurance-companies', children: [
       { path: '', component: InsuranceCompanyListComponent}
+    ]
+  },
+  {
+    path: 'users', children: [
+      { path: '', component: UserListComponent}
     ]
   }
 ];

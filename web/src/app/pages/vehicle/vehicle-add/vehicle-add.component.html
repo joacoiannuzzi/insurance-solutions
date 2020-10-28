@@ -1,7 +1,12 @@
 <h1 mat-dialog-title>Agregar vehículo</h1>
 <div mat-dialog-content>
 
-  <form [formGroup]="vehicleForm">
+  <div *ngIf="loading">
+    <mat-spinner class="spinner"
+                 mode="indeterminate"></mat-spinner>
+  </div>
+
+  <form [formGroup]="vehicleForm" *ngIf="!loading">
     <div class="form-container">
 
       <div class="item">
@@ -80,6 +85,9 @@
               {{option.dni}}
             </mat-option>
           </mat-autocomplete>
+          <mat-error *ngIf="client.errors?.checkExistsValidator">
+            Ingrese un DNI de cliente válido
+          </mat-error>
         </mat-form-field>
       </div>
 
@@ -87,7 +95,7 @@
   </form>
 
 </div>
-<div mat-dialog-actions>
+<div mat-dialog-actions *ngIf="!loading">
   <div class="buttons-container">
     <div class="item">
       <button mat-raised-button (click)="close()">Cancelar</button>
