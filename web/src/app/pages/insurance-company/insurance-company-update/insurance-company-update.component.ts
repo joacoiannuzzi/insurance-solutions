@@ -56,7 +56,7 @@ export class InsuranceCompanyUpdateComponent implements OnInit {
       // Se mapea todos los values del form al objeto client
       Object.keys(this.insuranceCompanyForm.value).map((key) => this.insuranceCompany[key] = this.insuranceCompanyForm.value[key]);
 
-      this.icService.update(this.insuranceCompany).subscribe(res => {
+      this.icService.update(this.insuranceCompany, 'La empresa aseguradora fué actualizada con éxito.', 'Hubo un error al actualizar la empresa aseguradora.').subscribe(res => {
         this.dialogRef.close(res);
       })
     }

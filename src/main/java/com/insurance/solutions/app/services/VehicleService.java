@@ -36,9 +36,7 @@ public class VehicleService {
     private ClientRepository clientRepository;
 
     public Vehicle createVehicle(Vehicle vehicle) {
-        if (vehicleRepository.existsByLicensePlate(vehicle.getLicensePlate()))
-            throw new BadRequestException("A vehicle with license plate: " + vehicle.getLicensePlate() + " already exists.");
-
+        validateVehicle(vehicle);
         return vehicleRepository.save(vehicle);
     }
 
@@ -57,8 +55,12 @@ public class VehicleService {
 
     public Vehicle updateVehicle(Long vehicleId, Vehicle vehicle) {
         Vehicle oldVehicle = vehicleRepository.findById(vehicleId).orElseThrow(() -> new ResourceNotFoundException("Vehicle not found."));
-        Vehicle newVehicle = new Vehicle(vehicle.getLicensePlate(), vehicle.getCategory(), vehicle.getBrand(), vehicle.getModel());
 
+        Vehicle newVehicle = new Vehicle(vehicle.getLicensePlate(), vehicle.getCategory(), vehicle.getBrand(), vehicle.getModel());
+        newVehicle.setMonitoringSystem(oldVehicle.getMonitoringSystem());
+        newVehicle.setDrivingProfiles(oldVehicle.getDrivingProfiles());
+
+        if (!vehicle.getLicensePlate().equals(oldVehicle.getLicensePlate())) validateVehicle(newVehicle);
         newVehicle.setId(oldVehicle.getId());
         return vehicleRepository.save(newVehicle);
     }
@@ -137,5 +139,10 @@ public class VehicleService {
         vehicle.setMonitoringSystem(null);
         vehicleRepository.save(vehicle);
 
+    }
+
+    private void validateVehicle(Vehicle vehicle) {
+        if (vehicleRepository.existsByLicensePlate(vehicle.getLicensePlate()))
+            throw new BadRequestException("A vehicle with license plate: " + vehicle.getLicensePlate() + " already exists.");
     }
 }

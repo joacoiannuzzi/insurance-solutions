@@ -9,7 +9,7 @@ import java.util.List;
 @Repository
 public interface MonitoringSystemRepository extends CrudRepository<MonitoringSystem, Long> {
 
-    boolean existsByNameAndSensorAndMonitoringCompany(String name, String sensor, String monitoringCompany);
+    boolean existsByName(String name);
 
     List<MonitoringSystem> findAllByVehicleIsNull();
 

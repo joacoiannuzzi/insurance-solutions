@@ -3,6 +3,7 @@ package com.insurance.solutions.app.models;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
 
 @Entity
 @Table
@@ -12,6 +13,7 @@ public class MonitoringSystem {
     @GeneratedValue
     private Long id;
 
+    @NotBlank(message = "Name can not be blank")
     private String name;
     private String sensor;
     private String monitoringCompany;

@@ -2,7 +2,7 @@ import { DrivingProfileUpdateComponent } from './../../app/pages/vehicle/driving
 import { MatDialogRef } from '@angular/material/dialog';
 import { catchError } from 'rxjs/operators';
 import { map } from 'rxjs/operators';
-import { DrivingProfile } from './../models/drivingProfile';
+import { DrivingProfile } from '../models/drivingProfile';
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { MatSnackBar } from '@angular/material/snack-bar';
@@ -71,6 +71,4 @@ export class DrivingProfileService {
         })
       )
     }
-
-
 }

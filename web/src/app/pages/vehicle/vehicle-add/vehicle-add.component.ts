@@ -1,5 +1,5 @@
 import {Component, Inject, OnInit} from '@angular/core';
-import {AbstractControl, FormControl, FormGroup, ValidatorFn, Validators} from "@angular/forms";
+import {FormControl, FormGroup, Validators} from "@angular/forms";
 import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
 import {VehicleService} from "../../../../shared/services/vehicle.service";
 import {Vehicle} from "../../../../shared/models/vehicle";
@@ -9,6 +9,7 @@ import {Client} from "../../../../shared/models/client";
 import {Observable} from "rxjs";
 import {map, startWith} from "rxjs/operators";
 import {alreadyExistsValidator} from "../../../../shared/directives/alreadyExistsValidator.directive";
+import {checkExistsValidator} from "../../../../shared/directives/checkExistsValidator.directive";
 
 @Component({
   selector: 'app-vehicle-add',
@@ -22,6 +23,7 @@ export class VehicleAddComponent implements OnInit {
   clients: Client[] = [];
   filteredOptions: Observable<Client[]>;
   vehicleList = [];
+  loading = true;
 
   constructor(
     public dialogRef: MatDialogRef<VehicleAddComponent>,
@@ -33,7 +35,10 @@ export class VehicleAddComponent implements OnInit {
 
   ngOnInit(): void {
     this.getVehicles();
+    this.getClients();
+  }
 
+  private createForm() {
     this.vehicleForm = new FormGroup({
       licensePlate: new FormControl('', [
         Validators.required,
@@ -55,9 +60,10 @@ export class VehicleAddComponent implements OnInit {
       category: new FormControl('', [
         Validators.required
       ]),
-      client: new FormControl('', [])
+      client: new FormControl('', [
+        checkExistsValidator(this.clients, 'dni')
+      ])
     });
-    this.getClients();
   }
 
   private getVehicles() {
@@ -116,7 +122,13 @@ export class VehicleAddComponent implements OnInit {
   getClients() {
     this.clientService.clients.subscribe((res: Client[]) => {
       this.clients = [...res];
+      this.createForm();
+      this.createFilteredOptions();
+      this.loading = false;
     })
+  }
+
+  private createFilteredOptions() {
     this.filteredOptions = this.client.valueChanges
       .pipe(
         startWith(''),
