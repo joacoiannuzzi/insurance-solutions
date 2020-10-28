@@ -5,6 +5,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Vehicle } from '../models/vehicle';
+import { throwToolbarMixedModesError } from '@angular/material/toolbar';
 
 @Injectable()
 export class DrivingProfileService {
@@ -32,5 +33,17 @@ export class DrivingProfileService {
         );
     }
 
-
+    public delete(driPro: DrivingProfile) {
+        return this.http.delete<DrivingProfile>(this.drivingProfilesUrl + "/delete/" + driPro.id).pipe(
+            map(() => {
+                let auxDriProList: DrivingProfile[] = [...this.drivingProfilesList];
+                auxDriProList.splice(this.drivingProfilesList.findIndex(d => d.id === driPro.id),1);
+                this.drivingProfilesList = [...auxDriProList];
+                this.snackBar.open("El perfil de manejo fue eliminado con éxito.", '', {
+                    duration: 2000,
+                });
+                return this.drivingProfilesList;
+            })
+        )
+    }
 }
