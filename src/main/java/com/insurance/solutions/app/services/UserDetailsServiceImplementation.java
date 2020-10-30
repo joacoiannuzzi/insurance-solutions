@@ -19,11 +19,11 @@ public class UserDetailsServiceImplementation implements UserDetailsService {
     }
 
     @Override
-    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-        com.insurance.solutions.app.models.User user = userRepository.findByEmail(email);
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        com.insurance.solutions.app.models.User user = userRepository.findByUsername(username);
         if (user == null) {
-            throw new UsernameNotFoundException(email);
+            throw new UsernameNotFoundException(username);
         }
-        return new User(user.getEmail(), user.getPassword(), emptyList());
+        return new User(user.getUsername(), user.getPassword(), emptyList());
     }
 }
