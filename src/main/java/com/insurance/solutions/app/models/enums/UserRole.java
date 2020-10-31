@@ -1,5 +1,5 @@
 package com.insurance.solutions.app.models.enums;
 
-public enum UserType {
-    BASE, ADMIN
+public enum UserRole {
+    ROLE_BASE, ROLE_ADMIN
 }

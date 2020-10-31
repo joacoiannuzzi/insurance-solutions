@@ -3,7 +3,7 @@ package com.insurance.solutions.app.controllers;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.insurance.solutions.app.models.User;
-import com.insurance.solutions.app.models.enums.UserType;
+import com.insurance.solutions.app.models.enums.UserRole;
 import com.insurance.solutions.app.repositories.UserRepository;
 import com.insurance.solutions.app.resources.UserResource;
 import com.insurance.solutions.app.services.UserService;
@@ -48,7 +48,7 @@ public class UserControllerTest {
 
     @Test
     void createUser() throws Exception {
-        User user = new User("User1", "user1@mail.com", "password", UserType.BASE);
+        User user = new User("User1", "user1@mail.com", "password", UserRole.ROLE_BASE);
 
         MvcResult response = mockMvc
                 .perform(
@@ -68,7 +68,7 @@ public class UserControllerTest {
 
         assertEquals(toJson(user), toJson(userRepository.findById(createdUser.getId())));
 
-        User adminUser = new User("AdminUser1", "adminuser1@mail.com", "password", UserType.ADMIN);
+        User adminUser = new User("AdminUser1", "adminuser1@mail.com", "password", UserRole.ROLE_ADMIN);
 
         MvcResult response2 = mockMvc
                 .perform(
