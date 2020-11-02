@@ -1,3 +1,4 @@
+import { DrivingProfileDetailsComponent } from './../driving-profile-details/driving-profile-details.component';
 import { DrivingProfileService } from 'src/shared/services/driving-profile.service';
 import { AfterViewInit, Component, Inject, OnInit, ViewChild } from '@angular/core';
 import { ConfirmDialogComponent } from "../../../components/confirm-dialog/confirm-dialog.component";
@@ -8,7 +9,6 @@ import { MatPaginator } from "@angular/material/paginator";
 import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from "@angular/material/dialog";
 import { Vehicle } from "../../../../shared/models/vehicle";
 import { VehicleService } from "../../../../shared/services/vehicle.service";
-import { DrivingProfileAddComponent } from '../driving-profile-add/driving-profile-add.component';
 import { DrivingProfileUpdateComponent } from '../driving-profile-update/driving-profile-update.component';
 
 @Component({
@@ -63,13 +63,13 @@ export class DrivingProfilesComponent implements OnInit, AfterViewInit {
       });
   }
 
-  updateDrivingProfile(driPro: DrivingProfile){
+  updateDrivingProfile(driPro: DrivingProfile) {
     const dialogRef = this.dialog.open(DrivingProfileUpdateComponent, {
       width: '800px',
       data: driPro
     });
-    dialogRef.afterClosed().subscribe((res) => {
-  });
+    dialogRef.afterClosed ().subscribe((res) => {
+    });
   }
 
   applyFilter(event: Event) {
@@ -79,6 +79,15 @@ export class DrivingProfilesComponent implements OnInit, AfterViewInit {
     if (this.dataSource.paginator) {
       this.dataSource.paginator.firstPage();
     }
+  }
+
+  viewDrivingProfile(driPro: DrivingProfile) {
+    const dialogRef = this.dialog.open(DrivingProfileDetailsComponent, {
+      width: '800px',
+      data: driPro
+    });
+    dialogRef.afterClosed().subscribe((res) => {
+    });
   }
 
   openDrivingProfileDetails(element: DrivingProfile) {

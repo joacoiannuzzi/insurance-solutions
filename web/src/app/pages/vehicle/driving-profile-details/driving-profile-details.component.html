@@ -1,0 +1,36 @@
+<h1 mat-dialog-title>Vista de Perfil de Conducción</h1>
+<div mat-dialog-content>
+
+  <form [formGroup]="drivingProfileForm">
+    <div class="form-container">
+
+      <div mat-dialog-content class="driving-profile-details-content">
+      <p class="item">Fecha de inicio:</p>
+      <p class="item">Fecha de fin:</p>
+      <p class="item">Velocidad promedio:</p>
+      <p class="item">Velocidad máxima</p>
+      <p class="item">Velocidad mínima</p>
+      <p class="item">Tiempo de manejo total:</p>
+      <p class="item">Tiempo de manejo promedio:</p>
+      </div>
+
+      <div>
+        <p>{{startDate}}</p>
+        <p>{{finishDate}}</p>
+        <p>{{avgSpeed}}</p>
+        <p>{{maxSpeed}}</p>
+        <p>{{minSpeed}}</p>
+        <p>{{startDate}}</p>
+        <p>{{totalDrivingTime}}</p>
+        <p>{{avgDailyDrivingTime}}</p>
+      </div>
+
+
+<div mat-dialog-actions>
+  <div class="buttons-container">
+    <div class="item">
+      <button mat-raised-button  color="primary" (click)="update(data)">Editar</button>
+      <button mat-raised-button (click)="close()">Cancelar</button>
+    </div>
+  </div>
+</div>
