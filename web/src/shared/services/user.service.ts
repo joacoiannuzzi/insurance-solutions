@@ -5,7 +5,6 @@ import {MatSnackBar} from "@angular/material/snack-bar";
 import {environment} from "../../environments/environment";
 import {Observable} from "rxjs";
 import {catchError, map} from "rxjs/operators";
-import {InsuranceCompany} from "../models/insuranceCompany";
 
 @Injectable({
   providedIn: 'root'
@@ -20,7 +19,7 @@ export class UserService {
   }
 
   private findAll(): Observable<User[]> {
-    return this.http.get(this.usersUrl).pipe(
+    return this.http.get(this.usersUrl + '/all').pipe(
       map((res: any) => {
         this.usersList = res.map((user) => User.fromJsonObject(user));
         return this.usersList;
@@ -29,7 +28,7 @@ export class UserService {
         this.snackBar.open('Hubo un error al traer los usuarios.', '', {
           duration: 2000,
         });
-        return this.users;
+        return [];
       })
     );
   }
@@ -43,7 +42,7 @@ export class UserService {
   }
 
   public save(user: User) {
-    return this.http.post<User>(this.usersUrl + "/create", user).pipe(
+    return this.http.post<User>(this.usersUrl + "/sign-up", user).pipe(
       map((res: any) => {
         this.usersList = [...this.usersList, User.fromJsonObject(res)];
         this.snackBar.open('El usuario fue guardado con éxito.', '', {
@@ -98,14 +97,14 @@ export class UserService {
   }
 
   public assignInsuranceCompany(userid: number, icid: number) {
-    return this.http.put<User>(`${this.usersUrl}/${userid}/add-insurance-company/${icid}`, {}).pipe(
-      map((res: any) => {
-        this.usersList.find(u => u.id === userid).insuranceCompany = (InsuranceCompany.fromJsonObject(res));
-        return res;
-      }),
-      catchError(() => {
-        return this.usersList;
-      })
-    );
+    // return this.http.put<User>(`${this.usersUrl}/${userid}/add-insurance-company/${icid}`, {}).pipe(
+    //   map((res: any) => {
+    //     this.usersList.find(u => u.id === userid).insuranceCompany = (InsuranceCompany.fromJsonObject(res));
+    //     return res;
+    //   }),
+    //   catchError(() => {
+    //     return this.usersList;
+    //   })
+    // );
   }
 }

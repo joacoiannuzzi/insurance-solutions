@@ -38,9 +38,7 @@ export class UserListComponent implements OnInit, AfterViewInit {
     const filterValue = (event.target as HTMLInputElement).value;
     this.dataSource.filter = filterValue.trim().toLowerCase();
 
-    if (this.dataSource.paginator) {
-      this.dataSource.paginator.firstPage();
-    }
+    this.dataSource.paginator?.firstPage();
   }
 
   getUsers() {
@@ -52,10 +50,10 @@ export class UserListComponent implements OnInit, AfterViewInit {
     });
   }
 
-  openDialog(): void {
+  openDialog() {
     const dialogRef = this.dialog.open(UserAddComponent, {
       width: '800px',
-      data: new User(-1, "", "", "", new InsuranceCompany(-2, ''))
+      data: new User('', -1, "", "", "", new InsuranceCompany(-2, '', []))
     });
 
     dialogRef.afterClosed().subscribe(() => {
