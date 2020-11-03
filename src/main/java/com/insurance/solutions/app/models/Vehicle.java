@@ -2,6 +2,7 @@ package com.insurance.solutions.app.models;
 
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.insurance.solutions.app.models.enums.VehicleCategory;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
@@ -19,7 +20,7 @@ public class Vehicle {
     @NotBlank(message = "License plate can not be blank")
     private String licensePlate;
 
-    private ENUM_CATEGORY category;
+    private VehicleCategory category;
 
     @NotBlank(message = "Brand can not be blank")
     private String brand;
@@ -32,7 +33,7 @@ public class Vehicle {
             fetch = FetchType.EAGER,
             cascade = CascadeType.ALL,
             orphanRemoval = true)
-    private final Set<DrivingProfile> drivingProfiles = new HashSet<>();
+    private Set<DrivingProfile> drivingProfiles = new HashSet<>();
 
     @OneToOne(mappedBy = "vehicle",
             cascade = CascadeType.ALL)
@@ -47,13 +48,12 @@ public class Vehicle {
     public Vehicle() {
     }
 
-    public Vehicle(String licensePlate, ENUM_CATEGORY category, String brand, String model) {
+    public Vehicle(String licensePlate, VehicleCategory category, String brand, String model) {
         this.licensePlate = licensePlate;
         this.category = category;
         this.brand = brand;
         this.model = model;
     }
-
 
     public void addDrivingProfile(DrivingProfile drivingProfile) {
         drivingProfiles.add(drivingProfile);
@@ -61,6 +61,10 @@ public class Vehicle {
 
     public void removeDrivingProfile(DrivingProfile drivingProfile) {
         drivingProfiles.remove(drivingProfile);
+    }
+
+    public void setDrivingProfiles(Set<DrivingProfile> drivingProfiles) {
+        this.drivingProfiles = drivingProfiles;
     }
 
     public Set<DrivingProfile> getDrivingProfiles() {
@@ -83,11 +87,11 @@ public class Vehicle {
         this.licensePlate = licensePlate;
     }
 
-    public ENUM_CATEGORY getCategory() {
+    public VehicleCategory getCategory() {
         return category;
     }
 
-    public void setCategory(ENUM_CATEGORY category) {
+    public void setCategory(VehicleCategory category) {
         this.category = category;
     }
 

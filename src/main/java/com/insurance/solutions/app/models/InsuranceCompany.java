@@ -21,6 +21,11 @@ public class InsuranceCompany {
             cascade = CascadeType.ALL)
     private final Set<Client> clients = new HashSet<>();
 
+    @OneToMany(mappedBy = "insuranceCompany",
+            fetch = FetchType.EAGER,
+            cascade = CascadeType.ALL)
+    private final Set<User> users = new HashSet<>();
+
     public InsuranceCompany() {
     }
 
@@ -54,5 +59,17 @@ public class InsuranceCompany {
 
     public void removeClient(Client client) {
         clients.remove(client);
+    }
+
+    public Set<User> getUsers() {
+        return users;
+    }
+
+    public void addUser(User user) {
+        users.add(user);
+    }
+
+    public void removeUser(User user) {
+        users.remove(user);
     }
 }

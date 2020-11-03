@@ -1,0 +1,29 @@
+.ic-client-header {
+  display: flex;
+  flex-direction: row;
+
+  button {
+    margin-left: auto;
+  }
+}
+
+.ic-client-content {
+  margin: 0;
+}
+
+.ic-client-actions {
+  display: flex;
+  align-content: center;
+
+  button {
+    flex: 1;
+  }
+}
+
+table {
+  width: 100%;
+}
+
+.no-vehicles-message {
+  text-align: center;
+}
