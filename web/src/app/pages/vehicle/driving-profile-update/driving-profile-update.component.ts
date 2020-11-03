@@ -29,10 +29,14 @@ constructor(
     this.drivingProfileForm = new FormGroup({
       avgDailyDrivingTime: new FormControl(this.data.avgDailyDrivingTime, [
         Validators.required,
+        Validators.min(0),
+        Validators.minLength(1),
         Validators.pattern('^[0-9]*$')
       ]),
       avgSpeed: new FormControl(this.data.avgSpeed, [
         Validators.required,
+        Validators.min(0),
+        Validators.minLength(1),
         Validators.pattern('^[0-9]*$')
       ]),
 
@@ -42,11 +46,15 @@ constructor(
 
       maxSpeed: new FormControl(this.data.maxSpeed, [
         Validators.required,
+        Validators.minLength(1),
+        Validators.min(0),
         Validators.pattern('^[0-9]*$')
       ]),
 
       minSpeed: new FormControl(this.data.minSpeed, [
         Validators.required,
+        Validators.minLength(1),
+        Validators.min(0),
         Validators.pattern('^[0-9]*$')
       ]),
       startDate: new FormControl(this.data.startDate, [
@@ -54,6 +62,8 @@ constructor(
       ]),
       totalDrivingTime: new FormControl(this.data.totalDrivingTime, [
         Validators.required,
+        Validators.minLength(1),
+        Validators.min(0),
         Validators.pattern('^[0-9]*$')
       ]),
     });
