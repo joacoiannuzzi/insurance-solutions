@@ -5,8 +5,10 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.insurance.solutions.app.models.User;
 import com.insurance.solutions.app.models.enums.UserType;
 import com.insurance.solutions.app.repositories.UserRepository;
+import com.insurance.solutions.app.exceptions.ResourceNotFoundException;
 import com.insurance.solutions.app.resources.UserResource;
 import com.insurance.solutions.app.services.UserService;
+import org.junit.Assert;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -19,6 +21,8 @@ import java.util.List;
 
 import static org.junit.Assert.assertEquals;
 import static org.springframework.http.MediaType.APPLICATION_JSON;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
@@ -108,5 +112,48 @@ public class UserControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(content().contentType("application/json"))
                 .andExpect(content().string(objectMapper.writeValueAsString(userResources)));
+    }
+
+    @Test
+    public void deleteExistingUser() throws Exception {
+        User user = new User("User2", "user2@mail.com", "password", UserType.BASE);
+
+        long userId = userService.createUser(user).getId();
+
+
+        Assert.assertEquals(toJson(user), toJson(userService.findById(userId)));
+
+        mockMvc
+                .perform(
+                        delete(urlBase + "/delete/" + userId)
+                )
+                .andExpect(status().isNoContent());
+
+        Exception exception = Assert.assertThrows(ResourceNotFoundException.class, () -> userService.findById(userId));
+        Assert.assertEquals("User not found.", exception.getMessage());
+
+        mockMvc
+                .perform(
+                        delete(urlBase + "/delete/" + userId)
+                )
+                .andExpect(status().isNotFound());
+    }
+
+    @Test
+    void deleteNotExistingUser() throws Exception {
+
+        List<User> before = userService.getAll();
+
+        long idToDelete = 57775786867867878L;
+
+        mockMvc
+                .perform(
+                        delete(urlBase + "/delete/" + idToDelete)
+                )
+                .andExpect(status().isNotFound());
+
+        List<User> after = userService.getAll();
+
+        assertEquals("Size should be the same", before.size(), after.size());
     }
 }

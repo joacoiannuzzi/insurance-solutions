@@ -35,7 +35,7 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
         http.cors().and().csrf().disable().authorizeRequests()
                 .antMatchers(
                         SIGN_UP_URL,
-                        ALL_USERS,
+                        USER,
                         HEALTHCHECK,
 
                         CLIENT,
