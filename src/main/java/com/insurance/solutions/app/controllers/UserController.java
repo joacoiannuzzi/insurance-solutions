@@ -2,8 +2,8 @@ package com.insurance.solutions.app.controllers;
 
 import com.insurance.solutions.app.exceptions.ResourceNotFoundException;
 import com.insurance.solutions.app.models.User;
-import com.insurance.solutions.app.resources.UserResource;
 import com.insurance.solutions.app.repositories.UserRepository;
+import com.insurance.solutions.app.resources.UserResource;
 import com.insurance.solutions.app.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -38,8 +38,8 @@ public class UserController {
     }
 
     @GetMapping("/all")
-    public ResponseEntity<List<UserResource>> getUsers() {
-        List<User> users = (List<User>) userRepository.findAll();
+    public ResponseEntity<List<UserResource>> getAllBaseUsers() {
+        List<User> users = userService.getAllBase();
         List<UserResource> userResources = new ArrayList<>();
         for (User user : users) {
             userResources.add(new UserResource(user.getId(), user.getUsername(), user.getEmail()));

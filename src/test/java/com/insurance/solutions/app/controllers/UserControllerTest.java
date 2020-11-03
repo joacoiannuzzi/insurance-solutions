@@ -5,9 +5,10 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.insurance.solutions.app.models.User;
 import com.insurance.solutions.app.models.enums.UserType;
 import com.insurance.solutions.app.repositories.UserRepository;
+import com.insurance.solutions.app.services.UserService;
+import com.insurance.solutions.app.utils.TestUtil;
 import com.insurance.solutions.app.exceptions.ResourceNotFoundException;
 import com.insurance.solutions.app.resources.UserResource;
-import com.insurance.solutions.app.services.UserService;
 import org.junit.Assert;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,13 +17,17 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 
+import java.io.UnsupportedEncodingException;
+import java.util.Collections;
+import java.util.LinkedHashMap;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Stream;
 
 import static org.junit.Assert.assertEquals;
 import static org.springframework.http.MediaType.APPLICATION_JSON;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
+import static org.junit.Assert.assertTrue;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
@@ -48,6 +53,10 @@ public class UserControllerTest {
 
     private String toJson(Object o) throws JsonProcessingException {
         return objectMapper.writeValueAsString(o);
+    }
+
+    private <T> T toClass(MvcResult response, Class<T> type) throws JsonProcessingException, UnsupportedEncodingException {
+        return objectMapper.readValue(response.getResponse().getContentAsString(), type);
     }
 
     @Test
@@ -155,5 +164,66 @@ public class UserControllerTest {
         List<User> after = userService.getAll();
 
         assertEquals("Size should be the same", before.size(), after.size());
+    }
+
+    @Test
+    void getAllBaseUsers() throws Exception {
+
+        userRepository.deleteAll();
+
+        Stream.generate(TestUtil::createRandomUser)
+                .limit(20)
+                .forEach(userService::createUser);
+
+        final var all = userService.getAllBase();
+
+        MvcResult mvcResult = mockMvc
+                .perform(
+                        get(urlBase + "/all")
+                )
+                .andExpect(status().isOk())
+                .andExpect(content().contentType(APPLICATION_JSON))
+                .andExpect(content().json(toJson(all)))
+//                .andExpect(jsonPath("$[*].type").value("BASE"))
+                .andReturn();
+
+        final var list = (List<LinkedHashMap>) toClass(mvcResult, List.class);
+
+        final var areAllBase =
+                list.stream()
+                        .allMatch(user -> user.get("type").equals(UserType.BASE.toString()));
+
+        assertTrue("User should be all type base", areAllBase);
+        assertEquals("Size should be the same", all.size(), list.size());
+
+    }
+
+    @Test
+    void getEmptyAllBaseUsers() throws Exception {
+
+        userRepository.deleteAll();
+
+        final var all = userService.getAllBase();
+
+        final var emptyList = Collections.emptyList();
+
+        MvcResult mvcResult = mockMvc
+                .perform(
+                        get(urlBase + "/all")
+                )
+                .andExpect(status().isOk())
+                .andExpect(content().contentType(APPLICATION_JSON))
+                .andExpect(content().json(toJson(emptyList)))
+                .andReturn();
+
+        final var list = (List<LinkedHashMap>) toClass(mvcResult, List.class);
+
+        final var areAllBase =
+                list.stream()
+                        .allMatch(user -> user.get("type").equals(UserType.BASE.toString()));
+
+        assertTrue("User should be all type base", areAllBase);
+        assertEquals("Size should be the same", all.size(), list.size());
+
     }
 }

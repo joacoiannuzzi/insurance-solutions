@@ -25,6 +25,7 @@ public class User {
     @NotBlank(message = "Password can not be blank")
     private String password;
 
+    @Enumerated(EnumType.STRING)
     private UserType type;
 
     @JsonIgnore
