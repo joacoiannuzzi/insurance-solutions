@@ -2,6 +2,7 @@ package com.insurance.solutions.app.models;
 
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.insurance.solutions.app.models.enums.VehicleCategory;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
@@ -19,7 +20,7 @@ public class Vehicle {
     @NotBlank(message = "License plate can not be blank")
     private String licensePlate;
 
-    private ENUM_CATEGORY category;
+    private VehicleCategory category;
 
     @NotBlank(message = "Brand can not be blank")
     private String brand;
@@ -47,7 +48,7 @@ public class Vehicle {
     public Vehicle() {
     }
 
-    public Vehicle(String licensePlate, ENUM_CATEGORY category, String brand, String model) {
+    public Vehicle(String licensePlate, VehicleCategory category, String brand, String model) {
         this.licensePlate = licensePlate;
         this.category = category;
         this.brand = brand;
@@ -86,11 +87,11 @@ public class Vehicle {
         this.licensePlate = licensePlate;
     }
 
-    public ENUM_CATEGORY getCategory() {
+    public VehicleCategory getCategory() {
         return category;
     }
 
-    public void setCategory(ENUM_CATEGORY category) {
+    public void setCategory(VehicleCategory category) {
         this.category = category;
     }
 

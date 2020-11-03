@@ -1,6 +1,7 @@
 package com.insurance.solutions.app;
 
 import com.insurance.solutions.app.models.*;
+import com.insurance.solutions.app.models.enums.UserType;
 import com.insurance.solutions.app.repositories.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.ApplicationArguments;
@@ -14,7 +15,7 @@ import java.util.List;
 import java.util.Random;
 import java.util.stream.Stream;
 
-import static com.insurance.solutions.app.models.ENUM_CATEGORY.CAR;
+import static com.insurance.solutions.app.models.enums.VehicleCategory.CAR;
 
 @Component
 public class DataLoader implements ApplicationRunner {
@@ -37,7 +38,7 @@ public class DataLoader implements ApplicationRunner {
     @Override
     public void run(ApplicationArguments args) throws Exception {
         Stream.of("Sebastian", "Tomas", "Franco", "Jose").forEach(name -> {
-            User user = new User(name, name.toLowerCase() + "@mail.com", new BCryptPasswordEncoder().encode("password"));
+            User user = new User(name, name.toLowerCase() + "@mail.com", new BCryptPasswordEncoder().encode("password"), UserType.ADMIN);
             userRepository.save(user);
         });
 
