@@ -3,7 +3,7 @@ package com.insurance.solutions.app.controllers;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.insurance.solutions.app.models.User;
-import com.insurance.solutions.app.models.enums.UserType;
+import com.insurance.solutions.app.models.enums.UserRole;
 import com.insurance.solutions.app.repositories.UserRepository;
 import com.insurance.solutions.app.services.UserService;
 import com.insurance.solutions.app.utils.TestUtil;
@@ -127,7 +127,7 @@ public class UserControllerTest {
 
     @Test
     public void deleteExistingUser() throws Exception {
-        User user = new User("User2", "user2@mail.com", "password", UserType.BASE);
+        User user = new User("User2", "user2@mail.com", "password", UserRole.ROLE_BASE);
 
         long userId = userService.createUser(user).getId();
 
@@ -193,7 +193,7 @@ public class UserControllerTest {
 
         final var areAllBase =
                 list.stream()
-                        .allMatch(user -> user.get("type").equals(UserType.BASE.toString()));
+                        .allMatch(user -> user.get("type").equals(UserRole.ROLE_BASE.toString()));
 
         assertTrue("User should be all type base", areAllBase);
         assertEquals("Size should be the same", all.size(), list.size());
@@ -222,7 +222,7 @@ public class UserControllerTest {
 
         final var areAllBase =
                 list.stream()
-                        .allMatch(user -> user.get("type").equals(UserType.BASE.toString()));
+                        .allMatch(user -> user.get("type").equals(UserRole.ROLE_BASE.toString()));
 
         assertTrue("User should be all type base", areAllBase);
         assertEquals("Size should be the same", all.size(), list.size());

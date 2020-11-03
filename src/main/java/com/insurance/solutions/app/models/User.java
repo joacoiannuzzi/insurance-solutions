@@ -2,7 +2,6 @@ package com.insurance.solutions.app.models;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.insurance.solutions.app.models.enums.UserRole;
-import com.insurance.solutions.app.models.enums.UserType;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
