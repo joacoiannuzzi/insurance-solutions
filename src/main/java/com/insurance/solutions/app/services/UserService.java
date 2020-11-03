@@ -2,7 +2,7 @@ package com.insurance.solutions.app.services;
 
 import com.insurance.solutions.app.exceptions.ResourceNotFoundException;
 import com.insurance.solutions.app.models.*;
-import com.insurance.solutions.app.models.enums.UserType;
+import com.insurance.solutions.app.models.enums.UserRole;
 import com.insurance.solutions.app.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -38,7 +38,7 @@ public class UserService {
     public List<User> getAllBase() {
         return ((List<User>) userRepository.findAll())
                 .stream()
-                .filter(user -> user.getType().equals(UserType.BASE))
+                .filter(user -> user.getRole().equals(UserRole.ROLE_BASE))
                 .collect(Collectors.toList());
     }
 

@@ -1,7 +1,7 @@
 package com.insurance.solutions.app.utils;
 
 import com.insurance.solutions.app.models.*;
-import com.insurance.solutions.app.models.enums.UserType;
+import com.insurance.solutions.app.models.enums.UserRole;
 import com.insurance.solutions.app.models.enums.VehicleCategory;
 
 import java.util.Date;
@@ -49,8 +49,8 @@ public class TestUtil {
         return new InsuranceCompany(String.valueOf(random.nextInt()));
     }
 
-    private static UserType randomUserType() {
-        final var values = UserType.values();
+    private static UserRole randomUserRole() {
+        final var values = UserRole.values();
         return values[random.nextInt(values.length)];
 
     }
@@ -59,7 +59,7 @@ public class TestUtil {
                 String.valueOf(random.nextInt()),
                 String.valueOf(random.nextInt()),
                 String.valueOf(random.nextInt()),
-                randomUserType()
+                randomUserRole()
         );
     }
 
