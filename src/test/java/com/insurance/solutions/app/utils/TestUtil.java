@@ -1,8 +1,8 @@
 package com.insurance.solutions.app.utils;
 
 import com.insurance.solutions.app.models.*;
-import com.insurance.solutions.app.models.enums.UserType;
 import com.insurance.solutions.app.models.enums.VehicleCategory;
+import com.insurance.solutions.app.models.enums.UserType;
 
 import java.util.Date;
 import java.util.Random;

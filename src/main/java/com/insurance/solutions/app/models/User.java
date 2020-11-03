@@ -1,6 +1,7 @@
 package com.insurance.solutions.app.models;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.insurance.solutions.app.models.enums.UserRole;
 import com.insurance.solutions.app.models.enums.UserType;
 
 import javax.persistence.*;
@@ -25,8 +26,8 @@ public class User {
     @NotBlank(message = "Password can not be blank")
     private String password;
 
-    @Enumerated(EnumType.STRING)
-    private UserType type;
+    @Enumerated(value = EnumType.STRING)
+    private UserRole role;
 
     @JsonIgnore
     @ManyToOne(fetch = FetchType.EAGER)
@@ -36,11 +37,11 @@ public class User {
     public User() {
     }
 
-    public User(String username, String email, String password, UserType type) {
+    public User(String username, String email, String password, UserRole role) {
         this.username = username;
         this.email = email;
         this.password = password;
-        this.type = type;
+        this.role = role;
     }
 
     public long getId() {
@@ -75,12 +76,12 @@ public class User {
         this.password = password;
     }
 
-    public UserType getType() {
-        return type;
+    public UserRole getRole() {
+        return role;
     }
 
-    public void setType(UserType type) {
-        this.type = type;
+    public void setRole(UserRole role) {
+        this.role = role;
     }
 
     public InsuranceCompany getInsuranceCompany() {

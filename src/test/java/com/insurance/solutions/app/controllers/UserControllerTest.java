@@ -14,6 +14,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 
@@ -34,7 +35,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @SpringBootTest
-@AutoConfigureMockMvc
+@AutoConfigureMockMvc(addFilters = false)
+@ActiveProfiles("test")
 public class UserControllerTest {
 
     String urlBase = "/users";
@@ -61,7 +63,7 @@ public class UserControllerTest {
 
     @Test
     void createUser() throws Exception {
-        User user = new User("User1", "user1@mail.com", "password", UserType.BASE);
+        User user = new User("User1", "user1@mail.com", "password", UserRole.ROLE_BASE);
 
         MvcResult response = mockMvc
                 .perform(
@@ -81,7 +83,7 @@ public class UserControllerTest {
 
         assertEquals(toJson(user), toJson(userRepository.findById(createdUser.getId())));
 
-        User adminUser = new User("AdminUser1", "adminuser1@mail.com", "password", UserType.ADMIN);
+        User adminUser = new User("AdminUser1", "adminuser1@mail.com", "password", UserRole.ROLE_ADMIN);
 
         MvcResult response2 = mockMvc
                 .perform(
