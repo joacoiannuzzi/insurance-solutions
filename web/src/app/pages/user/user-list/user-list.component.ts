@@ -7,6 +7,7 @@ import {MatDialog} from "@angular/material/dialog";
 import {UserService} from "../../../../shared/services/user.service";
 import {UserAddComponent} from "../user-add/user-add.component";
 import {InsuranceCompany} from "../../../../shared/models/insuranceCompany";
+import {ConfirmDialogComponent} from "../../../components/confirm-dialog/confirm-dialog.component";
 
 @Component({
   selector: 'app-user-list',
@@ -22,7 +23,8 @@ export class UserListComponent implements OnInit, AfterViewInit {
   @ViewChild(MatSort) sort: MatSort;
   @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
 
-  constructor(private userService: UserService, public dialog: MatDialog) { }
+  constructor(private userService: UserService, public dialog: MatDialog) {
+  }
 
   ngOnInit(): void {
     this.getUsers();
@@ -62,17 +64,17 @@ export class UserListComponent implements OnInit, AfterViewInit {
   }
 
   deleteUser(user: User) {
-    // this.dialog.open(ConfirmDialogComponent, {
-    //   data: "¿Está seguro de que desea eliminar al usuario " + User.name + "?"
-    // })
-    //   .afterClosed()
-    //   .subscribe((confirmed: boolean) => {
-    //     if (confirmed) {
-    //       this.userService.delete(user).subscribe(() => {
-    //         this.getUsers();
-    //       });
-    //     }
-    //   })
+    this.dialog.open(ConfirmDialogComponent, {
+      data: `¿Está seguro de que desea eliminar al usuario ${user.username}?`
+    })
+      .afterClosed()
+      .subscribe((confirmed: boolean) => {
+        if (confirmed) {
+          this.userService.delete(user).subscribe(() => {
+            this.getUsers();
+          });
+        }
+      })
   }
 
   updateUser(user: User) {

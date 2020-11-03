@@ -22,6 +22,7 @@ export class UserService {
     return this.http.get(this.usersUrl + '/all').pipe(
       map((res: any) => {
         this.usersList = res.map((user) => User.fromJsonObject(user));
+        console.log(this.usersList)
         return this.usersList;
       }),
       catchError(() => {
@@ -42,6 +43,7 @@ export class UserService {
   }
 
   public save(user: User) {
+    console.log(user)
     return this.http.post<User>(this.usersUrl + "/sign-up", user).pipe(
       map((res: any) => {
         this.usersList = [...this.usersList, User.fromJsonObject(res)];
@@ -50,10 +52,11 @@ export class UserService {
         });
         return res;
       }),
-      catchError(() => {
+      catchError((e) => {
         this.snackBar.open('Hubo un error al guardar el usuario.', '', {
           duration: 2000,
         });
+        console.log(e)
         return this.users;
       })
     );
@@ -79,21 +82,21 @@ export class UserService {
   }
 
   public delete(user: User) {
-    // return this.http.delete<User>(this.usersUrl + "/" + user.id).pipe(
-    //   map(() => {
-    //     this.usersList.splice(this.usersList.findIndex(u => u.id === user.id), 1);
-    //     this.snackBar.open('El usuario fue eliminado con éxito.', '', {
-    //       duration: 2000,
-    //     });
-    //     return this.usersList;
-    //   }),
-    //   catchError(() => {
-    //     this.snackBar.open('Hubo un error al eliminar el usuario.', '', {
-    //       duration: 2000,
-    //     });
-    //     return this.users;
-    //   })
-    // )
+    return this.http.delete<User>(this.usersUrl + "/delete/" + user.id).pipe(
+      map(() => {
+        this.usersList.splice(this.usersList.findIndex(u => u.id === user.id), 1);
+        this.snackBar.open('El usuario fue eliminado con éxito.', '', {
+          duration: 2000,
+        });
+        return this.usersList;
+      }),
+      catchError(() => {
+        this.snackBar.open('Hubo un error al eliminar el usuario.', '', {
+          duration: 2000,
+        });
+        return this.users;
+      })
+    )
   }
 
   public assignInsuranceCompany(userid: number, icid: number) {
