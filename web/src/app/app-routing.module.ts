@@ -5,31 +5,39 @@ import { Routes, RouterModule } from '@angular/router';
 import {ClientListComponent} from "./pages/client/client-list/client-list.component";
 import {InsuranceCompanyListComponent} from "./pages/insurance-company/insurance-company-list/insurance-company-list.component";
 import {UserListComponent} from "./pages/user/user-list/user-list.component";
+import {AuthGuard} from "../shared/auth/auth.guard";
+import {RoleGuardService as RoleGuard} from "../shared/auth/role-guard.service";
 
 const routes: Routes = [
   { path: 'clients', children: [
       { path: '', component: ClientListComponent }, // users/
-    ]
+    ], canActivate: [AuthGuard]
   },
   {
     path: 'vehicles', children: [
       { path: '', component: VehicleListComponent }
-    ]
+    ], canActivate: [AuthGuard]
   },
   {
     path: 'monitoring-systems', children: [
       { path: '', component: MonitoringSystemListComponent}
-    ]
+    ], canActivate: [AuthGuard]
   },
   {
     path: 'insurance-companies', children: [
       { path: '', component: InsuranceCompanyListComponent}
-    ]
+    ], canActivate: [RoleGuard],
+    data: {
+      expectedRole: 'admin'
+    }
   },
   {
     path: 'users', children: [
       { path: '', component: UserListComponent}
-    ]
+    ], canActivate: [RoleGuard],
+    data: {
+      expectedRole: 'admin'
+    }
   }
 ];
 
