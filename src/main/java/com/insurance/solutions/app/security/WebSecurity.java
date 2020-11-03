@@ -45,6 +45,17 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
                         // Example
                         CRUD_BOOKS,
 
+
+                        // ------------------------------
+                        // evade security
+                        USER,
+                        CLIENT,
+                        VEHICLE,
+                        DRIVING_PROFILE,
+                        MONITORING_SYSTEM,
+                        INSURANCE_COMPANY,
+                        // ------------------------------
+
                         //  Swagger configs
                         SWAGGER,
                         WEBJARS,
@@ -53,8 +64,10 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
                         SWAGGERRESOURCES,
                         SECURITYCONFIG
                 ).permitAll()
-                .antMatchers(INSURANCE_COMPANY).hasRole("ADMIN")
-                .antMatchers(USERS).hasRole("ADMIN")
+
+//                .antMatchers(INSURANCE_COMPANY).hasRole("ADMIN")
+//                .antMatchers(USERS).hasRole("ADMIN")
+
                 .anyRequest().authenticated()
                 .and()
                 .addFilter(new JWTAuthenticationFilter(authenticationManager()))

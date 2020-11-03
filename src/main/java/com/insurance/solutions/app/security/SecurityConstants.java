@@ -19,6 +19,7 @@ public class SecurityConstants {
     public static final String INSURANCE_COMPANY = "/insurance-companies/**";
 
 
+
     // Swagger configuration
     public static final String SWAGGER = "/swagger-ui.html";
     public static final String WEBJARS = "/webjars/**";
