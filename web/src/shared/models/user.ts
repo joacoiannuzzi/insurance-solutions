@@ -2,6 +2,7 @@ import {InsuranceCompany} from "./insuranceCompany";
 import {Type} from "./type";
 
 export class User {
+  email: string
   id: number;
   username: string;
   password: string;
@@ -9,7 +10,8 @@ export class User {
   insuranceCompany: InsuranceCompany;
 
 
-  constructor(id: number, username: string, password: string, type: string, company: InsuranceCompany) {
+  constructor(email: string, id: number, username: string, password?: string, type?: string, company?: InsuranceCompany) {
+    this.email = email;
     this.id = id;
     this.username = username;
     this.password = password;
@@ -18,7 +20,7 @@ export class User {
   }
 
   static fromJsonObject(jsonObject: any): User {
-    return new User(jsonObject.id, jsonObject.username, jsonObject.password, jsonObject.type, jsonObject.insuranceCompany);
+    return new User(jsonObject.email, jsonObject.id, jsonObject.username, jsonObject.password, jsonObject.type, jsonObject.insuranceCompany);
   }
 
   static typeToString(typ: string | Type): string {

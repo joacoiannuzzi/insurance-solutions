@@ -27,7 +27,7 @@ export class ClientService {
         this.snackBar.open('Hubo un error al traer los clientes.', '', {
           duration: 2000,
         });
-        return this.clients;
+        return [];
       })
     );
   }
