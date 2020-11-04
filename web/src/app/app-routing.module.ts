@@ -7,8 +7,13 @@ import {InsuranceCompanyListComponent} from "./pages/insurance-company/insurance
 import {UserListComponent} from "./pages/user/user-list/user-list.component";
 import {AuthGuard} from "../shared/auth/auth.guard";
 import {RoleGuardService as RoleGuard} from "../shared/auth/role-guard.service";
+import {LoginComponent} from "./pages/login/login.component";
 
 const routes: Routes = [
+  { path: 'login', children: [
+      { path: '', component: LoginComponent }, // login
+    ]
+  },
   { path: 'clients', children: [
       { path: '', component: ClientListComponent }, // users/
     ], canActivate: [AuthGuard]

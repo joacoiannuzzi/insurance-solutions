@@ -1,1 +1,49 @@
-<p>login works!</p>
+<h1 class="page-title">Insurance Solutions</h1>
+
+<mat-card>
+  <mat-card-header>
+    <mat-card-title>Por favor ingrese su usuario y contraseña</mat-card-title>
+  </mat-card-header>
+  <mat-card-content>
+
+    <form [formGroup]="loginForm">
+      <div class="form-container">
+
+        <div class="item">
+          <mat-form-field appearance="fill">
+            <mat-label>Usuario:</mat-label>
+            <input matInput [formControl]="username" placeholder="" required maxlength="20">
+            <mat-error *ngIf="username.errors?.pattern && !username.errors?.minlength && !username.errors?.required">
+              Solo caracteres válidos
+            </mat-error>
+            <mat-error *ngIf="username.errors?.minlength && !username.errors?.required">
+              Tiene que tener un mínimo de 2 caracteres
+            </mat-error>
+            <mat-error *ngIf="username.errors?.required">
+              Se <strong>requiere</strong> nombre
+            </mat-error>
+          </mat-form-field>
+        </div>
+
+        <div class="item">
+          <mat-form-field appearance="fill">
+            <mat-label>Contraseña:</mat-label>
+            <input matInput [formControl]="password" placeholder="" required type="password">
+            <mat-error *ngIf="password.errors?.required">
+              Se <strong>requiere</strong> contraseña
+            </mat-error>
+          </mat-form-field >
+        </div>
+
+      </div>
+    </form>
+
+  </mat-card-content>
+  <mat-card-actions>
+    <div class="buttons-container">
+      <div class="item">
+        <button mat-button [disabled]="invalid" color="primary" (click)="login()">Ingresar</button>
+      </div>
+    </div>
+  </mat-card-actions>
+</mat-card>
