@@ -5,7 +5,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.insurance.solutions.app.exceptions.BadRequestException;
 import com.insurance.solutions.app.exceptions.ResourceNotFoundException;
 import com.insurance.solutions.app.models.Client;
-import com.insurance.solutions.app.models.ENUM_CATEGORY;
+import com.insurance.solutions.app.models.enums.VehicleCategory;
 import com.insurance.solutions.app.models.Vehicle;
 import com.insurance.solutions.app.repositories.ClientRepository;
 import com.insurance.solutions.app.services.ClientService;
@@ -32,7 +32,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @SpringBootTest
-@AutoConfigureMockMvc
+@AutoConfigureMockMvc(addFilters = false)
 @ActiveProfiles("test")
 public class ClientControllerTest {
 
@@ -301,7 +301,7 @@ public class ClientControllerTest {
                 "mail@mail.com");
 
 
-        Vehicle vehicle = new Vehicle("1", ENUM_CATEGORY.CAR,
+        Vehicle vehicle = new Vehicle("1", VehicleCategory.CAR,
                 "brand", "model");
 
         long clientId = clientService.createClient(client).getId();
@@ -358,7 +358,7 @@ public class ClientControllerTest {
                 "mail2@mail.com");
 
 
-        Vehicle vehicle = new Vehicle("2", ENUM_CATEGORY.CAR,
+        Vehicle vehicle = new Vehicle("2", VehicleCategory.CAR,
                 "brand2", "model2");
 
         long vehicleMockID = 1000L;

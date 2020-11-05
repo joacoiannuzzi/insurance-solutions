@@ -2,13 +2,13 @@ package com.insurance.solutions.app.controllers;
 
 import com.insurance.solutions.app.exceptions.ResourceNotFoundException;
 import com.insurance.solutions.app.models.User;
-import com.insurance.solutions.app.resources.UserResource;
 import com.insurance.solutions.app.repositories.UserRepository;
+import com.insurance.solutions.app.resources.UserResource;
 import com.insurance.solutions.app.services.UserService;
+import com.insurance.solutions.app.utils.UserUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -26,14 +26,9 @@ public class UserController {
     @Autowired
     private UserService userService;
 
-    @Autowired
-    private BCryptPasswordEncoder bCryptPasswordEncoder;
-
     @PostMapping("/sign-up")
     public ResponseEntity<User> signUp(@Valid @RequestBody User user) {
-        user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
-        User response = userRepository.save(user);
-        return new ResponseEntity<>(response, HttpStatus.CREATED);
+        return new ResponseEntity<>(userService.createUser(user), HttpStatus.CREATED);
     }
 
     @GetMapping("/{id}")
@@ -44,11 +39,11 @@ public class UserController {
     }
 
     @GetMapping("/all")
-    public ResponseEntity<List<UserResource>> getUsers() {
-        List<User> users = (List<User>) userRepository.findAll();
+    public ResponseEntity<List<UserResource>> getAllBaseUsers() {
+        List<User> users = userService.getAllBase();
         List<UserResource> userResources = new ArrayList<>();
         for (User user : users) {
-            userResources.add(new UserResource(user.getId(), user.getName(), user.getEmail()));
+            userResources.add(UserUtils.makeUser(user));
         }
         return ResponseEntity.ok().body(userResources);
     }
