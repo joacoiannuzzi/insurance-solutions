@@ -1,6 +1,12 @@
 .main-div {
+  position: fixed;
   display: grid;
+  grid-template-rows: 1fr 1fr 1fr;
   justify-content: center;
+  background-size: cover;
+  height: 100%;
+  width: 100%;
+  background-color: dodgerblue;
 }
 
 .page-title {
@@ -8,6 +14,7 @@
   padding-bottom: 10%;
   justify-self: center;
   font-size: 50px;
+  color: aliceblue;
 }
 
 .form-container {
