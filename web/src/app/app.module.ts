@@ -84,11 +84,11 @@ import { InsuranceCompanyClientsComponent } from './pages/insurance-company/insu
     InsuranceCompanyAddComponent,
     MonitoringSystemAddComponent,
     DrivingProfileAddComponent,
+    InsuranceCompanyUpdateComponent,
     DrivingProfileUpdateComponent,
     DrivingProfileDetailsComponent,
     UserListComponent,
     UserAddComponent,
-    InsuranceCompanyUpdateComponent,
     InsuranceCompanyClientsComponent
    ],
   imports: [
