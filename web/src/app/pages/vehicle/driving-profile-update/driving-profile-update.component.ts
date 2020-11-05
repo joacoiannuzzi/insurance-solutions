@@ -6,51 +6,64 @@ import { DrivingProfile } from './../../../../shared/models/drivingProfile';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Component, OnInit, Inject } from '@angular/core';
 import { VehicleService } from 'src/shared/services/vehicle.service';
-
 @Component({
-  selector: 'app-driving-profile-add',
-  templateUrl: './driving-profile-add.component.html',
-  styleUrls: ['./driving-profile-add.component.scss']
+  selector: 'app-driving-profile-update',
+  templateUrl: './driving-profile-update.component.html',
+  styleUrls: ['./driving-profile-update.component.scss']
 })
-export class DrivingProfileAddComponent implements OnInit {
+export class DrivingProfileUpdateComponent implements OnInit {
   drivingProfileForm: FormGroup;
+  driPro: DrivingProfile;
 
-  constructor(
-    public dialogRef: MatDialogRef<DrivingProfileAddComponent>,
+
+constructor(
+    public dialogRef: MatDialogRef<DrivingProfileUpdateComponent>,
     @Inject(MAT_DIALOG_DATA) public data: DrivingProfile,
     public drivingProfileService: DrivingProfileService,
     public vehicleService: VehicleService
-  ) { }
+  ) {
+    this.driPro = {...data};
+   }
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.drivingProfileForm = new FormGroup({
-      avgDailyDrivingTime: new FormControl('', [
+      avgDailyDrivingTime: new FormControl(this.data.avgDailyDrivingTime, [
         Validators.required,
+        Validators.min(0),
+        Validators.minLength(1),
         Validators.pattern('^[0-9]*$')
       ]),
-      avgSpeed: new FormControl('', [
+      avgSpeed: new FormControl(this.data.avgSpeed, [
         Validators.required,
-        Validators.pattern('^[0-9]*$')
-      ]),
-
-      finishDate: new FormControl('', [
-        Validators.required,
-      ]),
-
-      maxSpeed: new FormControl('', [
-        Validators.required,
+        Validators.min(0),
+        Validators.minLength(1),
         Validators.pattern('^[0-9]*$')
       ]),
 
-      minSpeed: new FormControl('', [
+      finishDate: new FormControl(this.data.finishDate, [
         Validators.required,
+      ]),
+
+      maxSpeed: new FormControl(this.data.maxSpeed, [
+        Validators.required,
+        Validators.minLength(1),
+        Validators.min(0),
         Validators.pattern('^[0-9]*$')
       ]),
-      startDate: new FormControl('', [
+
+      minSpeed: new FormControl(this.data.minSpeed, [
+        Validators.required,
+        Validators.minLength(1),
+        Validators.min(0),
+        Validators.pattern('^[0-9]*$')
+      ]),
+      startDate: new FormControl(this.data.startDate, [
         Validators.required,
       ]),
-      totalDrivingTime: new FormControl('', [
+      totalDrivingTime: new FormControl(this.data.totalDrivingTime, [
         Validators.required,
+        Validators.minLength(1),
+        Validators.min(0),
         Validators.pattern('^[0-9]*$')
       ]),
     });
@@ -69,7 +82,7 @@ export class DrivingProfileAddComponent implements OnInit {
     this.dialogRef.close();
   }
 
-  saveDrivingProfile() {
+  updateDrivingProfile() {
     if (this.drivingProfileForm.valid) {
       Object.keys(this.drivingProfileForm.value).map((key) =>
         this.data[key] = this.drivingProfileForm.value[key]);

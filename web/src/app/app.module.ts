@@ -1,3 +1,5 @@
+import { DrivingProfileDetailsComponent } from './pages/vehicle/driving-profile-details/driving-profile-details.component';
+import { DrivingProfileUpdateComponent } from './pages/vehicle/driving-profile-update/driving-profile-update.component';
 import { DrivingProfileService } from '../shared/services/driving-profile.service';
 import { DrivingProfileAddComponent } from './pages/vehicle/driving-profile-add/driving-profile-add.component';
 import { MonitoringSystemUpdateComponent } from './pages/monitoring-system/monitoring-system-update/monitoring-system-update.component';
@@ -82,7 +84,8 @@ import { InsuranceCompanyClientsComponent } from './pages/insurance-company/insu
     InsuranceCompanyAddComponent,
     MonitoringSystemAddComponent,
     DrivingProfileAddComponent,
-    InsuranceCompanyUpdateComponent,
+    DrivingProfileUpdateComponent,
+    DrivingProfileDetailsComponent,
     UserListComponent,
     UserAddComponent,
     InsuranceCompanyUpdateComponent,
