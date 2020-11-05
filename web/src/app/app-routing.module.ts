@@ -8,46 +8,37 @@ import {UserListComponent} from "./pages/user/user-list/user-list.component";
 import {AuthGuard} from "../shared/auth/auth.guard";
 import {RoleGuardService as RoleGuard} from "../shared/auth/role-guard.service";
 import {LoginComponent} from "./pages/login/login.component";
-import {JwtModule} from "@auth0/angular-jwt";
-import {AuthService} from "../shared/auth/auth.service";
+import {ReverseAuthGuard} from "../shared/auth/reverse-auth.guard";
+import {AuthAdminComponent} from "./components/auth-admin/auth-admin.component";
+import {AuthBaseComponent} from "./components/auth-base/auth-base.component";
 
 const routes: Routes = [
   {
     path: 'login', children: [
       {path: '', component: LoginComponent}, // login
+    ], canActivate: [ReverseAuthGuard]
+  },
+  {
+    path: '', component: AuthAdminComponent, canActivate: [RoleGuard],
+    data: {
+      expectedRole: 'admin'
+    },
+    children: [
+      {path: 'insurance-companies', component: InsuranceCompanyListComponent},
+      {path: 'users', component: UserListComponent},
+      {path: 'clients', component: ClientListComponent},
+      {path: 'vehicles', component: VehicleListComponent},
+      {path: 'monitoring-systems', component: MonitoringSystemListComponent}
     ]
   },
   {
-    path: 'clients', children: [
-      {path: '', component: ClientListComponent}, // users/
-    ], canActivate: [AuthGuard]
+    path: '', component: AuthBaseComponent, canActivate: [AuthGuard],
+    children: [
+      {path: 'clients', component: ClientListComponent},
+      {path: 'vehicles', component: VehicleListComponent},
+      {path: 'monitoring-systems', component: MonitoringSystemListComponent}
+    ]
   },
-  {
-    path: 'vehicles', children: [
-      {path: '', component: VehicleListComponent}
-    ], canActivate: [AuthGuard]
-  },
-  {
-    path: 'monitoring-systems', children: [
-      {path: '', component: MonitoringSystemListComponent}
-    ], canActivate: [AuthGuard]
-  },
-  {
-    path: 'insurance-companies', children: [
-      {path: '', component: InsuranceCompanyListComponent}
-    ], canActivate: [RoleGuard],
-    data: {
-      expectedRole: 'admin'
-    }
-  },
-  {
-    path: 'users', children: [
-      {path: '', component: UserListComponent}
-    ], canActivate: [RoleGuard],
-    data: {
-      expectedRole: 'admin'
-    }
-  }
 ];
 
 @NgModule({
