@@ -10,7 +10,10 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 
+import java.util.List;
+
 import static com.insurance.solutions.app.utils.SensorUtils.makeSensor;
+import static com.insurance.solutions.app.utils.SensorUtils.makeSensors;
 
 @RestController
 @RequestMapping("sensors")
@@ -23,5 +26,10 @@ public class SensorController {
     @PostMapping("/create")
     public ResponseEntity<SensorResource> createSensor(@Valid @RequestBody Sensor sensor) {
         return new ResponseEntity<>(makeSensor(sensorService.createSensor(sensor), true), HttpStatus.CREATED);
+    }
+
+    @GetMapping("get-all")
+    public ResponseEntity<List<SensorResource>> getAllSensors() {
+        return ResponseEntity.ok(makeSensors(sensorService.getAllSensors(), true));
     }
 }
