@@ -54,7 +54,6 @@ import {UserListComponent} from './pages/user/user-list/user-list.component';
 import {UserAddComponent} from './pages/user/user-add/user-add.component';
 import {InsuranceCompanyClientsComponent} from './pages/insurance-company/insurance-company-clients/insurance-company-clients.component';
 import {LoginComponent} from './pages/login/login.component';
-import { NotAuthComponent } from './components/not-auth/not-auth.component';
 import { AuthBaseComponent } from './components/auth-base/auth-base.component';
 import { AuthAdminComponent } from './components/auth-admin/auth-admin.component';
 import { NavbarComponent } from './components/navbar/navbar.component';
@@ -93,7 +92,6 @@ import { NavbarComponent } from './components/navbar/navbar.component';
     InsuranceCompanyUpdateComponent,
     InsuranceCompanyClientsComponent,
     LoginComponent,
-    NotAuthComponent,
     AuthBaseComponent,
     AuthAdminComponent,
     NavbarComponent

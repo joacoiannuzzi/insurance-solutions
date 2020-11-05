@@ -1,6 +1,9 @@
 import {Component, OnInit} from '@angular/core';
 import {FormControl, FormGroup, Validators} from "@angular/forms";
 import {AuthService} from "../../../shared/auth/auth.service";
+import decode from 'jwt-decode';
+import {Router} from "@angular/router";
+import {MatSnackBar} from "@angular/material/snack-bar";
 
 @Component({
   selector: 'app-login',
@@ -10,7 +13,7 @@ import {AuthService} from "../../../shared/auth/auth.service";
 export class LoginComponent implements OnInit {
   loginForm: FormGroup;
 
-  constructor(private authService: AuthService) {
+  constructor(private authService: AuthService, private router: Router, private snackBar: MatSnackBar) {
   }
 
   ngOnInit(): void {
@@ -45,10 +48,21 @@ export class LoginComponent implements OnInit {
   login() {
     if (this.loginForm.valid) {
       this.authService.login(this.username.value, this.password.value).subscribe(
-        res => {
-          // next
-        }, error => {
-          // err
+        () => {
+          // login successful
+          const token = localStorage.getItem('token');
+          // decode the token to get its payload
+          const tokenPayload = decode(token);
+
+          if (tokenPayload.role !== 'admin') {
+            this.router.navigate(['/clients']);
+          } else {
+            this.router.navigate(['/insurance-companies']);
+          }
+        }, () => {
+          this.snackBar.open('Hubo un error. Verifíque los datos e inténtelo de nuevo.', '', {
+            duration: 2000,
+          });
         }
       )
     }

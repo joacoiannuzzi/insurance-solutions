@@ -3,7 +3,6 @@ import {JwtHelperService} from '@auth0/angular-jwt';
 import {HttpClient} from "@angular/common/http";
 import {environment} from "../../environments/environment";
 import {catchError, map} from "rxjs/operators";
-import {MatSnackBar} from "@angular/material/snack-bar";
 
 @Injectable({
   providedIn: 'root'
@@ -12,7 +11,7 @@ export class AuthService {
   private readonly loginUrl: string;
   private jwtHelper: JwtHelperService;
 
-  constructor(private http: HttpClient, private snackBar: MatSnackBar) {
+  constructor(private http: HttpClient) {
     this.loginUrl = environment.url + '/login';
     this.jwtHelper = new JwtHelperService();
   }
@@ -41,9 +40,6 @@ export class AuthService {
           return res;
         }),
         catchError(err => {
-          this.snackBar.open('Hubo un error. Verifique los datos e intentelo de nuevo.', '', {
-            duration: 2000,
-          });
           return err.error;
         })
       );
