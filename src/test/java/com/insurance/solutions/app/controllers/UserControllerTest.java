@@ -107,10 +107,10 @@ public class UserControllerTest {
     @Test
     public void getAll() throws Exception {
         List<UserResource> userResources = new ArrayList<>();
-        userResources.add(new UserResource(1L, "Sebastian", "sebastian@mail.com", null));
-        userResources.add(new UserResource(2L, "Tomas", "tomas@mail.com", null));
-        userResources.add(new UserResource(3L, "Franco", "franco@mail.com", null));
-        userResources.add(new UserResource(4L, "Jose", "jose@mail.com", null));
+        userResources.add(new UserResource(1L, "Sebastian", "sebastian@mail.com", null, null));
+        userResources.add(new UserResource(2L, "Tomas", "tomas@mail.com", null, null));
+        userResources.add(new UserResource(3L, "Franco", "franco@mail.com", null, null));
+        userResources.add(new UserResource(4L, "Jose", "jose@mail.com", null, null));
 
         System.out.println("\n--------------------------");
         System.out.println("Expect");

@@ -5,15 +5,16 @@ import com.insurance.solutions.app.models.User;
 import com.insurance.solutions.app.repositories.UserRepository;
 import com.insurance.solutions.app.resources.UserResource;
 import com.insurance.solutions.app.services.UserService;
-import com.insurance.solutions.app.utils.UserUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.util.ArrayList;
 import java.util.List;
+
+import static com.insurance.solutions.app.utils.UserUtils.makeUser;
+import static com.insurance.solutions.app.utils.UserUtils.makeUsers;
 
 @RestController
 @RequestMapping("/users")
@@ -40,18 +41,18 @@ public class UserController {
 
     @GetMapping("/all")
     public ResponseEntity<List<UserResource>> getAllBaseUsers() {
-        List<User> users = userService.getAllBase();
-        List<UserResource> userResources = new ArrayList<>();
-        for (User user : users) {
-            userResources.add(UserUtils.makeUser(user));
-        }
-        return ResponseEntity.ok().body(userResources);
+        return ResponseEntity.ok().body(makeUsers(userService.getAllBase(), true));
     }
 
     @DeleteMapping("/delete/{id}")
     public ResponseEntity<?> deleteUser(@PathVariable Long id) {
         userService.deleteUser(id);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    }
+
+    @PutMapping("/{userId}/assign/{insuranceCompanyId}")
+    public ResponseEntity<UserResource> assignInsuranceCompany(@PathVariable Long userId, @PathVariable Long insuranceCompanyId) {
+        return new ResponseEntity<>(makeUser(userService.assignInsuranceCompany(userId, insuranceCompanyId), true), HttpStatus.OK);
     }
 
 }

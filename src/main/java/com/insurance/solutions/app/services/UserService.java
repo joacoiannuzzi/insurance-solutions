@@ -3,6 +3,7 @@ package com.insurance.solutions.app.services;
 import com.insurance.solutions.app.exceptions.ResourceNotFoundException;
 import com.insurance.solutions.app.models.*;
 import com.insurance.solutions.app.models.enums.UserRole;
+import com.insurance.solutions.app.repositories.InsuranceCompanyRepository;
 import com.insurance.solutions.app.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -16,6 +17,9 @@ public class UserService {
 
     @Autowired
     private UserRepository userRepository;
+
+    @Autowired
+    private InsuranceCompanyRepository insuranceCompanyRepository;
 
     @Autowired
     private BCryptPasswordEncoder bCryptPasswordEncoder;
@@ -50,4 +54,11 @@ public class UserService {
         userRepository.delete(user);
     }
 
+    public User assignInsuranceCompany(Long userId, Long insuranceCompanyId) {
+        User user = userRepository.findById(userId).orElseThrow(() -> new ResourceNotFoundException("User not found."));
+        InsuranceCompany insuranceCompany = insuranceCompanyRepository.findById(insuranceCompanyId).orElseThrow(() ->
+                new ResourceNotFoundException("Insurance company not found."));
+        user.setInsuranceCompany(insuranceCompany);
+        return userRepository.save(user);
+    }
 }
