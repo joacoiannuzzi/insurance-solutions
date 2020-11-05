@@ -42,11 +42,9 @@ export class AuthService {
           }
           return res;
         }),
-        catchError(err => {
+        catchError(() => {
           return [];
         })
       );
   }
-
-  //TODO preguntar sobre el logout (?)
 }
