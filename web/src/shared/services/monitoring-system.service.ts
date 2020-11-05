@@ -26,7 +26,7 @@ export class MonitoringSystemService {
         this.snackBar.open('Hubo un error al traer los servicios de monitoreo.', '', {
           duration: 2000,
         });
-        return this.monitoringSystems;
+        return [];
       })
     );
   }

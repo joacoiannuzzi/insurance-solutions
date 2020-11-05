@@ -50,11 +50,10 @@ export class LoginComponent implements OnInit {
       this.authService.login(this.username.value, this.password.value).subscribe(
         () => {
           // login successful
-          const token = localStorage.getItem('token');
-          // decode the token to get its payload
-          const tokenPayload = decode(token);
+          // Check role to see which page to redirect to
+          const role = sessionStorage.getItem('role');
 
-          if (tokenPayload.role !== 'admin') {
+          if (role !== 'ROLE_ADMIN') {
             this.router.navigate(['/clients']);
           } else {
             this.router.navigate(['/insurance-companies']);

@@ -26,7 +26,7 @@ export class InsuranceCompanyService {
         this.snackBar.open('Hubo un error al traer las empresas aseguradoras.', '', {
           duration: 2000,
         });
-        return this.insuranceCompanies;
+        return [];
       })
     );
   }

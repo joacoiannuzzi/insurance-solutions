@@ -13,7 +13,7 @@ import {AppRoutingModule} from './app-routing.module';
 import {AppComponent} from './app.component';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {ClientService} from "../shared/services/client.service";
-import {HttpClientModule} from "@angular/common/http";
+import {HTTP_INTERCEPTORS, HttpClientModule} from "@angular/common/http";
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {MatTableModule} from '@angular/material/table';
 import {MatToolbarModule} from '@angular/material/toolbar';
@@ -59,6 +59,7 @@ import {LoginComponent} from './pages/login/login.component';
 import { AuthBaseComponent } from './components/auth-base/auth-base.component';
 import { AuthAdminComponent } from './components/auth-admin/auth-admin.component';
 import { NavbarComponent } from './components/navbar/navbar.component';
+import {AuthInterceptor} from "../shared/auth/auth.interceptor";
 
 @NgModule({
   declarations: [
@@ -126,11 +127,12 @@ import { NavbarComponent } from './components/navbar/navbar.component';
 
   ],
   providers: [
+    { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
     ClientService,
     VehicleService,
     MonitoringSystemService,
     InsuranceCompanyService,
-    DrivingProfileService
+    DrivingProfileService,
   ],
   bootstrap: [AppComponent]
 })

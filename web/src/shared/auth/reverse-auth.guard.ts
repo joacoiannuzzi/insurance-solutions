@@ -13,12 +13,12 @@ export class ReverseAuthGuard implements CanActivate {
 
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
     if (!this.authenticationService.isAuthenticated()) {
-      // logged in so return true
+      // not logged in so return true
       return true;
     }
 
-    // not logged in so redirect to login page
-    this.router.navigate(['/login']);
+    // logged in so redirect to clients page
+    this.router.navigate(['/clients']);
     return false;
   }
 }

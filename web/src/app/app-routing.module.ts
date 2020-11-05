@@ -21,7 +21,7 @@ const routes: Routes = [
   {
     path: '', component: AuthAdminComponent, canActivate: [RoleGuard],
     data: {
-      expectedRole: 'admin'
+      expectedRole: 'ROLE_ADMIN'
     },
     children: [
       {path: 'insurance-companies', component: InsuranceCompanyListComponent},
