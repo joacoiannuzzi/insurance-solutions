@@ -26,9 +26,6 @@ const routes: Routes = [
     children: [
       {path: 'insurance-companies', component: InsuranceCompanyListComponent},
       {path: 'users', component: UserListComponent},
-      {path: 'clients', component: ClientListComponent},
-      {path: 'vehicles', component: VehicleListComponent},
-      {path: 'monitoring-systems', component: MonitoringSystemListComponent}
     ]
   },
   {
