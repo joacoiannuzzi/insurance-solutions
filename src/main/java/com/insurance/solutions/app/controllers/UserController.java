@@ -5,6 +5,7 @@ import com.insurance.solutions.app.models.User;
 import com.insurance.solutions.app.repositories.UserRepository;
 import com.insurance.solutions.app.resources.UserResource;
 import com.insurance.solutions.app.services.UserService;
+import com.insurance.solutions.app.utils.UserUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -42,7 +43,7 @@ public class UserController {
         List<User> users = userService.getAllBase();
         List<UserResource> userResources = new ArrayList<>();
         for (User user : users) {
-            userResources.add(new UserResource(user.getId(), user.getUsername(), user.getEmail()));
+            userResources.add(UserUtils.makeUser(user));
         }
         return ResponseEntity.ok().body(userResources);
     }
