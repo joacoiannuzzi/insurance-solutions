@@ -6,7 +6,22 @@
   background-size: cover;
   height: 100%;
   width: 100%;
-  background-color: dodgerblue;
+  background: linear-gradient(#159b79, #1d4fb6, #501db6, #c8a5d5, #e87540);
+  background-size: 800% 800%;
+
+  -webkit-animation: AnimationName 59s ease infinite;
+  animation: AnimationName 59s ease infinite;
+}
+
+@-webkit-keyframes AnimationName {
+  0%{background-position:50% 0%}
+  50%{background-position:50% 100%}
+  100%{background-position:50% 0%}
+}
+@keyframes AnimationName {
+  0%{background-position:50% 0%}
+  50%{background-position:50% 100%}
+  100%{background-position:50% 0%}
 }
 
 .page-title {
