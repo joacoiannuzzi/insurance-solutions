@@ -1,15 +1,15 @@
-import { DrivingProfileService } from '../shared/services/driving-profile.service';
-import { DrivingProfileAddComponent } from './pages/vehicle/driving-profile-add/driving-profile-add.component';
-import { MonitoringSystemUpdateComponent } from './pages/monitoring-system/monitoring-system-update/monitoring-system-update.component';
-import { MonitoringSystemAddComponent } from './pages/monitoring-system/monitoring-system-add/monitoring-system-add.component';
-import { MonitoringSystemService } from '../shared/services/monitoring-system.service';
-import { VehicleListComponent } from './pages/vehicle/vehicle-list/vehicle-list.component';
-import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
+import {DrivingProfileService} from '../shared/services/driving-profile.service';
+import {DrivingProfileAddComponent} from './pages/vehicle/driving-profile-add/driving-profile-add.component';
+import {MonitoringSystemUpdateComponent} from './pages/monitoring-system/monitoring-system-update/monitoring-system-update.component';
+import {MonitoringSystemAddComponent} from './pages/monitoring-system/monitoring-system-add/monitoring-system-add.component';
+import {MonitoringSystemService} from '../shared/services/monitoring-system.service';
+import {VehicleListComponent} from './pages/vehicle/vehicle-list/vehicle-list.component';
+import {BrowserModule} from '@angular/platform-browser';
+import {NgModule} from '@angular/core';
 
-import { AppRoutingModule } from './app-routing.module';
-import { AppComponent } from './app.component';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import {AppRoutingModule} from './app-routing.module';
+import {AppComponent} from './app.component';
+import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {ClientService} from "../shared/services/client.service";
 import {HttpClientModule} from "@angular/common/http";
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
@@ -21,7 +21,7 @@ import {MatCardModule} from "@angular/material/card";
 import {MatInputModule} from '@angular/material/input';
 import {MatIconModule} from '@angular/material/icon';
 import {MatSortModule} from "@angular/material/sort";
-import {MatDialogModule } from '@angular/material/dialog';
+import {MatDialogModule} from '@angular/material/dialog';
 import {MatAutocompleteModule} from "@angular/material/autocomplete";
 import {ClientListComponent} from "./pages/client/client-list/client-list.component";
 import {NavbarComponent} from "./components/navbar/navbar.component";
@@ -35,25 +35,26 @@ import {VehicleService} from "../shared/services/vehicle.service";
 import {MatPaginatorModule} from "@angular/material/paginator";
 import {MatGridListModule} from "@angular/material/grid-list";
 import {MatSnackBarModule} from '@angular/material/snack-bar';
-import { VehicleAddComponent } from './pages/vehicle/vehicle-add/vehicle-add.component';
+import {VehicleAddComponent} from './pages/vehicle/vehicle-add/vehicle-add.component';
 import {MatSelectModule} from "@angular/material/select";
-import { DrivingProfilesComponent } from './pages/vehicle/driving-profiles/driving-profiles.component';
-import { VehicleDetailsComponent } from './pages/vehicle/vehicle-details/vehicle-details.component';
-import { VehicleUpdateComponent } from './pages/vehicle/vehicle-update/vehicle-update.component';
-import { MonitoringSystemListComponent } from './pages/monitoring-system/monitoring-system-list/monitoring-system-list.component';
-import { MonitoringSystemDetailsComponent } from './pages/monitoring-system/monitoring-system-details/monitoring-system-details.component';
-import { MonitoringSystemVehicleAssignationComponent } from './pages/monitoring-system/monitoring-system-vehicle-assignation/monitoring-system-vehicle-assignation.component';
-import { MonitoringSystemAssignationComponent } from './pages/vehicle/monitoring-system-assignation/monitoring-system-assignation.component';
-import { InsuranceCompanyListComponent } from './pages/insurance-company/insurance-company-list/insurance-company-list.component';
-import { InsuranceCompanyAddComponent } from './pages/insurance-company/insurance-company-add/insurance-company-add.component';
+import {DrivingProfilesComponent} from './pages/vehicle/driving-profiles/driving-profiles.component';
+import {VehicleDetailsComponent} from './pages/vehicle/vehicle-details/vehicle-details.component';
+import {VehicleUpdateComponent} from './pages/vehicle/vehicle-update/vehicle-update.component';
+import {MonitoringSystemListComponent} from './pages/monitoring-system/monitoring-system-list/monitoring-system-list.component';
+import {MonitoringSystemDetailsComponent} from './pages/monitoring-system/monitoring-system-details/monitoring-system-details.component';
+import {MonitoringSystemVehicleAssignationComponent} from './pages/monitoring-system/monitoring-system-vehicle-assignation/monitoring-system-vehicle-assignation.component';
+import {MonitoringSystemAssignationComponent} from './pages/vehicle/monitoring-system-assignation/monitoring-system-assignation.component';
+import {InsuranceCompanyListComponent} from './pages/insurance-company/insurance-company-list/insurance-company-list.component';
+import {InsuranceCompanyAddComponent} from './pages/insurance-company/insurance-company-add/insurance-company-add.component';
 import {InsuranceCompanyService} from "../shared/services/insurance-company.service";
 import {MatTooltipModule} from '@angular/material/tooltip';
 import {MatDatepickerModule} from '@angular/material/datepicker';
-import { InsuranceCompanyUpdateComponent } from './pages/insurance-company/insurance-company-update/insurance-company-update.component';
-import { UserListComponent } from './pages/user/user-list/user-list.component';
-import { UserAddComponent } from './pages/user/user-add/user-add.component';
-import { InsuranceCompanyClientsComponent } from './pages/insurance-company/insurance-company-clients/insurance-company-clients.component';
-import { LoginComponent } from './pages/login/login.component';
+import {InsuranceCompanyUpdateComponent} from './pages/insurance-company/insurance-company-update/insurance-company-update.component';
+import {UserListComponent} from './pages/user/user-list/user-list.component';
+import {UserAddComponent} from './pages/user/user-add/user-add.component';
+import {InsuranceCompanyClientsComponent} from './pages/insurance-company/insurance-company-clients/insurance-company-clients.component';
+import {LoginComponent} from './pages/login/login.component';
+import {JwtHelperService} from "@auth0/angular-jwt";
 
 @NgModule({
   declarations: [
@@ -89,7 +90,7 @@ import { LoginComponent } from './pages/login/login.component';
     InsuranceCompanyUpdateComponent,
     InsuranceCompanyClientsComponent,
     LoginComponent
-   ],
+  ],
   imports: [
     BrowserModule,
     AppRoutingModule,
@@ -115,7 +116,14 @@ import { LoginComponent } from './pages/login/login.component';
     MatDatepickerModule
 
   ],
-  providers: [ClientService, VehicleService, MonitoringSystemService, InsuranceCompanyService, DrivingProfileService],
+  providers: [
+    ClientService,
+    VehicleService,
+    MonitoringSystemService,
+    InsuranceCompanyService,
+    DrivingProfileService
+  ],
   bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule {
+}

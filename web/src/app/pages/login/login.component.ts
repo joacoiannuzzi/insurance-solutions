@@ -1,5 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {FormControl, FormGroup, Validators} from "@angular/forms";
+import {AuthService} from "../../../shared/auth/auth.service";
 
 @Component({
   selector: 'app-login',
@@ -9,7 +10,8 @@ import {FormControl, FormGroup, Validators} from "@angular/forms";
 export class LoginComponent implements OnInit {
   loginForm: FormGroup;
 
-  constructor() { }
+  constructor(private authService: AuthService) {
+  }
 
   ngOnInit(): void {
     this.createForm();
@@ -41,8 +43,14 @@ export class LoginComponent implements OnInit {
   }
 
   login() {
-    if(this.loginForm.valid) {
-      //do login?
+    if (this.loginForm.valid) {
+      this.authService.login(this.username.value, this.password.value).subscribe(
+        res => {
+          // next
+        }, error => {
+          // err
+        }
+      )
     }
   }
 }
