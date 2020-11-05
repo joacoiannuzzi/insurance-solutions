@@ -431,7 +431,7 @@ class VehicleControllerTest {
     @Test
     void setMonitoringSystemToVehicle() throws Exception {
         final Vehicle vehicle = new Vehicle("345345345", CAR, "brand", "model");
-        final MonitoringSystem monitoringSystem = new MonitoringSystem("name_34524234", "sensor_4592704729034", "monitoringCompany_4598458345");
+        final MonitoringSystem monitoringSystem = new MonitoringSystem("name_34524234", "monitoringCompany_4598458345");
 
         Long vehicleId = vehicleService.createVehicle(vehicle).getId();
         final MonitoringSystem savedMonitoringSystem = monitoringSystemService.createMonitoringSystem(monitoringSystem);
@@ -485,8 +485,7 @@ class VehicleControllerTest {
     void removeMonitoringSystemToVehicle() throws Exception {
         final var vehicle = new Vehicle("81v45 13v84", CAR,
                 "c1p4 r1y2 8", "c12rt 378 ctv8");
-        final var monitoringSystem = new MonitoringSystem("1bc478t178ct07",
-                "iucie9pqb3n8 y", "1c9b4y1b98981c  ce");
+        final var monitoringSystem = new MonitoringSystem("1bc478t178ct07", "1c9b4y1b98981c  ce");
 
         final var vehicleId = vehicleService.createVehicle(vehicle).getId();
         final var monitoringSystemId = monitoringSystemService.createMonitoringSystem(monitoringSystem).getId();
@@ -565,7 +564,7 @@ class VehicleControllerTest {
 
         final var monitoringSystems = Stream.generate(new Random()::nextInt)
                 .limit(20)
-                .map(number -> new MonitoringSystem("name_" + number, "sensor_" + number, "monitoringCompany_" + number))
+                .map(number -> new MonitoringSystem("name_" + number, "monitoringCompany_" + number))
                 .map(monitoringSystem -> monitoringSystemService.createMonitoringSystem(monitoringSystem))
                 .collect(Collectors.toList());
 

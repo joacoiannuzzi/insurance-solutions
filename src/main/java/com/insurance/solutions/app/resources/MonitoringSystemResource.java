@@ -5,25 +5,25 @@ import lombok.Value;
 
 @Value
 public class MonitoringSystemResource {
-    private final Long id;
-    private final String name;
-    private final String sensor;
-    private final String monitoringCompany;
-    private final boolean isAssigned;
-    private final VehicleResource vehicle;
+    Long id;
+    String name;
+    String monitoringCompany;
+    boolean isAssigned;
+    VehicleResource vehicle;
+    SensorResource sensor;
 
     public MonitoringSystemResource(@JsonProperty("id") Long id,
                                     @JsonProperty("name") String name,
-                                    @JsonProperty("sensor") String sensor,
                                     @JsonProperty("monitoringCompany") String monitoringCompany,
                                     @JsonProperty("isAssigned") boolean isAssigned,
-                                    @JsonProperty("vehicle") VehicleResource vehicle) {
+                                    @JsonProperty("vehicle") VehicleResource vehicle,
+                                    @JsonProperty("sensor") SensorResource sensor) {
         this.id = id;
         this.name = name;
-        this.sensor = sensor;
         this.monitoringCompany = monitoringCompany;
         this.isAssigned = isAssigned;
         this.vehicle = vehicle;
+        this.sensor = sensor;
     }
 
     public Long getId() {
@@ -32,10 +32,6 @@ public class MonitoringSystemResource {
 
     public String getName() {
         return name;
-    }
-
-    public String getSensor() {
-        return sensor;
     }
 
     public String getMonitoringCompany() {
@@ -48,5 +44,9 @@ public class MonitoringSystemResource {
 
     public VehicleResource getVehicle() {
         return vehicle;
+    }
+
+    public SensorResource getSensor() {
+        return sensor;
     }
 }
