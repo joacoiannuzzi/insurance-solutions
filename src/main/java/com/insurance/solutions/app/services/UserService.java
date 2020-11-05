@@ -1,5 +1,6 @@
 package com.insurance.solutions.app.services;
 
+import com.insurance.solutions.app.exceptions.BadRequestException;
 import com.insurance.solutions.app.exceptions.ResourceNotFoundException;
 import com.insurance.solutions.app.models.*;
 import com.insurance.solutions.app.models.enums.UserRole;
@@ -60,5 +61,19 @@ public class UserService {
                 new ResourceNotFoundException("Insurance company not found."));
         user.setInsuranceCompany(insuranceCompany);
         return userRepository.save(user);
+    }
+
+    public User updateUser(Long userId, User user) {
+        User oldUser = userRepository.findById(userId).orElseThrow(() -> new ResourceNotFoundException("User not found."));
+
+        if (userRepository.existsByUsername(user.getUsername()))
+            throw new BadRequestException("User with username " + user.getUsername() + " already exists.");
+
+        String password = bCryptPasswordEncoder.encode(user.getPassword());
+        User newUser = new User(user.getUsername(), user.getEmail(), password, oldUser.getRole());
+        newUser.setId(oldUser.getId());
+        newUser.setInsuranceCompany(oldUser.getInsuranceCompany());
+
+        return userRepository.save(newUser);
     }
 }

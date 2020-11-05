@@ -55,4 +55,9 @@ public class UserController {
         return new ResponseEntity<>(makeUser(userService.assignInsuranceCompany(userId, insuranceCompanyId), true), HttpStatus.OK);
     }
 
+    @PutMapping("/update/{userId}")
+    public ResponseEntity<UserResource> updateUser(@PathVariable Long userId, @Valid @RequestBody User user) {
+        return new ResponseEntity<>(makeUser(userService.updateUser(userId, user), true), HttpStatus.OK);
+    }
+
 }
