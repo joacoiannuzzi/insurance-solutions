@@ -1,6 +1,8 @@
 package com.insurance.solutions.app.security;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.insurance.solutions.app.services.UserDetailsServiceImplementation;
+import com.insurance.solutions.app.services.UserService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -24,10 +26,19 @@ import static com.insurance.solutions.app.security.SecurityConstants.*;
 public class WebSecurity extends WebSecurityConfigurerAdapter {
     private final UserDetailsServiceImplementation userDetailsService;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
+    private final UserService userService;
+    private final ObjectMapper objectMapper;
 
-    public WebSecurity(UserDetailsServiceImplementation userDetailsService, BCryptPasswordEncoder bCryptPasswordEncoder) {
+    public WebSecurity(
+            UserDetailsServiceImplementation userDetailsService,
+            BCryptPasswordEncoder bCryptPasswordEncoder,
+            UserService userService,
+            ObjectMapper objectMapper
+    ) {
         this.userDetailsService = userDetailsService;
         this.bCryptPasswordEncoder = bCryptPasswordEncoder;
+        this.userService = userService;
+        this.objectMapper = objectMapper;
     }
 
     /**
@@ -57,7 +68,7 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
                 .antMatchers(USERS).hasRole("ADMIN")
                 .anyRequest().authenticated()
                 .and()
-                .addFilter(new JWTAuthenticationFilter(authenticationManager()))
+                .addFilter(new JWTAuthenticationFilter(authenticationManager(), userService, objectMapper))
                 .addFilter(new JWTAuthorizationFilter(authenticationManager(), userDetailsService))
                 // this disables session creation on Spring Security
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);

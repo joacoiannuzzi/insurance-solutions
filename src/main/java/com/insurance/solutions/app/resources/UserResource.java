@@ -7,21 +7,36 @@ import javax.validation.constraints.NotNull;
 
 @Value
 public class UserResource {
-    @NotNull
     private final Long id;
-
-    @NotNull
-    private final String name;
-
-    @NotNull
+    private final String username;
     private final String email;
+    private final String rol;
 
     public UserResource(
             @JsonProperty("id") Long id,
-            @JsonProperty("name") String name,
-            @JsonProperty("email") String email) {
+            @JsonProperty("username") String username,
+            @JsonProperty("email") String email,
+            @JsonProperty("rol") String rol
+    ) {
         this.id = id;
-        this.name = name;
+        this.username = username;
         this.email = email;
+        this.rol = rol;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public String getRol() {
+        return rol;
     }
 }

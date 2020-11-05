@@ -30,6 +30,9 @@ public class UserService {
                 .orElseThrow(() -> new ResourceNotFoundException("User not found."));
     }
 
+    public User findByUsername(String username) {
+        return userRepository.findByUsername(username);
+    }
 
     public List<User> getAll() {
         return (List<User>) userRepository.findAll();
