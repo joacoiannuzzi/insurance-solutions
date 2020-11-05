@@ -26,7 +26,6 @@ import {MatSortModule} from "@angular/material/sort";
 import {MatDialogModule} from '@angular/material/dialog';
 import {MatAutocompleteModule} from "@angular/material/autocomplete";
 import {ClientListComponent} from "./pages/client/client-list/client-list.component";
-import {AdminNavbarComponent} from "./components/admin-navbar/admin-navbar.component";
 import {ClientDetailsComponent} from "./pages/client/client-details/client-details.component";
 import {ClientVehiclesComponent} from "./pages/client/client-vehicles/client-vehicles.component";
 import {VehicleAssignationComponent} from "./pages/client/vehicle-assignation/vehicle-assignation.component";
@@ -57,14 +56,13 @@ import {UserAddComponent} from './pages/user/user-add/user-add.component';
 import {InsuranceCompanyClientsComponent} from './pages/insurance-company/insurance-company-clients/insurance-company-clients.component';
 import {LoginComponent} from './pages/login/login.component';
 import { AuthBaseComponent } from './components/auth-base/auth-base.component';
-import { AuthAdminComponent } from './components/auth-admin/auth-admin.component';
-import { NavbarComponent } from './components/navbar/navbar.component';
 import {AuthInterceptor} from "../shared/auth/auth.interceptor";
+import {NavbarComponent} from "./components/navbar/navbar.component";
 
 @NgModule({
   declarations: [
     AppComponent,
-    AdminNavbarComponent,
+    NavbarComponent,
     ClientListComponent,
     ClientAddComponent,
     ClientDetailsComponent,
@@ -98,7 +96,6 @@ import {AuthInterceptor} from "../shared/auth/auth.interceptor";
     InsuranceCompanyClientsComponent,
     LoginComponent,
     AuthBaseComponent,
-    AuthAdminComponent,
     NavbarComponent
   ],
   imports: [

@@ -9,7 +9,6 @@ import {AuthGuard} from "../shared/auth/auth.guard";
 import {RoleGuardService as RoleGuard} from "../shared/auth/role-guard.service";
 import {LoginComponent} from "./pages/login/login.component";
 import {ReverseAuthGuard} from "../shared/auth/reverse-auth.guard";
-import {AuthAdminComponent} from "./components/auth-admin/auth-admin.component";
 import {AuthBaseComponent} from "./components/auth-base/auth-base.component";
 
 const routes: Routes = [
@@ -19,7 +18,7 @@ const routes: Routes = [
     ], canActivate: [ReverseAuthGuard]
   },
   {
-    path: '', component: AuthAdminComponent, canActivate: [RoleGuard],
+    path: '', component: AuthBaseComponent, canActivate: [RoleGuard],
     data: {
       expectedRole: 'ROLE_ADMIN'
     },
