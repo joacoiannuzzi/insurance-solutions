@@ -1,0 +1,29 @@
+
+.form-container {
+  width: 100%;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  row-gap: 15px;
+  column-gap: 10px;
+
+  .item {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+  }
+}
+
+.buttons-container {
+  width: 100%;
+  display: grid;
+  grid-template-columns: 1fr;
+  row-gap: 15px;
+  column-gap: 10px;
+
+  .item {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    margin: 5px;
+  }
+}

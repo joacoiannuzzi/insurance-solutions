@@ -1,12 +1,16 @@
-import {AfterViewInit, Component, Inject, OnInit, ViewChild} from '@angular/core';
-import {ConfirmDialogComponent} from "../../../components/confirm-dialog/confirm-dialog.component";
-import {DrivingProfile} from "../../../../shared/models/drivingProfile";
-import {MatTableDataSource} from "@angular/material/table";
-import {MatSort} from "@angular/material/sort";
-import {MatPaginator} from "@angular/material/paginator";
-import {MAT_DIALOG_DATA, MatDialog, MatDialogRef} from "@angular/material/dialog";
-import {Vehicle} from "../../../../shared/models/vehicle";
-import {VehicleService} from "../../../../shared/services/vehicle.service";
+import { DrivingProfileDetailsComponent } from './../driving-profile-details/driving-profile-details.component';
+import { DrivingProfileService } from 'src/shared/services/driving-profile.service';
+import { AfterViewInit, Component, Inject, OnInit, ViewChild } from '@angular/core';
+import { ConfirmDialogComponent } from "../../../components/confirm-dialog/confirm-dialog.component";
+import { DrivingProfile } from "../../../../shared/models/drivingProfile";
+import { MatTableDataSource } from "@angular/material/table";
+import { MatSort } from "@angular/material/sort";
+import { MatPaginator } from "@angular/material/paginator";
+import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from "@angular/material/dialog";
+import { Vehicle } from "../../../../shared/models/vehicle";
+import { VehicleService } from "../../../../shared/services/vehicle.service";
+import { DrivingProfileAddComponent } from '../driving-profile-add/driving-profile-add.component';
+import { DrivingProfileUpdateComponent } from '../driving-profile-update/driving-profile-update.component';
 
 @Component({
   selector: 'app-driving-profiles',
@@ -21,12 +25,13 @@ export class DrivingProfilesComponent implements OnInit, AfterViewInit {
   loading: boolean = true;
 
   @ViewChild(MatSort) sort: MatSort;
-  @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
+  @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
 
   constructor(public dialogRef: MatDialogRef<DrivingProfilesComponent>,
-              @Inject(MAT_DIALOG_DATA) public vehicle: Vehicle,
-              public dialog: MatDialog,
-              public vehicleService: VehicleService
+    @Inject(MAT_DIALOG_DATA) public vehicle: Vehicle,
+    public dialog: MatDialog,
+    public vehicleService: VehicleService,
+    public driProService: DrivingProfileService
   ) {
   }
 
@@ -51,12 +56,21 @@ export class DrivingProfilesComponent implements OnInit, AfterViewInit {
       .afterClosed()
       .subscribe((confirmed: Boolean) => {
         if (confirmed) {
-          this.vehicleService.deleteDrivingProfile(this.vehicle.id, element.id).subscribe(()=>{
+          this.vehicleService.deleteDrivingProfile(this.vehicle.id, element.id).subscribe(() => {
             this.vehicle.drivingProfiles.splice(this.vehicle.drivingProfiles.findIndex(d => d.id === element.id), 1);
             this.closeDrivingProfiles();
           });
         }
       });
+  }
+
+  updateDrivingProfile(driPro: DrivingProfile) {
+    const dialogRef = this.dialog.open(DrivingProfileUpdateComponent, {
+      width: '800px',
+      data: driPro
+    });
+    dialogRef.afterClosed().subscribe((res) => {
+    });
   }
 
   applyFilter(event: Event) {
@@ -68,7 +82,24 @@ export class DrivingProfilesComponent implements OnInit, AfterViewInit {
     }
   }
 
+  viewDrivingProfile(driPro: DrivingProfile) {
+    const dialogRef = this.dialog.open(DrivingProfileDetailsComponent, {
+      width: '800px',
+      data: driPro
+    });
+    dialogRef.afterClosed().subscribe((res) => {
+    });
+  }
+
   openDrivingProfileDetails(element: DrivingProfile) {
-    //Driving Profile Details not implemented yet.
+    const driPro = new DrivingProfile(0, 0, 0, "", 0, 0, '', 0)
+    const dialogRef = this.dialog.open(DrivingProfileUpdateComponent, {
+      data: driPro,
+      width: '1000px',
+    });
+    dialogRef.afterClosed().subscribe(() => {
+      this.dialogRef.close();
+    });
+
   }
 }
