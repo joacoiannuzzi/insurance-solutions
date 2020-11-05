@@ -52,6 +52,9 @@ import {InsuranceCompanyService} from "../shared/services/insurance-company.serv
 import {MatTooltipModule} from '@angular/material/tooltip';
 import {MatDatepickerModule} from '@angular/material/datepicker';
 import { InsuranceCompanyUpdateComponent } from './pages/insurance-company/insurance-company-update/insurance-company-update.component';
+import { UserListComponent } from './pages/user/user-list/user-list.component';
+import { UserAddComponent } from './pages/user/user-add/user-add.component';
+import { InsuranceCompanyClientsComponent } from './pages/insurance-company/insurance-company-clients/insurance-company-clients.component';
 
 @NgModule({
   declarations: [
@@ -81,10 +84,12 @@ import { InsuranceCompanyUpdateComponent } from './pages/insurance-company/insur
     InsuranceCompanyAddComponent,
     MonitoringSystemAddComponent,
     DrivingProfileAddComponent,
-    InsuranceCompanyUpdateComponent,
     DrivingProfileUpdateComponent,
     DrivingProfileDetailsComponent,
-
+    UserListComponent,
+    UserAddComponent,
+    InsuranceCompanyUpdateComponent,
+    InsuranceCompanyClientsComponent
    ],
   imports: [
     BrowserModule,

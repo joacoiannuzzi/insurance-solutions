@@ -8,6 +8,7 @@ import {InsuranceCompany} from "../../../../shared/models/insuranceCompany";
 import {InsuranceCompanyAddComponent} from "../insurance-company-add/insurance-company-add.component";
 import {ConfirmDialogComponent} from "../../../components/confirm-dialog/confirm-dialog.component";
 import {InsuranceCompanyUpdateComponent} from "../insurance-company-update/insurance-company-update.component";
+import {InsuranceCompanyClientsComponent} from "../insurance-company-clients/insurance-company-clients.component";
 
 @Component({
   selector: 'app-insurance-company-list',
@@ -57,7 +58,7 @@ export class InsuranceCompanyListComponent implements OnInit, AfterViewInit {
   openDialog(): void {
     const dialogRef = this.dialog.open(InsuranceCompanyAddComponent, {
       width: '800px',
-      data: new InsuranceCompany(-1, "")
+      data: new InsuranceCompany(-1, "", [])
     });
 
     dialogRef.afterClosed().subscribe(() => {
@@ -91,13 +92,13 @@ export class InsuranceCompanyListComponent implements OnInit, AfterViewInit {
     })
   }
 
-  openInsuranceCompanyDetails(element: InsuranceCompany): void {
-    /*const dialogRef = this.dialog.open(InsuranceCompanyDetailsComponent, {
+  openInsuranceCompanyClients(element: InsuranceCompany): void {
+    const dialogRef = this.dialog.open(InsuranceCompanyClientsComponent, {
       width: '800px',
       data: element
     });
-    dialogRef.afterClosed().subscribe(() => {
-      this.getInsuranceCompanies();
-    })*/
+    dialogRef.afterClosed().subscribe((is) => {
+      this.insuranceCompanies[this.insuranceCompanies.findIndex(i => i.id === is.id)] = is;
+    })
   }
 }

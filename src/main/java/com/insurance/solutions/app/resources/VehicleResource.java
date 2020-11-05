@@ -1,7 +1,7 @@
 package com.insurance.solutions.app.resources;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.insurance.solutions.app.models.ENUM_CATEGORY;
+import com.insurance.solutions.app.models.enums.VehicleCategory;
 import lombok.Value;
 
 import java.util.List;
@@ -10,7 +10,7 @@ import java.util.List;
 public class VehicleResource {
     private final Long id;
     private final String licensePlate;
-    private final ENUM_CATEGORY category;
+    private final VehicleCategory category;
     private final String brand;
     private final String model;
     private final List<DrivingProfileResource> drivingProfiles;
@@ -19,7 +19,7 @@ public class VehicleResource {
 
     public VehicleResource(@JsonProperty("id") Long id,
                            @JsonProperty("licensePlate") String licensePlate,
-                           @JsonProperty("category") ENUM_CATEGORY category,
+                           @JsonProperty("category") VehicleCategory category,
                            @JsonProperty("brand") String brand,
                            @JsonProperty("model") String model,
                            @JsonProperty("drivingProfiles") List<DrivingProfileResource> drivingProfiles,
@@ -43,7 +43,7 @@ public class VehicleResource {
         return licensePlate;
     }
 
-    public ENUM_CATEGORY getCategory() {
+    public VehicleCategory getCategory() {
         return category;
     }
 

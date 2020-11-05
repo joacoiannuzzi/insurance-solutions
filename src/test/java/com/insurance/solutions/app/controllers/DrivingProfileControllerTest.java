@@ -18,7 +18,7 @@ import org.springframework.test.web.servlet.MvcResult;
 import java.io.UnsupportedEncodingException;
 import java.util.List;
 
-import static com.insurance.solutions.app.models.ENUM_CATEGORY.CAR;
+import static com.insurance.solutions.app.models.enums.VehicleCategory.CAR;
 import static com.insurance.solutions.app.utils.TestUtil.createRandomDrivingProfile;
 import static com.insurance.solutions.app.utils.TestUtil.createRandomVehicle;
 import static org.junit.Assert.*;
@@ -28,7 +28,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 
 @SpringBootTest
-@AutoConfigureMockMvc
+@AutoConfigureMockMvc(addFilters = false)
 @ActiveProfiles("test")
 class DrivingProfileControllerTest {
 

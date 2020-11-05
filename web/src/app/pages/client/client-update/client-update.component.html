@@ -38,9 +38,6 @@
       <mat-form-field appearance="fill">
         <mat-label>DNI</mat-label>
         <input matInput [formControl]="dni" placeholder="12345678" required>
-        <mat-error *ngIf="dni.errors?.alreadyExistsValidator && !dni.errors?.maxlength && !dni.errors?.required">
-          El DNI ingresado ya existe
-        </mat-error>
         <mat-error *ngIf="dni.errors?.maxlength && !dni.errors?.required">
           Tiene que tener un máximo de 9 caracteres
         </mat-error>
