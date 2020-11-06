@@ -10,17 +10,18 @@ export class User {
   insuranceCompany: InsuranceCompany;
 
 
-  constructor(email: string, id: number, username: string, password?: string, type?: string, company?: InsuranceCompany) {
+  constructor(email: string, id: number, username: string, password?: string, role?: string, company?: InsuranceCompany) {
     this.email = email;
     this.id = id;
     this.username = username;
     this.password = password;
-    this.type = type;
+    this.type = role;
     this.insuranceCompany = company;
   }
 
   static fromJsonObject(jsonObject: any): User {
-    return new User(jsonObject.email, jsonObject.id, jsonObject.username, jsonObject.password, jsonObject.type, jsonObject.insuranceCompany);
+    console.log(jsonObject)
+    return new User(jsonObject.email, jsonObject.id, jsonObject.name, jsonObject.password, jsonObject.role, jsonObject.insuranceCompany);
   }
 
   static typeToString(typ: string | Type): string {

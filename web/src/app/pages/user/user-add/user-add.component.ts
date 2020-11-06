@@ -73,13 +73,13 @@ export class UserAddComponent implements OnInit {
 
       this.userService.save(this.data).subscribe(
         (newUser) => {
-        //el save no asigna a la compañia. Hay que hacerlo en una ruta aparte.
-        this.userService.assignInsuranceCompany(newUser.id, this.userForm.value.insuranceCompany.id);
-        this.dialogRef.close();
-      },
-      () => {
-        //Solo catchea el error. No hace nada mas ya que no quiero que cierre el dialogo en caso de error. El mismo service muestra la snackbar de error
-      })
+          //el save no asigna a la compañia. Hay que hacerlo en una ruta aparte.
+          this.userService.assignInsuranceCompany(newUser.id, this.userForm.value.insuranceCompany.id);
+          this.dialogRef.close();
+        },
+        () => {
+          //Solo catchea el error. No hace nada mas ya que no quiero que cierre el dialogo en caso de error. El mismo service muestra la snackbar de error
+        })
     }
   }
 
