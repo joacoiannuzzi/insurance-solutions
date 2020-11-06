@@ -3,5 +3,6 @@
   <a class="nav-bar-button" mat-button routerLink="/clients">Clientes</a>
   <a class="nav-bar-button" mat-button routerLink="/vehicles">Vehículos</a>
   <a class="nav-bar-button" mat-button routerLink="/monitoring-systems">Servicios de Monitoreo</a>
-  <a class="nav-bar-button" mat-button routerLink="/insurance-companies">Empresas Aseguradoras</a>
+  <a class="nav-bar-button" mat-button routerLink="/insurance-companies" *ngIf="isAdmin">Empresas Aseguradoras</a>
+  <a class="nav-bar-button" mat-button routerLink="/users" *ngIf="isAdmin">Usuarios</a>
 </mat-toolbar>

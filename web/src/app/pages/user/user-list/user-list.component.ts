@@ -55,7 +55,7 @@ export class UserListComponent implements OnInit, AfterViewInit {
   openDialog(): void {
     const dialogRef = this.dialog.open(UserAddComponent, {
       width: '800px',
-      data: new User(-1, "", "", "", new InsuranceCompany(-2, ''))
+      data: new User('', -1, "", "", "", new InsuranceCompany(-2, '', []))
     });
 
     dialogRef.afterClosed().subscribe(() => {

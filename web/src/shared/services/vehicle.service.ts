@@ -27,7 +27,7 @@ export class VehicleService {
         this.snackBar.open('Hubo un error al traer los vehículos.', '', {
           duration: 2000,
         });
-        return this.vehicles;
+        return [];
       })
     );
   }
