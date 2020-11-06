@@ -1,8 +1,8 @@
-import { DrivingProfileService } from './../../../../shared/services/driving-profile.service';
+import { DrivingProfileService } from '../../../../shared/services/driving-profile.service';
 import { FormControl } from '@angular/forms';
 import { Validators } from '@angular/forms';
 import { FormGroup } from '@angular/forms';
-import { DrivingProfile } from './../../../../shared/models/drivingProfile';
+import { DrivingProfile } from '../../../../shared/models/drivingProfile';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Component, OnInit, Inject } from '@angular/core';
 import { VehicleService } from 'src/shared/services/vehicle.service';

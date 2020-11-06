@@ -3,8 +3,6 @@ package com.insurance.solutions.app.resources;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Value;
 
-import javax.validation.constraints.NotNull;
-
 @Value
 public class UserResource {
     private final Long id;
@@ -14,7 +12,7 @@ public class UserResource {
 
     public UserResource(
             @JsonProperty("id") Long id,
-            @JsonProperty("username") String username,
+            @JsonProperty("name") String username,
             @JsonProperty("email") String email,
             @JsonProperty("rol") String rol
     ) {

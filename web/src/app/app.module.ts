@@ -1,13 +1,13 @@
-import { DrivingProfileDetailsComponent } from './pages/vehicle/driving-profile-details/driving-profile-details.component';
-import { DrivingProfileUpdateComponent } from './pages/vehicle/driving-profile-update/driving-profile-update.component';
-import { DrivingProfileService } from '../shared/services/driving-profile.service';
-import { DrivingProfileAddComponent } from './pages/vehicle/driving-profile-add/driving-profile-add.component';
-import { MonitoringSystemUpdateComponent } from './pages/monitoring-system/monitoring-system-update/monitoring-system-update.component';
-import { MonitoringSystemAddComponent } from './pages/monitoring-system/monitoring-system-add/monitoring-system-add.component';
-import { MonitoringSystemService } from '../shared/services/monitoring-system.service';
-import { VehicleListComponent } from './pages/vehicle/vehicle-list/vehicle-list.component';
-import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
+import {DrivingProfileDetailsComponent} from './pages/vehicle/driving-profile-details/driving-profile-details.component';
+import {DrivingProfileUpdateComponent} from './pages/vehicle/driving-profile-update/driving-profile-update.component';
+import {DrivingProfileService} from '../shared/services/driving-profile.service';
+import {DrivingProfileAddComponent} from './pages/vehicle/driving-profile-add/driving-profile-add.component';
+import {MonitoringSystemUpdateComponent} from './pages/monitoring-system/monitoring-system-update/monitoring-system-update.component';
+import {MonitoringSystemAddComponent} from './pages/monitoring-system/monitoring-system-add/monitoring-system-add.component';
+import {MonitoringSystemService} from '../shared/services/monitoring-system.service';
+import {VehicleListComponent} from './pages/vehicle/vehicle-list/vehicle-list.component';
+import {BrowserModule} from '@angular/platform-browser';
+import {NgModule} from '@angular/core';
 
 import {AppRoutingModule} from './app-routing.module';
 import {AppComponent} from './app.component';
@@ -55,9 +55,12 @@ import {UserListComponent} from './pages/user/user-list/user-list.component';
 import {UserAddComponent} from './pages/user/user-add/user-add.component';
 import {InsuranceCompanyClientsComponent} from './pages/insurance-company/insurance-company-clients/insurance-company-clients.component';
 import {LoginComponent} from './pages/login/login.component';
-import { AuthBaseComponent } from './components/auth-base/auth-base.component';
+import {AuthBaseComponent} from './components/auth-base/auth-base.component';
 import {AuthInterceptor} from "../shared/auth/auth.interceptor";
 import {NavbarComponent} from "./components/navbar/navbar.component";
+import {SensorAddComponent} from "./pages/sensor/sensor-add/sensor-add.component";
+import {SensorListComponent} from "./pages/sensor/sensor-list/sensor-list.component";
+import {SensorService} from "../shared/services/sensor.service";
 
 @NgModule({
   declarations: [
@@ -87,11 +90,13 @@ import {NavbarComponent} from "./components/navbar/navbar.component";
     InsuranceCompanyAddComponent,
     MonitoringSystemAddComponent,
     DrivingProfileAddComponent,
+    SensorAddComponent,
     InsuranceCompanyUpdateComponent,
     DrivingProfileUpdateComponent,
     DrivingProfileDetailsComponent,
     UserListComponent,
     UserAddComponent,
+    SensorListComponent,
     InsuranceCompanyUpdateComponent,
     InsuranceCompanyClientsComponent,
     LoginComponent,
@@ -124,12 +129,13 @@ import {NavbarComponent} from "./components/navbar/navbar.component";
 
   ],
   providers: [
-    { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
+    {provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true},
     ClientService,
     VehicleService,
     MonitoringSystemService,
     InsuranceCompanyService,
     DrivingProfileService,
+    SensorService
   ],
   bootstrap: [AppComponent]
 })

@@ -38,7 +38,7 @@ public class DataLoader implements ApplicationRunner {
     @Override
     public void run(ApplicationArguments args) throws Exception {
         Stream.of("Sebastian", "Tomas", "Franco", "Jose").forEach(name -> {
-            User user = new User(name, name.toLowerCase() + "@mail.com", new BCryptPasswordEncoder().encode("password"), UserRole.ROLE_ADMIN);
+            User user = new User(name, name.toLowerCase() + "@mail.com", new BCryptPasswordEncoder().encode("model"), UserRole.ROLE_ADMIN);
             userRepository.save(user);
         });
 

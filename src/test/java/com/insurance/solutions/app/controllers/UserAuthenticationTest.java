@@ -38,8 +38,8 @@ public class UserAuthenticationTest {
 
     @Test
     void userLogin() throws Exception {
-        Authentication valid = new Authentication("Jose", "password");
-        Authentication invalidUsername = new Authentication("invalid", "password");
+        Authentication valid = new Authentication("Jose", "model");
+        Authentication invalidUsername = new Authentication("invalid", "model");
         Authentication invalidPassword = new Authentication("Jose", "invalid");
         Authentication invalid = new Authentication("invalid", "invalid");
 

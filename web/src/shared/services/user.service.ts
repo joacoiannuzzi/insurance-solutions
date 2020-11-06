@@ -81,7 +81,7 @@ export class UserService {
     // );
   }
 
-  public delete(user: User) {
+  public delete(user: User)  {
     return this.http.delete<User>(this.usersUrl + "/delete/" + user.id).pipe(
       map(() => {
         this.usersList.splice(this.usersList.findIndex(u => u.id === user.id), 1);

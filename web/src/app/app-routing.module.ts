@@ -10,6 +10,7 @@ import {RoleGuardService as RoleGuard} from "../shared/auth/role-guard.service";
 import {LoginComponent} from "./pages/login/login.component";
 import {ReverseAuthGuard} from "../shared/auth/reverse-auth.guard";
 import {AuthBaseComponent} from "./components/auth-base/auth-base.component";
+import {SensorListComponent} from "./pages/sensor/sensor-list/sensor-list.component";
 
 const routes: Routes = [
   {
@@ -32,7 +33,8 @@ const routes: Routes = [
     children: [
       {path: 'clients', component: ClientListComponent},
       {path: 'vehicles', component: VehicleListComponent},
-      {path: 'monitoring-systems', component: MonitoringSystemListComponent}
+      {path: 'monitoring-systems', component: MonitoringSystemListComponent},
+      {path: 'sensors', component: SensorListComponent}
     ]
   },
 ];

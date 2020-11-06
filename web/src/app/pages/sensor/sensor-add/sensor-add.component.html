@@ -1,0 +1,48 @@
+<h1 mat-dialog-title>Agregar sensor</h1>
+<div mat-dialog-content>
+
+  <form [formGroup]="sensorForm">
+    <div class="form-container">
+
+      <div class="item">
+        <mat-form-field appearance="fill">
+          <mat-label>Sensor:</mat-label>
+          <input matInput [formControl]="name" placeholder="Juan" required>
+
+          <mat-error *ngIf="name.errors?.pattern && !name.errors?.minlength && !name.errors?.required">
+            Solo caracteres válidos
+          </mat-error>
+          <mat-error *ngIf="name.errors?.minlength && !name.errors?.required">
+            Tiene que tener un mínimo de 2 caracteres
+          </mat-error>
+          <mat-error *ngIf="name.errors?.required">
+            Se <strong>requiere</strong> nombre
+          </mat-error>
+
+        </mat-form-field>
+      </div>
+
+      <div class="item">
+        <mat-form-field appearance="fill">
+          <mat-label>Modelo:</mat-label>
+          <input matInput [formControl]="model" placeholder="model" required>
+          <mat-error *ngIf="model.errors?.minlength && !model.errors?.required">
+            Tiene que tener un mínimo de 8 caracteres
+          </mat-error>
+          <mat-error *ngIf="model.errors?.required">
+            Se <strong>requiere</strong> contraseña
+          </mat-error>
+        </mat-form-field>
+      </div>
+    </div>
+  </form>
+
+</div>
+<div mat-dialog-actions>
+  <div class="buttons-container">
+    <div class="item">
+      <button mat-raised-button (click)="close()">Cancelar</button>
+      <button mat-raised-button [disabled]="invalid" color="primary" (click)="saveSensor()">Aceptar</button>
+    </div>
+  </div>
+</div>

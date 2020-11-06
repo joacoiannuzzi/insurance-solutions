@@ -16,7 +16,7 @@ spring:
     platform: postgres
     url: jdbc:postgresql://localhost:5433/is
     username: postgres
-    password: password
+    password: model
     driver-class-name: org.postgresql.Driver
   jackson:
     serialization:

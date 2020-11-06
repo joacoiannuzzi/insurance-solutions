@@ -1,4 +1,4 @@
-import { MonitoringSystem } from '../models/monitoringSystem';
+import {MonitoringSystem} from '../models/monitoringSystem';
 import {Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {Observable} from "rxjs";
@@ -77,6 +77,7 @@ export class MonitoringSystemService {
       })
     )
   }
+
   public update(moSys: MonitoringSystem) {
     return this.http.put<MonitoringSystem>(this.monitoringSystemsUrl + "/update/" + moSys.id, moSys).pipe(
       map((res: MonitoringSystem) => {
