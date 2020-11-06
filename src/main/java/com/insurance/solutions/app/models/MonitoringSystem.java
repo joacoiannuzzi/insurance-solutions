@@ -15,8 +15,12 @@ public class MonitoringSystem {
 
     @NotBlank(message = "Name can not be blank")
     private String name;
-    private String sensor;
     private String monitoringCompany;
+
+    @JsonIgnore
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "sensor_id")
+    private Sensor sensor;
 
     @JsonIgnore
     @OneToOne
@@ -28,9 +32,8 @@ public class MonitoringSystem {
     public MonitoringSystem() {
     }
 
-    public MonitoringSystem(String name, String sensor, String monitoringCompany) {
+    public MonitoringSystem(String name, String monitoringCompany) {
         this.name = name;
-        this.sensor = sensor;
         this.monitoringCompany = monitoringCompany;
     }
 
@@ -50,11 +53,11 @@ public class MonitoringSystem {
         this.name = name;
     }
 
-    public String getSensor() {
+    public Sensor getSensor() {
         return sensor;
     }
 
-    public void setSensor(String sensor) {
+    public void setSensor(Sensor sensor) {
         this.sensor = sensor;
     }
 
