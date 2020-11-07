@@ -20,7 +20,6 @@ export class User {
   }
 
   static fromJsonObject(jsonObject: any): User {
-    console.log(jsonObject)
     return new User(jsonObject.email, jsonObject.id, jsonObject.name, jsonObject.password, jsonObject.role, jsonObject.insuranceCompany);
   }
 

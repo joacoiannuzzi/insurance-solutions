@@ -12,11 +12,11 @@ import {InsuranceCompany} from "../../../../shared/models/insuranceCompany";
 import {checkExistsValidator} from "../../../../shared/directives/checkExistsValidator.directive";
 
 @Component({
-  selector: 'app-user-add',
-  templateUrl: './user-add.component.html',
-  styleUrls: ['./user-add.component.scss']
+  selector: 'app-user-edit',
+  templateUrl: './user-edit.component.html',
+  styleUrls: ['./user-edit.component.scss']
 })
-export class UserAddComponent implements OnInit {
+export class UserEditComponent implements OnInit {
   userForm: FormGroup;
   userList: User[] = [];
   types: Type[] = [Type.BASE, Type.ADMIN];
@@ -25,7 +25,7 @@ export class UserAddComponent implements OnInit {
   insuranceCompanyList: InsuranceCompany[] = [];
   loading = true;
 
-  constructor(public dialogRef: MatDialogRef<UserAddComponent>,
+  constructor(public dialogRef: MatDialogRef<UserEditComponent>,
               @Inject(MAT_DIALOG_DATA) public data: User,
               public userService: UserService,
               public insuranceCompanyService: InsuranceCompanyService) {
@@ -109,7 +109,7 @@ export class UserAddComponent implements OnInit {
 
   private createForm() {
     this.userForm = new FormGroup({
-      username: new FormControl('', [
+      username: new FormControl(this.data.username, [
         Validators.required,
         Validators.maxLength(20),
         Validators.minLength(2),
@@ -117,19 +117,18 @@ export class UserAddComponent implements OnInit {
         alreadyExistsValidator(this.userList, 'username')
       ]),
       password: new FormControl('', [
-        Validators.required,
         Validators.minLength(8),
         //Minimum eight characters, at least one letter, one number and one special character
         Validators.pattern('^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).*$')
       ]),
-      type: new FormControl('', [
+      type: new FormControl(this.data.type, [
         Validators.required
       ]),
-      email: new FormControl('', [
+      email: new FormControl(this.data.email, [
         Validators.required,
         Validators.email
       ]),
-      insuranceCompany: new FormControl('', [
+      insuranceCompany: new FormControl(this.data.insuranceCompany ? this.data.insuranceCompany : '', [
         checkExistsValidator(this.insuranceCompanyList, 'name')
       ])
     });

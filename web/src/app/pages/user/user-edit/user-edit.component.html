@@ -1,4 +1,4 @@
-<h1 mat-dialog-title>Agregar usuario</h1>
+<h1 mat-dialog-title>Editar usuario</h1>
 <div mat-dialog-content>
 
   <div *ngIf="loading">
@@ -44,7 +44,7 @@
       <div class="item">
         <mat-form-field appearance="fill">
           <mat-label>Contraseña:</mat-label>
-          <input matInput [formControl]="password" placeholder="password" required type="password">
+          <input matInput [formControl]="password" placeholder="model" required type="password">
           <mat-error *ngIf="password.errors?.pattern && !password.errors?.minlength && !password.errors?.required">
             La contraseña debe contener al menos una letra, un número y un caracter especial
           </mat-error>
@@ -61,7 +61,8 @@
         <mat-form-field appearance="fill">
           <mat-label>Tipo:</mat-label>
           <mat-select [formControl]="type" required>
-            <mat-option *ngFor="let typ of types" [value]="typ">{{typeLabels[typ]}}</mat-option>
+            <mat-option value="ROLE_ADMIN">Admin</mat-option>
+            <mat-option value="ROLE_BASE">Base</mat-option>
           </mat-select>
         </mat-form-field>
       </div>

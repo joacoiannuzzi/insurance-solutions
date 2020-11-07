@@ -8,6 +8,7 @@ import {UserService} from "../../../../shared/services/user.service";
 import {UserAddComponent} from "../user-add/user-add.component";
 import {InsuranceCompany} from "../../../../shared/models/insuranceCompany";
 import {ConfirmDialogComponent} from "../../../components/confirm-dialog/confirm-dialog.component";
+import {UserEditComponent} from "../user-edit/user-edit.component";
 
 @Component({
   selector: 'app-user-list',
@@ -59,7 +60,8 @@ export class UserListComponent implements OnInit, AfterViewInit {
     });
 
     dialogRef.afterClosed().subscribe(() => {
-      this.getUsers();
+      this.userService.findAll().subscribe();
+      this.dataSource._updateChangeSubscription();
     });
   }
 
@@ -78,15 +80,15 @@ export class UserListComponent implements OnInit, AfterViewInit {
   }
 
   updateUser(user: User) {
-    // const dialogRef = this.dialog.open(UserUpdateComponent, {
-    //   width: '800px',
-    //   data: user
-    // });
-    // dialogRef.afterClosed().subscribe((res) => {
-    //   if (res) {
-    //     this.getUsers();
-    //   }
-    // })
+    const dialogRef = this.dialog.open(UserEditComponent, {
+      width: '800px',
+      data: user
+    });
+    dialogRef.afterClosed().subscribe((res) => {
+      if (res) {
+        this.getUsers();
+      }
+    })
   }
 
   openUserDetails(element: User): void {
