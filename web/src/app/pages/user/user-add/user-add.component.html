@@ -31,7 +31,7 @@
       <div class="item">
         <mat-form-field appearance="fill">
           <mat-label>Contraseña:</mat-label>
-          <input matInput [formControl]="password" placeholder="model" required type="password">
+          <input matInput [formControl]="password" placeholder="password" required type="password">
           <mat-error *ngIf="password.errors?.pattern && !password.errors?.minlength && !password.errors?.required">
             La contraseña debe contener al menos una letra, un número y un caracter especial
           </mat-error>

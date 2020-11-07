@@ -15,7 +15,7 @@ import {ConfirmDialogComponent} from "../../../components/confirm-dialog/confirm
   styleUrls: ['./user-list.component.scss']
 })
 export class UserListComponent implements OnInit, AfterViewInit {
-  displayedColumns: string[] = ['username', 'insuranceCompany', 'options'];
+  displayedColumns: string[] = ['name', 'insuranceCompany', 'options'];
   users: User[];
   dataSource: MatTableDataSource<User> = new MatTableDataSource<User>([]);
   loading: boolean = true;

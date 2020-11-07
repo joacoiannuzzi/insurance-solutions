@@ -5,6 +5,7 @@ import {MatSnackBar} from "@angular/material/snack-bar";
 import {environment} from "../../environments/environment";
 import {Observable} from "rxjs";
 import {catchError, map} from "rxjs/operators";
+import {InsuranceCompany} from "../models/insuranceCompany";
 
 @Injectable({
   providedIn: 'root'
@@ -100,14 +101,14 @@ export class UserService {
   }
 
   public assignInsuranceCompany(userid: number, icid: number) {
-    // return this.http.put<User>(`${this.usersUrl}/${userid}/add-insurance-company/${icid}`, {}).pipe(
-    //   map((res: any) => {
-    //     this.usersList.find(u => u.id === userid).insuranceCompany = (InsuranceCompany.fromJsonObject(res));
-    //     return res;
-    //   }),
-    //   catchError(() => {
-    //     return this.usersList;
-    //   })
-    // );
+    return this.http.put<User>(`${this.usersUrl}/${userid}/assign/${icid}`, {}).pipe(
+      map((res: any) => {
+        this.usersList.find(u => u.id === userid).insuranceCompany = (InsuranceCompany.fromJsonObject(res?.insuranceCompany));
+        return res;
+      }),
+      catchError(() => {
+        return this.usersList;
+      })
+    );
   }
 }
