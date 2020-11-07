@@ -42,7 +42,7 @@ export class MonitoringSystemUpdateComponent implements OnInit {
       monitoringCompany: new FormControl(this.moSys.monitoringCompany, [
         Validators.required,
         Validators.minLength(2),
-        Validators.pattern('^[a-zA-Z ]*$')
+        Validators.pattern('^[a-zA-Z ñ]*$')
       ]),
 
     })

@@ -15,7 +15,7 @@ import {InsuranceCompany} from "../../../../shared/models/insuranceCompany";
 })
 export class SensorListComponent implements OnInit, AfterViewInit {
 
-  displayedColumns: string[] = ['name', 'model', 'monitoringSystem', 'options'];
+  displayedColumns: string[] = ['name', 'model', 'monitoringSystem'];
   sensors: Sensor[];
   dataSource: MatTableDataSource<Sensor> = new MatTableDataSource<Sensor>([]);
   loading: boolean = true;
