@@ -68,7 +68,7 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
         if (user != null) {
             Map<String, Object> aux = new HashMap<>();
             aux.put("token", token);
-            aux.put("user", UserUtils.makeUser(user));
+            aux.put("user", UserUtils.makeUser(user, true));
             response.addHeader("Access-Control-Expose-Headers", "Authorization");
             response.setContentType("application/json");
             response.setCharacterEncoding("UTF-8");

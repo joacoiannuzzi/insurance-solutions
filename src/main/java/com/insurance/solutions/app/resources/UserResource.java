@@ -3,25 +3,25 @@ package com.insurance.solutions.app.resources;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Value;
 
-import javax.validation.constraints.NotNull;
-
 @Value
 public class UserResource {
-    private final Long id;
-    private final String username;
-    private final String email;
-    private final String rol;
+    Long id;
+    String username;
+    String email;
+    String rol;
+    InsuranceCompanyResource insuranceCompany;
 
     public UserResource(
             @JsonProperty("id") Long id,
             @JsonProperty("username") String username,
             @JsonProperty("email") String email,
-            @JsonProperty("rol") String rol
-    ) {
+            @JsonProperty("rol") String rol,
+            @JsonProperty("insuranceCompany") InsuranceCompanyResource insuranceCompany) {
         this.id = id;
         this.username = username;
         this.email = email;
         this.rol = rol;
+        this.insuranceCompany = insuranceCompany;
     }
 
     public Long getId() {
@@ -38,5 +38,9 @@ public class UserResource {
 
     public String getRol() {
         return rol;
+    }
+
+    public InsuranceCompanyResource getInsuranceCompany() {
+        return insuranceCompany;
     }
 }
