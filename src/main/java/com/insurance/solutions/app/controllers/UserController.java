@@ -41,7 +41,7 @@ public class UserController {
 
     @GetMapping("/all")
     public ResponseEntity<List<UserResource>> getAllBaseUsers() {
-        return ResponseEntity.ok().body(makeUsers(userService.getAllBase(), true));
+        return ResponseEntity.ok().body(makeUsers(userService.getAll(), true));
     }
 
     @DeleteMapping("/delete/{id}")

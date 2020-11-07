@@ -47,7 +47,7 @@ public class DataLoader implements ApplicationRunner {
             clients.add(
                     new Client(
                             "0000000" + i,
-                            "Client" + i,
+                            "Client",
                             "Lastname",
                             "123456789" + i,
                             "client" + i + "@gmail.com"

@@ -18,11 +18,10 @@ export class UserService {
     this.usersUrl = environment.url + '/users';
   }
 
-  private findAll(): Observable<User[]> {
+  public findAll(): Observable<User[]> {
     return this.http.get(this.usersUrl + '/all').pipe(
       map((res: any) => {
         this.usersList = res.map((user) => User.fromJsonObject(user));
-        console.log(this.usersList)
         return this.usersList;
       }),
       catchError(() => {
@@ -46,7 +45,7 @@ export class UserService {
     console.log(user)
     return this.http.post<User>(this.usersUrl + "/sign-up", user).pipe(
       map((res: any) => {
-        this.usersList = [...this.usersList, User.fromJsonObject(res)];
+        this.usersList.push(User.fromJsonObject(res));
         this.snackBar.open('El usuario fue guardado con éxito.', '', {
           duration: 2000,
         });

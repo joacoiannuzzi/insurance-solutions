@@ -61,6 +61,7 @@ import {NavbarComponent} from "./components/navbar/navbar.component";
 import {SensorAddComponent} from "./pages/sensor/sensor-add/sensor-add.component";
 import {SensorListComponent} from "./pages/sensor/sensor-list/sensor-list.component";
 import {SensorService} from "../shared/services/sensor.service";
+import {UserEditComponent} from "./pages/user/user-edit/user-edit.component";
 
 @NgModule({
   declarations: [
@@ -96,6 +97,7 @@ import {SensorService} from "../shared/services/sensor.service";
     DrivingProfileDetailsComponent,
     UserListComponent,
     UserAddComponent,
+    UserEditComponent,
     SensorListComponent,
     InsuranceCompanyUpdateComponent,
     InsuranceCompanyClientsComponent,
