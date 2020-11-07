@@ -60,9 +60,10 @@ public class MonitoringSystemService {
         MonitoringSystem oldMonitoringSystem = monitoringSystemRepository.findById(monitoringSystemId)
                 .orElseThrow(() -> new ResourceNotFoundException("Monitoring system not found."));
 
-        MonitoringSystem newMonitoringSystem = new MonitoringSystem(monitoringSystem.getName(), monitoringSystem.getSensor(),
+        MonitoringSystem newMonitoringSystem = new MonitoringSystem(monitoringSystem.getName(),
                 monitoringSystem.getMonitoringCompany());
         newMonitoringSystem.setVehicle(oldMonitoringSystem.getVehicle());
+        newMonitoringSystem.setSensor(oldMonitoringSystem.getSensor());
         newMonitoringSystem.setIsAssigned(oldMonitoringSystem.getIsAssigned());
 
         if (!monitoringSystem.getName().equals(oldMonitoringSystem.getName())) validateMonitoringSystem(newMonitoringSystem);

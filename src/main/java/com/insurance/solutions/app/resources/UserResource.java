@@ -13,7 +13,7 @@ public class UserResource {
 
     public UserResource(
             @JsonProperty("id") Long id,
-            @JsonProperty("username") String username,
+            @JsonProperty("name") String username,
             @JsonProperty("email") String email,
             @JsonProperty("rol") String rol,
             @JsonProperty("insuranceCompany") InsuranceCompanyResource insuranceCompany) {

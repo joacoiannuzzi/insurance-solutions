@@ -39,7 +39,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @ActiveProfiles("test")
 public class UserControllerTest {
 
-    String urlBase = "/users";
+    String urlBase = "/sensors";
 
     @Autowired
     MockMvc mockMvc;
@@ -66,7 +66,7 @@ public class UserControllerTest {
 
     @Test
     void createUser() throws Exception {
-        User user = new User("User1", "user1@mail.com", "password", UserRole.ROLE_BASE);
+        User user = new User("User1", "user1@mail.com", "model", UserRole.ROLE_BASE);
 
         MvcResult response = mockMvc
                 .perform(
@@ -86,7 +86,7 @@ public class UserControllerTest {
 
         assertEquals(toJson(user), toJson(userRepository.findById(createdUser.getId())));
 
-        User adminUser = new User("AdminUser1", "adminuser1@mail.com", "password", UserRole.ROLE_ADMIN);
+        User adminUser = new User("AdminUser1", "adminuser1@mail.com", "model", UserRole.ROLE_ADMIN);
 
         MvcResult response2 = mockMvc
                 .perform(
@@ -121,7 +121,7 @@ public class UserControllerTest {
         System.out.println("--------------------------\n");
 
         this.mockMvc
-                .perform(get("/users/all"))
+                .perform(get("/sensors/all"))
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(content().contentType("application/json"))
@@ -130,7 +130,7 @@ public class UserControllerTest {
 
     @Test
     public void deleteExistingUser() throws Exception {
-        User user = new User("User2", "user2@mail.com", "password", UserRole.ROLE_BASE);
+        User user = new User("User2", "user2@mail.com", "model", UserRole.ROLE_BASE);
 
         long userId = userService.createUser(user).getId();
 
