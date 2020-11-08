@@ -60,7 +60,9 @@ export class UserListComponent implements OnInit, AfterViewInit {
     });
 
     dialogRef.afterClosed().subscribe(() => {
-      this.userService.findAll().subscribe();
+      this.userService.findAll().subscribe(res => {
+        this.dataSource.data = res;
+      });
       this.dataSource._updateChangeSubscription();
     });
   }
