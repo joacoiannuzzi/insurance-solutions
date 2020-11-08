@@ -65,7 +65,7 @@ public class DataLoader implements ApplicationRunner {
 
         List<MonitoringSystem> monitoringSystems = new ArrayList<>();
         for (int i = 1; i < 9; i++)
-            monitoringSystems.add(new MonitoringSystem("name" + i, "monitoringCompany" + 1));
+            monitoringSystems.add(new MonitoringSystem("Nombre " + i, "Compañia"));
 
         List<DrivingProfile> drivingProfiles = new ArrayList<>();
         for (int i = 1; i < 9; i++)

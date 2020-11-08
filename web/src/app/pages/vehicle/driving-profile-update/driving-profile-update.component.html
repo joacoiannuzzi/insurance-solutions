@@ -20,7 +20,7 @@
         </mat-form-field>
       </div>
 
- <div class="item">
+      <div class="item">
         <mat-form-field appearance="fill">
           <mat-label>Tiempo total de Manejo (en horas)</mat-label>
           <input matInput [formControl]="totalDrivingTime" placeholder="4">
@@ -74,7 +74,7 @@
         </mat-form-field>
       </div>
 
- <div class="item">
+      <div class="item">
         <mat-form-field appearance="fill">
           <mat-label>Velocidad Mínima (km/h)</mat-label>
           <input matInput [formControl]="minSpeed" placeholder="30">
@@ -94,7 +94,7 @@
         </mat-form-field>
       </div>
 
-  <div class="item">
+      <div class="item">
         <mat-form-field appearance="fill">
           <mat-label>Fecha de Inicio</mat-label>
           <input type="date" matInput [formControl]="startDate" placeholder="3/01/2020">
@@ -128,12 +128,14 @@
           </mat-error>
         </mat-form-field>
       </div>
-
-<div mat-dialog-actions>
-  <div class="buttons-container">
-    <div class="item">
-      <button mat-raised-button (click)="close()">Cancelar</button>
-      <button mat-raised-button [disabled]="invalid" color="primary" (click)="updateDrivingProfile()">Generar</button>
+    </div>
+  </form>
+  <div mat-dialog-actions>
+    <div class="buttons-container">
+      <div class="item">
+        <button mat-raised-button (click)="close()">Cancelar</button>
+        <button mat-raised-button [disabled]="invalid" color="primary" (click)="updateDrivingProfile()">Generar</button>
+      </div>
     </div>
   </div>
 </div>
