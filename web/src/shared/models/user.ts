@@ -1,12 +1,12 @@
 import {InsuranceCompany} from "./insuranceCompany";
-import {Type} from "./type";
+import {Role} from "./role";
 
 export class User {
   email: string
   id: number;
   username: string;
   password: string;
-  type: Type | string;
+  role: Role | string;
   insuranceCompany: InsuranceCompany;
 
 
@@ -15,7 +15,7 @@ export class User {
     this.id = id;
     this.username = username;
     this.password = password;
-    this.type = role;
+    this.role = role;
     this.insuranceCompany = company;
   }
 
@@ -23,7 +23,7 @@ export class User {
     return new User(jsonObject.email, jsonObject.id, jsonObject.name, jsonObject.password, jsonObject.role, jsonObject.insuranceCompany);
   }
 
-  static typeToString(typ: string | Type): string {
+  static roleToString(typ: string | Role): string {
     switch (typ) {
       case "BASE":
         return 'Base';
@@ -34,8 +34,8 @@ export class User {
     }
   }
 
-  static typeToInt(ty: Type | string): number {
-    const t = typeof ty == 'string' ? ty : this.fromTypeToString(ty)
+  static roleToInt(ty: Role | string): number {
+    const t = typeof ty == 'string' ? ty : this.fromRoleToString(ty)
     switch (t) {
       case "BASE":
         return 0;
@@ -46,11 +46,11 @@ export class User {
     }
   }
 
-  static fromTypeToString(t: Type): string {
+  static fromRoleToString(t: Role): string {
     switch (t) {
-      case Type.BASE:
+      case Role.BASE:
         return "BASE";
-      case Type.ADMIN:
+      case Role.ADMIN:
         return "ADMIN";
       default:
         return "Invalid";

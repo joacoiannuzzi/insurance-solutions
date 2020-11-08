@@ -6,7 +6,7 @@ import {UserService} from "../../../../shared/services/user.service";
 import {alreadyExistsValidator} from "../../../../shared/directives/alreadyExistsValidator.directive";
 import {Observable} from "rxjs";
 import {InsuranceCompanyService} from "../../../../shared/services/insurance-company.service";
-import {Type} from "../../../../shared/models/type";
+import {Role} from "../../../../shared/models/role";
 import {map, startWith} from "rxjs/operators";
 import {InsuranceCompany} from "../../../../shared/models/insuranceCompany";
 import {checkExistsValidator} from "../../../../shared/directives/checkExistsValidator.directive";
@@ -19,8 +19,8 @@ import {checkExistsValidator} from "../../../../shared/directives/checkExistsVal
 export class UserAddComponent implements OnInit {
   userForm: FormGroup;
   userList: User[] = [];
-  types: Type[] = [Type.BASE, Type.ADMIN];
-  typeLabels: string[] = ['Base', 'Admin'];
+  roles: Role[] = [Role.BASE, Role.ADMIN];
+  roleLabels: string[] = ['Base', 'Admin'];
   filteredOptions: Observable<InsuranceCompany[]>;
   insuranceCompanyList: InsuranceCompany[] = [];
   loading = true;
@@ -50,8 +50,8 @@ export class UserAddComponent implements OnInit {
     return this.userForm.get('password');
   }
 
-  get type() {
-    return this.userForm.get('type');
+  get role() {
+    return this.userForm.get('role');
   }
 
   get email() {
@@ -122,7 +122,7 @@ export class UserAddComponent implements OnInit {
         //Minimum eight characters, at least one letter, one number and one special character
         Validators.pattern('^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).*$')
       ]),
-      type: new FormControl('', [
+      role: new FormControl('', [
         Validators.required
       ]),
       email: new FormControl('', [

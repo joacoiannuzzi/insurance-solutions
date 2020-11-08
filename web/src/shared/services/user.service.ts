@@ -43,7 +43,6 @@ export class UserService {
   }
 
   public save(user: User) {
-    console.log(user)
     return this.http.post<User>(this.usersUrl + "/sign-up", user).pipe(
       map((res: any) => {
         this.usersList.push(User.fromJsonObject(res));
@@ -56,7 +55,6 @@ export class UserService {
         this.snackBar.open('Hubo un error al guardar el usuario.', '', {
           duration: 2000,
         });
-        console.log(e)
         return this.users;
       })
     );
