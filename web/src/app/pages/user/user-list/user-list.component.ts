@@ -16,7 +16,7 @@ import {UserEditComponent} from "../user-edit/user-edit.component";
   styleUrls: ['./user-list.component.scss']
 })
 export class UserListComponent implements OnInit, AfterViewInit {
-  displayedColumns: string[] = ['name', 'insuranceCompany', 'options'];
+  displayedColumns: string[] = ['username', 'insuranceCompany', 'options'];
   users: User[];
   dataSource: MatTableDataSource<User> = new MatTableDataSource<User>([]);
   loading: boolean = true;
