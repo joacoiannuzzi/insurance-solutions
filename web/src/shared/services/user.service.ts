@@ -98,12 +98,15 @@ export class UserService {
   }
 
   public assignInsuranceCompany(userid: number, icid: number) {
-    return this.http.put<User>(`${this.usersUrl}/${userid}/assign/${icid}`, {}).pipe(
+    return this.http.put<User>(this.usersUrl + '/' + userid + '/assign/' + icid, {}).pipe(
       map((res: any) => {
         this.usersList.find(u => u.id === userid).insuranceCompany = (InsuranceCompany.fromJsonObject(res?.insuranceCompany));
+        console.log('IMGG HERE IN MAP')
         return res;
       }),
-      catchError(() => {
+      catchError(e => {
+        console.log(e);
+        console.log('IM HERE IN ERROR')
         return this.usersList;
       })
     );
