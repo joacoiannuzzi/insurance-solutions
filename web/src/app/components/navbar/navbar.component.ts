@@ -10,11 +10,18 @@ export class NavbarComponent implements OnInit {
   public isAdmin: boolean = false;
 
   constructor(private auth: AuthService) {
+
     if (auth.isAuthenticated() && sessionStorage.getItem('role') === 'ROLE_ADMIN') {
       this.isAdmin = true;
     }
   }
 
   ngOnInit(): void {
+  }
+
+  logout() {
+    // this.logged = false;
+    this.isAdmin = false
+    this.auth.logout()
   }
 }
