@@ -104,6 +104,9 @@ export class VehicleAddComponent implements OnInit {
     if (this.vehicleForm.valid) {
       // Se mapea todos los values del form al objeto vehicle
       Object.keys(this.vehicleForm.value).map((key) => this.data[key] = this.vehicleForm.value[key]);
+      //Hace falta eliminar algunos fields porque el back no lo soporta
+      delete this.data.client;
+      delete this.data.monitoringSystem;
 
       this.vehicleService.save(this.data).subscribe(res => {
         //The 'empty' Client passed in constructor has an id of -1.
