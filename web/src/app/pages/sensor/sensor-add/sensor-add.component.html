@@ -7,18 +7,19 @@
       <div class="item">
         <mat-form-field appearance="fill">
           <mat-label>Sensor:</mat-label>
-          <input matInput [formControl]="name" placeholder="nombre" required>
-
-          <mat-error *ngIf="name.errors?.pattern && !name.errors?.minlength && !name.errors?.required">
+          <input matInput [formControl]="name" placeholder="nombre" required maxlength="20">
+          <mat-error *ngIf="name.errors?.pattern && !name.errors?.minlength && !name.errors?.required && !name.errors?.maxlength">
             Solo caracteres válidos
           </mat-error>
-          <mat-error *ngIf="name.errors?.minlength && !name.errors?.required">
+          <mat-error *ngIf="name.errors?.minlength && !name.errors?.required && !name.errors?.maxlength">
             Tiene que tener un mínimo de 2 caracteres
+          </mat-error>
+          <mat-error *ngIf="!name.errors?.required && name.errors?.maxlength">
+            Tiene que tener un máximo de 20 caracteres
           </mat-error>
           <mat-error *ngIf="name.errors?.required">
             Se <strong>requiere</strong> nombre
           </mat-error>
-
         </mat-form-field>
       </div>
 
@@ -26,11 +27,11 @@
         <mat-form-field appearance="fill">
           <mat-label>Modelo:</mat-label>
           <input matInput [formControl]="model" placeholder="model" required>
-          <mat-error *ngIf="model.errors?.minlength && !model.errors?.required">
-            Tiene que tener un mínimo de 8 caracteres
+          <mat-error *ngIf="model.errors?.pattern && !model.errors?.required">
+            Sólo caracteres válidos
           </mat-error>
           <mat-error *ngIf="model.errors?.required">
-            Se <strong>requiere</strong> contraseña
+            Se <strong>requiere</strong> modelo
           </mat-error>
         </mat-form-field>
       </div>

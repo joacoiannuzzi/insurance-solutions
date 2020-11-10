@@ -1,0 +1,46 @@
+<h1 mat-dialog-title> Editar sensor</h1>
+<div mat-dialog-content>
+
+  <div class="form-container">
+    <div class="item">
+      <mat-form-field appearance="fill">
+        <mat-label>Nombre</mat-label>
+        <input matInput [formControl]="name" placeholder="Nombre" required maxlength="20">
+        <mat-error *ngIf="name.errors?.pattern && !name.errors?.minlength && !name.errors?.required && !name.errors?.maxlength">
+          Solo caracteres válidos
+        </mat-error>
+        <mat-error *ngIf="name.errors?.minlength && !name.errors?.required && !name.errors?.maxlength">
+          Tiene que tener un mínimo de 2 caracteres
+        </mat-error>
+        <mat-error *ngIf="!name.errors?.required && name.errors?.maxlength">
+          Tiene que tener un máximo de 20 caracteres
+        </mat-error>
+        <mat-error *ngIf="name.errors?.required">
+          Se <strong>requiere</strong> nombre
+        </mat-error>
+      </mat-form-field>
+    </div>
+
+    <div class="item">
+      <mat-form-field appearance="fill">
+        <mat-label>Modelo</mat-label>
+        <input matInput [formControl]="model" placeholder="Model" required>
+        <mat-error *ngIf="model.errors?.pattern && !model.errors?.required">
+          Sólo caracteres válidos
+        </mat-error>
+        <mat-error *ngIf="model.errors?.required">
+          Se <strong>requiere</strong> modelo
+        </mat-error>
+      </mat-form-field >
+    </div>
+  </div>
+</div>
+<div mat-dialog-actions>
+  <div class="buttons-container">
+    <div class="item">
+      <button mat-raised-button (click)="close()">Cancelar</button>
+      <button mat-raised-button [disabled]="invalid" color="primary" (click)="updateSensor()">Guardar</button>
+    </div>
+  </div>
+</div>
+

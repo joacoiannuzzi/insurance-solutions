@@ -6,6 +6,7 @@ import {MatPaginator} from "@angular/material/paginator";
 import {MatDialog} from "@angular/material/dialog";
 import {SensorService} from "../../../../shared/services/sensor.service";
 import {SensorAddComponent} from "../sensor-add/sensor-add.component";
+import {SensorUpdateComponent} from "../sensor-update/sensor-update.component";
 
 @Component({
   selector: 'app-sensor-list',
@@ -79,15 +80,15 @@ export class SensorListComponent implements OnInit, AfterViewInit {
   }
 
   updateSensor(sensor: Sensor) {
-  //   // const dialogRef = this.dialog.open(SensorUpdateComponent, {
-  //   //   width: '800px',
-  //   //   data: sensor
-  //   // });
-  //   // dialogRef.afterClosed().subscribe((res) => {
-  //   //   if (res) {
-  //   //     this.getSensors();
-  //   //   }
-  //   // })
+    const dialogRef = this.dialog.open(SensorUpdateComponent, {
+      width: '800px',
+      data: sensor
+    });
+    dialogRef.afterClosed().subscribe((res) => {
+      if (res) {
+        this.getSensors();
+      }
+    })
   }
 
   openSensorDetails(sensor: Sensor): void {

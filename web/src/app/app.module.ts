@@ -62,6 +62,7 @@ import {SensorAddComponent} from "./pages/sensor/sensor-add/sensor-add.component
 import {SensorListComponent} from "./pages/sensor/sensor-list/sensor-list.component";
 import {SensorService} from "../shared/services/sensor.service";
 import {UserEditComponent} from "./pages/user/user-edit/user-edit.component";
+import { SensorUpdateComponent } from './pages/sensor/sensor-update/sensor-update.component';
 
 @NgModule({
   declarations: [
@@ -103,7 +104,8 @@ import {UserEditComponent} from "./pages/user/user-edit/user-edit.component";
     InsuranceCompanyClientsComponent,
     LoginComponent,
     AuthBaseComponent,
-    NavbarComponent
+    NavbarComponent,
+    SensorUpdateComponent
   ],
   imports: [
     BrowserModule,

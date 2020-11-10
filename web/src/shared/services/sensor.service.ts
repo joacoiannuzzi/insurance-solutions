@@ -58,5 +58,23 @@ export class SensorService {
     );
   }
 
+  public update(sensor: Sensor) {
+    return this.http.put<Sensor>(this.senosrsUrl + "/update/" + sensor.id, sensor).pipe(
+      map((res: Sensor) => {
+        let i = this.sensorsList.findIndex(s => s.id === sensor.id);
+        this.sensorsList[i] = res;
+        this.snackBar.open('El sensor fue actualizado con éxito.', '', {
+          duration: 2000,
+        });
+        return res;
+      }),
+      catchError(() => {
+        this.snackBar.open('Hubo un problema al actualizar el sensor.', '', {
+          duration: 2000,
+        });
+        return this.sensors;
+      })
+    );
+  }
 
 }
