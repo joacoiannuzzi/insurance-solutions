@@ -1,25 +1,24 @@
-import {Component, Inject, OnInit} from '@angular/core';
-import {FormControl, FormGroup, Validators} from '@angular/forms';
-import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material/dialog';
-import {User} from '../../../../shared/models/user';
-import {UserService} from '../../../../shared/services/user.service';
-import {alreadyExistsValidator} from '../../../../shared/directives/alreadyExistsValidator.directive';
-import {Observable} from 'rxjs';
-import {InsuranceCompanyService} from '../../../../shared/services/insurance-company.service';
-import {Role} from '../../../../shared/models/role';
-import {map, startWith} from 'rxjs/operators';
-import {InsuranceCompany} from '../../../../shared/models/insuranceCompany';
-import {checkExistsValidator} from '../../../../shared/directives/checkExistsValidator.directive';
+import { AfterContentInit, Component, Inject, OnInit } from '@angular/core';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import { User } from '../../../../shared/models/user';
+import { UserService } from '../../../../shared/services/user.service';
+import { alreadyExistsValidator } from '../../../../shared/directives/alreadyExistsValidator.directive';
+import { Observable } from 'rxjs';
+import { InsuranceCompanyService } from '../../../../shared/services/insurance-company.service';
+import { Role } from '../../../../shared/models/role';
+import { map, startWith } from 'rxjs/operators';
+import { InsuranceCompany } from '../../../../shared/models/insuranceCompany';
+import { checkExistsValidator } from '../../../../shared/directives/checkExistsValidator.directive';
 
 @Component({
   selector: 'app-user-edit',
   templateUrl: './user-edit.component.html',
   styleUrls: ['./user-edit.component.scss']
 })
-export class UserEditComponent implements OnInit {
+export class UserEditComponent implements OnInit, AfterContentInit {
   userForm: FormGroup;
   userList: User[] = [];
-  otherUsersList: User[] = [];
 
   types: Role[] = [Role.BASE, Role.ADMIN];
   typeLabels: string[] = ['Base', 'Admin'];
@@ -28,15 +27,20 @@ export class UserEditComponent implements OnInit {
   loading = true;
 
   constructor(public dialogRef: MatDialogRef<UserEditComponent>,
-              @Inject(MAT_DIALOG_DATA) public data: User,
-              public userService: UserService,
-              public insuranceCompanyService: InsuranceCompanyService) {
+    @Inject(MAT_DIALOG_DATA) public data: User,
+    public userService: UserService,
+    public insuranceCompanyService: InsuranceCompanyService) {
+  }
+  ngAfterContentInit(): void {
+      this.createForm();
+      this.createFilteredOptions();
+      this.loading = false;
   }
 
   ngOnInit(): void {
     this.getUsers();
+    this.getAllOtherUsers();
     this.getInsuranceCompanies();
-    this.getAllOtherUsers(this.username);
   }
 
   private getUsers() {
@@ -45,10 +49,10 @@ export class UserEditComponent implements OnInit {
     });
   }
 
-  public getAllOtherUsers(username)  {
-    this.otherUsersList = [...this.userList];
-    this.otherUsersList.splice(this.userList.findIndex(
-      u => u.username === username), 1);
+  public getAllOtherUsers() {
+    const user = this.userList.findIndex(
+      u => u.username === this.data.username);
+    this.userList.splice(user, 1);
   }
 
   get username() {
@@ -100,9 +104,6 @@ export class UserEditComponent implements OnInit {
   getInsuranceCompanies() {
     this.insuranceCompanyService.insuranceCompanies.subscribe((res: InsuranceCompany[]) => {
       this.insuranceCompanyList = [...res];
-      this.createForm();
-      this.createFilteredOptions();
-      this.loading = false;
     });
 
   }
@@ -124,7 +125,7 @@ export class UserEditComponent implements OnInit {
         Validators.maxLength(20),
         Validators.minLength(2),
         Validators.pattern('^[a-zA-Z0-9]*$'),
-        alreadyExistsValidator(this.otherUsersList, 'username')
+        alreadyExistsValidator(this.userList, 'username')
       ]),
       password: new FormControl('', [
         Validators.minLength(8),
