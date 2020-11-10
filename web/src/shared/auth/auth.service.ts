@@ -43,6 +43,9 @@ export class AuthService {
           return res;
         }),
         catchError(() => {
+          this.snackBar.open('Hubo un error. Verifique los datos e inténtelo de nuevo.','',{
+            duration: 2000,
+          });
           return [];
         })
       );
