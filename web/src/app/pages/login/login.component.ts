@@ -12,6 +12,7 @@ import {MatSnackBar} from "@angular/material/snack-bar";
 })
 export class LoginComponent implements OnInit {
   loginForm: FormGroup;
+   errorCatched: Boolean;
 
   constructor(private authService: AuthService, private router: Router, private snackBar: MatSnackBar) {
   }
@@ -58,12 +59,14 @@ export class LoginComponent implements OnInit {
           } else {
             this.router.navigate(['/insurance-companies']);
           }
-        }, () => {
-          this.snackBar.open('Hubo un error. Verifíque los datos e inténtelo de nuevo.', '', {
-            duration: 2000,
-          });
+          // Error en el logueo en el snackbar
+        // }, () => {
+        //   this.snackBar.open('Hubo un error. Verifíque los datos e inténtelo de nuevo.', '', {
+        //     duration: 2000,
+        //   });
         }
       );
     }
+    this.errorCatched = true;
   }
 }
