@@ -69,6 +69,10 @@ export class DrivingProfileAddComponent implements OnInit {
     this.dialogRef.close();
   }
 
+  get today() {
+    return new Date();
+  }
+
   saveDrivingProfile() {
     if (this.drivingProfileForm.valid) {
       Object.keys(this.drivingProfileForm.value).map((key) =>

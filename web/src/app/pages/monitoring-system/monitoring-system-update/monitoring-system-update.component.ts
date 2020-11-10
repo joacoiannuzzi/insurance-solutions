@@ -18,6 +18,7 @@ import {alreadyExistsValidator} from "../../../../shared/directives/alreadyExist
 export class MonitoringSystemUpdateComponent implements OnInit {
   moSys: MonitoringSystem;
   monitoringSystemForm: FormGroup;
+  monitoringSystemList: MonitoringSystem[] = [];
 
   constructor(
     public dialogRef: MatDialogRef<MonitoringSystemUpdateComponent>,
@@ -29,10 +30,13 @@ export class MonitoringSystemUpdateComponent implements OnInit {
 
 
   ngOnInit() {
+    this.getMonitoringSystems();
+
     this.monitoringSystemForm = new FormGroup({
       name: new FormControl(this.moSys.name, [
         Validators.required,
         Validators.minLength(2),
+        alreadyExistsValidator(this.monitoringSystemList, 'name')
       ]),
       sensor: new FormControl(this.moSys.sensor, [
         Validators.required,
@@ -45,6 +49,12 @@ export class MonitoringSystemUpdateComponent implements OnInit {
         Validators.pattern('^[a-zA-Z ñ]*$')
       ]),
 
+    })
+  }
+
+  private getMonitoringSystems() {
+    this.monitoringSystemService.monitoringSystems.subscribe((res) => {
+      this.monitoringSystemList = res;
     })
   }
 
