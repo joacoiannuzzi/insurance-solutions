@@ -10,13 +10,16 @@ public class InsuranceCompanyResource {
     Long id;
     String name;
     List<ClientResource> clients;
+    List<UserResource> users;
 
     public InsuranceCompanyResource(@JsonProperty("id") Long id,
-                           @JsonProperty("name") String name,
-                           @JsonProperty("clients") List<ClientResource> clients) {
+                                    @JsonProperty("name") String name,
+                                    @JsonProperty("clients") List<ClientResource> clients,
+                                    @JsonProperty("users") List<UserResource> users) {
         this.id = id;
         this.name = name;
         this.clients = clients;
+        this.users = users;
     }
 
     public Long getId() {
@@ -29,5 +32,9 @@ public class InsuranceCompanyResource {
 
     public List<ClientResource> getClients() {
         return clients;
+    }
+
+    public List<UserResource> getUsers() {
+        return users;
     }
 }

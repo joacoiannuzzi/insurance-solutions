@@ -1,7 +1,10 @@
 package com.insurance.solutions.app.security;
 
 import com.auth0.jwt.JWT;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.insurance.solutions.app.services.UserService;
+import com.insurance.solutions.app.utils.UserUtils;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -16,16 +19,22 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 import static com.auth0.jwt.algorithms.Algorithm.HMAC512;
 import static com.insurance.solutions.app.security.SecurityConstants.*;
 
 public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilter {
 
-    private AuthenticationManager authenticationManager;
+    private final UserService userService;
+    private final ObjectMapper objectMapper;
+    private final AuthenticationManager authenticationManager;
 
-    public JWTAuthenticationFilter(AuthenticationManager authenticationManager) {
+    public JWTAuthenticationFilter(AuthenticationManager authenticationManager, UserService userService, ObjectMapper objectMapper) {
         this.authenticationManager = authenticationManager;
+        this.userService = userService;
+        this.objectMapper = objectMapper;
     }
 
     @Override
@@ -50,9 +59,24 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
                                             HttpServletResponse response,
                                             FilterChain chain,
                                             Authentication auth) throws IOException, ServletException {
-        String token = JWT.create().withSubject(((User) auth.getPrincipal()).getUsername())
+        User userCore = ((User) auth.getPrincipal());
+        com.insurance.solutions.app.models.User user = userService.findByUsername(userCore.getUsername());
+        String token = JWT.create().withSubject(userCore.getUsername())
                 .withExpiresAt(new Date(System.currentTimeMillis() + EXPIRATION_TIME))
                 .sign(HMAC512(SECRET.getBytes()));
         response.addHeader(HEADER_STRING, TOKEN_PREFIX + token);
+        if (user != null) {
+            Map<String, Object> aux = new HashMap<>();
+            aux.put("token", token);
+            aux.put("user", UserUtils.makeUser(user, true));
+            response.addHeader("Access-Control-Expose-Headers", "Authorization");
+            response.setContentType("application/json");
+            response.setCharacterEncoding("UTF-8");
+            response.getWriter().write(toJson(aux));
+        }
+    }
+
+    private String toJson(Object o) throws JsonProcessingException {
+        return objectMapper.writeValueAsString(o);
     }
 }

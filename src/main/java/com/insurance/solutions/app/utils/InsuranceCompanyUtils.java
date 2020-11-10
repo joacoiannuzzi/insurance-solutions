@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static com.insurance.solutions.app.utils.ClientUtils.makeClients;
+import static com.insurance.solutions.app.utils.UserUtils.makeUsers;
 
 public class InsuranceCompanyUtils {
     public static List<InsuranceCompanyResource> makeInsuranceCompanies(List<InsuranceCompany> insuranceCompanies, boolean relationship) {
@@ -21,7 +22,8 @@ public class InsuranceCompanyUtils {
         return new InsuranceCompanyResource(
                 insuranceCompany.getId(),
                 insuranceCompany.getName(),
-                relationship ? makeClients(new ArrayList<>(insuranceCompany.getClients()), false) : new ArrayList<>()
+                relationship ? makeClients(new ArrayList<>(insuranceCompany.getClients()), false) : new ArrayList<>(),
+                relationship ? makeUsers(new ArrayList<>(insuranceCompany.getUsers()), false) : new ArrayList<>()
         );
     }
 }

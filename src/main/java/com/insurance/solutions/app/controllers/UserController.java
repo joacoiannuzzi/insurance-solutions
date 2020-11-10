@@ -11,8 +11,10 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.util.ArrayList;
 import java.util.List;
+
+import static com.insurance.solutions.app.utils.UserUtils.makeUser;
+import static com.insurance.solutions.app.utils.UserUtils.makeUsers;
 
 @RestController
 @RequestMapping("/users")
@@ -39,18 +41,23 @@ public class UserController {
 
     @GetMapping("/all")
     public ResponseEntity<List<UserResource>> getAllBaseUsers() {
-        List<User> users = userService.getAllBase();
-        List<UserResource> userResources = new ArrayList<>();
-        for (User user : users) {
-            userResources.add(new UserResource(user.getId(), user.getUsername(), user.getEmail()));
-        }
-        return ResponseEntity.ok().body(userResources);
+        return ResponseEntity.ok().body(makeUsers(userService.getAll(), true));
     }
 
     @DeleteMapping("/delete/{id}")
     public ResponseEntity<?> deleteUser(@PathVariable Long id) {
         userService.deleteUser(id);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    }
+
+    @PutMapping("/{userId}/assign/{insuranceCompanyId}")
+    public ResponseEntity<UserResource> assignInsuranceCompany(@PathVariable Long userId, @PathVariable Long insuranceCompanyId) {
+        return new ResponseEntity<>(makeUser(userService.assignInsuranceCompany(userId, insuranceCompanyId), true), HttpStatus.OK);
+    }
+
+    @PutMapping("/update/{userId}")
+    public ResponseEntity<UserResource> updateUser(@PathVariable Long userId, @Valid @RequestBody User user) {
+        return new ResponseEntity<>(makeUser(userService.updateUser(userId, user), true), HttpStatus.OK);
     }
 
 }

@@ -19,7 +19,6 @@ public class TestUtil {
     public static MonitoringSystem createRandomMonitoringSystem() {
         return new MonitoringSystem(
                 String.valueOf(random.nextInt()),
-                String.valueOf(random.nextInt()),
                 String.valueOf(random.nextInt())
         );
     }

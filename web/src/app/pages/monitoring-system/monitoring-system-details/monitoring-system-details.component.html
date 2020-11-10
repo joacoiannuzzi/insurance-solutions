@@ -6,24 +6,24 @@
 </div>
 <div mat-dialog-content class="monitoring-system-details-content">
   <p class="item">Nombre: {{monitoringSystem?.name}}</p>
-  <p class="item">Sensor: {{monitoringSystem?.sensor}}</p>
+  <p class="item">Sensor: {{monitoringSystem?.sensor ? monitoringSystem?.sensor : 'Sin Sensor'}}</p>
   <p class="item">Empresa: {{monitoringSystem?.monitoringCompany}}</p>
-  <p class="item" *ngIf="monitoringSystem?.assigned">Asignado: Sí</p>
-  <p class="item" *ngIf="!monitoringSystem?.assigned">Asignado: No</p>
+  <p class="item" *ngIf="monitoringSystem?.vehicle">Asignado: Sí ({{monitoringSystem.vehicle.licensePlate}})</p>
+  <p class="item" *ngIf="!monitoringSystem?.vehicle">Asignado: No</p>
 </div>
 <div mat-dialog-actions class="monitoring-system-details-actions">
-  <button *ngIf="!monitoringSystem.assigned"
-  mat-raised-button 
+  <button *ngIf="!monitoringSystem.vehicle"
+  mat-raised-button
   disabled
-  color="primary" 
+  color="primary"
   matTooltip="Se tiene que asignar el servicio a un vehículo para poder generar un perfil de conducción"
   aria-label="Button that displays a tooltip when focused or hovered over"
   (click)="assignMonitoringSystem()">
   Generar Perfil de Conducción
 </button>
-  <button *ngIf="!monitoringSystem.assigned" mat-raised-button color="primary" (click)="assignMonitoringSystem()">Asignar</button>
-  <button *ngIf="monitoringSystem.assigned" mat-raised-button color="primary" (click)="createDrivingProfile()">Generar Perfil de Conducción</button>
-  <button *ngIf="monitoringSystem.assigned" mat-raised-button color="primary" (click)="unassignMonitoringSystem()">Desasignar</button>
+  <button *ngIf="!monitoringSystem.vehicle" mat-raised-button color="primary" (click)="assignMonitoringSystem()">Asignar</button>
+  <button *ngIf="monitoringSystem.vehicle" mat-raised-button color="primary" (click)="createDrivingProfile()">Generar Perfil de Conducción</button>
+  <button *ngIf="monitoringSystem.vehicle" mat-raised-button color="primary" (click)="unassignMonitoringSystem()">Desasignar</button>
   <button mat-raised-button color="primary" (click)="updateMonitoringSystem()">Editar</button>
   <button mat-raised-button color="warn" (click)="deleteMonitoringSystem()">Eliminar</button>
 </div>

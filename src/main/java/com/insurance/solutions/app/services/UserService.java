@@ -1,8 +1,10 @@
 package com.insurance.solutions.app.services;
 
+import com.insurance.solutions.app.exceptions.BadRequestException;
 import com.insurance.solutions.app.exceptions.ResourceNotFoundException;
 import com.insurance.solutions.app.models.*;
 import com.insurance.solutions.app.models.enums.UserRole;
+import com.insurance.solutions.app.repositories.InsuranceCompanyRepository;
 import com.insurance.solutions.app.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -18,6 +20,9 @@ public class UserService {
     private UserRepository userRepository;
 
     @Autowired
+    private InsuranceCompanyRepository insuranceCompanyRepository;
+
+    @Autowired
     private BCryptPasswordEncoder bCryptPasswordEncoder;
 
     public User createUser(User user) {
@@ -30,6 +35,9 @@ public class UserService {
                 .orElseThrow(() -> new ResourceNotFoundException("User not found."));
     }
 
+    public User findByUsername(String username) {
+        return userRepository.findByUsername(username);
+    }
 
     public List<User> getAll() {
         return (List<User>) userRepository.findAll();
@@ -47,4 +55,25 @@ public class UserService {
         userRepository.delete(user);
     }
 
+    public User assignInsuranceCompany(Long userId, Long insuranceCompanyId) {
+        User user = userRepository.findById(userId).orElseThrow(() -> new ResourceNotFoundException("User not found."));
+        InsuranceCompany insuranceCompany = insuranceCompanyRepository.findById(insuranceCompanyId).orElseThrow(() ->
+                new ResourceNotFoundException("Insurance company not found."));
+        user.setInsuranceCompany(insuranceCompany);
+        return userRepository.save(user);
+    }
+
+    public User updateUser(Long userId, User user) {
+        User oldUser = userRepository.findById(userId).orElseThrow(() -> new ResourceNotFoundException("User not found."));
+
+        if (userRepository.existsByUsername(user.getUsername()))
+            throw new BadRequestException("User with username " + user.getUsername() + " already exists.");
+
+        String password = bCryptPasswordEncoder.encode(user.getPassword());
+        User newUser = new User(user.getUsername(), user.getEmail(), password, oldUser.getRole());
+        newUser.setId(oldUser.getId());
+        newUser.setInsuranceCompany(oldUser.getInsuranceCompany());
+
+        return userRepository.save(newUser);
+    }
 }

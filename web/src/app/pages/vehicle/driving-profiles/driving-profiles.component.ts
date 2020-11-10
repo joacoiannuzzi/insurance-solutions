@@ -9,6 +9,7 @@ import { MatPaginator } from "@angular/material/paginator";
 import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from "@angular/material/dialog";
 import { Vehicle } from "../../../../shared/models/vehicle";
 import { VehicleService } from "../../../../shared/services/vehicle.service";
+import { DrivingProfileAddComponent } from '../driving-profile-add/driving-profile-add.component';
 import { DrivingProfileUpdateComponent } from '../driving-profile-update/driving-profile-update.component';
 
 @Component({
@@ -68,7 +69,7 @@ export class DrivingProfilesComponent implements OnInit, AfterViewInit {
       width: '800px',
       data: driPro
     });
-    dialogRef.afterClosed ().subscribe((res) => {
+    dialogRef.afterClosed().subscribe((res) => {
     });
   }
 

@@ -1,4 +1,4 @@
-import { MonitoringSystem } from '../models/monitoringSystem';
+import {MonitoringSystem} from '../models/monitoringSystem';
 import {Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {Observable} from "rxjs";
@@ -26,7 +26,7 @@ export class MonitoringSystemService {
         this.snackBar.open('Hubo un error al traer los servicios de monitoreo.', '', {
           duration: 2000,
         });
-        return this.monitoringSystems;
+        return [];
       })
     );
   }
@@ -77,6 +77,7 @@ export class MonitoringSystemService {
       })
     )
   }
+
   public update(moSys: MonitoringSystem) {
     return this.http.put<MonitoringSystem>(this.monitoringSystemsUrl + "/update/" + moSys.id, moSys).pipe(
       map((res: MonitoringSystem) => {

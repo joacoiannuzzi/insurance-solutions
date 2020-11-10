@@ -1,3 +1,5 @@
+import { DrivingProfileUpdateComponent } from './../../app/pages/vehicle/driving-profile-update/driving-profile-update.component';
+import { MatDialogRef } from '@angular/material/dialog';
 import { catchError } from 'rxjs/operators';
 import { map } from 'rxjs/operators';
 import { DrivingProfile } from '../models/drivingProfile';
@@ -69,6 +71,4 @@ export class DrivingProfileService {
         })
       );
     }
-
-
 }

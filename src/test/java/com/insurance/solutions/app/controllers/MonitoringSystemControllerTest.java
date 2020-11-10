@@ -65,7 +65,7 @@ class MonitoringSystemControllerTest {
 
     @Test
     public void createMonitoringSystem() throws Exception {
-        final var monitoringSystem = new MonitoringSystem("name1", "sensor1", "monitoringCompany1");
+        final var monitoringSystem = new MonitoringSystem("name1", "monitoringCompany1");
 
 
         // valid
@@ -107,7 +107,7 @@ class MonitoringSystemControllerTest {
     public void getMonitoringSystemById() throws Exception {
 
         final var savedMonitoringSystem = monitoringSystemService.createMonitoringSystem(
-                new MonitoringSystem("name_getById", "sensor__getById", "monitoringCompany__getById")
+                new MonitoringSystem("name_getById", "monitoringCompany__getById")
         );
 
         // valid
@@ -233,7 +233,7 @@ class MonitoringSystemControllerTest {
 
     @Test
     public void deleteExistingMonitoringSystem() throws Exception {
-        MonitoringSystem monitoringSystem = new MonitoringSystem("name2", "sensor2", "monitoringCompany2");
+        MonitoringSystem monitoringSystem = new MonitoringSystem("name2", "monitoringCompany2");
 
         long monitoringSystemId = monitoringSystemService.createMonitoringSystem(monitoringSystem).getId();
 
@@ -278,8 +278,8 @@ class MonitoringSystemControllerTest {
     public void updateMonitoringSystem() throws Exception {
 
         // existing monitoring system without vehicle
-        final var monitoringSystem = new MonitoringSystem("374589378945", "70349qqnavkas", "awynr89vaw89");
-        final var monitoringSystemUpdated = new MonitoringSystem("nafjh983v53", "kjwhbviy348by", "v3b406104bv");
+        final var monitoringSystem = new MonitoringSystem("374589378945", "awynr89vaw89");
+        final var monitoringSystemUpdated = new MonitoringSystem("nafjh983v53", "v3b406104bv");
 
         final var monitoringSystemId = monitoringSystemService.createMonitoringSystem(monitoringSystem).getId();
 
@@ -297,7 +297,7 @@ class MonitoringSystemControllerTest {
         assertEquals(toJson(monitoringSystemUpdated), toJson(monitoringSystemService.findById(monitoringSystemId)));
 
         // existing monitoring system with vehicle
-        final var monitoringSystem2 = new MonitoringSystem("345v8n7138957 b", "v3y49y 1v3914v", "51v451 t875b1");
+        final var monitoringSystem2 = new MonitoringSystem("345v8n7138957 b", "51v451 t875b1");
         final var monitoringSystem2Id = monitoringSystemService.createMonitoringSystem(monitoringSystem2).getId();
 
         final var vehicle = new Vehicle("8b6892486b2398", CAR, "hb78v78ty42876vt6", "fqv 4t9y2894t98 q389q3");
@@ -307,7 +307,7 @@ class MonitoringSystemControllerTest {
 
         assertEquals(toJson(monitoringSystemWithVehicle), toJson(monitoringSystemService.findById(monitoringSystem2Id)));
 
-        final var monitoringSystem2Updated = new MonitoringSystem("b52378v3ytvy3", "pyvb7yv33v", "13vtb783tbv7838tv");
+        final var monitoringSystem2Updated = new MonitoringSystem("b52378v3ytvy3", "13vtb783tbv7838tv");
 
 
         mockMvc

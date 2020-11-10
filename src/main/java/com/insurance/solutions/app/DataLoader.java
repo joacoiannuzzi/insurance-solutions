@@ -38,7 +38,7 @@ public class DataLoader implements ApplicationRunner {
     @Override
     public void run(ApplicationArguments args) throws Exception {
         Stream.of("Sebastian", "Tomas", "Franco", "Jose").forEach(name -> {
-            User user = new User(name, name.toLowerCase() + "@mail.com", new BCryptPasswordEncoder().encode("password"), UserRole.ROLE_ADMIN);
+            User user = new User(name, name.toLowerCase() + "@mail.com", new BCryptPasswordEncoder().encode("model"), UserRole.ROLE_ADMIN);
             userRepository.save(user);
         });
 
@@ -47,7 +47,7 @@ public class DataLoader implements ApplicationRunner {
             clients.add(
                     new Client(
                             "0000000" + i,
-                            "Client" + i,
+                            "Client",
                             "Lastname",
                             "123456789" + i,
                             "client" + i + "@gmail.com"
@@ -65,7 +65,7 @@ public class DataLoader implements ApplicationRunner {
 
         List<MonitoringSystem> monitoringSystems = new ArrayList<>();
         for (int i = 1; i < 9; i++)
-            monitoringSystems.add(new MonitoringSystem("name" + i, "sensor" + i, "monitoringCompany" + 1));
+            monitoringSystems.add(new MonitoringSystem("Nombre " + i, "Compañia"));
 
         List<DrivingProfile> drivingProfiles = new ArrayList<>();
         for (int i = 1; i < 9; i++)

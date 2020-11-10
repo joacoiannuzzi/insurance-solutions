@@ -12,6 +12,10 @@
           <mat-error *ngIf="name.errors?.required">
             Se <strong>requiere</strong> el nombre del servicio
           </mat-error>
+          <mat-error
+            *ngIf="name.errors?.alreadyExistsValidator && !name.errors?.minlength && !name.errors?.required">
+            El nombre ingresado ya existe
+          </mat-error>
         </mat-form-field>
       </div>
 

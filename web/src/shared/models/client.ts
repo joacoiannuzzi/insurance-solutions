@@ -18,7 +18,6 @@ export class Client {
     this.lastName = lastName;
     this.dni = dni;
     this.phoneNumber = phoneNumber;
-    // TODO: Eliminar
     this.insuranceCompany = insuranceComp;
     this.vehicles = vehicles ? vehicles : [];
   }

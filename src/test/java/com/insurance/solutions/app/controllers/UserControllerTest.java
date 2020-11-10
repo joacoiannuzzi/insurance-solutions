@@ -14,6 +14,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
@@ -27,10 +28,9 @@ import java.util.stream.Stream;
 
 import static org.junit.Assert.assertEquals;
 import static org.springframework.http.MediaType.APPLICATION_JSON;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.junit.Assert.assertTrue;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
@@ -39,7 +39,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @ActiveProfiles("test")
 public class UserControllerTest {
 
-    String urlBase = "/users";
+    String urlBase = "/sensors";
 
     @Autowired
     MockMvc mockMvc;
@@ -53,6 +53,9 @@ public class UserControllerTest {
     @Autowired
     private UserService userService;
 
+    @Autowired
+    private BCryptPasswordEncoder bCryptPasswordEncoder;
+
     private String toJson(Object o) throws JsonProcessingException {
         return objectMapper.writeValueAsString(o);
     }
@@ -63,7 +66,7 @@ public class UserControllerTest {
 
     @Test
     void createUser() throws Exception {
-        User user = new User("User1", "user1@mail.com", "password", UserRole.ROLE_BASE);
+        User user = new User("User1", "user1@mail.com", "model", UserRole.ROLE_BASE);
 
         MvcResult response = mockMvc
                 .perform(
@@ -83,7 +86,7 @@ public class UserControllerTest {
 
         assertEquals(toJson(user), toJson(userRepository.findById(createdUser.getId())));
 
-        User adminUser = new User("AdminUser1", "adminuser1@mail.com", "password", UserRole.ROLE_ADMIN);
+        User adminUser = new User("AdminUser1", "adminuser1@mail.com", "model", UserRole.ROLE_ADMIN);
 
         MvcResult response2 = mockMvc
                 .perform(
@@ -107,10 +110,10 @@ public class UserControllerTest {
     @Test
     public void getAll() throws Exception {
         List<UserResource> userResources = new ArrayList<>();
-        userResources.add(new UserResource(1L, "Sebastian", "sebastian@mail.com"));
-        userResources.add(new UserResource(2L, "Tomas", "tomas@mail.com"));
-        userResources.add(new UserResource(3L, "Franco", "franco@mail.com"));
-        userResources.add(new UserResource(4L, "Jose", "jose@mail.com"));
+        userResources.add(new UserResource(1L, "Sebastian", "sebastian@mail.com", null, null));
+        userResources.add(new UserResource(2L, "Tomas", "tomas@mail.com", null, null));
+        userResources.add(new UserResource(3L, "Franco", "franco@mail.com", null, null));
+        userResources.add(new UserResource(4L, "Jose", "jose@mail.com", null, null));
 
         System.out.println("\n--------------------------");
         System.out.println("Expect");
@@ -118,7 +121,7 @@ public class UserControllerTest {
         System.out.println("--------------------------\n");
 
         this.mockMvc
-                .perform(get("/users/all"))
+                .perform(get("/sensors/all"))
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(content().contentType("application/json"))
@@ -127,7 +130,7 @@ public class UserControllerTest {
 
     @Test
     public void deleteExistingUser() throws Exception {
-        User user = new User("User2", "user2@mail.com", "password", UserRole.ROLE_BASE);
+        User user = new User("User2", "user2@mail.com", "model", UserRole.ROLE_BASE);
 
         long userId = userService.createUser(user).getId();
 
@@ -227,5 +230,56 @@ public class UserControllerTest {
         assertTrue("User should be all type base", areAllBase);
         assertEquals("Size should be the same", all.size(), list.size());
 
+    }
+
+    @Test
+    public void updateUser() throws Exception {
+        User user = new User("User3", "user3@mail.com", "password", UserRole.ROLE_BASE);
+        User updatedUser = new User("User4", "user4@mail.com", "password2", UserRole.ROLE_BASE);
+
+        Long id = userService.createUser(user).getId();
+
+        Assert.assertEquals(toJson(user), toJson(userService.findById(id)));
+
+        mockMvc
+                .perform(
+                        put(urlBase + "/update/" + id)
+                                .contentType(APPLICATION_JSON)
+                                .content(toJson(updatedUser))
+                )
+                .andExpect(status().isOk());
+
+        User result = userService.findById(id);
+        if (bCryptPasswordEncoder.matches(updatedUser.getPassword(), result.getPassword()))
+            result.setPassword(updatedUser.getPassword());
+
+        updatedUser.setId(id);
+        Assert.assertEquals(toJson(updatedUser), toJson(result));
+
+        // Username already exists
+        User invalidUpdatedUser = new User("Jose", "user5@mail.com", "password", UserRole.ROLE_BASE);
+
+        mockMvc
+                .perform(
+                        put(urlBase + "/update/" + id)
+                                .contentType(APPLICATION_JSON)
+                                .content(toJson(invalidUpdatedUser))
+                )
+                .andExpect(status().isBadRequest());
+
+
+        // Not existing user
+        long mockID = 100L;
+
+        Exception exception = Assert.assertThrows(ResourceNotFoundException.class, () -> userService.updateUser(mockID, updatedUser));
+        Assert.assertEquals("User not found.", exception.getMessage());
+
+        mockMvc
+                .perform(
+                        put(urlBase + "/update/" + mockID)
+                                .contentType(APPLICATION_JSON)
+                                .content(toJson(updatedUser))
+                )
+                .andExpect(status().isNotFound());
     }
 }

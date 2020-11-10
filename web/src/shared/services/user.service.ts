@@ -5,6 +5,7 @@ import {MatSnackBar} from "@angular/material/snack-bar";
 import {environment} from "../../environments/environment";
 import {Observable} from "rxjs";
 import {catchError, map} from "rxjs/operators";
+import {InsuranceCompany} from "../models/insuranceCompany";
 
 @Injectable({
   providedIn: 'root'
@@ -18,7 +19,7 @@ export class UserService {
     this.usersUrl = environment.url + '/users';
   }
 
-  private findAll(): Observable<User[]> {
+  public findAll(): Observable<User[]> {
     return this.http.get(this.usersUrl + '/all').pipe(
       map((res: any) => {
         this.usersList = res.map((user) => User.fromJsonObject(user));
@@ -44,13 +45,13 @@ export class UserService {
   public save(user: User) {
     return this.http.post<User>(this.usersUrl + "/sign-up", user).pipe(
       map((res: any) => {
-        this.usersList = [...this.usersList, User.fromJsonObject(res)];
+        this.usersList.push(User.fromJsonObject(res));
         this.snackBar.open('El usuario fue guardado con éxito.', '', {
           duration: 2000,
         });
         return res;
       }),
-      catchError(() => {
+      catchError((e) => {
         this.snackBar.open('Hubo un error al guardar el usuario.', '', {
           duration: 2000,
         });
@@ -78,33 +79,33 @@ export class UserService {
     // );
   }
 
-  public delete(user: User) {
-    // return this.http.delete<User>(this.usersUrl + "/" + user.id).pipe(
-    //   map(() => {
-    //     this.usersList.splice(this.usersList.findIndex(u => u.id === user.id), 1);
-    //     this.snackBar.open('El usuario fue eliminado con éxito.', '', {
-    //       duration: 2000,
-    //     });
-    //     return this.usersList;
-    //   }),
-    //   catchError(() => {
-    //     this.snackBar.open('Hubo un error al eliminar el usuario.', '', {
-    //       duration: 2000,
-    //     });
-    //     return this.users;
-    //   })
-    // )
+  public delete(user: User)  {
+    return this.http.delete<User>(this.usersUrl + "/delete/" + user.id).pipe(
+      map(() => {
+        this.usersList.splice(this.usersList.findIndex(u => u.id === user.id), 1);
+        this.snackBar.open('El usuario fue eliminado con éxito.', '', {
+          duration: 2000,
+        });
+        return this.usersList;
+      }),
+      catchError(() => {
+        this.snackBar.open('Hubo un error al eliminar el usuario.', '', {
+          duration: 2000,
+        });
+        return this.users;
+      })
+    )
   }
 
   public assignInsuranceCompany(userid: number, icid: number) {
-    // return this.http.put<User>(`${this.usersUrl}/${userid}/add-insurance-company/${icid}`, {}).pipe(
-    //   map((res: any) => {
-    //     this.usersList.find(u => u.id === userid).insuranceCompany = (InsuranceCompany.fromJsonObject(res));
-    //     return res;
-    //   }),
-    //   catchError(() => {
-    //     return this.usersList;
-    //   })
-    // );
+    return this.http.put<User>(this.usersUrl + '/' + userid + '/assign/' + icid, {}).pipe(
+      map((res: any) => {
+        this.usersList.find(u => u.id === userid).insuranceCompany = (InsuranceCompany.fromJsonObject(res?.insuranceCompany));
+        return res;
+      }),
+      catchError(e => {
+        return this.usersList;
+      })
+    );
   }
 }

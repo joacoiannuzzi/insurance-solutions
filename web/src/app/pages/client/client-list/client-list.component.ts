@@ -39,7 +39,7 @@ export class ClientListComponent implements OnInit, AfterViewInit  {
 
   getClients() {
     this.loading = true;
-    this.clientService.clients.subscribe((data) => {
+    this.clientService.clients.subscribe((data: Client[]) => {
       this.clients = data;
       this.loading = false;
       this.dataSource.data = this.clients;
