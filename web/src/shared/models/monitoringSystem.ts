@@ -1,9 +1,10 @@
 import { Vehicle } from './vehicle';
+import {Sensor} from "./sensor";
 
 export class MonitoringSystem {
   id: number;
   name: string;
-  sensor: string;
+  sensor: Sensor;
   monitoringCompany: string;
   assigned: boolean;
   vehicle: Vehicle
@@ -11,7 +12,7 @@ export class MonitoringSystem {
   constructor(
     id: number,
     name: string,
-    sensor: string,
+    sensor: Sensor,
     monitoringCompany: string,
     assigned: boolean,
     vehicle: Vehicle

@@ -12,6 +12,7 @@ import {VehicleDetailsComponent} from "../vehicle-details/vehicle-details.compon
 import {VehicleUpdateComponent} from "../vehicle-update/vehicle-update.component";
 import {Client} from "../../../../shared/models/client";
 import {MonitoringSystem} from "../../../../shared/models/monitoringSystem";
+import {Sensor} from "../../../../shared/models/sensor";
 
 @Component({
   selector: 'app-vehicle-list',
@@ -61,7 +62,7 @@ export class VehicleListComponent implements OnInit, AfterViewInit {
   openDialog(): void {
     const dialogRef = this.dialog.open(VehicleAddComponent, {
       width: '800px',
-      data: new Vehicle(0, "", Category.CAR, "", "", [], new MonitoringSystem(0, '',"", '', false, null ), new Client(-1, '', '', '', '', '', []))
+      data: new Vehicle(0, "", Category.CAR, "", "", [], new MonitoringSystem(0, '',new Sensor(0, '', ''), '', false, null ), new Client(-1, '', '', '', '', '', []))
     });
 
     dialogRef.afterClosed().subscribe(() => {
