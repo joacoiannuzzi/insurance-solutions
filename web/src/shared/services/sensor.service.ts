@@ -43,7 +43,7 @@ export class SensorService {
       : this.findAll();
   }
 
-  private findAll(): Observable<Sensor[]> {
+  findAll(): Observable<Sensor[]> {
     return this.http.get(this.senosrsUrl + '/get-all').pipe(
       map((res: any) => {
         this.sensorsList = res.map(Sensor.fromJsonObject);
