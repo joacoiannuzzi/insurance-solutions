@@ -6,4 +6,7 @@
   <a class="nav-bar-button" mat-button routerLink="/insurance-companies" *ngIf="isAdmin">Empresas Aseguradoras</a>
   <a class="nav-bar-button" mat-button routerLink="/users" *ngIf="isAdmin">Usuarios</a>
   <a class="nav-bar-button" mat-button routerLink="/sensors">Sensores</a>
+  <button class="nav-bar-button-logout" color="warn" mat-mini-fab (click)="logout()">
+    <mat-icon>exit_to_app</mat-icon>
+  </button>
 </mat-toolbar>
