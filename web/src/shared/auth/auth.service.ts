@@ -56,7 +56,6 @@ export class AuthService {
   logout(): void {
     sessionStorage.removeItem('token')
     sessionStorage.removeItem('role')
-    // this.currentUserSubject.next(null);
     this.router.navigate(['/login'])
       .then(() => this.http.get(environment.url + '/logout').subscribe())
   }

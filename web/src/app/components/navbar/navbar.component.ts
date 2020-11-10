@@ -20,7 +20,6 @@ export class NavbarComponent implements OnInit {
   }
 
   logout() {
-    // this.logged = false;
     this.isAdmin = false
     this.auth.logout()
   }
