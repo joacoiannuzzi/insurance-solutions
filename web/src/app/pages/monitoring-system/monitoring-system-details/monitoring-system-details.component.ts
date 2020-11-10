@@ -64,6 +64,8 @@ export class MonitoringSystemDetailsComponent implements OnInit {
       data: this.monitoringSystem
     });
     dialogRef.afterClosed().subscribe((res)=>{
+      console.log(res);
+      this.monitoringSystem.vehicle = res.vehicle;
       this.dialogRef.close(res);
     });
   }
@@ -93,6 +95,7 @@ export class MonitoringSystemDetailsComponent implements OnInit {
             vehicle && this.vehicleService.unassignMonitoringSystem(vehicle.id).subscribe(() => {
               this.monitoringSystemService.findAll().subscribe();
               this.monitoringSystem.assigned = false;
+              this.monitoringSystem.vehicle = undefined;
             });
           })
         }

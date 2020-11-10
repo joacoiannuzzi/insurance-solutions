@@ -40,8 +40,8 @@
       <ng-container matColumnDef="assigned">
         <th mat-header-cell *matHeaderCellDef mat-sort-header> Asignado </th>
         <td mat-cell *matCellDef="let element">
-          <mat-icon color="warn" *ngIf="!element?.assigned">block</mat-icon>
-          <mat-icon *ngIf="element?.assigned">done_outline</mat-icon>
+          <mat-icon color="warn" *ngIf="!element?.vehicle">block</mat-icon>
+          <mat-icon *ngIf="element?.vehicle">done_outline</mat-icon>
         </td>
       </ng-container>
 
