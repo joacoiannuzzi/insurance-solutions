@@ -6,7 +6,6 @@ import {MatPaginator} from "@angular/material/paginator";
 import {MatDialog} from "@angular/material/dialog";
 import {SensorService} from "../../../../shared/services/sensor.service";
 import {SensorAddComponent} from "../sensor-add/sensor-add.component";
-import {InsuranceCompany} from "../../../../shared/models/insuranceCompany";
 
 @Component({
   selector: 'app-sensor-list',
@@ -15,7 +14,7 @@ import {InsuranceCompany} from "../../../../shared/models/insuranceCompany";
 })
 export class SensorListComponent implements OnInit, AfterViewInit {
 
-  displayedColumns: string[] = ['name', 'model', 'monitoringSystem'];
+  displayedColumns: string[] = ['name', 'model', 'monitoringSystem', 'options'];
   sensors: Sensor[];
   dataSource: MatTableDataSource<Sensor> = new MatTableDataSource<Sensor>([]);
   loading: boolean = true;
