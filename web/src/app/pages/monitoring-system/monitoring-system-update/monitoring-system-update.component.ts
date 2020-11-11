@@ -1,6 +1,6 @@
 import {MonitoringSystemService} from '../../../../shared/services/monitoring-system.service';
 import {MonitoringSystem} from '../../../../shared/models/monitoringSystem';
-import {AfterContentInit, Component, Inject, OnInit} from '@angular/core';
+import {Component, Inject, OnInit} from '@angular/core';
 import {
   MatDialogRef,
   MAT_DIALOG_DATA,
@@ -20,7 +20,7 @@ import {map, startWith} from "rxjs/operators";
   styleUrls: ['./monitoring-system-update.component.scss']
 })
 
-export class MonitoringSystemUpdateComponent implements OnInit, AfterContentInit {
+export class MonitoringSystemUpdateComponent implements OnInit {
   moSys: MonitoringSystem;
   monitoringSystemForm: FormGroup;
   monitoringSystemList: MonitoringSystem[] = [];
@@ -42,12 +42,6 @@ export class MonitoringSystemUpdateComponent implements OnInit, AfterContentInit
   ngOnInit() {
     this.getMonitoringSystems();
     this.getSensors();
-  }
-
-  ngAfterContentInit() {
-    this.createForm();
-    this.createFilteredSensors();
-    this.loading = false;
   }
 
   private createFilteredSensors() {
@@ -86,6 +80,9 @@ export class MonitoringSystemUpdateComponent implements OnInit, AfterContentInit
   private getSensors() {
     this.sensorService.sensors.subscribe(data => {
       this.sensorList = data;
+      this.createForm();
+      this.createFilteredSensors();
+      this.loading = false;
     })
   }
 
