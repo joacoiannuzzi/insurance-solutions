@@ -7,7 +7,6 @@ import {environment} from "../../environments/environment";
 import {Sensor} from "../models/sensor";
 
 @Injectable()
-// @ts-ignore
 export class SensorService {
 
   private readonly senosrsUrl: string;
