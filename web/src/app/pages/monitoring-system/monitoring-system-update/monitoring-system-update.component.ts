@@ -91,7 +91,8 @@ export class MonitoringSystemUpdateComponent implements OnInit, AfterContentInit
 
   private getMonitoringSystems() {
     this.monitoringSystemService.monitoringSystems.subscribe((res) => {
-      this.monitoringSystemList = res;
+      this.monitoringSystemList = [...res];
+      this.monitoringSystemList.splice(this.monitoringSystemList.findIndex(m => m.id === this.data.id), 1);
     })
   }
 
