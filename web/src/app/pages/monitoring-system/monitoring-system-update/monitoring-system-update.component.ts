@@ -71,7 +71,7 @@ export class MonitoringSystemUpdateComponent implements OnInit, AfterContentInit
         Validators.minLength(2),
         alreadyExistsValidator(this.monitoringSystemList, 'name')
       ]),
-      sensor: new FormControl(this.data.sensor, [
+      sensor: new FormControl(this.data?.sensor?.name ? this.data.sensor : '', [
         Validators.required,
         Validators.minLength(2),
         checkExistsValidator(this.sensorList, 'name')

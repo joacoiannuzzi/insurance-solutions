@@ -12,7 +12,7 @@
       <div class="item">
         <mat-form-field appearance="fill">
           <mat-label>Nombre del Servicio</mat-label>
-          <input matInput [formControl]="name" placeholder="Vigilancia" required>
+          <input matInput [formControl]="name" placeholder="Vigilancia" required maxlength="50">
           <mat-error
             *ngIf="name.errors?.alreadyExistsValidator && !name.errors?.minlength && !name.errors?.required">
             El nombre ingresado ya existe
@@ -55,7 +55,7 @@
       <div class="item">
         <mat-form-field appearance="fill">
           <mat-label>Empresa</mat-label>
-          <input matInput [formControl]="monitoringCompany" placeholder="Verisure" required maxlength="30">
+          <input matInput [formControl]="monitoringCompany" placeholder="Verisure" required maxlength="50">
           <mat-error *ngIf="monitoringCompany.errors?.minlength && !monitoringCompany.errors?.required">
           </mat-error>
           <mat-error *ngIf="monitoringCompany.errors?.required">
