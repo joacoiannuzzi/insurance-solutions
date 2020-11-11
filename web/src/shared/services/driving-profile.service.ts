@@ -47,7 +47,7 @@ export class DrivingProfileService {
                 });
                 return this.drivingProfilesList;
             })
-        )
+        );
     }
 
     public update(driPro: DrivingProfile) {
@@ -69,6 +69,6 @@ export class DrivingProfileService {
           return [];
 
         })
-      )
+      );
     }
 }

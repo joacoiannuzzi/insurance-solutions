@@ -41,13 +41,18 @@ export class AuthService {
             sessionStorage.setItem('token', tok);
             sessionStorage.setItem('role', res.body?.user?.rol)
           } else if (res?.status === 403) {
-            this.snackBar.open('Hubo un error. Verifíque los datos e inténtelo de nuevo.', '', {
-              duration: 2000,
-            });
+            // Error de logueo en el snackbar
+            // this.snackBar.open('Hubo un error. Verifíque los datos e inténtelo de nuevo.', '', {
+            //   duration: 2000,
+            // });
           }
           return res;
         }),
         catchError(() => {
+            // Error de logueo en el snackbar
+          // this.snackBar.open('Hubo un error. Verifique los datos e inténtelo de nuevo.','',{
+          //   duration: 2000,
+          // });
           return [];
         })
       );
