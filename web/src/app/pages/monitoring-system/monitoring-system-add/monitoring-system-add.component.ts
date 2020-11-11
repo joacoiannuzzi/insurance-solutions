@@ -11,7 +11,6 @@ import {Observable} from "rxjs";
 import {map, startWith} from "rxjs/operators";
 import {checkExistsValidator} from "../../../../shared/directives/checkExistsValidator.directive";
 import {InsuranceCompany} from "../../../../shared/models/insuranceCompany";
-import {InsuranceCompanyService} from "../../../../shared/services/insurance-company.service";
 
 @Component({
   selector: 'app-monitoring-system-add',
@@ -24,15 +23,13 @@ export class MonitoringSystemAddComponent implements OnInit, AfterContentInit {
   sensorList: Sensor[] = [];
   insuranceCompanyList: InsuranceCompany[] = [];
   filteredSensors: Observable<Sensor[]>;
-  filteredInsuranceCompanies: Observable<InsuranceCompany[]>
   loading;
 
   constructor(
     public dialogRef: MatDialogRef<MonitoringSystemAddComponent>,
     @Inject(MAT_DIALOG_DATA) public data: MonitoringSystem,
     public monitoringSystemService: MonitoringSystemService,
-    public sensorService: SensorService,
-    public insuranceCompanyService: InsuranceCompanyService
+    public sensorService: SensorService
   ) {
     this.loading = true;
   }
@@ -41,13 +38,11 @@ export class MonitoringSystemAddComponent implements OnInit, AfterContentInit {
   ngOnInit() {
     this.getMonitoringSystems();
     this.getSensors();
-    this.getInsuranceCompanies();
   }
 
   ngAfterContentInit(): void {
     this.createForm();
     this.createFilteredSensors();
-    this.createFilteredInsuranceCompanies();
     this.loading = false;
   }
 
@@ -94,39 +89,6 @@ export class MonitoringSystemAddComponent implements OnInit, AfterContentInit {
     })
   }
 
-  private getInsuranceCompanies() {
-    this.insuranceCompanyService.insuranceCompanies.subscribe(data => {
-      this.insuranceCompanyList = data;
-    })
-  }
-
-  private getSensorsAndInsuranceCompanies() {
-    //Con promises
-
-    // let sensorPromise = this.sensorService.findAll().toPromise();
-    // let insuranceCompanyPromise = this.insuranceCompanyService.findAll().toPromise();
-    //
-    // Promise.all([sensorPromise, insuranceCompanyPromise]).then((values) => {
-    //   this.sensorList = [...values[0]];
-    //   this.insuranceCompanyList = [...values[1]];
-    //
-    // })
-
-    //Alternativa con subscribers pero deprecated
-
-    // let sensorPromise = this.sensorService.sensors
-    // let insuranceCompanyPromise = this.insuranceCompanyService.insuranceCompanies
-    //
-    // combineLatest(insuranceCompanyPromise, sensorPromise).subscribe((data) => {
-    //   this.insuranceCompanyList = [...data[0]];
-    //   this.sensorList = [...data[1]];
-    //   this.createForm();
-    //   this.createFilteredSensors();
-    //   this.createFilteredInsuranceCompanies();
-    //   this.loading = false;
-    // })
-  }
-
   private createForm() {
     this.monitoringSystemForm = new FormGroup({
       name: new FormControl('', [
@@ -141,8 +103,7 @@ export class MonitoringSystemAddComponent implements OnInit, AfterContentInit {
       ]),
       monitoringCompany: new FormControl('', [
         Validators.required,
-        Validators.minLength(2),
-        checkExistsValidator(this.insuranceCompanyList, 'name')
+        Validators.minLength(2)
       ]),
     })
   }
@@ -163,23 +124,5 @@ export class MonitoringSystemAddComponent implements OnInit, AfterContentInit {
 
   displaySensor(option: Sensor) {
     return option.name;
-  }
-
-  displayInsuranceCompany(option: InsuranceCompany) {
-    return option.name;
-  }
-
-  private createFilteredInsuranceCompanies() {
-    this.filteredInsuranceCompanies = this.monitoringCompany.valueChanges
-      .pipe(
-        startWith(''),
-        map(value => {
-          return this._filterInsuranceCompanies(value?.name ? value?.name : value);
-        })
-      );
-  }
-
-  private _filterInsuranceCompanies(value: string): InsuranceCompany[] {
-    return this.insuranceCompanyList.filter(option => option.name.includes(value));
   }
 }

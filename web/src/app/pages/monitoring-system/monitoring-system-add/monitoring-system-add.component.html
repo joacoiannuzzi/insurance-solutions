@@ -41,7 +41,7 @@
             </mat-option>
           </mat-autocomplete>
           <mat-error *ngIf="sensor.errors?.checkExistsValidator && !sensor.errors?.minlength && !sensor.errors?.required">
-            Ingrese un nombre se sensor válido
+            Ingrese un nombre de sensor válido
           </mat-error>
           <mat-error *ngIf="sensor.errors?.minlength && !sensor.errors?.required">
             Debe tener un mínimo de 2 caracteres
@@ -55,18 +55,8 @@
       <div class="item">
         <mat-form-field appearance="fill">
           <mat-label>Empresa</mat-label>
-          <input matInput
-                 type="text"
-                 placeholder="Verisure"
-                 [matAutocomplete]="auto2"
-                 [formControl]="monitoringCompany" required>
-          <mat-autocomplete #auto2="matAutocomplete" [displayWith]="displayInsuranceCompany">
-            <mat-option *ngFor="let option of filteredInsuranceCompanies | async" [value]="option">
-              {{option.name}}
-            </mat-option>
-          </mat-autocomplete>
+          <input matInput [formControl]="monitoringCompany" placeholder="Verisure" required maxlength="30">
           <mat-error *ngIf="monitoringCompany.errors?.minlength && !monitoringCompany.errors?.required">
-            Se requieren al menos 2 caracteres
           </mat-error>
           <mat-error *ngIf="monitoringCompany.errors?.required">
             Se <strong>requiere</strong> el nombre de la empresa
