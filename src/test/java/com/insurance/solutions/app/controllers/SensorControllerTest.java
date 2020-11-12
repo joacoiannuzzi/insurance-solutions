@@ -16,10 +16,12 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 
 import java.io.UnsupportedEncodingException;
+import java.util.Collections;
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
 import static org.springframework.http.MediaType.APPLICATION_JSON;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
@@ -161,5 +163,49 @@ public class SensorControllerTest {
         List<Sensor> after = sensorService.getAllSensors();
 
         assertEquals("Size should be the same", before.size(), after.size());
+    }
+
+    @Test
+    void getAllSensors() throws Exception {
+
+        List<Sensor> all = sensorService.getAllSensors();
+
+        MvcResult mvcResult = mockMvc
+                .perform(
+                        get(urlBase + "/get-all")
+                )
+                .andExpect(status().isOk())
+                .andExpect(content().contentType(APPLICATION_JSON))
+                .andExpect(content().json(toJson(all)))
+                .andReturn();
+
+        List list = toClass(mvcResult, List.class);
+
+        Assert.assertEquals("Size should be the same", all.size(), list.size());
+
+    }
+
+    @Test
+    void getEmptyAllSensors() throws Exception {
+
+        sensorRepository.deleteAll();
+
+        List<Sensor> all = sensorService.getAllSensors();
+
+        List<Object> emptyList = Collections.emptyList();
+
+        MvcResult mvcResult = mockMvc
+                .perform(
+                        get(urlBase + "/get-all")
+                )
+                .andExpect(status().isOk())
+                .andExpect(content().contentType(APPLICATION_JSON))
+                .andExpect(content().json(toJson(emptyList)))
+                .andReturn();
+
+        List list = toClass(mvcResult, List.class);
+
+        Assert.assertEquals("Size should be the same", all.size(), list.size());
+
     }
 }
