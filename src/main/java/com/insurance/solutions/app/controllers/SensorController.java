@@ -32,4 +32,10 @@ public class SensorController {
     public ResponseEntity<List<SensorResource>> getAllSensors() {
         return ResponseEntity.ok(makeSensors(sensorService.getAllSensors(), true));
     }
+
+    @DeleteMapping("/delete/{sensorId}")
+    public ResponseEntity<?> deleteSensor(@PathVariable Long sensorId) {
+        sensorService.deleteSensor(sensorId);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    }
 }

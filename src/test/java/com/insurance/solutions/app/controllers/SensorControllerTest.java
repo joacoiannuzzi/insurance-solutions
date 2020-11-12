@@ -4,7 +4,6 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.insurance.solutions.app.models.Sensor;
 import com.insurance.solutions.app.repositories.SensorRepository;
-import com.insurance.solutions.app.services.ClientService;
 import com.insurance.solutions.app.services.SensorService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +18,7 @@ import java.util.List;
 
 import static org.junit.Assert.assertEquals;
 import static org.springframework.http.MediaType.APPLICATION_JSON;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -41,9 +41,6 @@ public class SensorControllerTest {
 
     @Autowired
     private SensorService sensorService;
-
-    @Autowired
-    private ClientService clientService;
 
     private String toJson(Object o) throws JsonProcessingException {
         return objectMapper.writeValueAsString(o);
@@ -94,5 +91,38 @@ public class SensorControllerTest {
 
         assertEquals(size, sensorsAfter.size());
 
+    }
+
+    @Test
+    void deleteValidSensor() throws Exception {
+        Sensor sensor = new Sensor("name2", "model2");
+        Sensor newSensor = sensorService.createSensor(sensor);
+
+        long idToDelete = newSensor.getId();
+
+        mockMvc
+                .perform(
+                        delete(urlBase + "/delete/" + idToDelete)
+                )
+                .andExpect(status().isNoContent());
+
+    }
+
+    @Test
+    void deleteInvalidSensor() throws Exception {
+
+        List<Sensor> before = sensorService.getAllSensors();
+
+        long idToDelete = 57775786867867878L;
+
+        mockMvc
+                .perform(
+                        delete(urlBase + "/delete/" + idToDelete)
+                )
+                .andExpect(status().isNotFound());
+
+        List<Sensor> after = sensorService.getAllSensors();
+
+        assertEquals("Size should be the same", before.size(), after.size());
     }
 }
