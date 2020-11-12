@@ -1,6 +1,7 @@
 package com.insurance.solutions.app.services;
 
 import com.insurance.solutions.app.exceptions.BadRequestException;
+import com.insurance.solutions.app.models.Sensor;
 import com.insurance.solutions.app.exceptions.ResourceNotFoundException;
 import com.insurance.solutions.app.models.*;
 import com.insurance.solutions.app.repositories.MonitoringSystemRepository;
@@ -40,5 +41,9 @@ public class SensorService {
 
         sensorRepository.save(sensor);
         sensorRepository.delete(sensor);
+    }
+
+    public List<Sensor> getAllUnassignedSensors() {
+        return sensorRepository.findAllByMonitoringSystemsNull();
     }
 }

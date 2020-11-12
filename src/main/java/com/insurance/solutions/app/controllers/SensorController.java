@@ -28,7 +28,7 @@ public class SensorController {
         return new ResponseEntity<>(makeSensor(sensorService.createSensor(sensor), true), HttpStatus.CREATED);
     }
 
-    @GetMapping("get-all")
+    @GetMapping("/get-all")
     public ResponseEntity<List<SensorResource>> getAllSensors() {
         return ResponseEntity.ok(makeSensors(sensorService.getAllSensors(), true));
     }
@@ -37,5 +37,10 @@ public class SensorController {
     public ResponseEntity<?> deleteSensor(@PathVariable Long sensorId) {
         sensorService.deleteSensor(sensorId);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    }
+
+    @GetMapping("/unassigned/get-all")
+    public ResponseEntity<List<SensorResource>> getAllUnassignedSensors() {
+        return ResponseEntity.ok(makeSensors(sensorService.getAllUnassignedSensors(), true));
     }
 }
