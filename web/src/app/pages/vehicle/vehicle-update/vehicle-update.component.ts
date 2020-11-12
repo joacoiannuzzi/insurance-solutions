@@ -1,5 +1,5 @@
 import {Component, Inject, OnInit} from '@angular/core';
-import {AbstractControl, FormControl, FormGroup, ValidatorFn, Validators} from "@angular/forms";
+import {FormControl, FormGroup, Validators} from "@angular/forms";
 import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
 import {Vehicle} from "../../../../shared/models/vehicle";
 import {VehicleService} from "../../../../shared/services/vehicle.service";
@@ -53,7 +53,8 @@ export class VehicleUpdateComponent implements OnInit {
 
   private getVehicles() {
     this.vehicleService.vehicles.subscribe((res) => {
-      this.vehicleList = res;
+      this.vehicleList = [...res];
+      this.vehicleList.splice(this.vehicleList.findIndex(v => v.id === this.vehicle.id), 1)
     })
   }
 

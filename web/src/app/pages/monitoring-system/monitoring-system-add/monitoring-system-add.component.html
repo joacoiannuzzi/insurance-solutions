@@ -1,13 +1,18 @@
 <h1 mat-dialog-title>Agregar servicio de monitoreo</h1>
 <div mat-dialog-content>
 
-  <form [formGroup]="monitoringSystemForm">
+  <div *ngIf="loading">
+    <mat-spinner class="spinner"
+                 mode="indeterminate"></mat-spinner>
+  </div>
+
+  <form [formGroup]="monitoringSystemForm" *ngIf="!loading">
     <div class="form-container">
 
       <div class="item">
         <mat-form-field appearance="fill">
           <mat-label>Nombre del Servicio</mat-label>
-          <input matInput [formControl]="name" placeholder="Vigilancia" required>
+          <input matInput [formControl]="name" placeholder="Vigilancia" required maxlength="50">
           <mat-error
             *ngIf="name.errors?.alreadyExistsValidator && !name.errors?.minlength && !name.errors?.required">
             El nombre ingresado ya existe
@@ -24,9 +29,19 @@
       <div class="item">
         <mat-form-field appearance="fill">
           <mat-label>Nombre del Sensor</mat-label>
-          <input matInput [formControl]="sensor" placeholder="Cámara" required>
-          <mat-error *ngIf="sensor.errors?.pattern && !sensor.errors?.minlength && !sensor.errors?.required">
-            Solo caracteres válidos
+          <input matInput
+                 type="text"
+                 placeholder="Cámara"
+                 [formControl]="sensor"
+                 [matAutocomplete]="auto"
+                 required>
+          <mat-autocomplete #auto="matAutocomplete" [displayWith]="displaySensor">
+            <mat-option *ngFor="let option of filteredSensors | async" [value]="option">
+              {{option.name}}
+            </mat-option>
+          </mat-autocomplete>
+          <mat-error *ngIf="sensor.errors?.checkExistsValidator && !sensor.errors?.minlength && !sensor.errors?.required">
+            Ingrese un nombre de sensor válido
           </mat-error>
           <mat-error *ngIf="sensor.errors?.minlength && !sensor.errors?.required">
             Debe tener un mínimo de 2 caracteres
@@ -40,7 +55,7 @@
       <div class="item">
         <mat-form-field appearance="fill">
           <mat-label>Empresa</mat-label>
-          <input matInput [formControl]="monitoringCompany" placeholder="Verisure" required>
+          <input matInput [formControl]="monitoringCompany" placeholder="Verisure" required maxlength="50">
           <mat-error *ngIf="monitoringCompany.errors?.minlength && !monitoringCompany.errors?.required">
           </mat-error>
           <mat-error *ngIf="monitoringCompany.errors?.required">
@@ -52,7 +67,7 @@
   </form>
 
 </div>
-<div mat-dialog-actions>
+<div mat-dialog-actions *ngIf="!loading">
   <div class="buttons-container">
     <div class="item">
       <button mat-raised-button (click)="close()">Cancelar</button>

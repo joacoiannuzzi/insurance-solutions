@@ -9,6 +9,7 @@ import {MatSort} from '@angular/material/sort';
 import {MatPaginator} from '@angular/material/paginator';
 import {ConfirmDialogComponent} from '../../../components/confirm-dialog/confirm-dialog.component';
 import {MonitoringSystemDetailsComponent} from "../monitoring-system-details/monitoring-system-details.component";
+import {Sensor} from "../../../../shared/models/sensor";
 
 @Component({
   selector: 'app-monitoring-system-list',
@@ -59,7 +60,7 @@ export class MonitoringSystemListComponent implements OnInit, AfterViewInit {
   openDialog(): void {
     const dialogRef = this.dialog.open(MonitoringSystemAddComponent, {
       width: '1000px',
-      data: new MonitoringSystem(null, "", "", "", false, null)
+      data: new MonitoringSystem(null, "", new Sensor(0, '',''), "", false, null)
     });
     dialogRef.afterClosed().subscribe((res) => {
       if (res) {

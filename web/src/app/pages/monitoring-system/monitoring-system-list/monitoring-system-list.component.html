@@ -29,7 +29,7 @@
 
       <ng-container matColumnDef="sensor">
         <th mat-header-cell *matHeaderCellDef mat-sort-header> Sensor </th>
-        <td mat-cell *matCellDef="let element"> {{element.sensor ? element.sensor : 'Sin Sensor'}} </td>
+        <td mat-cell *matCellDef="let element"> {{element.sensor ? element.sensor.name : 'Sin Sensor'}} </td>
       </ng-container>
 
       <ng-container matColumnDef="monitoringCompany">
