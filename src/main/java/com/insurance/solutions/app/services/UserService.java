@@ -66,7 +66,7 @@ public class UserService {
     public User updateUser(Long userId, User user) {
         User oldUser = userRepository.findById(userId).orElseThrow(() -> new ResourceNotFoundException("User not found."));
 
-        if (userRepository.existsByUsername(user.getUsername()))
+        if (!oldUser.getUsername().equals(user.getUsername()) && userRepository.existsByUsername(user.getUsername()))
             throw new BadRequestException("User with username " + user.getUsername() + " already exists.");
 
         String password = bCryptPasswordEncoder.encode(user.getPassword());

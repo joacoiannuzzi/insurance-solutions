@@ -31,6 +31,20 @@ public class SensorService {
         return (List<Sensor>) sensorRepository.findAll();
     }
 
+    public Sensor updateSensor(Long sensorId, Sensor sensor) {
+        Sensor oldSensor = sensorRepository.findById(sensorId).orElseThrow(() -> new ResourceNotFoundException("Sensor not found."));
+
+        Sensor newSensor = new Sensor(sensor.getName(), sensor.getModel());
+        newSensor.setMonitoringSystems(oldSensor.getMonitoringSystems());
+
+        if (!sensor.getName().equals(oldSensor.getName()) && sensorRepository.existsByName(sensor.getName()))
+            throw new BadRequestException("Sensor with name " + sensor.getName() + " already exists.");
+
+        newSensor.setId(oldSensor.getId());
+        return sensorRepository.save(newSensor);
+    }
+
+
     public void deleteSensor(Long sensorId) {
         Sensor sensor = sensorRepository.findById(sensorId).orElseThrow(() -> new ResourceNotFoundException("Sensor not found."));
         for (MonitoringSystem monitoringSystem : sensor.getMonitoringSystems()) {

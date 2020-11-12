@@ -33,6 +33,11 @@ public class SensorController {
         return ResponseEntity.ok(makeSensors(sensorService.getAllSensors(), true));
     }
 
+    @PutMapping("/update/{sensorId}")
+    public ResponseEntity<SensorResource> updateSensor(@PathVariable Long sensorId, @Valid @RequestBody Sensor sensor) {
+        return new ResponseEntity<>(makeSensor(sensorService.updateSensor(sensorId, sensor), true), HttpStatus.OK);
+    }
+
     @DeleteMapping("/delete/{sensorId}")
     public ResponseEntity<?> deleteSensor(@PathVariable Long sensorId) {
         sensorService.deleteSensor(sensorId);

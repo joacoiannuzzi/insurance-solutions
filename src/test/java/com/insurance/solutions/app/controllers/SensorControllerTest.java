@@ -2,9 +2,11 @@ package com.insurance.solutions.app.controllers;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.insurance.solutions.app.exceptions.ResourceNotFoundException;
 import com.insurance.solutions.app.models.Sensor;
 import com.insurance.solutions.app.repositories.SensorRepository;
 import com.insurance.solutions.app.services.SensorService;
+import org.junit.Assert;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -20,6 +22,7 @@ import static org.junit.Assert.assertEquals;
 import static org.springframework.http.MediaType.APPLICATION_JSON;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -91,6 +94,40 @@ public class SensorControllerTest {
 
         assertEquals(size, sensorsAfter.size());
 
+    }
+
+    @Test
+    public void updateSensor() throws Exception {
+        Sensor aSensor = new Sensor("name4", "model4");
+        Sensor sensorUpdated = new Sensor("name5", "model5");
+
+        Long id = sensorService.createSensor(aSensor).getId();
+
+        Assert.assertEquals(toJson(aSensor), toJson(sensorRepository.findById(id)));
+
+        mockMvc
+                .perform(
+                        put(urlBase + "/update/" + id)
+                                .contentType(APPLICATION_JSON)
+                                .content(toJson(sensorUpdated))
+                )
+                .andExpect(status().isOk());
+
+        sensorUpdated.setId(id);
+        Assert.assertEquals(toJson(sensorUpdated), toJson(sensorRepository.findById(id)));
+
+        long mockID = 1000L;
+
+        Exception exception = Assert.assertThrows(ResourceNotFoundException.class, () -> sensorService.updateSensor(mockID, sensorUpdated));
+        Assert.assertEquals("Sensor not found.", exception.getMessage());
+
+        mockMvc
+                .perform(
+                        put(urlBase + "/update/" + mockID)
+                                .contentType(APPLICATION_JSON)
+                                .content(toJson(sensorUpdated))
+                )
+                .andExpect(status().isNotFound());
     }
 
     @Test
