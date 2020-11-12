@@ -21,7 +21,7 @@ public class Sensor {
     @OneToMany(mappedBy = "sensor",
             fetch = FetchType.EAGER,
             cascade = CascadeType.ALL)
-    private final Set<MonitoringSystem> monitoringSystems = new HashSet<>();
+    private Set<MonitoringSystem> monitoringSystems = new HashSet<>();
 
     public Sensor() {
     }
@@ -57,6 +57,10 @@ public class Sensor {
 
     public Set<MonitoringSystem> getMonitoringSystems() {
         return monitoringSystems;
+    }
+
+    public void setMonitoringSystems(Set<MonitoringSystem> monitoringSystems) {
+        this.monitoringSystems = monitoringSystems;
     }
 
     public void addMonitoringSystem(MonitoringSystem monitoringSystem) {
