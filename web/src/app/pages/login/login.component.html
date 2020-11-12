@@ -36,6 +36,9 @@
             </mat-form-field >
           </div>
 
+          <mat-error *ngIf="errorCatched" align="center">
+            Credenciales incorrectas. Por favor intente de nuevo.
+          </mat-error>
         </div>
       </form>
 

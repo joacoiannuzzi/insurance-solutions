@@ -91,15 +91,5 @@ export class DrivingProfilesComponent implements OnInit, AfterViewInit {
     });
   }
 
-  openDrivingProfileDetails(element: DrivingProfile) {
-    const driPro = new DrivingProfile(0, 0, 0, "", 0, 0, '', 0)
-    const dialogRef = this.dialog.open(DrivingProfileUpdateComponent, {
-      data: driPro,
-      width: '1000px',
-    });
-    dialogRef.afterClosed().subscribe(() => {
-      this.dialogRef.close();
-    });
 
-  }
 }

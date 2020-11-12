@@ -7,6 +7,8 @@ import {MatDialog} from "@angular/material/dialog";
 import {SensorService} from "../../../../shared/services/sensor.service";
 import {SensorAddComponent} from "../sensor-add/sensor-add.component";
 import {SensorUpdateComponent} from "../sensor-update/sensor-update.component";
+import {ConfirmDialogComponent} from "../../../components/confirm-dialog/confirm-dialog.component";
+
 
 @Component({
   selector: 'app-sensor-list',
@@ -66,17 +68,18 @@ export class SensorListComponent implements OnInit, AfterViewInit {
   }
 
   deleteSensor(sensor: Sensor) {
-  //   // this.dialog.open(ConfirmDialogComponent, {
-  //   //   data: "¿Está seguro de que desea eliminar al usuario " + Sensor.name + "?"
-  //   // })
-  //   //   .afterClosed()
-  //   //   .subscribe((confirmed: boolean) => {
-  //   //     if (confirmed) {
-  //   //       this.sensorService.delete(sensor).subscribe(() => {
-  //   //         this.getSensors();
-  //   //       });
-  //   //     }
-  //   //   })
+    this.dialog.open(ConfirmDialogComponent, {
+      data: `¿Está seguro de que desea eliminar al sensor ${sensor.name}?`
+    })
+      .afterClosed()
+      .subscribe((confirmed: boolean) => {
+        if (confirmed) {
+          this.sensorService.delete(sensor)
+            .subscribe(
+              () => this.getSensors()
+            )
+        }
+      })
   }
 
   updateSensor(sensor: Sensor) {
