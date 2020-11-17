@@ -132,7 +132,7 @@ export class UserEditComponent implements OnInit, AfterContentInit {
         // Minimum eight characters, at least one letter, one number and one special character
         Validators.pattern('^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).*$')
       ]),
-      type: new FormControl(this.data.role, [
+      type: new FormControl(this.types[this.data.role], [
         Validators.required
       ]),
       email: new FormControl(this.data.email, [

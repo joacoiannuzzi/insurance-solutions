@@ -43,12 +43,12 @@
 
       <div class="item">
         <mat-form-field appearance="fill">
-          <mat-label>Contraseña:</mat-label>
-          <input matInput [formControl]="password" placeholder="model" type="password">
-          <mat-error *ngIf="password.errors?.pattern && !password.errors?.minlength && !password.errors?.required">
+          <mat-label>Cambiar Contraseña:</mat-label>
+          <input matInput [formControl]="password" placeholder="Type in a new password" type="password">
+          <mat-error *ngIf="password.errors?.pattern && !password.errors?.minlength">
             La contraseña debe contener al menos una letra, un número y un caracter especial
           </mat-error>
-          <mat-error *ngIf="password.errors?.minlength && !password.errors?.required">
+          <mat-error *ngIf="password.errors?.minlength">
             Tiene que tener un mínimo de 8 caracteres
           </mat-error>
         </mat-form-field >
@@ -64,15 +64,14 @@
         </mat-form-field>
       </div>
 
-      <div class="item">
+      <div class="item" *ngIf="data?.insuranceCompany">
         <mat-form-field appearance="fill">
           <mat-label>Empresa:</mat-label>
           <input type="text"
                  placeholder="Ingrese nombre de la empresa"
                  matInput
                  [formControl]="insuranceCompany"
-                 [matAutocomplete]="auto"
-                 required>
+                 [matAutocomplete]="auto">
           <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayOption">
             <mat-option *ngFor="let option of filteredOptions | async" [value]="option">
               {{option.name}}

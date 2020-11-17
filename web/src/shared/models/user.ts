@@ -20,7 +20,7 @@ export class User {
   }
 
   static fromJsonObject(jsonObject: any): User {
-    return new User(jsonObject.email, jsonObject.id, jsonObject.name, jsonObject.password, jsonObject.role, jsonObject.insuranceCompany);
+    return new User(jsonObject.email, jsonObject.id, jsonObject.name, jsonObject.password, jsonObject.rol, jsonObject.insuranceCompany);
   }
 
   static roleToString(typ: string | Role): string {
