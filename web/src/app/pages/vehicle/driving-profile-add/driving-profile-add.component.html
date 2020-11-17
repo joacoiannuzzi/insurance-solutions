@@ -6,9 +6,10 @@
 
       <div class="item">
         <mat-form-field appearance="fill">
-          <mat-label>Tiempo Promedio de Manejo (en horas): </mat-label>
+          <mat-label>Tiempo Promedio de Manejo (en horas):</mat-label>
           <input matInput [formControl]="avgDailyDrivingTime" placeholder="4">
-          <mat-error *ngIf="avgDailyDrivingTime.errors?.pattern && !avgDailyDrivingTime.errors?.minlength && !avgDailyDrivingTime.errors?.required">
+          <mat-error
+            *ngIf="avgDailyDrivingTime.errors?.pattern && !avgDailyDrivingTime.errors?.minlength && !avgDailyDrivingTime.errors?.required">
             Solo caracteres validos
           </mat-error>
           <mat-error *ngIf="avgDailyDrivingTime.errors?.minlength && !avgDailyDrivingTime.errors?.required">
@@ -24,7 +25,8 @@
         <mat-form-field appearance="fill">
           <mat-label>Tiempo total de Manejo (en horas)</mat-label>
           <input matInput [formControl]="totalDrivingTime" placeholder="4">
-          <mat-error *ngIf="totalDrivingTime.errors?.pattern && !totalDrivingTime.errors?.minlength && !totalDrivingTime.errors?.required">
+          <mat-error
+            *ngIf="totalDrivingTime.errors?.pattern && !totalDrivingTime.errors?.minlength && !totalDrivingTime.errors?.required">
             Solo caracteres validos
           </mat-error>
           <mat-error *ngIf="totalDrivingTime.errors?.minlength && !totalDrivingTime.errors?.required">
@@ -98,14 +100,17 @@
           <mat-error *ngIf="startDate.errors?.required">
             Se <strong>requiere</strong> fecha de inicio
           </mat-error>
-          </mat-form-field>
+        </mat-form-field>
       </div>
 
       <div class="item">
         <mat-form-field appearance="fill">
           <mat-label>Fecha de Finalización</mat-label>
-          <input type="date" matInput [formControl]="finishDate" placeholder="4/02/2020" [min]="startDate.value" [max]="today">
-          <mat-error *ngIf="finishDate.errors?.pattern && !finishDate.errors?.minlength && !finishDate.errors?.required">
+          <input type="date" matInput [formControl]="finishDate" placeholder="4/02/2020"
+                 [min]="startDate.value"
+                 [max]="today">
+          <mat-error
+            *ngIf="finishDate.errors?.pattern && !finishDate.errors?.minlength && !finishDate.errors?.required">
             Solo caracteres validos
           </mat-error>
           <mat-error *ngIf="finishDate.errors?.minlength && !finishDate.errors?.required">
@@ -115,6 +120,7 @@
             Se <strong>requiere</strong> fecha de finalización
           </mat-error>
         </mat-form-field>
+
       </div>
     </div>
   </form>
