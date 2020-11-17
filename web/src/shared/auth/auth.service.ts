@@ -13,10 +13,11 @@ export class AuthService {
   private readonly loginUrl: string;
   private jwtHelper: JwtHelperService;
 
-  constructor(private http: HttpClient,
+  constructor(
+    private http: HttpClient,
     private snackBar: MatSnackBar,
     private router: Router,
-  ) {
+     ) {
     this.loginUrl = environment.url + '/login';
     this.jwtHelper = new JwtHelperService();
   }
@@ -41,20 +42,9 @@ export class AuthService {
             sessionStorage.setItem('token', tok);
             sessionStorage.setItem('role', res.body?.user?.rol)
           } else if (res?.status === 403) {
-            // Error de logueo en el snackbar
-            // this.snackBar.open('Hubo un error. Verifíque los datos e inténtelo de nuevo.', '', {
-            //   duration: 2000,
-            // });
           }
           return res;
         }),
-        catchError(() => {
-          // Error de logueo en el snackbar
-          this.snackBar.open('Hubo un error. Verifique los datos e inténtelo de nuevo.', '', {
-            duration: 2000,
-          });
-          return [];
-        })
       );
   }
 
