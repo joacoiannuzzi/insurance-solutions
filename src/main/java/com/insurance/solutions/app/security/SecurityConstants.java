@@ -1,6 +1,7 @@
 package com.insurance.solutions.app.security;
 
 public class SecurityConstants {
+
     public static final String SECRET = "SecretKeyToGenJWTs";
     public static final long EXPIRATION_TIME = 864_000_000; // 10 days
     public static final String TOKEN_PREFIX = "Bearer ";
@@ -11,7 +12,7 @@ public class SecurityConstants {
     public static final String CRUD_BOOKS = "/books/**";
 
 
-    public static final String USER = "/sensors/**";
+    public static final String USER = "/users/**";
     public static final String CLIENT = "/clients/**";
     public static final String VEHICLE = "/vehicles/**";
     public static final String DRIVING_PROFILE = "/driving-profiles/**";
