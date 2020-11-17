@@ -40,7 +40,7 @@ export class MonitoringSystemService {
   }
 
   public save(moSys: MonitoringSystem) {
-    return this.http.post(this.monitoringSystemsUrl + "/create", moSys).pipe(
+    return this.http.post(this.monitoringSystemsUrl + "/create/" + moSys.sensor.id, moSys).pipe(
       map((res: any) => {
         this.monitoringSystemsList.push(MonitoringSystem.fromJsonObject(res));
         this.snackBar.open('El servicio de monitoreo fue guardado con éxito.', '', {
@@ -79,7 +79,7 @@ export class MonitoringSystemService {
   }
 
   public update(moSys: MonitoringSystem) {
-    return this.http.put<MonitoringSystem>(this.monitoringSystemsUrl + "/update/" + moSys.id, moSys).pipe(
+    return this.http.put<MonitoringSystem>(this.monitoringSystemsUrl + "/update/" + moSys.id + '/' + + moSys.sensor.id, moSys).pipe(
       map((res: MonitoringSystem) => {
         let i = this.monitoringSystemsList.findIndex(m => m.id === moSys.id);
         this.monitoringSystemsList[i] = res;

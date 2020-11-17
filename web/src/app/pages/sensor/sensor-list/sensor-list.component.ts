@@ -17,7 +17,7 @@ import {ConfirmDialogComponent} from "../../../components/confirm-dialog/confirm
 })
 export class SensorListComponent implements OnInit, AfterViewInit {
 
-  displayedColumns: string[] = ['name', 'model', 'monitoringSystem', 'options'];
+  displayedColumns: string[] = ['name', 'model', 'options'];
   sensors: Sensor[];
   dataSource: MatTableDataSource<Sensor> = new MatTableDataSource<Sensor>([]);
   loading: boolean = true;

@@ -34,16 +34,6 @@
         <td mat-cell *matCellDef="let element"> {{element?.model}} </td>
       </ng-container>
 
-      <!-- monitoring system Column -->
-      <ng-container matColumnDef="monitoringSystem">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header> Sistema de monitoreo</th>
-        <td mat-cell *matCellDef="let element">
-          <mat-icon color="warn" *ngIf="!element?.monitoringSystem">remove_circle_outline</mat-icon>
-          <div *ngIf="element?.monitoringSystem">  {{element?.monitoringSystem?.name}} </div>
-
-        </td>
-      </ng-container>
-
 <!--         options Column   -->
       <ng-container matColumnDef="options" class="options">
         <th mat-header-cell *matHeaderCellDef> Opciones</th>
