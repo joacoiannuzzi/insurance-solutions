@@ -26,11 +26,11 @@ export class DrivingProfileAddComponent implements OnInit {
     this.drivingProfileForm = new FormGroup({
       avgDailyDrivingTime: new FormControl('', [
         Validators.required,
-        Validators.pattern('^[0-9]*$')
+        Validators.pattern('^[0-9\.]*$')
       ]),
       avgSpeed: new FormControl('', [
         Validators.required,
-        Validators.pattern('^[0-9]*$')
+        Validators.pattern('^[0-9\.]*$')
       ]),
 
       finishDate: new FormControl('', [
@@ -39,19 +39,19 @@ export class DrivingProfileAddComponent implements OnInit {
 
       maxSpeed: new FormControl('', [
         Validators.required,
-        Validators.pattern('^[0-9]*$')
+        Validators.pattern('^[0-9\.]*$')
       ]),
 
       minSpeed: new FormControl('', [
         Validators.required,
-        Validators.pattern('^[0-9]*$')
+        Validators.pattern('^[0-9\.]*$')
       ]),
       startDate: new FormControl('', [
         Validators.required,
       ]),
       totalDrivingTime: new FormControl('', [
         Validators.required,
-        Validators.pattern('^[0-9]*$')
+        Validators.pattern('^[0-9\.]*$')
       ]),
     });
   }
