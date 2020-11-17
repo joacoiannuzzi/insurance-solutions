@@ -67,6 +67,7 @@ public class DrivingProfileService {
                 drivingProfile.getFinishDate()
         );
 
+        newDrivingProfile.setVehicle(oldDrivingProfile.getVehicle());
         newDrivingProfile.setId(oldDrivingProfile.getId());
         return drivingProfileRepository.save(newDrivingProfile);
     }
