@@ -53,7 +53,7 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
                 .antMatchers(
                         HEALTHCHECK,
                         // Example
-//                        CRUD_BOOKS,
+                        CRUD_BOOKS,
 
                         //  Swagger configs
                         SWAGGER,
