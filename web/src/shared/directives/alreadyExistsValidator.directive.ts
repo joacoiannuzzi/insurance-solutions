@@ -1,19 +1,12 @@
 import {AbstractControl, ValidatorFn} from "@angular/forms";
+import {reduceString} from "../utils/reduceString";
 
 export function alreadyExistsValidator(objects: any[], key: string): ValidatorFn {
   return (control: AbstractControl): { [key: string]: any } | null => {
     if (objects.find(l =>
-      control.value
-        .toLowerCase()
-        .normalize("NFD").replace(/[\u0300-\u036f]/g, "") // Para remover las tildes
-        .trim()
-        .replace(/\s/g,'') // Para remover los espacios dentro del string
+      reduceString(control.value)
       ===
-      l[key]
-        .toLowerCase()
-        .normalize("NFD").replace(/[\u0300-\u036f]/g, "") // Para remover las tildes
-        .trim()
-        .replace(/\s/g,'') // Para remover los espacios dentro del string
+      reduceString(l[key])
     )) {
       return {'alreadyExistsValidator': {value: control.value}}
     }
