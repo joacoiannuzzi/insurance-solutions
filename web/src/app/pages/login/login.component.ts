@@ -1,9 +1,10 @@
-import {Component, OnInit} from '@angular/core';
-import {FormControl, FormGroup, Validators} from "@angular/forms";
-import {AuthService} from "../../../shared/auth/auth.service";
-import decode from 'jwt-decode';
-import {Router} from "@angular/router";
-import {MatSnackBar} from "@angular/material/snack-bar";
+import { catchError } from 'rxjs/operators';
+import { Component, OnInit } from '@angular/core';
+import { FormControl, FormGroup, Validators } from "@angular/forms";
+import { AuthService } from "../../../shared/auth/auth.service";
+import { Router } from "@angular/router";
+import { MatSnackBar } from "@angular/material/snack-bar";
+import { of } from 'rxjs';
 
 @Component({
   selector: 'app-login',
@@ -12,7 +13,7 @@ import {MatSnackBar} from "@angular/material/snack-bar";
 })
 export class LoginComponent implements OnInit {
   loginForm: FormGroup;
-   errorCatched: Boolean;
+  errorCatched: boolean;
 
   constructor(private authService: AuthService, private router: Router, private snackBar: MatSnackBar) {
   }
@@ -47,8 +48,15 @@ export class LoginComponent implements OnInit {
   }
 
   login() {
+    this.errorCatched = false;
     if (this.loginForm.valid) {
-      this.authService.login(this.username.value, this.password.value).subscribe(
+      this.authService.login(this.username.value, this.password.value).pipe(
+        catchError(() => {
+    this.errorCatched = true;
+    return of(false);
+        }
+        )
+      ).subscribe(
         () => {
           // login successful
           // Check role to see which page to redirect to
@@ -60,13 +68,12 @@ export class LoginComponent implements OnInit {
             this.router.navigate(['/insurance-companies']);
           }
           // Error en el logueo en el snackbar
-        // }, () => {
-        //   this.snackBar.open('Hubo un error. Verifíque los datos e inténtelo de nuevo.', '', {
-        //     duration: 2000,
-        //   });
-        }
-      );
+          // }, () => {
+          //   this.snackBar.open('Hubo un error. Verifíque los datos e inténtelo de nuevo.', '', {
+          //     duration: 2000,
+          //   });
+        });
     }
-    this.errorCatched = true;
+
   }
-}
+  }
