@@ -71,7 +71,8 @@ export class DrivingProfileAddComponent implements OnInit {
 
   get today() {
     let date = new Date();
-    return date.getFullYear() + '-' + date.getMonth()+1 + '-' + date.getDate();
+    let month = date.getMonth() + 1;
+    return date.getFullYear() + '-' + month + '-' + date.getDate();
   }
 
   saveDrivingProfile() {

@@ -104,7 +104,7 @@
       <div class="item">
         <mat-form-field appearance="fill">
           <mat-label>Fecha de Finalización</mat-label>
-          <input type="date" matInput [formControl]="finishDate" placeholder="4/02/2020" [min]="startDate.value">
+          <input type="date" matInput [formControl]="finishDate" placeholder="4/02/2020" [min]="startDate.value" [max]="today">
           <mat-error *ngIf="finishDate.errors?.pattern && !finishDate.errors?.minlength && !finishDate.errors?.required">
             Solo caracteres validos
           </mat-error>
