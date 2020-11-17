@@ -55,7 +55,7 @@ export class MonitoringSystemUpdateComponent implements OnInit {
   }
 
   private _filterSensors(value: string): Sensor[] {
-    return this.sensorList.filter(option => option.name.includes(value));
+    return this.sensorList.filter(option => option.name?.includes(value));
   }
 
   private createForm() {
@@ -70,7 +70,7 @@ export class MonitoringSystemUpdateComponent implements OnInit {
         Validators.minLength(2),
         checkExistsValidator(this.sensorList, 'name')
       ]),
-      monitoringCompany: new FormControl(this.data.monitoringCompany, [
+      monitoringCompany: new FormControl(this.data?.monitoringCompany, [
         Validators.required,
         Validators.minLength(2)
       ]),
