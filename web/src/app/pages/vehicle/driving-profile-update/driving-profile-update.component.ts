@@ -1,11 +1,10 @@
-import { DrivingProfileService } from '../../../../shared/services/driving-profile.service';
-import { FormControl } from '@angular/forms';
-import { Validators } from '@angular/forms';
-import { FormGroup } from '@angular/forms';
-import { DrivingProfile } from '../../../../shared/models/drivingProfile';
-import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { Component, OnInit, Inject } from '@angular/core';
-import { VehicleService } from 'src/shared/services/vehicle.service';
+import {DrivingProfileService} from '../../../../shared/services/driving-profile.service';
+import {FormControl, FormGroup, Validators} from '@angular/forms';
+import {DrivingProfile} from '../../../../shared/models/drivingProfile';
+import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material/dialog';
+import {Component, Inject, OnInit} from '@angular/core';
+import {VehicleService} from 'src/shared/services/vehicle.service';
+
 @Component({
   selector: 'app-driving-profile-update',
   templateUrl: './driving-profile-update.component.html',
@@ -16,14 +15,14 @@ export class DrivingProfileUpdateComponent implements OnInit {
   driPro: DrivingProfile;
 
 
-constructor(
+  constructor(
     public dialogRef: MatDialogRef<DrivingProfileUpdateComponent>,
     @Inject(MAT_DIALOG_DATA) public data: DrivingProfile,
     public drivingProfileService: DrivingProfileService,
     public vehicleService: VehicleService
   ) {
     this.driPro = {...data};
-   }
+  }
 
   ngOnInit(): void {
 
@@ -70,14 +69,37 @@ constructor(
     });
   }
 
-  get avgDailyDrivingTime() { return this.drivingProfileForm.get('avgDailyDrivingTime'); }
-  get avgSpeed() { return this.drivingProfileForm.get('avgSpeed'); }
-  get startDate() { return this.drivingProfileForm.get('startDate'); }
-  get finishDate() { return this.drivingProfileForm.get('finishDate'); }
-  get maxSpeed() { return this.drivingProfileForm.get('maxSpeed'); }
-  get minSpeed() { return this.drivingProfileForm.get('minSpeed'); }
-  get totalDrivingTime() { return this.drivingProfileForm.get('totalDrivingTime'); }
-  get invalid() { return this.drivingProfileForm.invalid }
+  get avgDailyDrivingTime() {
+    return this.drivingProfileForm.get('avgDailyDrivingTime');
+  }
+
+  get avgSpeed() {
+    return this.drivingProfileForm.get('avgSpeed');
+  }
+
+  get startDate() {
+    return this.drivingProfileForm.get('startDate');
+  }
+
+  get finishDate() {
+    return this.drivingProfileForm.get('finishDate');
+  }
+
+  get maxSpeed() {
+    return this.drivingProfileForm.get('maxSpeed');
+  }
+
+  get minSpeed() {
+    return this.drivingProfileForm.get('minSpeed');
+  }
+
+  get totalDrivingTime() {
+    return this.drivingProfileForm.get('totalDrivingTime');
+  }
+
+  get invalid() {
+    return this.drivingProfileForm.invalid
+  }
 
   close(): void {
     this.dialogRef.close();
@@ -95,5 +117,10 @@ constructor(
       });
 
     }
+  }
+
+  get today() {
+    let date = new Date();
+    return date.getFullYear() + '-' + date.getMonth() + '-' + date.getDate();
   }
 }
