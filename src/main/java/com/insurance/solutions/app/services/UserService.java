@@ -69,7 +69,10 @@ public class UserService {
         if (!oldUser.getUsername().equals(user.getUsername()) && userRepository.existsByUsername(user.getUsername()))
             throw new BadRequestException("User with username " + user.getUsername() + " already exists.");
 
-        String password = bCryptPasswordEncoder.encode(user.getPassword());
+        String password;
+        if (user.getPassword() != null) password = bCryptPasswordEncoder.encode(user.getPassword());
+        else password = oldUser.getPassword();
+
         User newUser = new User(user.getUsername(), user.getEmail(), password, oldUser.getRole());
         newUser.setId(oldUser.getId());
         newUser.setInsuranceCompany(oldUser.getInsuranceCompany());

@@ -3,13 +3,16 @@ package com.insurance.solutions.app.services;
 import com.insurance.solutions.app.exceptions.BadRequestException;
 import com.insurance.solutions.app.exceptions.ResourceNotFoundException;
 import com.insurance.solutions.app.models.MonitoringSystem;
+import com.insurance.solutions.app.models.Sensor;
 import com.insurance.solutions.app.models.Vehicle;
 import com.insurance.solutions.app.repositories.MonitoringSystemRepository;
+import com.insurance.solutions.app.repositories.SensorRepository;
 import com.insurance.solutions.app.repositories.VehicleRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class MonitoringSystemService {
@@ -20,8 +23,13 @@ public class MonitoringSystemService {
     @Autowired
     private VehicleRepository vehicleRepository;
 
-    public MonitoringSystem createMonitoringSystem(MonitoringSystem monitoringSystem) {
+    @Autowired
+    private SensorRepository sensorRepository;
+
+    public MonitoringSystem createMonitoringSystem(MonitoringSystem monitoringSystem, Long sensorId) {
         validateMonitoringSystem(monitoringSystem);
+        Optional<Sensor> sensor = sensorRepository.findById(sensorId);
+        sensor.ifPresent(monitoringSystem::setSensor);
 
         return monitoringSystemRepository.save(monitoringSystem);
     }
@@ -56,14 +64,18 @@ public class MonitoringSystemService {
         monitoringSystemRepository.deleteById(monitoringSystemId);
     }
 
-    public MonitoringSystem updateMonitoringSystem(Long monitoringSystemId, MonitoringSystem monitoringSystem) {
+    public MonitoringSystem updateMonitoringSystem(Long monitoringSystemId, MonitoringSystem monitoringSystem, Long sensorId) {
         MonitoringSystem oldMonitoringSystem = monitoringSystemRepository.findById(monitoringSystemId)
                 .orElseThrow(() -> new ResourceNotFoundException("Monitoring system not found."));
 
         MonitoringSystem newMonitoringSystem = new MonitoringSystem(monitoringSystem.getName(),
                 monitoringSystem.getMonitoringCompany());
+
+        Optional<Sensor> sensor = sensorRepository.findById(sensorId);
+        if (sensor.isPresent()) newMonitoringSystem.setSensor(sensor.get());
+        else newMonitoringSystem.setSensor(oldMonitoringSystem.getSensor());
+
         newMonitoringSystem.setVehicle(oldMonitoringSystem.getVehicle());
-        newMonitoringSystem.setSensor(oldMonitoringSystem.getSensor());
         newMonitoringSystem.setIsAssigned(oldMonitoringSystem.getIsAssigned());
 
         if (!monitoringSystem.getName().equals(oldMonitoringSystem.getName())) validateMonitoringSystem(newMonitoringSystem);

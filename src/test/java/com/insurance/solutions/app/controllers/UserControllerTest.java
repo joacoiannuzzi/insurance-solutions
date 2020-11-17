@@ -39,7 +39,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @ActiveProfiles("test")
 public class UserControllerTest {
 
-    String urlBase = "/sensors";
+    String urlBase = "/users";
 
     @Autowired
     MockMvc mockMvc;
@@ -110,10 +110,10 @@ public class UserControllerTest {
     @Test
     public void getAll() throws Exception {
         List<UserResource> userResources = new ArrayList<>();
-        userResources.add(new UserResource(1L, "Sebastian", "sebastian@mail.com", null, null));
-        userResources.add(new UserResource(2L, "Tomas", "tomas@mail.com", null, null));
-        userResources.add(new UserResource(3L, "Franco", "franco@mail.com", null, null));
-        userResources.add(new UserResource(4L, "Jose", "jose@mail.com", null, null));
+        userResources.add(new UserResource(1L, "Sebastian", "sebastian@mail.com", "ROLE_ADMIN", null));
+        userResources.add(new UserResource(2L, "Tomas", "tomas@mail.com", "ROLE_ADMIN", null));
+        userResources.add(new UserResource(3L, "Franco", "franco@mail.com", "ROLE_ADMIN", null));
+        userResources.add(new UserResource(4L, "Jose", "jose@mail.com", "ROLE_ADMIN", null));
 
         System.out.println("\n--------------------------");
         System.out.println("Expect");
@@ -121,7 +121,7 @@ public class UserControllerTest {
         System.out.println("--------------------------\n");
 
         this.mockMvc
-                .perform(get("/sensors/all"))
+                .perform(get(urlBase + "/all"))
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(content().contentType("application/json"))

@@ -13,7 +13,7 @@ public class TestUtil {
 
     public static DrivingProfile createRandomDrivingProfile() {
         return new DrivingProfile(random.nextDouble(), random.nextDouble(), random.nextDouble(),
-                random.nextDouble(), random.nextDouble(), new Date(random.nextInt()), new Date(random.nextInt()));
+                random.nextDouble(), random.nextDouble(), new Date(), new Date());
     }
 
     public static MonitoringSystem createRandomMonitoringSystem() {
