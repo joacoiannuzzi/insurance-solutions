@@ -43,7 +43,7 @@ export class SensorService {
   }
 
   findAll(): Observable<Sensor[]> {
-    return this.http.get(this.senosrsUrl + '/get-all').pipe(
+    return this.http.get(this.sensorsUrl + '/get-all').pipe(
       map((res: any) => {
         this.sensorsList = res.map(Sensor.fromJsonObject);
         return this.sensorsList;
@@ -58,7 +58,7 @@ export class SensorService {
   }
 
   public update(sensor: Sensor) {
-    return this.http.put<Sensor>(this.senosrsUrl + "/update/" + sensor.id, sensor).pipe(
+    return this.http.put<Sensor>(this.sensorsUrl + "/update/" + sensor.id, sensor).pipe(
       map((res: Sensor) => {
         let i = this.sensorsList.findIndex(s => s.id === sensor.id);
         this.sensorsList[i] = res;

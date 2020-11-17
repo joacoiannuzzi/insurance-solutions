@@ -93,15 +93,4 @@ export class SensorListComponent implements OnInit, AfterViewInit {
       }
     })
   }
-
-  openSensorDetails(sensor: Sensor): void {
-    // const dialogRef = this.dialog.open(SensorDetailsComponent, {
-    //   width: '800px',
-    //   data: sensor
-    // });
-    // dialogRef.afterClosed().subscribe(() => {
-    //   this.getSensors();
-    // })
-  }
-
 }
