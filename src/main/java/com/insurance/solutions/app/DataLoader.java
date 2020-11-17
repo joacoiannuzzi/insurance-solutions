@@ -19,6 +19,7 @@ import static com.insurance.solutions.app.models.enums.VehicleCategory.CAR;
 
 @Component
 public class DataLoader implements ApplicationRunner {
+
     private final ClientRepository clientRepository;
     private final DrivingProfileRepository drivingProfileRepository;
     private final MonitoringSystemRepository monitoringSystemRepository;
@@ -76,8 +77,8 @@ public class DataLoader implements ApplicationRunner {
                             random.nextDouble(),
                             random.nextDouble(),
                             random.nextDouble(),
-                            new Date(random.nextInt()),
-                            new Date(random.nextInt())
+                            new Date(),
+                            new Date()
                     )
             );
 
