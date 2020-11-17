@@ -131,7 +131,8 @@ export class UserAddComponent implements OnInit {
       ]),
       email: new FormControl('', [
         Validators.required,
-        Validators.email
+        Validators.email,
+        alreadyExistsValidator(this.userList, 'email')
       ]),
       insuranceCompany: new FormControl('', [
         checkExistsValidator(this.insuranceCompanyList, 'name')

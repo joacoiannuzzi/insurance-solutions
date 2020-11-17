@@ -58,6 +58,9 @@ public class InsuranceCompanyService {
     public InsuranceCompany updateInsuranceCompany(Long id, InsuranceCompany insuranceCompany) {
         final var oldInsuranceCompany = findById(id);
         final var newInsuranceCompany = new InsuranceCompany(insuranceCompany.getName());
+
+        newInsuranceCompany.setClients(oldInsuranceCompany.getClients());
+        newInsuranceCompany.setUsers(oldInsuranceCompany.getUsers());
         newInsuranceCompany.setId(oldInsuranceCompany.getId());
         return insuranceCompanyRepository.save(newInsuranceCompany);
     }

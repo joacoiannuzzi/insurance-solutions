@@ -38,7 +38,7 @@ public class Client {
     @OneToMany(mappedBy = "client",
             fetch = FetchType.EAGER,
             cascade = CascadeType.ALL)
-    private final Set<Vehicle> vehicles = new HashSet<>();
+    private Set<Vehicle> vehicles = new HashSet<>();
 
 
     public Client() {
@@ -118,5 +118,9 @@ public class Client {
 
     public Set<Vehicle> getVehicles() {
         return vehicles;
+    }
+
+    public void setVehicles(Set<Vehicle> vehicles) {
+        this.vehicles = vehicles;
     }
 }

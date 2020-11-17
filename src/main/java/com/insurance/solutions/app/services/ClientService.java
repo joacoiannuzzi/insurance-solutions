@@ -50,6 +50,7 @@ public class ClientService {
 
         Client newClient = new Client(client.getDni(), client.getFirstName(), client.getLastName(), client.getPhoneNumber(), client.getMail());
         newClient.setInsuranceCompany(oldClient.getInsuranceCompany());
+        newClient.setVehicles(oldClient.getVehicles());
 
         if (!client.getDni().equals(oldClient.getDni())) validateClient(newClient);
 
