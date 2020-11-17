@@ -107,7 +107,7 @@ class MonitoringSystemControllerTest {
     public void getMonitoringSystemById() throws Exception {
 
         final var savedMonitoringSystem = monitoringSystemService.createMonitoringSystem(
-                new MonitoringSystem("name_getById", "monitoringCompany__getById")
+                new MonitoringSystem("name_getById", "monitoringCompany__getById"), -1L
         );
 
         // valid
@@ -204,7 +204,7 @@ class MonitoringSystemControllerTest {
 
         final var monitoringSystems = Stream.generate(TestUtil::createRandomMonitoringSystem)
                 .limit(20)
-                .map(monitoringSystemService::createMonitoringSystem)
+                .map((MonitoringSystem monitoringSystem1) -> monitoringSystemService.createMonitoringSystem(monitoringSystem1, -1L))
                 .collect(Collectors.toList());
 
 
@@ -235,7 +235,7 @@ class MonitoringSystemControllerTest {
     public void deleteExistingMonitoringSystem() throws Exception {
         MonitoringSystem monitoringSystem = new MonitoringSystem("name2", "monitoringCompany2");
 
-        long monitoringSystemId = monitoringSystemService.createMonitoringSystem(monitoringSystem).getId();
+        long monitoringSystemId = monitoringSystemService.createMonitoringSystem(monitoringSystem, -1L).getId();
 
 
         Assert.assertEquals(toJson(monitoringSystem), toJson(monitoringSystemService.findById(monitoringSystemId)));
@@ -281,7 +281,7 @@ class MonitoringSystemControllerTest {
         final var monitoringSystem = new MonitoringSystem("374589378945", "awynr89vaw89");
         final var monitoringSystemUpdated = new MonitoringSystem("nafjh983v53", "v3b406104bv");
 
-        final var monitoringSystemId = monitoringSystemService.createMonitoringSystem(monitoringSystem).getId();
+        final var monitoringSystemId = monitoringSystemService.createMonitoringSystem(monitoringSystem, -1L).getId();
 
         assertEquals(toJson(monitoringSystem), toJson(monitoringSystemService.findById(monitoringSystemId)));
 
@@ -298,7 +298,7 @@ class MonitoringSystemControllerTest {
 
         // existing monitoring system with vehicle
         final var monitoringSystem2 = new MonitoringSystem("345v8n7138957 b", "51v451 t875b1");
-        final var monitoringSystem2Id = monitoringSystemService.createMonitoringSystem(monitoringSystem2).getId();
+        final var monitoringSystem2Id = monitoringSystemService.createMonitoringSystem(monitoringSystem2, -1L).getId();
 
         final var vehicle = new Vehicle("8b6892486b2398", CAR, "hb78v78ty42876vt6", "fqv 4t9y2894t98 q389q3");
         final var vehicleId = vehicleService.createVehicle(vehicle).getId();
@@ -330,7 +330,7 @@ class MonitoringSystemControllerTest {
         // non existing monitoring system
         final var mockID = 1000L;
 
-        final var exception = assertThrows(ResourceNotFoundException.class, () -> monitoringSystemService.updateMonitoringSystem(mockID, monitoringSystemUpdated));
+        final var exception = assertThrows(ResourceNotFoundException.class, () -> monitoringSystemService.updateMonitoringSystem(mockID, monitoringSystemUpdated, -1L));
         assertEquals("Monitoring system not found.", exception.getMessage());
 
         mockMvc

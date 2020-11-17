@@ -434,7 +434,7 @@ class VehicleControllerTest {
         final MonitoringSystem monitoringSystem = new MonitoringSystem("name_34524234", "monitoringCompany_4598458345");
 
         Long vehicleId = vehicleService.createVehicle(vehicle).getId();
-        final MonitoringSystem savedMonitoringSystem = monitoringSystemService.createMonitoringSystem(monitoringSystem);
+        final MonitoringSystem savedMonitoringSystem = monitoringSystemService.createMonitoringSystem(monitoringSystem, -1L);
         savedMonitoringSystem.setIsAssigned(true);
 
         mockMvc
@@ -488,7 +488,7 @@ class VehicleControllerTest {
         final var monitoringSystem = new MonitoringSystem("1bc478t178ct07", "1c9b4y1b98981c  ce");
 
         final var vehicleId = vehicleService.createVehicle(vehicle).getId();
-        final var monitoringSystemId = monitoringSystemService.createMonitoringSystem(monitoringSystem).getId();
+        final var monitoringSystemId = monitoringSystemService.createMonitoringSystem(monitoringSystem, -1L).getId();
         final var savedMonitoringSystem = vehicleService.setMonitoringSystem(vehicleId, monitoringSystemId);
 
         mockMvc
@@ -565,7 +565,7 @@ class VehicleControllerTest {
         final var monitoringSystems = Stream.generate(new Random()::nextInt)
                 .limit(20)
                 .map(number -> new MonitoringSystem("name_" + number, "monitoringCompany_" + number))
-                .map(monitoringSystem -> monitoringSystemService.createMonitoringSystem(monitoringSystem))
+                .map(monitoringSystem -> monitoringSystemService.createMonitoringSystem(monitoringSystem, -1L))
                 .collect(Collectors.toList());
 
 

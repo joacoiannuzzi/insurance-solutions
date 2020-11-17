@@ -24,10 +24,10 @@ public class MonitoringSystemController {
     private MonitoringSystemService monitoringSystemService;
 
 
-    @PostMapping("create")
-    public ResponseEntity<MonitoringSystemResource> createMonitoringSystem(@Valid @RequestBody MonitoringSystem monitoringSystem) {
+    @PostMapping("create/{sensorId}")
+    public ResponseEntity<MonitoringSystemResource> createMonitoringSystem(@Valid @RequestBody MonitoringSystem monitoringSystem, @PathVariable Long sensorId) {
         return new ResponseEntity<>(
-                makeMonitoringSystem(monitoringSystemService.createMonitoringSystem(monitoringSystem), true),
+                makeMonitoringSystem(monitoringSystemService.createMonitoringSystem(monitoringSystem, sensorId), true),
                 HttpStatus.CREATED
         );
     }
@@ -55,10 +55,10 @@ public class MonitoringSystemController {
         );
     }
 
-    @PutMapping("/update/{monitoringSystemId}")
-    public ResponseEntity<MonitoringSystemResource> updateMonitoringSystem(@PathVariable Long monitoringSystemId, @Valid @RequestBody MonitoringSystem monitoringSystem) {
+    @PutMapping("/update/{monitoringSystemId}/{sensorId}")
+    public ResponseEntity<MonitoringSystemResource> updateMonitoringSystem(@PathVariable Long monitoringSystemId, @Valid @RequestBody MonitoringSystem monitoringSystem, @PathVariable Long sensorId) {
         return new ResponseEntity<>(
-                makeMonitoringSystem(monitoringSystemService.updateMonitoringSystem(monitoringSystemId, monitoringSystem), true),
+                makeMonitoringSystem(monitoringSystemService.updateMonitoringSystem(monitoringSystemId, monitoringSystem, sensorId), true),
                 HttpStatus.OK
         );
     }
