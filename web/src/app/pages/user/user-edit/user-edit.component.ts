@@ -20,7 +20,7 @@ export class UserEditComponent implements OnInit, AfterContentInit {
   userForm: FormGroup;
   userList: User[] = [];
 
-  types: Role[] = [Role.BASE, Role.ADMIN];
+  // types: Role[] = [Role.BASE, Role.ADMIN];
   typeLabels: string[] = ['Base', 'Admin'];
   filteredOptions: Observable<InsuranceCompany[]>;
   insuranceCompanyList: InsuranceCompany[] = [];
@@ -132,7 +132,7 @@ export class UserEditComponent implements OnInit, AfterContentInit {
         // Minimum eight characters, at least one letter, one number and one special character
         Validators.pattern('^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).*$')
       ]),
-      type: new FormControl(this.types[this.data.role], [
+      type: new FormControl(this.data.role, [
         Validators.required
       ]),
       email: new FormControl(this.data.email, [
