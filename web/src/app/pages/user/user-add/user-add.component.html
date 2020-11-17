@@ -13,7 +13,8 @@
         <mat-form-field appearance="fill">
           <mat-label>Usuario:</mat-label>
           <input matInput [formControl]="username" placeholder="Juan" required>
-          <mat-error *ngIf="username.errors?.alreadyExistsValidator && !username.errors?.minlength && !username.errors?.required">
+          <mat-error
+            *ngIf="username.errors?.alreadyExistsValidator && !username.errors?.minlength && !username.errors?.required">
             El usuario ingresado ya existe
           </mat-error>
           <mat-error *ngIf="username.errors?.pattern && !username.errors?.minlength && !username.errors?.required">
@@ -32,6 +33,10 @@
         <mat-form-field appearance="fill">
           <mat-label>Email:</mat-label>
           <input matInput [formControl]="email" placeholder="name@mail.com" required>
+          <mat-error
+            *ngIf="email.errors?.alreadyExistsValidator && !email.errors?.required && !email.errors?.email">
+            El email ingresado ya existe
+          </mat-error>
           <mat-error *ngIf="email.errors?.required">
             Se <strong>requiere</strong> email
           </mat-error>
@@ -54,7 +59,7 @@
           <mat-error *ngIf="password.errors?.required">
             Se <strong>requiere</strong> contraseña
           </mat-error>
-        </mat-form-field >
+        </mat-form-field>
       </div>
 
       <div class="item">

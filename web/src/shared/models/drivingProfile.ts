@@ -29,14 +29,16 @@ export class DrivingProfile {
   }
 
   static fromJsonObject(jsonObject: any): DrivingProfile {
+    let startDate: string = jsonObject.startDate.split('T')[0];
+    let finishDate: string = jsonObject.finishDate.split('T')[0];
     return new DrivingProfile(
       jsonObject.id,
       jsonObject.avgDailyDrivingTime,
       jsonObject.avgSpeed,
-      jsonObject.finishDate,
+      finishDate,
       jsonObject.maxSpeed,
       jsonObject.minSpeed,
-      jsonObject.startDate,
+      startDate,
       jsonObject.totalDrivingTime
     );
   }
