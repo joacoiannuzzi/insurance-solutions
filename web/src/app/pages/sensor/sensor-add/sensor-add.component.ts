@@ -72,12 +72,12 @@ export class SensorAddComponent implements OnInit {
         Validators.required,
         Validators.maxLength(20),
         Validators.minLength(2),
-        Validators.pattern('^[a-zA-Z0-9]*$'),
+        Validators.pattern('^[a-zA-Z0-9 ]*$'),
       ]),
       model: new FormControl('', [
         Validators.required,
         //Minimum eight characters, at least one letter, one number and one special character
-        Validators.pattern('^[a-zA-Z0-9]*$')
+        Validators.pattern('^[a-zA-Z0-9 ]*$')
       ]),
     });
   }

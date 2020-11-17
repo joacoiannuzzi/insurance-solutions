@@ -59,9 +59,6 @@ export class VehicleAddComponent implements OnInit {
       ]),
       category: new FormControl('', [
         Validators.required
-      ]),
-      client: new FormControl('', [
-        checkExistsValidator(this.clients, 'dni')
       ])
     });
   }
@@ -86,10 +83,6 @@ export class VehicleAddComponent implements OnInit {
 
   get model() {
     return this.vehicleForm.get('model');
-  }
-
-  get client() {
-    return this.vehicleForm.get('client');
   }
 
   get invalid() {
@@ -126,19 +119,8 @@ export class VehicleAddComponent implements OnInit {
     this.clientService.clients.subscribe((res: Client[]) => {
       this.clients = [...res];
       this.createForm();
-      this.createFilteredOptions();
       this.loading = false;
     })
-  }
-
-  private createFilteredOptions() {
-    this.filteredOptions = this.client.valueChanges
-      .pipe(
-        startWith(''),
-        map(value => {
-          return this._filter(value?.lastName ? value.lastName : value);
-        })
-      );
   }
 
   private _filter(value: string): Client[] {

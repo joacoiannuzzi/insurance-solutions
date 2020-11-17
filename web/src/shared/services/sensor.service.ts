@@ -26,7 +26,7 @@ export class SensorService {
         return res;
       }),
       catchError(() => {
-        this.snackBar.open('Hubo un error al guardar el sensor.', '', {
+        this.snackBar.open('Hubo un error al guardar el sensor. Ya existe!', '', {
           duration: 2000,
         });
         return this.sensors;
@@ -68,7 +68,7 @@ export class SensorService {
         return res;
       }),
       catchError(() => {
-        this.snackBar.open('Hubo un problema al actualizar el sensor.', '', {
+        this.snackBar.open('Hubo un problema al actualizar el sensor.  Ya existe!', '', {
           duration: 2000,
         });
         return this.sensors;

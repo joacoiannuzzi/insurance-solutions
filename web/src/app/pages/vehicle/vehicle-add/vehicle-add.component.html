@@ -71,25 +71,25 @@
         </mat-form-field>
       </div>
 
-      <div class="item">
-        <mat-form-field appearance="fill">
-          <mat-label>Cliente:</mat-label>
-          <input type="text"
-                 placeholder="Ingrese DNI del Cliente"
-                 matInput
-                 [formControl]="client"
-                 [matAutocomplete]="auto"
-                 required>
-          <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayOption">
-            <mat-option *ngFor="let option of filteredOptions | async" [value]="option">
-              {{option.dni}}
-            </mat-option>
-          </mat-autocomplete>
-          <mat-error *ngIf="client.errors?.checkExistsValidator">
-            Ingrese un DNI de cliente válido
-          </mat-error>
-        </mat-form-field>
-      </div>
+<!--      <div class="item">-->
+<!--        <mat-form-field appearance="fill">-->
+<!--          <mat-label>Cliente:</mat-label>-->
+<!--          <input type="text"-->
+<!--                 placeholder="Ingrese DNI del Cliente"-->
+<!--                 matInput-->
+<!--                 [formControl]="client"-->
+<!--                 [matAutocomplete]="auto"-->
+<!--                 required>-->
+<!--          <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayOption">-->
+<!--            <mat-option *ngFor="let option of filteredOptions | async" [value]="option">-->
+<!--              {{option.dni}}-->
+<!--            </mat-option>-->
+<!--          </mat-autocomplete>-->
+<!--          <mat-error *ngIf="client.errors?.checkExistsValidator">-->
+<!--            Ingrese un DNI de cliente válido-->
+<!--          </mat-error>-->
+<!--        </mat-form-field>-->
+<!--      </div>-->
 
     </div>
   </form>
