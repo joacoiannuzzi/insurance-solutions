@@ -1,9 +1,7 @@
 import { catchError } from 'rxjs/operators';
-import { catchError } from 'rxjs/operators';
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from "@angular/forms";
 import { AuthService } from "../../../shared/auth/auth.service";
-import decode from 'jwt-decode';
 import { Router } from "@angular/router";
 import { MatSnackBar } from "@angular/material/snack-bar";
 import { of } from 'rxjs';
