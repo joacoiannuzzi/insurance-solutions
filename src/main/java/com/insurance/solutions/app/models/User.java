@@ -22,7 +22,6 @@ public class User {
     @Column(unique = true)
     private String email;
 
-    @NotBlank(message = "Password can not be blank")
     private String password;
 
     @Enumerated(value = EnumType.STRING)

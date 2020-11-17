@@ -61,22 +61,23 @@ export class UserService {
   }
 
   public update(user: User) {
-    // return this.http.put<User>(this.usersUrl + "/update/" + user.id, user).pipe(
-    //   map((res: User) => {
-    //     let i = this.usersList.findIndex(u => u.id === user.id);
-    //     this.usersList[i] = res;
-    //     this.snackBar.open('El usuario fué actualizado con éxito.', '', {
-    //       duration: 2000,
-    //     });
-    //     return res;
-    //   }),
-    //   catchError((response) => {
-    //     this.snackBar.open(response?.error?.message, '', {
-    //       duration: 2000,
-    //     });
-    //     return this.users;
-    //   })
-    // );
+    delete user.insuranceCompany;
+    return this.http.put<User>(this.usersUrl + "/update/" + user.id, user).pipe(
+      map((res: User) => {
+        let i = this.usersList.findIndex(u => u.id === user.id);
+        this.usersList[i] = res;
+        this.snackBar.open('El usuario fué actualizado con éxito.', '', {
+          duration: 2000,
+        });
+        return res;
+      }),
+      catchError((response) => {
+        this.snackBar.open(response?.error?.message, '', {
+          duration: 2000,
+        });
+        return this.users;
+      })
+    );
   }
 
   public delete(user: User)  {

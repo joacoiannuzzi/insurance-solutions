@@ -88,11 +88,13 @@ export class UserEditComponent implements OnInit, AfterContentInit {
       // Se mapea todos los values del form al objeto user
       Object.keys(this.userForm.value).map((key) => this.data[key] = this.userForm.value[key]);
 
-      this.userService.save(this.data).subscribe(
-        (newUser) => {
+      this.userService.update(this.data).subscribe(
+        (newUser: any) => {
           // el save no asigna a la compañia. Hay que hacerlo en una ruta aparte.
-          this.userService.assignInsuranceCompany(newUser.id, this.userForm.value.insuranceCompany.id);
-          this.dialogRef.close();
+          this.userService.assignInsuranceCompany(newUser.id, this.userForm.value.insuranceCompany.id).subscribe(res => {
+           this.dialogRef.close(res)
+          });
+
         },
         () => {
           // Solo catchea el error. No hace nada mas ya que no quiero que cierre
@@ -127,7 +129,7 @@ export class UserEditComponent implements OnInit, AfterContentInit {
         Validators.pattern('^[a-zA-Z0-9]*$'),
         alreadyExistsValidator(this.userList, 'username')
       ]),
-      password: new FormControl('', [
+      password: new FormControl(undefined, [
         Validators.minLength(8),
         // Minimum eight characters, at least one letter, one number and one special character
         Validators.pattern('^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).*$')
@@ -139,9 +141,7 @@ export class UserEditComponent implements OnInit, AfterContentInit {
         Validators.required,
         Validators.email
       ]),
-      insuranceCompany: new FormControl(this.data.insuranceCompany ? this.data.insuranceCompany : '', [
-        checkExistsValidator(this.insuranceCompanyList, 'name')
-      ])
+      insuranceCompany: new FormControl(this.data.insuranceCompany ? this.data.insuranceCompany : '')
     });
   }
 

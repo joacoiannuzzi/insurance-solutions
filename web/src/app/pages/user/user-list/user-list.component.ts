@@ -88,7 +88,7 @@ export class UserListComponent implements OnInit, AfterViewInit {
     });
     dialogRef.afterClosed().subscribe((res) => {
       if (res) {
-        this.getUsers();
+        this.userService.findAll().subscribe()
       }
     })
   }
