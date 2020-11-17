@@ -51,21 +51,9 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http.cors().and().csrf().disable().authorizeRequests()
                 .antMatchers(
-                        SIGN_UP_URL,
                         HEALTHCHECK,
                         // Example
                         CRUD_BOOKS,
-
-
-                        // ------------------------------
-                        // evade security
-                        USER,
-                        CLIENT,
-                        VEHICLE,
-                        DRIVING_PROFILE,
-                        MONITORING_SYSTEM,
-                        INSURANCE_COMPANY,
-                        // ------------------------------
 
                         //  Swagger configs
                         SWAGGER,
@@ -76,8 +64,8 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
                         SECURITYCONFIG
                 ).permitAll()
 
-//                .antMatchers(INSURANCE_COMPANY).hasRole("ADMIN")
-//                .antMatchers(USERS).hasRole("ADMIN")
+                .antMatchers(INSURANCE_COMPANY).hasRole("ADMIN")
+                .antMatchers(USERS).hasRole("ADMIN")
 
                 .anyRequest().authenticated()
                 .and()
