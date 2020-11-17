@@ -34,13 +34,13 @@ export class DrivingProfileUpdateComponent implements OnInit {
         Validators.required,
         Validators.min(0),
         Validators.minLength(1),
-        Validators.pattern('^[0-9]*$')
+        Validators.pattern('^[0-9\.]*$')
       ]),
       avgSpeed: new FormControl(this.data.avgSpeed, [
         Validators.required,
         Validators.min(0),
         Validators.minLength(1),
-        Validators.pattern('^[0-9]*$')
+        Validators.pattern('^[0-9\.]*$')
       ]),
       finishDate: new FormControl(finishDate, [
         Validators.required,
@@ -49,13 +49,13 @@ export class DrivingProfileUpdateComponent implements OnInit {
         Validators.required,
         Validators.minLength(1),
         Validators.min(0),
-        Validators.pattern('^[0-9]*$')
+        Validators.pattern('^[0-9\.]*$')
       ]),
       minSpeed: new FormControl(this.data.minSpeed, [
         Validators.required,
         Validators.minLength(1),
         Validators.min(0),
-        Validators.pattern('^[0-9]*$')
+        Validators.pattern('^[0-9\.]*$')
       ]),
       startDate: new FormControl(startDate, [
         Validators.required,
@@ -64,7 +64,7 @@ export class DrivingProfileUpdateComponent implements OnInit {
         Validators.required,
         Validators.minLength(1),
         Validators.min(0),
-        Validators.pattern('^[0-9]*$')
+        Validators.pattern('^[0-9\.]*$')
       ]),
     });
   }
